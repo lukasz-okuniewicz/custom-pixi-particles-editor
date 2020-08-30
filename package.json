@@ -1,0 +1,48 @@
+{
+  "author": "Lukasz Okuniewicz <npm@okuniewicz.eu> (https://github.com/lukasz-okuniewicz)",
+  "bugs": {
+    "url": "https://github.com/lukasz-okuniewicz/custom-pixi-particles-editor/issues"
+  },
+  "name": "custom-pixi-particles-editor",
+  "description": "custom pixi particles editor",
+  "version": "3.6.0",
+  "scripts": {
+    "dev": "rimraf .next && next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "custom-pixi-particles": "^4.23.0",
+    "file-saver": "^2.0.5",
+    "gsap": "^3.12.5",
+    "mitt": "^3.0.1",
+    "next": "15.0.3",
+    "pixi.js-legacy": "^6.5.10",
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-color": "^2.19.3",
+    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "simplex-noise": "^4.0.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9",
+    "eslint-config-next": "15.0.3",
+    "postcss": "^8",
+    "prettier": "^3.4.0",
+    "rimraf": "^6.0.1",
+    "tailwindcss": "^3.4.15"
+  },
+  "homepage": "https://github.com/lukasz-okuniewicz/custom-pixi-particles-editor",
+  "keywords": [
+    "custom",
+    "pixi",
+    "particles",
+    "editor"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lukasz-okuniewicz/custom-pixi-particles-editor.git"
+  }
+}
