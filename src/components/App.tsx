@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader'
 import './../assets/scss/App.scss'
 import Menu from './menu/Menu'
 import Content from './content/Content'
-import ParticlesDefaultConfig from './content/particlesDefaultConfig'
+import ParticlesDefaultConfig from './config/particlesDefaultConfig'
 import { saveAs } from 'file-saver'
 import { customPixiParticles, Renderer } from 'custom-pixi-particles'
 import * as Stats from 'stats.js'
@@ -58,15 +58,6 @@ class App extends React.Component {
     loader.onComplete.add((x) => {
       this.createParticles()
       this.resize()
-
-      // TODO remove
-      setTimeout(() => {
-        this.particles.paused = true
-
-        setTimeout(() => {
-          this.particles.paused = false
-        }, 3000)
-      }, 3000)
     })
 
     window.addEventListener('resize', this.resize.bind(this, true))
