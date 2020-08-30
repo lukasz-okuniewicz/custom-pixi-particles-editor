@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "module": "commonjs",
+        "target": "es5",
+        "allowJs": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noUnusedLocals": false,
+        "moduleResolution": "node",
+        "jsx": "react",
+        "resolveJsonModule": true,
+        "lib": ["es5", "es6", "dom"]
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "awesomeTypescriptLoaderOptions": {
+        "reportFiles": [
+            "./src/**/*"
+        ]
+    }
+}
