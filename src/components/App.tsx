@@ -78,7 +78,6 @@ class App extends React.Component {
       this.app.renderer.backgroundColor = parseInt(`0x${props.hex.replace('#', '')}`, 16)
       return
     }
-
     switch (name) {
       case 'durationGuard-maxTime':
         this.defaultConfig.emitterConfig.emitController._durationGuard.maxTime = parseFloat(props[1])
@@ -454,11 +453,7 @@ class App extends React.Component {
 
   private getBehaviourByIndex(index: number, name: string) {
     if (index === -1) {
-      if (name === 'AngularVelocityBehaviour') {
-        return this.particles.emitter.createBehaviourProps('AngularVelocityBehaviour')
-      } else if (name === 'RotationBehaviour') {
-        return this.particles.emitter.createBehaviourProps('RotationBehaviour')
-      }
+      return this.particles.emitter.createBehaviourProps(name)
     }
     return this.defaultConfig.emitterConfig.behaviours[index]
   }

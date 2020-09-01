@@ -50,7 +50,7 @@
     "webpack-merge": "4.2.2"
   },
   "dependencies": {
-    "custom-pixi-particles": "^1.0.6",
+    "custom-pixi-particles": "^1.0.13",
     "stats.js": "0.17.0"
   },
   "files": [
@@ -75,7 +75,7 @@
     "clean-dist": "rimraf dist/*",
     "lint": "eslint './src/**/*.{js,ts,tsx}' --quiet",
     "start": "npm run start-dev",
-    "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --mode=development --host=0.0.0.0 --port=10000",
+    "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --mode=development --host=0.0.0.0 --port=12345",
     "start-prod": "npm run build && node express.js"
   },
   "version": "1.0.0"
