@@ -10,6 +10,7 @@ import GeneralProperties from './properties/GeneralProperties'
 import AngularVelocityProperties from './properties/AngularVelocityProperties'
 import EmissionTypeProperties from './properties/EmissionTypeProperties'
 import LoadAndSaveProperties from './properties/LoadAndSaveProperties'
+import TurbulenceProperties from './properties/TurbulenceProperties'
 
 export interface IProps {
   config: any
@@ -23,17 +24,21 @@ class Menu extends React.Component<IProps> {
         <LoadAndSaveProperties updateProps={this.props.updateProps} />
         <GeneralProperties config={this.props.config} updateProps={this.props.updateProps} />
         <EmissionTypeProperties config={this.props.config.emitterConfig} updateProps={this.props.updateProps} />
+        <LifeProperties config={this.getConfigByName('LifeBehaviour')} updateProps={this.props.updateProps} />
         <SizeProperties config={this.getConfigByName('SizeBehaviour')} updateProps={this.props.updateProps} />
         <RotationProperties config={this.getConfigByName('RotationBehaviour')} updateProps={this.props.updateProps} />
         <PositionProperties config={this.getConfigByName('PositionBehaviour')} updateProps={this.props.updateProps} />
         <ColorProperties config={this.getConfigByName('ColorBehaviour')} updateProps={this.props.updateProps} />
-        <LifeProperties config={this.getConfigByName('LifeBehaviour')} updateProps={this.props.updateProps} />
         <AngularVelocityProperties
           config={this.getConfigByName('AngularVelocityBehaviour')}
           updateProps={this.props.updateProps}
         />
         <EmitDirectionProperties
           config={this.getConfigByName('EmitDirectionBehaviour')}
+          updateProps={this.props.updateProps}
+        />
+        <TurbulenceProperties
+          config={this.getConfigByName('TurbulenceBehaviour')}
           updateProps={this.props.updateProps}
         />
       </div>

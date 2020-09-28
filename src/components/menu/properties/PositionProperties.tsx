@@ -59,8 +59,8 @@ class PositionProperties extends React.Component<IProps> {
           />
 
           <FormGroup
-            title={'Acceleration'}
-            params={['X Acceleration', 'Y Acceleration']}
+            title={'Gravity/Acceleration'}
+            params={['X Gravity', 'Y Gravity']}
             value={[
               (config.acceleration && config.acceleration.x) || 0,
               (config.acceleration && config.acceleration.y) || 0,
@@ -68,8 +68,8 @@ class PositionProperties extends React.Component<IProps> {
             updateProps={this.updateProps.bind(this, 'positionProperties-acceleration')}
           />
           <FormGroup
-            title={'Acceleration Variance'}
-            params={['X Acceleration Variance', 'Y Acceleration Variance']}
+            title={'Gravity Variance'}
+            params={['X Gravity Variance', 'Y Gravity Variance']}
             value={[
               (config.accelerationVariance && config.accelerationVariance.x) || 0,
               (config.accelerationVariance && config.accelerationVariance.y) || 0,

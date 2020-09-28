@@ -38,54 +38,40 @@ class GeneralProperties extends React.Component<IProps> {
             </div>
           </div>
           <div className="form-group">
-            <div className="col-xs-10 form-label">Particle Effects</div>
-            <div className="col-xs-2">
-              <button
-                className="btn btn-default btn-block"
-                onClick={this.updateProps.bind(this, 'particlePredefinedEffect', 1)}
+            <div className="col-xs-4 form-label">Particle Effects</div>
+            <div className="col-xs-8">
+              <select
+                className={'form-control'}
+                value={config.particlePredefinedEffect || 'chaos'}
+                onChange={this.handleChangeEffect.bind(this, 0, 'particlePredefinedEffect')}
               >
-                1
-              </button>
-            </div>
-            <div className="col-xs-2">
-              <button
-                className="btn btn-default btn-block"
-                onClick={this.updateProps.bind(this, 'particlePredefinedEffect', 2)}
-              >
-                2
-              </button>
-            </div>
-            <div className="col-xs-2">
-              <button
-                className="btn btn-default btn-block"
-                onClick={this.updateProps.bind(this, 'particlePredefinedEffect', 3)}
-              >
-                3
-              </button>
-            </div>
-            <div className="col-xs-2">
-              <button
-                className="btn btn-default btn-block"
-                onClick={this.updateProps.bind(this, 'particlePredefinedEffect', 4)}
-              >
-                4
-              </button>
-            </div>
-            <div className="col-xs-2">
-              <button
-                className="btn btn-default btn-block"
-                onClick={this.updateProps.bind(this, 'particlePredefinedEffect', 5)}
-              >
-                5
-              </button>
-            </div>
-            <div className="col-xs-2">
-              <button
-                className="btn btn-default btn-block"
-                onClick={this.updateProps.bind(this, 'particlePredefinedEffect', 6)}
-              >
-                6
-              </button>
+                <option value={'liquid'}>Liquid</option>
+                <option value={'chaos'}>Chaos</option>
+                <option value={'firework'}>Firework</option>
+                <option value={'water'}>Water</option>
+                <option value={'waterTurbulence'}>Water with Turbulence</option>
+                <option value={'fog'}>Fog</option>
+                <option value={'fire'}>Fire</option>
+                <option value={'coinShower'}>Coin Shower</option>
+                <option value={'fountain'}>Fountain</option>
+                <option value={'label'}>Label</option>
+                <option value={'multiplier'}>Multiplier</option>
+                <option value={'fall'}>Fall</option>
+                <option value={'fallSingle'}>Fall Single</option>
+                <option value={'twist'}>Twist</option>
+                <option value={'fallRainDrops'}>Fall Rain Drops</option>
+                <option value={'snow'}>Fall snow</option>
+                <option value={'explosion'}>Explosion</option>
+                <option value={'counter'}>Counter</option>
+                <option value={'bigWin'}>Big Win</option>
+                <option value={'ember'}>Ember</option>
+                <option value={'emberWithTurbulence'}>Ember with Turbulence</option>
+                <option value={'bubbles'}>Bubbles</option>
+                <option value={'warpOut'}>Warp Out</option>
+                <option value={'warpIn'}>Warp In</option>
+                <option value={'blackHoles'}>Black Holes</option>
+                <option value={'warmOut'}>Warm Out</option>
+              </select>
             </div>
           </div>
           <div className="form-group">
@@ -143,6 +129,11 @@ class GeneralProperties extends React.Component<IProps> {
   }
 
   private handleChange(index: number, name: string, event) {
+    this.setState({ blendMode: event.target.value })
+    this.props.updateProps(name, [index, event.target.value])
+  }
+
+  private handleChangeEffect(index: number, name: string, event) {
     this.setState({ blendMode: event.target.value })
     this.props.updateProps(name, [index, event.target.value])
   }

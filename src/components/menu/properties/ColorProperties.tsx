@@ -16,6 +16,34 @@ class ColorProperties extends React.Component<IProps> {
     const { config } = this.props
     const { isSubmenuVisible } = this.state
 
+    if (!config || !config.start) {
+      config.enabled = false
+      config.start = {
+        _r: 250,
+        _g: 250,
+        _b: 250,
+        _alpha: 1,
+      }
+      config.end = {
+        _r: 250,
+        _g: 250,
+        _b: 250,
+        _alpha: 1,
+      }
+      config.startVariance = {
+        _r: 250,
+        _g: 250,
+        _b: 250,
+        _alpha: 1,
+      }
+      config.endVariance = {
+        _r: 250,
+        _g: 250,
+        _b: 250,
+        _alpha: 1,
+      }
+    }
+
     return (
       <div className="color-properties">
         <legend onClick={this.changeSubmenuVisibility.bind(this)}>Color Properties</legend>

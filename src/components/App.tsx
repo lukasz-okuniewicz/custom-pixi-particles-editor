@@ -40,20 +40,7 @@ class App extends React.Component {
     this.app.stage.addChild(this.particlesContainer)
 
     const loader = PIXI.Loader.shared
-    loader.add('cloud', 'assets/img/cloud.png')
-    loader.add('cloud2', 'assets/img/cloud2.png')
-    loader.add('flare', 'assets/img/flare.png')
-    loader.add('flare_blue', 'assets/img/flare_blue.png')
-    loader.add('pump_snow_01', 'assets/img/pump_snow_01.png')
-    loader.add('sparkle', 'assets/img/sparkle.png')
-    loader.add('fog001', 'assets/img/fog/fog001.png')
-    loader.add('fog002', 'assets/img/fog/fog002.png')
-    loader.add('fog003', 'assets/img/fog/fog003.png')
-    loader.add('fog004', 'assets/img/fog/fog004.png')
-    loader.add('fire001', 'assets/img/fire/fire001.png')
-    loader.add('fire002', 'assets/img/fire/fire002.png')
-    loader.add('fire003', 'assets/img/fire/fire003.png')
-    loader.add('fire004', 'assets/img/fire/fire004.png')
+    loader.add('assets/img/images.json')
     loader.load()
     loader.onComplete.add((x) => {
       this.createParticles()
@@ -127,6 +114,105 @@ class App extends React.Component {
       case 'rotationProperties-variance':
         this.updateBehaviour('RotationBehaviour', 'variance', parseFloat(props[1]))
         this.updateBehaviour('RotationBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-enabled':
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', props[1])
+        break
+      case 'turbulenceProperties-showVortices':
+        this.updateBehaviour('TurbulenceBehaviour', 'showVortices', props[1])
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-effect':
+        this.updateBehaviour('TurbulenceBehaviour', 'effect', parseFloat(props[1]))
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-position':
+        if (props[0] === 0) {
+          this.updateBehaviour('TurbulenceBehaviour', ['position', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateBehaviour('TurbulenceBehaviour', ['position', 'y'], parseFloat(props[1]))
+        }
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-positionVariance':
+        if (props[0] === 0) {
+          this.updateBehaviour('TurbulenceBehaviour', ['positionVariance', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateBehaviour('TurbulenceBehaviour', ['positionVariance', 'y'], parseFloat(props[1]))
+        }
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-velocity':
+        if (props[0] === 0) {
+          this.updateBehaviour('TurbulenceBehaviour', ['velocity', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateBehaviour('TurbulenceBehaviour', ['velocity', 'y'], parseFloat(props[1]))
+        }
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-velocityVariance':
+        if (props[0] === 0) {
+          this.updateBehaviour('TurbulenceBehaviour', ['velocityVariance', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateBehaviour('TurbulenceBehaviour', ['velocityVariance', 'y'], parseFloat(props[1]))
+        }
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-acceleration':
+        if (props[0] === 0) {
+          this.updateBehaviour('TurbulenceBehaviour', ['acceleration', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateBehaviour('TurbulenceBehaviour', ['acceleration', 'y'], parseFloat(props[1]))
+        }
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-accelerationVariance':
+        if (props[0] === 0) {
+          this.updateBehaviour('TurbulenceBehaviour', ['accelerationVariance', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateBehaviour('TurbulenceBehaviour', ['accelerationVariance', 'y'], parseFloat(props[1]))
+        }
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-sizeStart':
+        if (props[0] === 0) {
+          this.updateBehaviour('TurbulenceBehaviour', ['sizeStart', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateBehaviour('TurbulenceBehaviour', ['sizeStart', 'y'], parseFloat(props[1]))
+        }
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-startVariance':
+        this.updateBehaviour('TurbulenceBehaviour', 'startVariance', parseFloat(props[1]))
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-sizeEnd':
+        if (props[0] === 0) {
+          this.updateBehaviour('TurbulenceBehaviour', ['sizeEnd', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateBehaviour('TurbulenceBehaviour', ['sizeEnd', 'y'], parseFloat(props[1]))
+        }
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-endVariance':
+        this.updateBehaviour('TurbulenceBehaviour', 'endVariance', parseFloat(props[1]))
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-emitPerSecond':
+        this.updateBehaviour('TurbulenceBehaviour', 'emitPerSecond', parseFloat(props[1]))
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-duration':
+        this.updateBehaviour('TurbulenceBehaviour', 'duration', parseFloat(props[1]))
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-maxLifeTime':
+        this.updateBehaviour('TurbulenceBehaviour', 'maxLifeTime', parseFloat(props[1]))
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
+        break
+      case 'turbulenceProperties-maxLifeTimeVariance':
+        this.updateBehaviour('TurbulenceBehaviour', 'maxLifeTimeVariance', parseFloat(props[1]))
+        this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'positionProperties-enabled':
         this.updateBehaviour('PositionBehaviour', 'enabled', props[1])
@@ -333,27 +419,26 @@ class App extends React.Component {
         this.particlesContainer.alpha = 1
         this.particles.blendMode = PIXI.BLEND_MODES.NORMAL
         this.defaultConfig.alpha = this.particlesContainer.alpha
-        if (props === 1) {
-          this.defaultConfig = this.conf.default
-        } else if (props === 2) {
-          this.defaultConfig = this.conf.chaos
-        } else if (props === 3) {
-          this.defaultConfig = this.conf.firework
-        } else if (props === 4) {
-          this.defaultConfig = this.conf.radial
-        } else if (props === 5) {
+        props = props[1]
+        if (props === 5) {
           this.particlesContainer.alpha = 0.15
           this.defaultConfig = this.conf.fog
           this.particles.blendMode = PIXI.BLEND_MODES.ADD
           this.defaultConfig.blendMode = 'Add'
           this.defaultConfig.alpha = this.particlesContainer.alpha
+          this.defaultConfig.particlePredefinedEffect = props
+          return
         } else if (props === 6) {
           this.particlesContainer.alpha = 0.4
           this.defaultConfig = this.conf.fire
-          this.particles.blendMode = PIXI.BLEND_MODES.ADD
+          this.particles.blendMode = PIXI.BLEND_MODES.MULTIPLY
           this.defaultConfig.blendMode = 'Add'
           this.defaultConfig.alpha = this.particlesContainer.alpha
+          this.defaultConfig.particlePredefinedEffect = props
+          return
         }
+        this.defaultConfig = this.conf[props]
+        this.defaultConfig.particlePredefinedEffect = props
         break
       case 'bg-image':
         this.bgContainer.removeChildren()
@@ -405,7 +490,7 @@ class App extends React.Component {
 
   private createParticles(): Renderer {
     this.particles = customPixiParticles.create(this.defaultConfig.textures, this.defaultConfig.emitterConfig)
-    return this.particlesContainer.addChild(this.particles)
+    this.particlesContainer.addChild(this.particles)
   }
 
   private resize() {
@@ -430,24 +515,14 @@ class App extends React.Component {
     return index
   }
 
-  private createAngularVelocityBehaviour() {
-    return {
-      enabled: false,
-      priority: 100,
-      degrees: 0,
-      degreesVariance: 0,
-      maxRadius: 0,
-      maxRadiusVariance: 0,
-      minRadius: 0,
-      minRadiusVariance: 0,
-      name: 'AngularVelocityBehaviour',
-    }
-  }
-
-  private updateBehaviour(name: string, key: string, props) {
+  private updateBehaviour(name: string, key: string | [string, string], props) {
     const behaviourIndex = this.getConfigIndexByName(name)
     const behaviour = this.getBehaviourByIndex(behaviourIndex, name)
-    behaviour[key] = props
+    if (typeof key === 'string') {
+      behaviour[key] = props
+    } else {
+      behaviour[key[0]][key[1]] = props
+    }
     this.updateBehaviourByIndex(behaviourIndex, behaviour)
   }
 

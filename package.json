@@ -50,7 +50,7 @@
     "webpack-merge": "4.2.2"
   },
   "dependencies": {
-    "custom-pixi-particles": "^1.0.13",
+    "custom-pixi-particles": "^1.0.15",
     "stats.js": "0.17.0"
   },
   "files": [
