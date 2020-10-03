@@ -590,7 +590,7 @@ export default class ParticlesDefaultConfig {
         {
           enabled: true,
           priority: 100,
-          position: { x: -150, y: 600 },
+          position: { x: -150, y: 400 },
           positionVariance: { x: 1300, y: 120 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 15, y: 0 },
@@ -1160,12 +1160,12 @@ export default class ParticlesDefaultConfig {
           enabled: true,
           priority: 100,
           position: {
-            x: -800,
+            x: -500,
             y: 0,
           },
           positionVariance: {
             x: 0,
-            y: 1000,
+            y: 500,
           },
           velocity: {
             x: 800,
@@ -1234,12 +1234,12 @@ export default class ParticlesDefaultConfig {
           enabled: true,
           priority: 100,
           position: {
-            x: -800,
+            x: -500,
             y: 0,
           },
           positionVariance: {
             x: 0,
-            y: 1000,
+            y: 500,
           },
           velocity: {
             x: 1500,
@@ -1338,7 +1338,7 @@ export default class ParticlesDefaultConfig {
           priority: 100,
           degrees: 120,
           degreesVariance: 100,
-          maxRadius: 450,
+          maxRadius: 250,
           maxRadiusVariance: 50,
           minRadius: 40,
           minRadiusVariance: 0,
@@ -1915,11 +1915,11 @@ export default class ParticlesDefaultConfig {
           enabled: true,
           priority: 100,
           position: {
-            x: 0,
-            y: 500,
+            x: 100,
+            y: 300,
           },
           positionVariance: {
-            x: 800,
+            x: 500,
             y: 0,
           },
           velocity: {
@@ -1992,8 +1992,8 @@ export default class ParticlesDefaultConfig {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 500 },
-          positionVariance: { x: 800, y: 0 },
+          position: { x: 100, y: 300 },
+          positionVariance: { x: 500, y: 0 },
           velocity: { x: -100, y: 0 },
           velocityVariance: { x: 100, y: 0 },
           acceleration: { x: 0, y: -100 },
@@ -2481,8 +2481,8 @@ export default class ParticlesDefaultConfig {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 500 },
-          positionVariance: { x: 800, y: 0 },
+          position: { x: 0, y: 300 },
+          positionVariance: { x: 500, y: 0 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 100, y: 0 },
           acceleration: { x: 0, y: -50 },
