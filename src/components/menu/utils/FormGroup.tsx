@@ -15,20 +15,33 @@ export interface IProps {
 class FormGroup extends React.Component<IProps> {
   state = {
     colorSelected: [false, false],
+    value: [],
+    // didMount: false,
   }
   private input: any
+  private timer: NodeJS.Timeout
 
   constructor(props) {
     super(props)
     this.input = React.createRef()
   }
 
+  // componentDidMount() {
+  //   const { value } = this.props
+  //   this.setState({
+  //     value,
+  //   })
+  //   this.setState({
+  //     didMount: true,
+  //   })
+  // }
+
   public render() {
     const { title, params, color, inputHidden, value } = this.props
     let { type } = this.props
 
     if (!type) {
-      type = 'number'
+      type = 'text'
     }
 
     return (
@@ -77,7 +90,16 @@ class FormGroup extends React.Component<IProps> {
   }
 
   private handleChange(index: number, event) {
+    // const { value } = this.state
+    // value[index] = event.target.value
+    // this.setState({
+    //   value,
+    // })
+
+    // clearTimeout(this.timer)
+    // this.timer = setTimeout(() => {
     this.props.updateProps([index, event.target.value])
+    // }, 300)
   }
 
   private colorChanged = (color: any) => {

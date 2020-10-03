@@ -15,6 +15,12 @@ class TurbulenceProperties extends React.Component<IProps> {
   public render() {
     const { config } = this.props
     const { isSubmenuVisible } = this.state
+    if (typeof config.enabled === 'undefined') {
+      config.enabled = false
+    }
+    if (typeof config.showVortices === 'undefined') {
+      config.showVortices = false
+    }
 
     return (
       <div className="turbulence-properties">

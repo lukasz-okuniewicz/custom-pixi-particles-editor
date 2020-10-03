@@ -45,32 +45,36 @@ class GeneralProperties extends React.Component<IProps> {
                 value={config.particlePredefinedEffect || 'chaos'}
                 onChange={this.handleChangeEffect.bind(this, 0, 'particlePredefinedEffect')}
               >
-                <option value={'liquid'}>Liquid</option>
                 <option value={'chaos'}>Chaos</option>
-                <option value={'firework'}>Firework</option>
+                <option value={'liquid'}>Liquid</option>
+                <option value={'explodingBubbles'}>Exploding Bubbles</option>
+                <option value={'fire'}>Fire</option>
+                <option value={'fireWithTurbulence'}>Fire with Turbulence</option>
+                <option value={'ember'}>Ember</option>
+                <option value={'emberWithTurbulence'}>Ember with Turbulence</option>
                 <option value={'water'}>Water</option>
                 <option value={'waterTurbulence'}>Water with Turbulence</option>
-                <option value={'fog'}>Fog</option>
-                <option value={'fire'}>Fire</option>
                 <option value={'coinShower'}>Coin Shower</option>
+                <option value={'bigWin'}>Big Win</option>
+                <option value={'firework'}>Firework</option>
+                <option value={'explosion'}>Explosion</option>
                 <option value={'fountain'}>Fountain</option>
                 <option value={'label'}>Label</option>
                 <option value={'multiplier'}>Multiplier</option>
                 <option value={'fall'}>Fall</option>
-                <option value={'fallSingle'}>Fall Single</option>
                 <option value={'twist'}>Twist</option>
-                <option value={'fallRainDrops'}>Fall Rain Drops</option>
                 <option value={'snow'}>Fall snow</option>
-                <option value={'explosion'}>Explosion</option>
                 <option value={'counter'}>Counter</option>
-                <option value={'bigWin'}>Big Win</option>
-                <option value={'ember'}>Ember</option>
-                <option value={'emberWithTurbulence'}>Ember with Turbulence</option>
                 <option value={'bubbles'}>Bubbles</option>
                 <option value={'warpOut'}>Warp Out</option>
                 <option value={'warpIn'}>Warp In</option>
                 <option value={'blackHoles'}>Black Holes</option>
                 <option value={'warmOut'}>Warm Out</option>
+                <option value={'bubbleSpray'}>Bubble Spray</option>
+                <option value={'cartoonSmoke'}>Cartoon Smoke</option>
+                <option value={'fog'}>Fog</option>
+                <option value={'fallSingle'}>Fall Single</option>
+                <option value={'fallRainDrops'}>Fall Rain Drops</option>
               </select>
             </div>
           </div>

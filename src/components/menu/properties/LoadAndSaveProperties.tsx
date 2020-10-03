@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {hot} from 'react-hot-loader'
+import { hot } from 'react-hot-loader'
 import FormGroup from '../utils/FormGroup'
 
 export interface IProps {
@@ -14,11 +14,15 @@ class LoadAndSaveProperties extends React.Component<IProps> {
         <div className={`collapse in`}>
           <div className="form-group">
             <div className="col-xs-5">
-              <button className="btn btn-default btn-block" onClick={this.loadConfig}>Load</button>
-              <input type={'file'} id={'load-config'} className={'hidden'} onChange={this.loadConfigChange}/>
+              <button className="btn btn-default btn-block" onClick={this.loadConfig}>
+                Load
+              </button>
+              <input type={'file'} id={'load-config'} className={'hidden'} onChange={this.loadConfigChange} />
             </div>
             <div className="col-xs-5">
-              <button className="btn btn-default btn-block" onClick={this.downloadConfig}>Download</button>
+              <button className="btn btn-default btn-block" onClick={this.downloadConfig}>
+                Download
+              </button>
             </div>
           </div>
         </div>
@@ -33,7 +37,7 @@ class LoadAndSaveProperties extends React.Component<IProps> {
   private loadConfigChange = () => {
     // @ts-ignore
     const file = document.getElementById('load-config').files[0]
-    var reader = new FileReader()
+    const reader = new FileReader()
     reader.onload = () => {
       this.sendConfig(reader.result)
     }

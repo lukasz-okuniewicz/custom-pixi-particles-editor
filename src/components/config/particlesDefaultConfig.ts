@@ -575,7 +575,7 @@ export default class ParticlesDefaultConfig {
       },
       duration: -1,
     },
-    textures: ['cloud2.png'],
+    textures: ['particle.png'],
   }
   fog = {
     emitterConfig: {
@@ -602,8 +602,8 @@ export default class ParticlesDefaultConfig {
           enabled: true,
           priority: 0,
           allowNegativeValues: false,
-          sizeStart: { x: 8, y: 8 },
-          sizeEnd: { x: 8, y: 8 },
+          sizeStart: { x: 3, y: 3 },
+          sizeEnd: { x: 3, y: 3 },
           startVariance: 0,
           endVariance: 0,
           name: 'SizeBehaviour',
@@ -631,64 +631,33 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 10,
         _frames: 0,
-        _durationGuard: { maxTime: -1, _elapsedTime: 387.709583399969 },
         name: 'UniformEmission',
       },
       duration: -1,
     },
-    textures: ['fog001.png', 'fog002.png', 'fog003.png', 'fog004.png'],
+    textures: ['fog.png'],
   }
   fire = {
     emitterConfig: {
       behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 2,
-          timeVariance: 1,
-          name: 'LifeBehaviour',
-        },
+        { priority: 10000, enabled: true, maxLifeTime: 2, timeVariance: 0.5, name: 'LifeBehaviour' },
         {
           priority: 100,
           enabled: true,
-          position: {
-            x: 0,
-            y: 200,
-          },
-          positionVariance: {
-            x: 20,
-            y: 20,
-          },
-          velocity: {
-            x: 0,
-            y: -50,
-          },
-          velocityVariance: {
-            x: 60,
-            y: 0,
-          },
-          acceleration: {
-            x: 5,
-            y: 0,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 0,
-          },
+          position: { x: 0, y: 200 },
+          positionVariance: { x: 20, y: 20 },
+          velocity: { x: 0, y: -50 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 5, y: -150 },
+          accelerationVariance: { x: 0, y: 0 },
           name: 'PositionBehaviour',
         },
         {
           priority: 0,
           enabled: true,
           allowNegativeValues: false,
-          sizeStart: {
-            x: 0.7,
-            y: 0.7,
-          },
-          sizeEnd: {
-            x: 0.3,
-            y: 0.3,
-          },
+          sizeStart: { x: 0.7, y: 0.7 },
+          sizeEnd: { x: 0.3, y: 0.3 },
           startVariance: 0.3,
           endVariance: 0.3,
           name: 'SizeBehaviour',
@@ -696,77 +665,71 @@ export default class ParticlesDefaultConfig {
         {
           priority: 0,
           enabled: true,
-          start: {
-            _r: 250,
-            _g: 250,
-            _b: 7,
-            _alpha: 1,
-          },
-          end: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          startVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          endVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
+          start: { _r: 250, _g: 250, _b: 7, _alpha: 1 },
+          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
           sinus: false,
           name: 'ColorBehaviour',
+        },
+        { priority: 0, enabled: true, rotation: 2, variance: 3, name: 'RotationBehaviour' },
+      ],
+      emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 500, _frames: 0, name: 'UniformEmission' },
+      duration: -1,
+    },
+    textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
+  }
+  fireWithTurbulence = {
+    emitterConfig: {
+      behaviours: [
+        { priority: 10000, enabled: true, maxLifeTime: 2, timeVariance: 0.5, name: 'LifeBehaviour' },
+        {
+          priority: 100,
+          enabled: true,
+          position: { x: 0, y: 200 },
+          positionVariance: { x: 20, y: 20 },
+          velocity: { x: 0, y: -50 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 5, y: -150 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: 'PositionBehaviour',
         },
         {
           priority: 0,
           enabled: true,
-          rotation: 0,
-          variance: 3,
-          name: 'RotationBehaviour',
+          allowNegativeValues: false,
+          sizeStart: { x: 0.7, y: 0.7 },
+          sizeEnd: { x: 0.3, y: 0.3 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: 'SizeBehaviour',
         },
+        {
+          priority: 0,
+          enabled: true,
+          start: { _r: 250, _g: 250, _b: 7, _alpha: 1 },
+          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          sinus: false,
+          name: 'ColorBehaviour',
+        },
+        { priority: 0, enabled: true, rotation: 0, variance: 4, name: 'RotationBehaviour' },
         {
           priority: 0,
           enabled: true,
           showVortices: false,
+          effect: 0,
           turbulence: false,
-          position: {
-            x: 0,
-            y: 200,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
-          velocity: {
-            x: 0,
-            y: -100,
-          },
-          velocityVariance: {
-            x: -30,
-            y: 50,
-          },
-          acceleration: {
-            x: 0,
-            y: 0,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 0,
-          },
-          sizeStart: {
-            x: 0.5,
-            y: 0.5,
-          },
-          sizeEnd: {
-            x: 0.5,
-            y: 0.5,
-          },
+          vortexOrgSize: 128,
+          position: { x: 0, y: 200 },
+          positionVariance: { x: 0, y: 0 },
+          velocity: { x: 0, y: -100 },
+          velocityVariance: { x: -50, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
           startVariance: 0.5,
           endVariance: 0,
           emitPerSecond: 2,
@@ -775,16 +738,10 @@ export default class ParticlesDefaultConfig {
           name: 'TurbulenceBehaviour',
         },
       ],
-      emitController: {
-        _maxParticles: 200,
-        _maxLife: 1,
-        _emitPerSecond: 200,
-        _frames: 0,
-        name: 'UniformEmission',
-      },
+      emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 500, _frames: 0, name: 'UniformEmission' },
       duration: -1,
     },
-    textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png'],
+    textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
   }
   coinShower = {
     emitterConfig: {
@@ -883,15 +840,12 @@ export default class ParticlesDefaultConfig {
         _maxLife: 3,
         _emitPerSecond: 250,
         _frames: 0,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
       duration: 0.3,
     },
-    textures: ['sparkle.png'],
+    animatedSprite: true,
+    textures: ['coin'],
   }
   fountain = {
     emitterConfig: {
@@ -983,10 +937,6 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 300,
         _frames: 0,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
       duration: -1,
@@ -1254,35 +1204,6 @@ export default class ParticlesDefaultConfig {
         {
           enabled: true,
           priority: 0,
-          start: {
-            _r: 0,
-            _g: 255,
-            _b: 0,
-            _alpha: 1,
-          },
-          end: {
-            _r: 255,
-            _g: 255,
-            _b: 255,
-            _alpha: 1,
-          },
-          startVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          endVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          name: 'ColorBehaviour',
-        },
-        {
-          enabled: true,
-          priority: 0,
           rotation: 3.14,
           variance: 1.8563321924211689,
           name: 'RotationBehaviour',
@@ -1293,15 +1214,11 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 30,
         _frames: 0.17854999999981372,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
-      duration: 3,
+      duration: 6,
     },
-    textures: ['sparkle.png'],
+    textures: ['leaf.png', 'leaf2.png', 'leaf4.png', 'leaf5.png'],
   }
   fallSingle = {
     emitterConfig: {
@@ -1347,45 +1264,16 @@ export default class ParticlesDefaultConfig {
           priority: 0,
           allowNegativeValues: false,
           sizeStart: {
-            x: 1.5,
-            y: 1.5,
+            x: 1,
+            y: 1,
           },
           sizeEnd: {
-            x: 1.5,
-            y: 1.5,
+            x: 1,
+            y: 1,
           },
           startVariance: 0.2,
           endVariance: 0.2,
           name: 'SizeBehaviour',
-        },
-        {
-          enabled: true,
-          priority: 0,
-          start: {
-            _r: 254,
-            _g: 255,
-            _b: 255,
-            _alpha: 1,
-          },
-          end: {
-            _r: 255,
-            _g: 200,
-            _b: 200,
-            _alpha: 1,
-          },
-          startVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          endVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          name: 'ColorBehaviour',
         },
         {
           enabled: true,
@@ -1400,15 +1288,11 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 1,
         _frames: 0.17854999999981372,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
-      duration: 3,
+      duration: 6,
     },
-    textures: ['sparkle.png'],
+    textures: ['leaf.png', 'leaf2.png', 'leaf4.png', 'leaf5.png'],
   }
   twist = {
     emitterConfig: {
@@ -1525,15 +1409,11 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 10,
         _frames: 0.16724999999976717,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
       duration: 4,
     },
-    textures: ['sparkle.png'],
+    textures: ['leaf.png', 'leaf2.png', 'leaf4.png', 'leaf5.png'],
   }
   fallRainDrops = {
     emitterConfig: {
@@ -1625,15 +1505,11 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 1,
         _frames: 0.948262999999994,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
       duration: 5,
     },
-    textures: ['pump_snow_01.png'],
+    textures: ['Bubbles99.png'],
   }
   snow = {
     emitterConfig: {
@@ -1679,12 +1555,12 @@ export default class ParticlesDefaultConfig {
           enabled: true,
           allowNegativeValues: false,
           sizeStart: {
-            x: 0.6,
-            y: 0.6,
+            x: 0.1,
+            y: 0.1,
           },
           sizeEnd: {
-            x: 0.6,
-            y: 0.6,
+            x: 0.1,
+            y: 0.1,
           },
           startVariance: 0.2,
           endVariance: 0.2,
@@ -1777,115 +1653,53 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 250,
         _frames: 0,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
       duration: -1,
     },
-    textures: ['pump_snow_01.png'],
+    textures: ['Snow100.png'],
   }
   explosion = {
     emitterConfig: {
       behaviours: [
+        { priority: 10000, enabled: true, maxLifeTime: 0.5, timeVariance: 0.3, name: 'LifeBehaviour' },
         {
-          enabled: true,
-          priority: 10000,
-          maxLifeTime: 0.5,
-          timeVariance: 0.3,
-          name: 'LifeBehaviour',
-        },
-        {
-          enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 34,
-            y: 65,
-          },
-          velocity: {
-            x: 0,
-            y: 0,
-          },
-          velocityVariance: {
-            x: 381,
-            y: 384,
-          },
-          acceleration: {
-            x: 0,
-            y: 500,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 500,
-          },
+          enabled: true,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 34, y: 65 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 381, y: 384 },
+          acceleration: { x: 0, y: 500 },
+          accelerationVariance: { x: 0, y: 500 },
           name: 'PositionBehaviour',
         },
         {
-          enabled: true,
           priority: 0,
+          enabled: true,
           allowNegativeValues: false,
-          sizeStart: {
-            x: 0.7,
-            y: 0.7,
-          },
-          sizeEnd: {
-            x: 0,
-            y: 0,
-          },
-          startVariance: 0.3,
+          sizeStart: { x: 1, y: 1 },
+          sizeEnd: { x: 0, y: 0 },
+          startVariance: 1,
           endVariance: 0,
           name: 'SizeBehaviour',
         },
         {
-          enabled: true,
           priority: 0,
-          start: {
-            _r: 255,
-            _g: 0,
-            _b: 0,
-            _alpha: 1,
-          },
-          end: {
-            _r: 255,
-            _g: 212,
-            _b: 169,
-            _alpha: 1,
-          },
-          startVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          endVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
+          enabled: true,
+          start: { _r: 250, _g: 64, _b: 5, _alpha: 1 },
+          end: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          sinus: false,
           name: 'ColorBehaviour',
         },
+        { priority: 0, enabled: true, rotation: 1, variance: 5, name: 'RotationBehaviour' },
       ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 600,
-        _frames: 0,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
-        name: 'UniformEmission',
-      },
-      duration: 0.15,
+      emitController: { _maxParticles: 0, _maxLife: 1, _emitPerSecond: 5000, _frames: 0, name: 'UniformEmission' },
+      duration: 0.1,
     },
-    textures: ['pump_snow_01.png'],
+    textures: ['fog.png', 'smokeparticle.png', 'smoke1.png', 'smoke2.png', 'smoke3.png'],
   }
   counter = {
     emitterConfig: {
@@ -1977,10 +1791,6 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
       duration: -1,
@@ -2084,15 +1894,12 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 200,
         _frames: 0,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
       duration: 1.6,
     },
-    textures: ['cloud2.png'],
+    animatedSprite: true,
+    textures: ['coin'],
   }
   ember = {
     emitterConfig: {
@@ -2170,12 +1977,8 @@ export default class ParticlesDefaultConfig {
       emitController: {
         _maxParticles: 0,
         _maxLife: 1,
-        _emitPerSecond: 30,
+        _emitPerSecond: 100,
         _frames: 0.99,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
       duration: -1,
@@ -2247,7 +2050,6 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 30,
         _frames: 0.6096000003162771,
-        _durationGuard: { maxTime: -1, _elapsedTime: 387.709583399969 },
         name: 'UniformEmission',
       },
       duration: -1,
@@ -2313,16 +2115,12 @@ export default class ParticlesDefaultConfig {
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0.9935999999998602,
-        _durationGuard: {
-          maxTime: -1,
-          _elapsedTime: 387.709583399969,
-        },
         name: 'UniformEmission',
       },
 
       duration: -1,
     },
-    textures: ['cloud.png'],
+    textures: ['Bubbles99.png'],
   }
   warpOut = {
     emitterConfig: {
@@ -2575,5 +2373,145 @@ export default class ParticlesDefaultConfig {
       duration: -1,
     },
     textures: ['cloud.png'],
+  }
+  bubbleSpray = {
+    emitterConfig: {
+      behaviours: [
+        { priority: 10000, enabled: true, maxLifeTime: 1, timeVariance: 0.5, name: 'LifeBehaviour' },
+        {
+          priority: 100,
+          enabled: true,
+          position: { x: 0, y: 200 },
+          positionVariance: { x: 0, y: 0 },
+          velocity: { x: 0, y: -300 },
+          velocityVariance: { x: 40, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: { x: 0, y: 0.01 },
+          sizeEnd: { x: 0.1, y: 0.1 },
+          startVariance: 0,
+          endVariance: 0.5,
+          name: 'SizeBehaviour',
+        },
+        { priority: 0, enabled: true, rotation: 2, variance: 3, name: 'RotationBehaviour' },
+        {
+          priority: 0,
+          enabled: true,
+          start: { _r: 255, _g: 255, _b: 255, _alpha: 1 },
+          end: { _r: 255, _g: 255, _b: 255, _alpha: 0 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0.5 },
+          sinus: false,
+          name: 'ColorBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 30,
+        _emissionRate: '200',
+        _emitCounter: 0.007854999986011498,
+        _maxLife: 1,
+        _emitPerSecond: 200,
+        _frames: 0,
+        name: 'RandomEmission',
+      },
+      duration: 0.5,
+    },
+    textures: ['Bubbles99.png'],
+  }
+  cartoonSmoke = {
+    emitterConfig: {
+      behaviours: [
+        { priority: 10000, enabled: true, maxLifeTime: 1, timeVariance: 0, name: 'LifeBehaviour' },
+        {
+          priority: 100,
+          enabled: true,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 500, y: 500 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: { x: 1, y: 1 },
+          sizeEnd: { x: 1, y: 1 },
+          startVariance: 0,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          start: { _r: 160, _g: 102, _b: 0, _alpha: 1 },
+          end: { _r: 255, _g: 221, _b: 144, _alpha: 0 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          sinus: false,
+          name: 'ColorBehaviour',
+        },
+        { priority: 0, enabled: true, rotation: 3, variance: 3, name: 'RotationBehaviour' },
+      ],
+      emitController: {
+        _maxParticles: 50,
+        _emissionRate: '1001',
+        _emitCounter: 0.0008899500607440726,
+        _maxLife: 1,
+        _emitPerSecond: 100,
+        _frames: 0,
+        name: 'StandardEmission',
+      },
+      duration: 1,
+    },
+    textures: ['CartoonSmoke.png'],
+  }
+  explodingBubbles = {
+    emitterConfig: {
+      behaviours: [
+        { priority: 10000, enabled: true, maxLifeTime: 5, timeVariance: 0, name: 'LifeBehaviour' },
+        {
+          priority: 100,
+          enabled: true,
+          position: { x: 0, y: 500 },
+          positionVariance: { x: 800, y: 0 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 100, y: 0 },
+          acceleration: { x: 0, y: -50 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.1, y: 0.1 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.05,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        { priority: 0, enabled: true, angle: 0, variance: 0, name: 'EmitDirectionBehaviour' },
+        { priority: 0, enabled: true, rotation: 0, variance: 1, name: 'RotationBehaviour' },
+      ],
+      emitController: {
+        _maxParticles: 0,
+        _maxLife: 1,
+        _emitPerSecond: 30,
+        _frames: 0.5949000001419336,
+        name: 'UniformEmission',
+      },
+      duration: -1,
+    },
+    finishingTextures: ['pop_00.png', 'pop_01.png', 'pop_02.png'],
+    textures: ['Bubbles99.png'],
   }
 }

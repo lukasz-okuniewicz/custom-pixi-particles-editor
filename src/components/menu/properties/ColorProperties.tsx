@@ -15,6 +15,9 @@ class ColorProperties extends React.Component<IProps> {
   public render() {
     const { config } = this.props
     const { isSubmenuVisible } = this.state
+    if (typeof config.enabled === 'undefined') {
+      config.enabled = false
+    }
 
     if (!config || !config.start) {
       config.enabled = false
@@ -58,7 +61,7 @@ class ColorProperties extends React.Component<IProps> {
             title={'Starting Color'}
             type={'text'}
             color={true}
-            value={[this.convertToHex(config.start)]}
+            value={[config.start]}
             inputHidden={true}
             updateProps={this.updateProps.bind(this, 'colorProperties-start')}
           />
@@ -66,7 +69,7 @@ class ColorProperties extends React.Component<IProps> {
             title={'Ending Color'}
             type={'text'}
             color={true}
-            value={[this.convertToHex(config.end)]}
+            value={[config.end]}
             inputHidden={true}
             updateProps={this.updateProps.bind(this, 'colorProperties-end')}
           />
@@ -74,7 +77,7 @@ class ColorProperties extends React.Component<IProps> {
             title={'Starting Color Variance'}
             type={'text'}
             color={true}
-            value={[this.convertToHex(config.startVariance)]}
+            value={[config.startVariance]}
             inputHidden={true}
             updateProps={this.updateProps.bind(this, 'colorProperties-startVariance')}
           />
@@ -82,7 +85,7 @@ class ColorProperties extends React.Component<IProps> {
             title={'Ending Color Variance'}
             type={'text'}
             color={true}
-            value={[this.convertToHex(config.endVariance)]}
+            value={[config.endVariance]}
             inputHidden={true}
             updateProps={this.updateProps.bind(this, 'colorProperties-endVariance')}
           />
@@ -93,19 +96,6 @@ class ColorProperties extends React.Component<IProps> {
 
   private handleChangeEnabled = (event) => {
     this.props.updateProps('colorProperties-enabled', [0, event.target.checked])
-  }
-
-  private convertToHex(config: any) {
-    return this.rgbToHex(config._r || 0, config._g || 0, config._b || 0)
-  }
-
-  private rgbToHex(r, g, b) {
-    return '#' + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b)
-  }
-
-  private componentToHex(c) {
-    const hex = c.toString(16)
-    return hex.length == 1 ? '0' + hex : hex
   }
 
   private updateProps(name: string, props: any) {

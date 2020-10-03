@@ -15,6 +15,9 @@ class PositionProperties extends React.Component<IProps> {
   public render() {
     const { config } = this.props
     const { isSubmenuVisible } = this.state
+    if (typeof config.enabled === 'undefined') {
+      config.enabled = false
+    }
 
     return (
       <div className="position-properties">

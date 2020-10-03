@@ -13,6 +13,7 @@ class App extends React.Component {
   state = {
     name: '',
     props: {},
+    defaultConfig: null,
   }
 
   private app: PIXI.Application
@@ -20,7 +21,9 @@ class App extends React.Component {
   private particlesContainer: PIXI.Container
   private particles: Renderer
   private conf: ParticlesDefaultConfig = new ParticlesDefaultConfig()
-  private defaultConfig: any = this.conf.chaos
+  private defaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
+  private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
+  private blendMode: PIXI.BLEND_MODES
 
   componentDidMount() {
     const stats = new Stats()
@@ -49,13 +52,18 @@ class App extends React.Component {
 
     window.addEventListener('resize', this.resize.bind(this, true))
     window.addEventListener('orientationchange', this.resize.bind(this, true))
+
+    this.setState({
+      defaultConfig: this.newDefaultConfig,
+    })
   }
 
-  public render() {
+  render() {
+    const { defaultConfig } = this.state
     return (
       <>
         <Content />
-        <Menu config={this.defaultConfig} updateProps={this.updateProps} />
+        {defaultConfig ? <Menu config={defaultConfig} updateProps={this.updateProps} /> : <></>}
       </>
     )
   }
@@ -67,377 +75,452 @@ class App extends React.Component {
     }
     switch (name) {
       case 'durationGuard-maxTime':
+        this.newDefaultConfig.emitterConfig.emitController._durationGuard.maxTime = props[1]
         this.defaultConfig.emitterConfig.emitController._durationGuard.maxTime = parseFloat(props[1])
         break
       case 'sizeProperties-enabled':
+        this.updateNewBehaviour('SizeBehaviour', 'enabled', props[1])
         this.updateBehaviour('SizeBehaviour', 'enabled', props[1])
         break
       case 'sizeProperties-sizeStart':
         if (props[0] === 0) {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('SizeBehaviour')
-          ].sizeStart.x = parseFloat(props[1])
+          this.updateNewBehaviour('SizeBehaviour', ['sizeStart', 'x'], props[1])
+          this.updateBehaviour('SizeBehaviour', ['sizeStart', 'x'], parseFloat(props[1]))
         } else {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('SizeBehaviour')
-          ].sizeStart.y = parseFloat(props[1])
+          this.updateNewBehaviour('SizeBehaviour', ['sizeStart', 'y'], props[1])
+          this.updateBehaviour('SizeBehaviour', ['sizeStart', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('SizeBehaviour', 'enabled', true)
         this.updateBehaviour('SizeBehaviour', 'enabled', true)
         break
       case 'sizeProperties-sizeEnd':
         if (props[0] === 0) {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('SizeBehaviour')
-          ].sizeEnd.x = parseFloat(props[1])
+          this.updateNewBehaviour('SizeBehaviour', ['sizeEnd', 'x'], props[1])
+          this.updateBehaviour('SizeBehaviour', ['sizeEnd', 'x'], parseFloat(props[1]))
         } else {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('SizeBehaviour')
-          ].sizeEnd.y = parseFloat(props[1])
+          this.updateNewBehaviour('SizeBehaviour', ['sizeEnd', 'y'], props[1])
+          this.updateBehaviour('SizeBehaviour', ['sizeEnd', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('SizeBehaviour', 'enabled', true)
         this.updateBehaviour('SizeBehaviour', 'enabled', true)
         break
       case 'sizeProperties-startVariance':
+        this.updateNewBehaviour('SizeBehaviour', 'startVariance', props[1])
         this.updateBehaviour('SizeBehaviour', 'startVariance', parseFloat(props[1]))
+        this.updateNewBehaviour('SizeBehaviour', 'enabled', true)
         this.updateBehaviour('SizeBehaviour', 'enabled', true)
         break
       case 'sizeProperties-endVariance':
+        this.updateNewBehaviour('SizeBehaviour', 'endVariance', props[1])
         this.updateBehaviour('SizeBehaviour', 'endVariance', parseFloat(props[1]))
+        this.updateNewBehaviour('SizeBehaviour', 'enabled', true)
         this.updateBehaviour('SizeBehaviour', 'enabled', true)
         break
       case 'rotationProperties-enabled':
+        this.updateNewBehaviour('RotationBehaviour', 'enabled', props[1])
         this.updateBehaviour('RotationBehaviour', 'enabled', props[1])
         break
       case 'rotationProperties-rotation':
+        this.updateNewBehaviour('RotationBehaviour', 'rotation', props[1])
         this.updateBehaviour('RotationBehaviour', 'rotation', parseFloat(props[1]))
+        this.updateNewBehaviour('RotationBehaviour', 'enabled', true)
         this.updateBehaviour('RotationBehaviour', 'enabled', true)
         break
       case 'rotationProperties-variance':
+        this.updateNewBehaviour('RotationBehaviour', 'variance', props[1])
         this.updateBehaviour('RotationBehaviour', 'variance', parseFloat(props[1]))
+        this.updateNewBehaviour('RotationBehaviour', 'enabled', true)
         this.updateBehaviour('RotationBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-enabled':
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', props[1])
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', props[1])
         break
       case 'turbulenceProperties-showVortices':
+        this.updateNewBehaviour('TurbulenceBehaviour', 'showVortices', props[1])
         this.updateBehaviour('TurbulenceBehaviour', 'showVortices', props[1])
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-effect':
+        this.updateNewBehaviour('TurbulenceBehaviour', 'effect', props[1])
         this.updateBehaviour('TurbulenceBehaviour', 'effect', parseFloat(props[1]))
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-position':
         if (props[0] === 0) {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['position', 'x'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['position', 'x'], parseFloat(props[1]))
         } else {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['position', 'y'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['position', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-positionVariance':
         if (props[0] === 0) {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['positionVariance', 'x'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['positionVariance', 'x'], parseFloat(props[1]))
         } else {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['positionVariance', 'y'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['positionVariance', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-velocity':
         if (props[0] === 0) {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['velocity', 'x'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['velocity', 'x'], parseFloat(props[1]))
         } else {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['velocity', 'y'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['velocity', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-velocityVariance':
         if (props[0] === 0) {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['velocityVariance', 'x'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['velocityVariance', 'x'], parseFloat(props[1]))
         } else {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['velocityVariance', 'y'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['velocityVariance', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-acceleration':
         if (props[0] === 0) {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['acceleration', 'x'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['acceleration', 'x'], parseFloat(props[1]))
         } else {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['acceleration', 'y'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['acceleration', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-accelerationVariance':
         if (props[0] === 0) {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['accelerationVariance', 'x'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['accelerationVariance', 'x'], parseFloat(props[1]))
         } else {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['accelerationVariance', 'y'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['accelerationVariance', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-sizeStart':
         if (props[0] === 0) {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['sizeStart', 'x'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['sizeStart', 'x'], parseFloat(props[1]))
         } else {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['sizeStart', 'y'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['sizeStart', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-startVariance':
+        this.updateNewBehaviour('TurbulenceBehaviour', 'startVariance', props[1])
         this.updateBehaviour('TurbulenceBehaviour', 'startVariance', parseFloat(props[1]))
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-sizeEnd':
         if (props[0] === 0) {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['sizeEnd', 'x'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['sizeEnd', 'x'], parseFloat(props[1]))
         } else {
+          this.updateNewBehaviour('TurbulenceBehaviour', ['sizeEnd', 'y'], props[1])
           this.updateBehaviour('TurbulenceBehaviour', ['sizeEnd', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-endVariance':
+        this.updateNewBehaviour('TurbulenceBehaviour', 'endVariance', props[1])
         this.updateBehaviour('TurbulenceBehaviour', 'endVariance', parseFloat(props[1]))
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-emitPerSecond':
+        this.updateNewBehaviour('TurbulenceBehaviour', 'emitPerSecond', props[1])
         this.updateBehaviour('TurbulenceBehaviour', 'emitPerSecond', parseFloat(props[1]))
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-duration':
+        this.updateNewBehaviour('TurbulenceBehaviour', 'duration', props[1])
         this.updateBehaviour('TurbulenceBehaviour', 'duration', parseFloat(props[1]))
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-maxLifeTime':
+        this.updateNewBehaviour('TurbulenceBehaviour', 'maxLifeTime', props[1])
         this.updateBehaviour('TurbulenceBehaviour', 'maxLifeTime', parseFloat(props[1]))
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'turbulenceProperties-maxLifeTimeVariance':
+        this.updateNewBehaviour('TurbulenceBehaviour', 'maxLifeTimeVariance', props[1])
         this.updateBehaviour('TurbulenceBehaviour', 'maxLifeTimeVariance', parseFloat(props[1]))
+        this.updateNewBehaviour('TurbulenceBehaviour', 'enabled', true)
         this.updateBehaviour('TurbulenceBehaviour', 'enabled', true)
         break
       case 'positionProperties-enabled':
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', props[1])
         this.updateBehaviour('PositionBehaviour', 'enabled', props[1])
         break
       case 'positionProperties-position':
         if (props[0] === 0) {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].position.x = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['position', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['position', 'x'], parseFloat(props[1]))
         } else {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].position.y = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['position', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['position', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
         this.updateBehaviour('PositionBehaviour', 'enabled', true)
         break
       case 'positionProperties-positionVariance':
         if (props[0] === 0) {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].positionVariance.x = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['positionVariance', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['positionVariance', 'x'], parseFloat(props[1]))
         } else {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].positionVariance.y = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['positionVariance', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['positionVariance', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
         this.updateBehaviour('PositionBehaviour', 'enabled', true)
         break
       case 'positionProperties-velocity':
         if (props[0] === 0) {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].velocity.x = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['velocity', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['velocity', 'x'], parseFloat(props[1]))
         } else {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].velocity.y = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['velocity', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['velocity', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
         this.updateBehaviour('PositionBehaviour', 'enabled', true)
         break
       case 'positionProperties-velocityVariance':
         if (props[0] === 0) {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].velocityVariance.x = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['velocityVariance', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['velocityVariance', 'x'], parseFloat(props[1]))
         } else {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].velocityVariance.y = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['velocityVariance', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['velocityVariance', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
         this.updateBehaviour('PositionBehaviour', 'enabled', true)
         break
       case 'positionProperties-acceleration':
         if (props[0] === 0) {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].acceleration.x = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['acceleration', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['acceleration', 'x'], parseFloat(props[1]))
         } else {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].acceleration.y = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['acceleration', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['acceleration', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
         this.updateBehaviour('PositionBehaviour', 'enabled', true)
         break
       case 'positionProperties-accelerationVariance':
         if (props[0] === 0) {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].accelerationVariance.x = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['accelerationVariance', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['accelerationVariance', 'x'], parseFloat(props[1]))
         } else {
-          this.defaultConfig.emitterConfig.behaviours[
-            this.getConfigIndexByName('PositionBehaviour')
-          ].accelerationVariance.y = parseFloat(props[1])
+          this.updateNewBehaviour('PositionBehaviour', ['accelerationVariance', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['accelerationVariance', 'y'], parseFloat(props[1]))
         }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
         this.updateBehaviour('PositionBehaviour', 'enabled', true)
         break
       case 'colorProperties-enabled':
+        this.updateNewBehaviour('ColorBehaviour', 'enabled', props[1])
         this.updateBehaviour('ColorBehaviour', 'enabled', props[1])
         break
       case 'colorProperties-start':
-        this.defaultConfig.emitterConfig.behaviours[this.getConfigIndexByName('ColorBehaviour')].start._r = parseFloat(
-          props.rgb.r,
-        )
-        this.defaultConfig.emitterConfig.behaviours[this.getConfigIndexByName('ColorBehaviour')].start._g = parseFloat(
-          props.rgb.g,
-        )
-        this.defaultConfig.emitterConfig.behaviours[this.getConfigIndexByName('ColorBehaviour')].start._b = parseFloat(
-          props.rgb.b,
-        )
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].start._alpha = parseFloat(props.rgb.a)
+        this.updateNewBehaviour('ColorBehaviour', ['start', '_r'], props.rgb.r)
+        this.updateNewBehaviour('ColorBehaviour', ['start', '_g'], props.rgb.g)
+        this.updateNewBehaviour('ColorBehaviour', ['start', '_b'], props.rgb.b)
+        this.updateNewBehaviour('ColorBehaviour', ['start', '_alpha'], props.rgb.a)
+        this.updateNewBehaviour('ColorBehaviour', 'enabled', true)
+        this.updateBehaviour('ColorBehaviour', ['start', '_r'], parseFloat(props.rgb.r))
+        this.updateBehaviour('ColorBehaviour', ['start', '_g'], parseFloat(props.rgb.g))
+        this.updateBehaviour('ColorBehaviour', ['start', '_b'], parseFloat(props.rgb.b))
+        this.updateBehaviour('ColorBehaviour', ['start', '_alpha'], parseFloat(props.rgb.a))
         this.updateBehaviour('ColorBehaviour', 'enabled', true)
         break
       case 'colorProperties-end':
-        this.defaultConfig.emitterConfig.behaviours[this.getConfigIndexByName('ColorBehaviour')].end._r = parseFloat(
-          props.rgb.r,
-        )
-        this.defaultConfig.emitterConfig.behaviours[this.getConfigIndexByName('ColorBehaviour')].end._g = parseFloat(
-          props.rgb.g,
-        )
-        this.defaultConfig.emitterConfig.behaviours[this.getConfigIndexByName('ColorBehaviour')].end._b = parseFloat(
-          props.rgb.b,
-        )
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].end._alpha = parseFloat(props.rgb.a)
+        this.updateNewBehaviour('ColorBehaviour', ['end', '_r'], props.rgb.r)
+        this.updateNewBehaviour('ColorBehaviour', ['end', '_g'], props.rgb.g)
+        this.updateNewBehaviour('ColorBehaviour', ['end', '_b'], props.rgb.b)
+        this.updateNewBehaviour('ColorBehaviour', ['end', '_alpha'], props.rgb.a)
+        this.updateNewBehaviour('ColorBehaviour', 'enabled', true)
+        this.updateBehaviour('ColorBehaviour', ['end', '_r'], parseFloat(props.rgb.r))
+        this.updateBehaviour('ColorBehaviour', ['end', '_g'], parseFloat(props.rgb.g))
+        this.updateBehaviour('ColorBehaviour', ['end', '_b'], parseFloat(props.rgb.b))
+        this.updateBehaviour('ColorBehaviour', ['end', '_alpha'], parseFloat(props.rgb.a))
         this.updateBehaviour('ColorBehaviour', 'enabled', true)
         break
-      case 'colorProperties-startingColorVariance':
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].startVariance._r = parseFloat(props.rgb.r)
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].startVariance._g = parseFloat(props.rgb.g)
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].startVariance._b = parseFloat(props.rgb.b)
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].startVariance._alpha = parseFloat(props.rgb.a)
+      case 'colorProperties-startVariance':
+        this.updateNewBehaviour('ColorBehaviour', ['startVariance', '_r'], props.rgb.r)
+        this.updateNewBehaviour('ColorBehaviour', ['startVariance', '_g'], props.rgb.g)
+        this.updateNewBehaviour('ColorBehaviour', ['startVariance', '_b'], props.rgb.b)
+        this.updateNewBehaviour('ColorBehaviour', ['startVariance', '_alpha'], props.rgb.a)
+        this.updateNewBehaviour('ColorBehaviour', 'enabled', true)
+        this.updateBehaviour('ColorBehaviour', ['startVariance', '_r'], parseFloat(props.rgb.r))
+        this.updateBehaviour('ColorBehaviour', ['startVariance', '_g'], parseFloat(props.rgb.g))
+        this.updateBehaviour('ColorBehaviour', ['startVariance', '_b'], parseFloat(props.rgb.b))
+        this.updateBehaviour('ColorBehaviour', ['startVariance', '_alpha'], parseFloat(props.rgb.a))
         this.updateBehaviour('ColorBehaviour', 'enabled', true)
         break
       case 'colorProperties-endVariance':
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].endVariance._r = parseFloat(props.rgb.r)
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].endVariance._g = parseFloat(props.rgb.g)
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].endVariance._b = parseFloat(props.rgb.b)
-        this.defaultConfig.emitterConfig.behaviours[
-          this.getConfigIndexByName('ColorBehaviour')
-        ].endVariance._alpha = parseFloat(props.rgb.a)
+        this.updateNewBehaviour('ColorBehaviour', ['endVariance', '_r'], props.rgb.r)
+        this.updateNewBehaviour('ColorBehaviour', ['endVariance', '_g'], props.rgb.g)
+        this.updateNewBehaviour('ColorBehaviour', ['endVariance', '_b'], props.rgb.b)
+        this.updateNewBehaviour('ColorBehaviour', ['endVariance', '_alpha'], props.rgb.a)
+        this.updateNewBehaviour('ColorBehaviour', 'enabled', true)
+        this.updateBehaviour('ColorBehaviour', ['endVariance', '_r'], parseFloat(props.rgb.r))
+        this.updateBehaviour('ColorBehaviour', ['endVariance', '_g'], parseFloat(props.rgb.g))
+        this.updateBehaviour('ColorBehaviour', ['endVariance', '_b'], parseFloat(props.rgb.b))
+        this.updateBehaviour('ColorBehaviour', ['endVariance', '_alpha'], parseFloat(props.rgb.a))
         this.updateBehaviour('ColorBehaviour', 'enabled', true)
         break
       case 'lifeProperties-maxLifeTime':
+        this.updateNewBehaviour('LifeBehaviour', 'maxLifeTime', props[1])
         this.updateBehaviour('LifeBehaviour', 'maxLifeTime', parseFloat(props[1]))
         break
       case 'lifeProperties-timeVariance':
+        this.updateNewBehaviour('LifeBehaviour', 'timeVariance', props[1])
         this.updateBehaviour('LifeBehaviour', 'timeVariance', parseFloat(props[1]))
         break
       case 'angularVelocityProperties-enabled':
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'enabled', props[1])
         this.updateBehaviour('AngularVelocityBehaviour', 'enabled', props[1])
         break
       case 'angularVelocityProperties-degrees':
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'degrees', props[1])
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'enabled', true)
         this.updateBehaviour('AngularVelocityBehaviour', 'degrees', parseFloat(props[1]))
         this.updateBehaviour('AngularVelocityBehaviour', 'enabled', true)
         break
       case 'angularVelocityProperties-degreesVariance':
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'degreesVariance', props[1])
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'enabled', true)
         this.updateBehaviour('AngularVelocityBehaviour', 'degreesVariance', parseFloat(props[1]))
         this.updateBehaviour('AngularVelocityBehaviour', 'enabled', true)
         break
       case 'angularVelocityProperties-maxRadius':
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'maxRadius', props[1])
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'enabled', true)
         this.updateBehaviour('AngularVelocityBehaviour', 'maxRadius', parseFloat(props[1]))
         this.updateBehaviour('AngularVelocityBehaviour', 'enabled', true)
         break
       case 'angularVelocityProperties-maxRadiusVariance':
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'maxRadiusVariance', props[1])
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'enabled', true)
         this.updateBehaviour('AngularVelocityBehaviour', 'maxRadiusVariance', parseFloat(props[1]))
         this.updateBehaviour('AngularVelocityBehaviour', 'enabled', true)
         break
       case 'angularVelocityProperties-minRadius':
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'minRadius', props[1])
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'enabled', true)
         this.updateBehaviour('AngularVelocityBehaviour', 'minRadius', parseFloat(props[1]))
         this.updateBehaviour('AngularVelocityBehaviour', 'enabled', true)
         break
       case 'angularVelocityProperties-minRadiusVariance':
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'minRadiusVariance', props[1])
+        this.updateNewBehaviour('AngularVelocityBehaviour', 'enabled', true)
         this.updateBehaviour('AngularVelocityBehaviour', 'minRadiusVariance', parseFloat(props[1]))
         this.updateBehaviour('AngularVelocityBehaviour', 'enabled', true)
         break
+      case 'emitDirectionProperties-enabled':
+        this.updateNewBehaviour('EmitDirectionBehaviour', 'enabled', props[1])
+        this.updateBehaviour('EmitDirectionBehaviour', 'enabled', props[1])
+        break
       case 'emitDirectionProperties-angle':
+        this.updateNewBehaviour('EmitDirectionBehaviour', 'angle', props[1])
         this.updateBehaviour('EmitDirectionBehaviour', 'angle', parseFloat(props[1]))
         break
       case 'emitDirectionProperties-variance':
+        this.updateNewBehaviour('EmitDirectionBehaviour', 'variance', props[1])
         this.updateBehaviour('EmitDirectionBehaviour', 'variance', parseFloat(props[1]))
         break
       case 'EmissionTypeProperties-_maxParticles':
+        this.newDefaultConfig.emitterConfig.emitController._maxParticles = props[1]
         this.defaultConfig.emitterConfig.emitController._maxParticles = parseFloat(props[1])
         break
       case 'EmissionTypeProperties-_emitPerSecond':
+        this.newDefaultConfig.emitterConfig.emitController._emitPerSecond = props[1]
         this.defaultConfig.emitterConfig.emitController._emitPerSecond = parseFloat(props[1])
         break
       case 'EmissionTypeProperties-duration':
+        this.newDefaultConfig.emitterConfig.duration = props[1]
         this.defaultConfig.emitterConfig.duration = parseFloat(props[1])
         break
       case 'EmissionTypeProperties-name':
+        this.newDefaultConfig.emitterConfig.emitController.name = props[1]
         this.defaultConfig.emitterConfig.emitController.name = props[1]
         if (props[1] === 'UniformEmission') {
+          this.newDefaultConfig.emitterConfig.emitController._emitPerSecond = 200
           this.defaultConfig.emitterConfig.emitController._emitPerSecond = 200
         } else {
+          this.newDefaultConfig.emitterConfig.emitController._maxParticles = 10
+          this.newDefaultConfig.emitterConfig.emitController._emissionRate = 10
           this.defaultConfig.emitterConfig.emitController._maxParticles = 10
           this.defaultConfig.emitterConfig.emitController._emissionRate = 10
         }
         break
       case 'EmissionTypeProperties-_maxParticles':
+        this.newDefaultConfig.emitterConfig.emitController._maxParticles = props[1]
         this.defaultConfig.emitterConfig.emitController._maxParticles = props[1]
         break
       case 'EmissionTypeProperties-_emissionRate':
+        this.newDefaultConfig.emitterConfig.emitController._emissionRate = props[1]
         this.defaultConfig.emitterConfig.emitController._emissionRate = props[1]
         break
       case 'particlePredefinedEffect':
         this.particlesContainer.alpha = 1
-        this.particles.blendMode = PIXI.BLEND_MODES.NORMAL
-        this.defaultConfig.alpha = this.particlesContainer.alpha
+        this.blendMode = PIXI.BLEND_MODES.NORMAL
         props = props[1]
-        if (props === 5) {
-          this.particlesContainer.alpha = 0.15
-          this.defaultConfig = this.conf.fog
-          this.particles.blendMode = PIXI.BLEND_MODES.ADD
-          this.defaultConfig.blendMode = 'Add'
+        this.defaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
+        this.newDefaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
+        if (props === 'fire') {
+          this.blendMode = PIXI.BLEND_MODES.SCREEN
+          this.newDefaultConfig.blendMode = 'Screen'
+          this.defaultConfig.blendMode = 'Screen'
+        } else if (props === 'fireWithTurbulence') {
+          this.blendMode = PIXI.BLEND_MODES.SCREEN
+          this.newDefaultConfig.blendMode = 'Screen'
+          this.defaultConfig.blendMode = 'Screen'
+        } else if (props === 'fog') {
+          this.blendMode = PIXI.BLEND_MODES.SCREEN
+          this.newDefaultConfig.blendMode = 'Screen'
+          this.defaultConfig.blendMode = 'Screen'
+          this.newDefaultConfig.alpha = 0.05
+          this.defaultConfig.alpha = 0.05
+          this.particlesContainer.alpha = 0.05
+        } else if (props === 'explosion') {
+          this.blendMode = PIXI.BLEND_MODES.SCREEN
+          this.newDefaultConfig.blendMode = 'Screen'
+          this.defaultConfig.blendMode = 'Screen'
+          this.newDefaultConfig.alpha = 0.3
+          this.defaultConfig.alpha = 0.3
+          this.particlesContainer.alpha = 0.3
+        } else {
+          this.newDefaultConfig.alpha = this.particlesContainer.alpha
           this.defaultConfig.alpha = this.particlesContainer.alpha
-          this.defaultConfig.particlePredefinedEffect = props
-          return
-        } else if (props === 6) {
-          this.particlesContainer.alpha = 0.4
-          this.defaultConfig = this.conf.fire
-          this.particles.blendMode = PIXI.BLEND_MODES.MULTIPLY
-          this.defaultConfig.blendMode = 'Add'
-          this.defaultConfig.alpha = this.particlesContainer.alpha
-          this.defaultConfig.particlePredefinedEffect = props
-          return
+          this.particlesContainer.alpha = this.particlesContainer.alpha
         }
-        this.defaultConfig = this.conf[props]
+        this.newDefaultConfig.particlePredefinedEffect = props
         this.defaultConfig.particlePredefinedEffect = props
         break
       case 'bg-image':
@@ -447,11 +530,13 @@ class App extends React.Component {
         this.bgContainer.addChild(sprite)
         break
       case 'particle-images':
+        this.newDefaultConfig.textures = props[1]
         this.defaultConfig.textures = props[1]
         break
       case 'load-config':
         const config = JSON.parse(props[1])
-        this.defaultConfig.emitterConfig = config
+        this.newDefaultConfig.emitterConfig = JSON.parse(JSON.stringify(config))
+        this.defaultConfig.emitterConfig = JSON.parse(JSON.stringify(config))
         break
       case 'download-config':
         this.particles.emitter.getParser().write()
@@ -462,18 +547,20 @@ class App extends React.Component {
         break
       case 'global-alpha':
         this.particlesContainer.alpha = parseFloat(props[1])
+        this.newDefaultConfig.alpha = parseFloat(props[1])
         this.defaultConfig.alpha = parseFloat(props[1])
         break
       case 'global-blendMode':
         if (props[1] === 'Normal') {
-          this.particles.blendMode = PIXI.BLEND_MODES.NORMAL
+          this.blendMode = PIXI.BLEND_MODES.NORMAL
         } else if (props[1] === 'Add') {
-          this.particles.blendMode = PIXI.BLEND_MODES.ADD
+          this.blendMode = PIXI.BLEND_MODES.ADD
         } else if (props[1] === 'Multiply') {
-          this.particles.blendMode = PIXI.BLEND_MODES.MULTIPLY
+          this.blendMode = PIXI.BLEND_MODES.MULTIPLY
         } else if (props[1] === 'Screen') {
-          this.particles.blendMode = PIXI.BLEND_MODES.SCREEN
+          this.blendMode = PIXI.BLEND_MODES.SCREEN
         }
+        this.newDefaultConfig.blendMode = props[1]
         this.defaultConfig.blendMode = props[1]
         break
     }
@@ -481,16 +568,25 @@ class App extends React.Component {
     this.particles.stopEmitter()
     this.particlesContainer.removeChildren()
     this.createParticles()
+    if (this.blendMode) {
+      this.particles.blendMode = this.blendMode
+    }
 
     this.setState({
       name,
       props,
+      defaultConfig: this.newDefaultConfig,
     })
   }
 
   private createParticles(): Renderer {
-    this.particles = customPixiParticles.create(this.defaultConfig.textures, this.defaultConfig.emitterConfig)
-    this.particlesContainer.addChild(this.particles)
+    this.particles = customPixiParticles.create(
+      this.defaultConfig.textures,
+      this.defaultConfig.emitterConfig,
+      this.defaultConfig.animatedSprite,
+      this.defaultConfig.finishingTextures,
+    )
+    return this.particlesContainer.addChild(this.particles)
   }
 
   private resize() {
@@ -515,6 +611,17 @@ class App extends React.Component {
     return index
   }
 
+  private updateNewBehaviour(name: string, key: string | [string, string], props) {
+    const behaviourIndex = this.getConfigIndexByName(name)
+    const behaviour = this.getNewBehaviourByIndex(behaviourIndex, name)
+    if (typeof key === 'string') {
+      behaviour[key] = props
+    } else {
+      behaviour[key[0]][key[1]] = props
+    }
+    this.updateNewBehaviourByIndex(behaviourIndex, behaviour)
+  }
+
   private updateBehaviour(name: string, key: string | [string, string], props) {
     const behaviourIndex = this.getConfigIndexByName(name)
     const behaviour = this.getBehaviourByIndex(behaviourIndex, name)
@@ -533,11 +640,26 @@ class App extends React.Component {
     return this.defaultConfig.emitterConfig.behaviours[index]
   }
 
+  private getNewBehaviourByIndex(index: number, name: string) {
+    if (index === -1) {
+      return this.particles.emitter.createBehaviourProps(name)
+    }
+    return this.newDefaultConfig.emitterConfig.behaviours[index]
+  }
+
   private updateBehaviourByIndex(index: number, behaviour: any) {
     if (index === -1) {
       this.defaultConfig.emitterConfig.behaviours[this.defaultConfig.emitterConfig.behaviours.length] = behaviour
     } else {
       this.defaultConfig.emitterConfig.behaviours[index] = behaviour
+    }
+  }
+
+  private updateNewBehaviourByIndex(index: number, behaviour: any) {
+    if (index === -1) {
+      this.newDefaultConfig.emitterConfig.behaviours[this.defaultConfig.emitterConfig.behaviours.length] = behaviour
+    } else {
+      this.newDefaultConfig.emitterConfig.behaviours[index] = behaviour
     }
   }
 }

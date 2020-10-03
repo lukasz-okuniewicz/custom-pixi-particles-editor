@@ -2,5 +2,9 @@
 dist/
 node_modules/
 src/**/*.jsx
+src/assets/img/coinShower/**/*.*
+src/assets/img/fire/**/*.*
+src/assets/img/mix/**/*.*
+src/assets/img/images.tps
 tests/__coverage__/
 tests/**/*.jsx
