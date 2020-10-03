@@ -30,7 +30,7 @@ class App extends React.Component {
     stats.showPanel(0)
     document.body.appendChild(stats.dom)
 
-    this.app = new PIXI.Application({ resolution: devicePixelRatio, backgroundColor: 0 })
+    this.app = new PIXI.Application({ backgroundColor: 0 })
     document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
     this.app.ticker.add(() => {
       stats.begin()
