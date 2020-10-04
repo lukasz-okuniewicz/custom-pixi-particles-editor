@@ -37,6 +37,21 @@ class GeneralProperties extends React.Component<IProps> {
               />
             </div>
           </div>
+          {/*<div className="form-group">*/}
+          {/*  <div className="col-xs-4 form-label">Particle Finishing Images</div>*/}
+          {/*  <div className="col-xs-8">*/}
+          {/*    <button className="btn btn-default btn-block" onClick={this.loadParticleFinishingImages}>*/}
+          {/*      Add Finishing Images*/}
+          {/*    </button>*/}
+          {/*    <input*/}
+          {/*      type={'file'}*/}
+          {/*      id={'load-particle-finishing-images'}*/}
+          {/*      className={'hidden'}*/}
+          {/*      onChange={this.particleFinishingImagesChange}*/}
+          {/*      multiple*/}
+          {/*    />*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           <div className="form-group">
             <div className="col-xs-4 form-label">Particle Effects</div>
             <div className="col-xs-8">
@@ -157,7 +172,7 @@ class GeneralProperties extends React.Component<IProps> {
   }
 
   private bgImageChange = () => {
-    var reader = new FileReader()
+    const reader = new FileReader()
     reader.onload = () => {
       this.updateProps('bg-image', [0, reader.result])
     }
@@ -172,7 +187,7 @@ class GeneralProperties extends React.Component<IProps> {
     // @ts-ignore
     const files: any[] = document.getElementById('load-particle-images').files
     Array.from(files).forEach((file) => {
-      var reader = new FileReader()
+      const reader = new FileReader()
       reader.onload = () => {
         images.push(reader.result)
         loadedImages++
@@ -184,8 +199,30 @@ class GeneralProperties extends React.Component<IProps> {
     })
   }
 
+  private particleFinishingImagesChange = () => {
+    const images = []
+    let loadedImages = 0
+    // @ts-ignore
+    const files: any[] = document.getElementById('load-particle-finishing-images').files
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        images.push(reader.result)
+        loadedImages++
+        if (loadedImages === files.length) {
+          this.sendParticleFinishingImages(images)
+        }
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+
   private sendParticleImages(images: any[]) {
     this.updateProps('particle-images', [0, images])
+  }
+
+  private sendParticleFinishingImages(images: any[]) {
+    this.updateProps('particle-finishing-images', [0, images])
   }
 
   private loadBgImage = () => {
@@ -194,6 +231,10 @@ class GeneralProperties extends React.Component<IProps> {
 
   private loadParticleImages = () => {
     document.getElementById('load-particle-images').click()
+  }
+
+  private loadParticleFinishingImages = () => {
+    document.getElementById('load-particle-finishing-images').click()
   }
 }
 

@@ -533,6 +533,10 @@ class App extends React.Component {
         this.newDefaultConfig.textures = props[1]
         this.defaultConfig.textures = props[1]
         break
+      case 'particle-finishing-images':
+        this.newDefaultConfig.finishingTextures = props[1]
+        this.defaultConfig.finishingTextures = props[1]
+        break
       case 'load-config':
         const config = JSON.parse(props[1])
         this.newDefaultConfig.emitterConfig = JSON.parse(JSON.stringify(config))
