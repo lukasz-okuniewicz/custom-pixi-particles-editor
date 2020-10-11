@@ -29,6 +29,25 @@ class PositionProperties extends React.Component<IProps> {
               <input type={'checkbox'} checked={config.enabled} onChange={this.handleChangeEnabled} />
             </div>
           </div>
+          <div className="form-group">
+            <div className="col-xs-4 form-label">Spawn Type</div>
+            <div className="col-xs-8">
+              <select
+                className={'form-control'}
+                value={config.spawnType || 'Rectangle'}
+                onChange={this.handleChangeSpawnType.bind(this, 0, 'positionProperties-spawnType')}
+              >
+                <option>Rectangle</option>
+                <option>Frame</option>
+                <option>Ring</option>
+              </select>
+            </div>
+          </div>
+          <FormGroup
+            title={'Radius'}
+            value={[config.radius || 0]}
+            updateProps={this.updateProps.bind(this, 'positionProperties-radius')}
+          />
           <FormGroup
             title={'Position'}
             params={['X Position', 'Y Position']}
@@ -82,6 +101,11 @@ class PositionProperties extends React.Component<IProps> {
         </div>
       </div>
     )
+  }
+
+  private handleChangeSpawnType(index: number, name: string, event) {
+    this.setState({ effect: event.target.value })
+    this.props.updateProps(name, [index, event.target.value])
   }
 
   private handleChangeEnabled = (event) => {

@@ -65,8 +65,17 @@ class GeneralProperties extends React.Component<IProps> {
                 <option value={'explodingBubbles'}>Exploding Bubbles</option>
                 <option value={'fire'}>Fire</option>
                 <option value={'fireWithTurbulence'}>Fire with Turbulence</option>
+                <option value={'campFire'}>Camp Fire</option>
+                <option value={'campFireTurbulence'}>Camp Fire with Turbulence</option>
+                <option value={'flyingFire'}>Flying Fire</option>
+                <option value={'meteor'}>Meteor</option>
                 <option value={'ember'}>Ember</option>
                 <option value={'emberWithTurbulence'}>Ember with Turbulence</option>
+                <option value={'birds'}>Birds</option>
+                <option value={'cigarette'}>Cigarette</option>
+                <option value={'squareSmoke'}>Square smoke</option>
+                <option value={'sun'}>Sun</option>
+                <option value={'sun2'}>Sun 2</option>
                 <option value={'water'}>Water</option>
                 <option value={'waterTurbulence'}>Water with Turbulence</option>
                 <option value={'coinShower'}>Coin Shower</option>
@@ -74,6 +83,7 @@ class GeneralProperties extends React.Component<IProps> {
                 <option value={'firework'}>Firework</option>
                 <option value={'explosion'}>Explosion</option>
                 <option value={'fountain'}>Fountain</option>
+                <option value={'flyingFountain'}>Flying Fountain</option>
                 <option value={'label'}>Label</option>
                 <option value={'multiplier'}>Multiplier</option>
                 <option value={'fall'}>Fall</option>
@@ -81,6 +91,9 @@ class GeneralProperties extends React.Component<IProps> {
                 <option value={'snow'}>Fall snow</option>
                 <option value={'counter'}>Counter</option>
                 <option value={'bubbles'}>Bubbles</option>
+                <option value={'flyingBubbles'}>Flying Bubbles</option>
+                <option value={'background1'}>Background 1</option>
+                <option value={'abstractTunnel'}>Abstract tunnel</option>
                 <option value={'warpOut'}>Warp Out</option>
                 <option value={'warpIn'}>Warp In</option>
                 <option value={'blackHoles'}>Black Holes</option>

@@ -8,6 +8,7 @@ import ParticlesDefaultConfig from './config/particlesDefaultConfig'
 import { saveAs } from 'file-saver'
 import { customPixiParticles, Renderer } from 'custom-pixi-particles'
 import * as Stats from 'stats.js'
+import { TweenLite, Linear } from 'gsap'
 
 class App extends React.Component {
   state = {
@@ -24,6 +25,10 @@ class App extends React.Component {
   private defaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private blendMode: PIXI.BLEND_MODES
+  private tween: gsap.TweenLite
+  private activeEffect: string
+  private bgSprite: PIXI.Sprite
+  private bgSpriteSize: { w: number; h: number }
 
   componentDidMount() {
     const stats = new Stats()
@@ -31,6 +36,7 @@ class App extends React.Component {
     document.body.appendChild(stats.dom)
 
     this.app = new PIXI.Application({ backgroundColor: 0 })
+    window.app = this.app
     document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
     this.app.ticker.add(() => {
       stats.begin()
@@ -44,6 +50,11 @@ class App extends React.Component {
 
     const loader = PIXI.Loader.shared
     loader.add('assets/img/images.json')
+    loader.add('autumn', 'assets/img/backgrounds/autumn.jpg')
+    loader.add('campFire', 'assets/img/backgrounds/campfire.jpg')
+    loader.add('birds', 'assets/img/backgrounds/birds.jpg')
+    loader.add('cigarette', 'assets/img/backgrounds/cigarette.jpg')
+    loader.add('blackHole', 'assets/img/backgrounds/blackHole.jpg')
     loader.load()
     loader.onComplete.add((x) => {
       this.createParticles()
@@ -276,6 +287,18 @@ class App extends React.Component {
         this.updateNewBehaviour('PositionBehaviour', 'enabled', props[1])
         this.updateBehaviour('PositionBehaviour', 'enabled', props[1])
         break
+      case 'positionProperties-spawnType':
+        this.updateNewBehaviour('PositionBehaviour', 'spawnType', props[1])
+        this.updateBehaviour('PositionBehaviour', 'spawnType', props[1])
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateBehaviour('PositionBehaviour', 'enabled', true)
+        break
+      case 'positionProperties-radius':
+        this.updateNewBehaviour('PositionBehaviour', 'radius', props[1])
+        this.updateBehaviour('PositionBehaviour', 'radius', parseFloat(props[1]))
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateBehaviour('PositionBehaviour', 'enabled', true)
+        break
       case 'positionProperties-position':
         if (props[0] === 0) {
           this.updateNewBehaviour('PositionBehaviour', ['position', 'x'], props[1])
@@ -488,9 +511,12 @@ class App extends React.Component {
         this.defaultConfig.emitterConfig.emitController._emissionRate = props[1]
         break
       case 'particlePredefinedEffect':
+        this.bgSprite = null
+        this.bgContainer.removeChildren()
         this.particlesContainer.alpha = 1
         this.blendMode = PIXI.BLEND_MODES.NORMAL
         props = props[1]
+        this.activeEffect = props
         this.defaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
         this.newDefaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
         if (props === 'fire') {
@@ -498,6 +524,14 @@ class App extends React.Component {
           this.newDefaultConfig.blendMode = 'Screen'
           this.defaultConfig.blendMode = 'Screen'
         } else if (props === 'fireWithTurbulence') {
+          this.blendMode = PIXI.BLEND_MODES.SCREEN
+          this.newDefaultConfig.blendMode = 'Screen'
+          this.defaultConfig.blendMode = 'Screen'
+        } else if (props === 'flyingFire') {
+          this.blendMode = PIXI.BLEND_MODES.SCREEN
+          this.newDefaultConfig.blendMode = 'Screen'
+          this.defaultConfig.blendMode = 'Screen'
+        } else if (props === 'meteor') {
           this.blendMode = PIXI.BLEND_MODES.SCREEN
           this.newDefaultConfig.blendMode = 'Screen'
           this.defaultConfig.blendMode = 'Screen'
@@ -515,6 +549,97 @@ class App extends React.Component {
           this.newDefaultConfig.alpha = 0.3
           this.defaultConfig.alpha = 0.3
           this.particlesContainer.alpha = 0.3
+        } else if (props === 'sun') {
+          const bgTexture = PIXI.Texture.from('blackHole')
+          const sprite = new PIXI.Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+          this.blendMode = PIXI.BLEND_MODES.ADD
+          this.newDefaultConfig.blendMode = 'Add'
+          this.defaultConfig.blendMode = 'Add'
+        } else if (props === 'sun2') {
+          const bgTexture = PIXI.Texture.from('blackHole')
+          const sprite = new PIXI.Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+          this.blendMode = PIXI.BLEND_MODES.ADD
+          this.newDefaultConfig.blendMode = 'Add'
+          this.defaultConfig.blendMode = 'Add'
+        } else if (props === 'squareSmoke') {
+          this.blendMode = PIXI.BLEND_MODES.SCREEN
+          this.newDefaultConfig.blendMode = 'Screen'
+          this.defaultConfig.blendMode = 'Screen'
+        } else if (props === 'fall') {
+          const bgTexture = PIXI.Texture.from('autumn')
+          const sprite = new PIXI.Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+        } else if (props === 'twist') {
+          const bgTexture = PIXI.Texture.from('autumn')
+          const sprite = new PIXI.Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+        } else if (props === 'campFire') {
+          const bgTexture = PIXI.Texture.from('campFire')
+          const sprite = new PIXI.Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+          this.blendMode = PIXI.BLEND_MODES.ADD
+          this.newDefaultConfig.blendMode = 'Add'
+          this.defaultConfig.blendMode = 'Add'
+        } else if (props === 'campFireTurbulence') {
+          const bgTexture = PIXI.Texture.from('campFire')
+          const sprite = new PIXI.Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+          this.blendMode = PIXI.BLEND_MODES.ADD
+          this.newDefaultConfig.blendMode = 'Add'
+          this.defaultConfig.blendMode = 'Add'
+        } else if (props === 'birds') {
+          const bgTexture = PIXI.Texture.from('birds')
+          const sprite = new PIXI.Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+        } else if (props === 'cigarette') {
+          const bgTexture = PIXI.Texture.from('cigarette')
+          const sprite = new PIXI.Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+          this.blendMode = PIXI.BLEND_MODES.SCREEN
+          this.newDefaultConfig.blendMode = 'Screen'
+          this.defaultConfig.blendMode = 'Screen'
         } else {
           this.newDefaultConfig.alpha = this.particlesContainer.alpha
           this.defaultConfig.alpha = this.particlesContainer.alpha
@@ -522,11 +647,17 @@ class App extends React.Component {
         }
         this.newDefaultConfig.particlePredefinedEffect = props
         this.defaultConfig.particlePredefinedEffect = props
+        this.resize()
         break
       case 'bg-image':
         this.bgContainer.removeChildren()
         const bgTexture = PIXI.Texture.from(props[1])
         const sprite = new PIXI.Sprite(bgTexture)
+        this.bgSprite = sprite
+        this.bgSpriteSize = {
+          w: sprite.width,
+          h: sprite.height,
+        }
         this.bgContainer.addChild(sprite)
         break
       case 'particle-images':
@@ -571,10 +702,25 @@ class App extends React.Component {
 
     this.particles.stopEmitter()
     this.particlesContainer.removeChildren()
+
+    if (this.activeEffect === 'campFire' || this.activeEffect === 'campFireTurbulence') {
+      const campfireSparklesConfig = JSON.parse(JSON.stringify(this.conf.campFireSparkles))
+      this.particlesContainer.addChild(
+        customPixiParticles.create(
+          campfireSparklesConfig.textures,
+          campfireSparklesConfig.emitterConfig,
+          campfireSparklesConfig.animatedSprite,
+          campfireSparklesConfig.finishingTextures,
+        ),
+      )
+    }
+
     this.createParticles()
     if (this.blendMode) {
       this.particles.blendMode = this.blendMode
     }
+
+    this.animateTween(this.activeEffect)
 
     this.setState({
       name,
@@ -603,6 +749,23 @@ class App extends React.Component {
 
     this.particlesContainer.position.x = content.clientWidth / 2
     this.particlesContainer.position.y = content.clientHeight / 2
+
+    if (this.bgSprite) {
+      let scale
+      if (finalInnerWidth - 400 < this.bgSpriteSize.w) {
+        scale = finalInnerWidth / this.bgSpriteSize.w
+        this.bgContainer.position.x = 0
+        this.bgContainer.position.y = (finalInnerHeight - this.bgSpriteSize.h * scale) / 2
+      } else {
+        scale = finalInnerHeight / this.bgSpriteSize.h
+        this.bgContainer.position.x = (finalInnerWidth - this.bgSpriteSize.w * scale) / 2
+        this.bgContainer.position.y = 0
+      }
+      this.bgSprite.scale.set(scale)
+      this.particlesContainer.scale.set(scale)
+    } else {
+      this.particlesContainer.scale.set(1)
+    }
   }
 
   private getConfigIndexByName(name: string) {
@@ -664,6 +827,153 @@ class App extends React.Component {
       this.newDefaultConfig.emitterConfig.behaviours[this.defaultConfig.emitterConfig.behaviours.length] = behaviour
     } else {
       this.newDefaultConfig.emitterConfig.behaviours[index] = behaviour
+    }
+  }
+
+  private animateTween(props: string) {
+    if (this.tween) {
+      this.tween.kill()
+    }
+
+    const speed = 0.2
+    if (props === 'flyingFire') {
+      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+        x: -300,
+        y: 300,
+        ease: Linear.easeNone,
+        onUpdate: () => {
+          this.particles.updateConfig(this.defaultConfig.emitterConfig)
+        },
+        onComplete: () => {
+          this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+            x: 300,
+            y: 300,
+            ease: Linear.easeNone,
+            onUpdate: () => {
+              this.particles.updateConfig(this.defaultConfig.emitterConfig)
+            },
+            onComplete: () => {
+              this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                x: 300,
+                y: -300,
+                ease: Linear.easeNone,
+                onUpdate: () => {
+                  this.particles.updateConfig(this.defaultConfig.emitterConfig)
+                },
+                onComplete: () => {
+                  this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                    x: -300,
+                    y: -300,
+                    ease: Linear.easeNone,
+                    onUpdate: () => {
+                      this.particles.updateConfig(this.defaultConfig.emitterConfig)
+                    },
+                    onComplete: () => {
+                      this.animateTween(props)
+                    },
+                  })
+                },
+              })
+            },
+          })
+        },
+      })
+    } else if (props === 'flyingFountain') {
+      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+        x: -300,
+        y: 300,
+        ease: Linear.easeNone,
+        onUpdate: () => {
+          this.particles.updateConfig(this.defaultConfig.emitterConfig)
+        },
+        onComplete: () => {
+          this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+            x: 300,
+            y: 300,
+            ease: Linear.easeNone,
+            onUpdate: () => {
+              this.particles.updateConfig(this.defaultConfig.emitterConfig)
+            },
+            onComplete: () => {
+              this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                x: 300,
+                y: -300,
+                ease: Linear.easeNone,
+                onUpdate: () => {
+                  this.particles.updateConfig(this.defaultConfig.emitterConfig)
+                },
+                onComplete: () => {
+                  this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                    x: -300,
+                    y: -300,
+                    ease: Linear.easeNone,
+                    onUpdate: () => {
+                      this.particles.updateConfig(this.defaultConfig.emitterConfig)
+                    },
+                    onComplete: () => {
+                      this.animateTween(props)
+                    },
+                  })
+                },
+              })
+            },
+          })
+        },
+      })
+    } else if (props === 'flyingBubbles') {
+      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+        x: -300,
+        y: 300,
+        ease: Linear.easeNone,
+        onUpdate: () => {
+          this.particles.updateConfig(this.defaultConfig.emitterConfig)
+        },
+        onComplete: () => {
+          this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+            x: 300,
+            y: 300,
+            ease: Linear.easeNone,
+            onUpdate: () => {
+              this.particles.updateConfig(this.defaultConfig.emitterConfig)
+            },
+            onComplete: () => {
+              this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                x: 300,
+                y: -300,
+                ease: Linear.easeNone,
+                onUpdate: () => {
+                  this.particles.updateConfig(this.defaultConfig.emitterConfig)
+                },
+                onComplete: () => {
+                  this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                    x: -300,
+                    y: -300,
+                    ease: Linear.easeNone,
+                    onUpdate: () => {
+                      this.particles.updateConfig(this.defaultConfig.emitterConfig)
+                    },
+                    onComplete: () => {
+                      this.animateTween(props)
+                    },
+                  })
+                },
+              })
+            },
+          })
+        },
+      })
+    } else if (props === 'meteor') {
+      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, 1, {
+        x: -200,
+        y: 200,
+        ease: Linear.easeNone,
+        onUpdate: () => {
+          this.particles.updateConfig(this.defaultConfig.emitterConfig)
+        },
+        onComplete: () => {
+          this.particles.updateConfig(this.conf.explosionForMeteor.emitterConfig)
+        },
+      })
     }
   }
 }
