@@ -18,6 +18,10 @@ class GeneralProperties extends React.Component<IProps> {
     const { config } = this.props
     const { isSubmenuVisible, globalAlpha, blendMode } = this.state
 
+    if (typeof config.animatedSprite === 'undefined') {
+      config.animatedSprite = false
+    }
+
     return (
       <div className="general-properties">
         <legend onClick={this.changeSubmenuVisibility.bind(this)}>General Properties</legend>
@@ -37,6 +41,20 @@ class GeneralProperties extends React.Component<IProps> {
               />
             </div>
           </div>
+          <div className="form-group">
+            <div className="col-xs-4 form-label">Animated Sprite</div>
+            <div className="col-xs-8">
+              <input type={'checkbox'} checked={config.animatedSprite} onChange={this.handleChangeAnimatedSprite} />
+            </div>
+          </div>
+          {config.animatedSprite && (
+            <FormGroup
+              title={'animatedSpriteName'}
+              type={'text'}
+              value={[config.animatedSpriteName]}
+              updateProps={this.updateProps.bind(this, 'global-animatedSpriteName')}
+            />
+          )}
           {/*<div className="form-group">*/}
           {/*  <div className="col-xs-4 form-label">Particle Finishing Images</div>*/}
           {/*  <div className="col-xs-8">*/}
@@ -174,6 +192,10 @@ class GeneralProperties extends React.Component<IProps> {
     this.props.updateProps(name, props)
   }
 
+  private handleChangeAnimatedSprite = (event) => {
+    this.props.updateProps('global-animatedSprite', [0, event.target.checked])
+  }
+
   private changeSubmenuVisibility() {
     let { isSubmenuVisible } = this.state
     if (!isSubmenuVisible) {
@@ -202,7 +224,7 @@ class GeneralProperties extends React.Component<IProps> {
     Array.from(files).forEach((file) => {
       const reader = new FileReader()
       reader.onload = () => {
-        images.push(reader.result)
+        images.push({ fileName: file.name, result: reader.result })
         loadedImages++
         if (loadedImages === files.length) {
           this.sendParticleImages(images)

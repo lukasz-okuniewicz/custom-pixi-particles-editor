@@ -36,6 +36,7 @@ class App extends React.Component {
     document.body.appendChild(stats.dom)
 
     this.app = new PIXI.Application({ backgroundColor: 0 })
+    // @ts-ignore
     window.app = this.app
     document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
     this.app.ticker.add(() => {
@@ -519,6 +520,12 @@ class App extends React.Component {
         this.activeEffect = props
         this.defaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
         this.newDefaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
+
+        if (this.defaultConfig.animatedSprite) {
+          this.newDefaultConfig.animatedSpriteName = this.defaultConfig.textures[0]
+          this.defaultConfig.animatedSpriteName = this.defaultConfig.textures[0]
+        }
+
         if (props === 'fire') {
           this.blendMode = PIXI.BLEND_MODES.SCREEN
           this.newDefaultConfig.blendMode = 'Screen'
@@ -661,8 +668,23 @@ class App extends React.Component {
         this.bgContainer.addChild(sprite)
         break
       case 'particle-images':
-        this.newDefaultConfig.textures = props[1]
-        this.defaultConfig.textures = props[1]
+        const loader = PIXI.Loader.shared
+        props[1].forEach((file) => {
+          loader.add(file.fileName, file.result)
+        })
+        loader.load()
+        loader.onComplete.add((x) => {
+          if (
+            props[1][0].result.indexOf('data:application/octet-stream;') !== -1 ||
+            props[1][0].result.indexOf('data:application/json;') !== -1
+          ) {
+            this.newDefaultConfig.textures = props[1]
+            this.defaultConfig.textures = props[1]
+          } else {
+            this.newDefaultConfig.textures = props[1]
+            this.defaultConfig.textures = props[1]
+          }
+        })
         break
       case 'particle-finishing-images':
         this.newDefaultConfig.finishingTextures = props[1]
@@ -684,6 +706,16 @@ class App extends React.Component {
         this.particlesContainer.alpha = parseFloat(props[1])
         this.newDefaultConfig.alpha = parseFloat(props[1])
         this.defaultConfig.alpha = parseFloat(props[1])
+        break
+      case 'global-animatedSprite':
+        this.newDefaultConfig.animatedSprite = props[1]
+        this.defaultConfig.animatedSprite = props[1]
+        break
+      case 'global-animatedSpriteName':
+        this.newDefaultConfig.animatedSpriteName = props[1]
+        this.defaultConfig.animatedSpriteName = props[1]
+        this.newDefaultConfig.textures = [props[1]]
+        this.defaultConfig.textures = [props[1]]
         break
       case 'global-blendMode':
         if (props[1] === 'Normal') {
