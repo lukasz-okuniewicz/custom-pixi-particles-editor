@@ -22,6 +22,7 @@ class App extends React.Component {
   private particlesContainer: PIXI.Container
   private particles: Renderer
   private conf: ParticlesDefaultConfig = new ParticlesDefaultConfig()
+  private orgConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private defaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private blendMode: PIXI.BLEND_MODES
@@ -86,6 +87,8 @@ class App extends React.Component {
       return
     }
     switch (name) {
+      case 'refresh':
+        break
       case 'durationGuard-maxTime':
         this.newDefaultConfig.emitterConfig.emitController._durationGuard.maxTime = props[1]
         this.defaultConfig.emitterConfig.emitController._durationGuard.maxTime = parseFloat(props[1])
@@ -366,6 +369,78 @@ class App extends React.Component {
         this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
         this.updateBehaviour('PositionBehaviour', 'enabled', true)
         break
+      case 'positionProperties-sinX':
+        this.updateNewBehaviour('PositionBehaviour', 'sinX', props[1])
+        this.updateBehaviour('PositionBehaviour', 'sinX', props[1])
+        this.updateNewBehaviour('PositionBehaviour', ['sinXVal', 'x'], 50)
+        this.updateBehaviour('PositionBehaviour', ['sinXVal', 'x'], 50)
+        this.updateNewBehaviour('PositionBehaviour', ['sinXValVariance', 'x'], 0)
+        this.updateNewBehaviour('PositionBehaviour', ['sinXVal', 'y'], 10)
+        this.updateBehaviour('PositionBehaviour', ['sinXVal', 'y'], 10)
+        this.updateNewBehaviour('PositionBehaviour', ['sinXValVariance', 'y'], 0)
+        break
+      case 'positionProperties-sinY':
+        this.updateNewBehaviour('PositionBehaviour', 'sinY', props[1])
+        this.updateBehaviour('PositionBehaviour', 'sinY', props[1])
+        this.updateNewBehaviour('PositionBehaviour', ['sinYVal', 'x'], 50)
+        this.updateBehaviour('PositionBehaviour', ['sinYVal', 'x'], 50)
+        this.updateNewBehaviour('PositionBehaviour', ['sinYValVariance', 'x'], 0)
+        this.updateNewBehaviour('PositionBehaviour', ['sinYVal', 'y'], 10)
+        this.updateBehaviour('PositionBehaviour', ['sinYVal', 'y'], 10)
+        this.updateNewBehaviour('PositionBehaviour', ['sinYValVariance', 'y'], 0)
+        break
+      case 'positionProperties-sinXVal':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['sinXVal', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['sinXVal', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['sinXVal', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['sinXVal', 'y'], parseFloat(props[1]))
+        }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateNewBehaviour('PositionBehaviour', 'sinX', true)
+        this.updateBehaviour('PositionBehaviour', 'sinX', true)
+        break
+      case 'positionProperties-sinYVal':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['sinYVal', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['sinYVal', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['sinYVal', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['sinYVal', 'y'], parseFloat(props[1]))
+        }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateNewBehaviour('PositionBehaviour', 'sinY', true)
+        this.updateBehaviour('PositionBehaviour', 'sinY', true)
+        break
+      case 'positionProperties-sinXValVariance':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['sinXValVariance', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['sinXValVariance', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['sinXValVariance', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['sinXValVariance', 'y'], parseFloat(props[1]))
+        }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateNewBehaviour('PositionBehaviour', 'sinX', true)
+        this.updateBehaviour('PositionBehaviour', 'sinX', true)
+        break
+      case 'positionProperties-sinYValVariance':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['sinYValVariance', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['sinYValVariance', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['sinYValVariance', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['sinYValVariance', 'y'], parseFloat(props[1]))
+        }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateNewBehaviour('PositionBehaviour', 'sinY', true)
+        this.updateBehaviour('PositionBehaviour', 'sinY', true)
+        break
       case 'colorProperties-enabled':
         this.updateNewBehaviour('ColorBehaviour', 'enabled', props[1])
         this.updateBehaviour('ColorBehaviour', 'enabled', props[1])
@@ -518,6 +593,7 @@ class App extends React.Component {
         this.blendMode = PIXI.BLEND_MODES.NORMAL
         props = props[1]
         this.activeEffect = props
+        this.orgConfig = JSON.parse(JSON.stringify(this.conf[props]))
         this.defaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
         this.newDefaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
 
@@ -669,8 +745,10 @@ class App extends React.Component {
         break
       case 'particle-images':
         const loader = PIXI.Loader.shared
+        const arrayOfTextures = []
         props[1].forEach((file) => {
           loader.add(file.fileName, file.result)
+          arrayOfTextures.push(file.fileName)
         })
         loader.load()
         loader.onComplete.add((x) => {
@@ -681,9 +759,10 @@ class App extends React.Component {
             this.newDefaultConfig.textures = props[1]
             this.defaultConfig.textures = props[1]
           } else {
-            this.newDefaultConfig.textures = props[1]
-            this.defaultConfig.textures = props[1]
+            this.newDefaultConfig.textures = arrayOfTextures
+            this.defaultConfig.textures = arrayOfTextures
           }
+          this.updateProps('refresh', [])
         })
         break
       case 'particle-finishing-images':
@@ -692,6 +771,7 @@ class App extends React.Component {
         break
       case 'load-config':
         const config = JSON.parse(props[1])
+        this.orgConfig.emitterConfig = JSON.parse(JSON.stringify(config))
         this.newDefaultConfig.emitterConfig = JSON.parse(JSON.stringify(config))
         this.defaultConfig.emitterConfig = JSON.parse(JSON.stringify(config))
         break
@@ -717,6 +797,14 @@ class App extends React.Component {
         this.newDefaultConfig.textures = [props[1]]
         this.defaultConfig.textures = [props[1]]
         break
+      case 'global-animatedSpriteFrameRate':
+        this.newDefaultConfig.animatedSpriteFrameRate = props[1]
+        this.defaultConfig.animatedSpriteFrameRate = parseFloat(props[1])
+        break
+      case 'global-animatedSpriteLoop':
+        this.newDefaultConfig.animatedSpriteLoop = props[1]
+        this.defaultConfig.animatedSpriteLoop = props[1]
+        break
       case 'global-blendMode':
         if (props[1] === 'Normal') {
           this.blendMode = PIXI.BLEND_MODES.NORMAL
@@ -730,6 +818,65 @@ class App extends React.Component {
         this.newDefaultConfig.blendMode = props[1]
         this.defaultConfig.blendMode = props[1]
         break
+      case 'pathProperties-enabledPath':
+        this.newDefaultConfig.speed = 0
+        if (!this.newDefaultConfig.point1) {
+          this.newDefaultConfig.point1 = {
+            x: 0,
+            y: 0,
+          }
+        }
+        if (!this.newDefaultConfig.point2) {
+          this.newDefaultConfig.point2 = {
+            x: 0,
+            y: 0,
+          }
+        }
+        this.newDefaultConfig.enabledPath = props[1]
+        this.defaultConfig.enabledPath = props[1]
+        break
+      case 'pathProperties-speed':
+        this.newDefaultConfig.speed = props[1]
+        this.defaultConfig.speed = parseFloat(props[1])
+        break
+      case 'pathProperties-point1':
+        if (!this.newDefaultConfig.point1) {
+          this.newDefaultConfig.point1 = {
+            x: 0,
+            y: 0,
+          }
+          this.defaultConfig.point1 = {
+            x: 0,
+            y: 0,
+          }
+        }
+        if (props[0] === 0) {
+          this.newDefaultConfig.point1.x = props[1]
+          this.defaultConfig.point1.x = parseFloat(props[1])
+        } else {
+          this.newDefaultConfig.point1.y = props[1]
+          this.defaultConfig.point1.y = parseFloat(props[1])
+        }
+        break
+      case 'pathProperties-point2':
+        if (!this.newDefaultConfig.point2) {
+          this.newDefaultConfig.point2 = {
+            x: 0,
+            y: 0,
+          }
+          this.defaultConfig.point2 = {
+            x: 0,
+            y: 0,
+          }
+        }
+        if (props[0] === 0) {
+          this.newDefaultConfig.point2.x = props[1]
+          this.defaultConfig.point2.x = parseFloat(props[1])
+        } else {
+          this.newDefaultConfig.point2.y = props[1]
+          this.defaultConfig.point2.y = parseFloat(props[1])
+        }
+        break
     }
 
     this.particles.stopEmitter()
@@ -737,14 +884,7 @@ class App extends React.Component {
 
     if (this.activeEffect === 'campFire' || this.activeEffect === 'campFireTurbulence') {
       const campfireSparklesConfig = JSON.parse(JSON.stringify(this.conf.campFireSparkles))
-      this.particlesContainer.addChild(
-        customPixiParticles.create(
-          campfireSparklesConfig.textures,
-          campfireSparklesConfig.emitterConfig,
-          campfireSparklesConfig.animatedSprite,
-          campfireSparklesConfig.finishingTextures,
-        ),
-      )
+      this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
     }
 
     this.createParticles()
@@ -762,12 +902,7 @@ class App extends React.Component {
   }
 
   private createParticles(): Renderer {
-    this.particles = customPixiParticles.create(
-      this.defaultConfig.textures,
-      this.defaultConfig.emitterConfig,
-      this.defaultConfig.animatedSprite,
-      this.defaultConfig.finishingTextures,
-    )
+    this.particles = customPixiParticles.create(this.defaultConfig)
     return this.particlesContainer.addChild(this.particles)
   }
 
@@ -827,7 +962,12 @@ class App extends React.Component {
     if (typeof key === 'string') {
       behaviour[key] = props
     } else {
-      behaviour[key[0]][key[1]] = props
+      if (behaviour[key[0]]) {
+        behaviour[key[0]][key[1]] = props
+      } else {
+        behaviour[key[0]] = {}
+        behaviour[key[0]][key[1]] = props
+      }
     }
     this.updateBehaviourByIndex(behaviourIndex, behaviour)
   }
@@ -867,7 +1007,26 @@ class App extends React.Component {
       this.tween.kill()
     }
 
-    const speed = 0.2
+    let speed = 0.2
+
+    if (this.newDefaultConfig.enabledPath) {
+      speed = this.newDefaultConfig.speed
+
+      this.defaultConfig.emitterConfig.behaviours[1].position.x = this.newDefaultConfig.point1.x
+      this.defaultConfig.emitterConfig.behaviours[1].position.y = this.newDefaultConfig.point1.y
+
+      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+        x: this.newDefaultConfig.point2.x,
+        y: this.newDefaultConfig.point2.y,
+        ease: Linear.easeNone,
+        onUpdate: () => {
+          this.particles.updateConfig(this.defaultConfig.emitterConfig)
+        },
+        onComplete: () => {},
+      })
+      return
+    }
+
     if (props === 'flyingFire') {
       this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
         x: -300,

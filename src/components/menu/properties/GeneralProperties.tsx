@@ -21,6 +21,12 @@ class GeneralProperties extends React.Component<IProps> {
     if (typeof config.animatedSprite === 'undefined') {
       config.animatedSprite = false
     }
+    if (typeof config.animatedSpriteFrameRate === 'undefined') {
+      config.animatedSpriteFrameRate = 0.25
+    }
+    if (typeof config.animatedSpriteLoop === 'undefined') {
+      config.animatedSpriteLoop = true
+    }
 
     return (
       <div className="general-properties">
@@ -41,6 +47,7 @@ class GeneralProperties extends React.Component<IProps> {
               />
             </div>
           </div>
+          <hr />
           <div className="form-group">
             <div className="col-xs-4 form-label">Animated Sprite</div>
             <div className="col-xs-8">
@@ -48,28 +55,47 @@ class GeneralProperties extends React.Component<IProps> {
             </div>
           </div>
           {config.animatedSprite && (
-            <FormGroup
-              title={'animatedSpriteName'}
-              type={'text'}
-              value={[config.animatedSpriteName]}
-              updateProps={this.updateProps.bind(this, 'global-animatedSpriteName')}
-            />
+            <>
+              <FormGroup
+                title={'Animated Sprite Name'}
+                type={'text'}
+                value={[config.animatedSpriteName]}
+                updateProps={this.updateProps.bind(this, 'global-animatedSpriteName')}
+              />
+              <FormGroup
+                title={'Animated Sprite Frame Rate'}
+                type={'number'}
+                value={[config.animatedSpriteFrameRate]}
+                updateProps={this.updateProps.bind(this, 'global-animatedSpriteFrameRate')}
+              />
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Animated Sprite Loop</div>
+                <div className="col-xs-8">
+                  <input
+                    type={'checkbox'}
+                    checked={config.animatedSpriteLoop}
+                    onChange={this.handleChangeAnimatedSpriteLoop}
+                  />
+                </div>
+              </div>
+            </>
           )}
-          {/*<div className="form-group">*/}
-          {/*  <div className="col-xs-4 form-label">Particle Finishing Images</div>*/}
-          {/*  <div className="col-xs-8">*/}
-          {/*    <button className="btn btn-default btn-block" onClick={this.loadParticleFinishingImages}>*/}
-          {/*      Add Finishing Images*/}
-          {/*    </button>*/}
-          {/*    <input*/}
-          {/*      type={'file'}*/}
-          {/*      id={'load-particle-finishing-images'}*/}
-          {/*      className={'hidden'}*/}
-          {/*      onChange={this.particleFinishingImagesChange}*/}
-          {/*      multiple*/}
-          {/*    />*/}
-          {/*  </div>*/}
-          {/*</div>*/}
+          <hr />
+          <div className="form-group">
+            <div className="col-xs-4 form-label">Particle Finishing Images</div>
+            <div className="col-xs-8">
+              <button className="btn btn-default btn-block" onClick={this.loadParticleFinishingImages}>
+                Add Finishing Images
+              </button>
+              <input
+                type={'file'}
+                id={'load-particle-finishing-images'}
+                className={'hidden'}
+                onChange={this.particleFinishingImagesChange}
+                multiple
+              />
+            </div>
+          </div>
           <div className="form-group">
             <div className="col-xs-4 form-label">Particle Effects</div>
             <div className="col-xs-8">
@@ -98,6 +124,7 @@ class GeneralProperties extends React.Component<IProps> {
                 <option value={'waterTurbulence'}>Water with Turbulence</option>
                 <option value={'coinShower'}>Coin Shower</option>
                 <option value={'bigWin'}>Big Win</option>
+                <option value={'coinsRing'}>Coins Ring</option>
                 <option value={'firework'}>Firework</option>
                 <option value={'explosion'}>Explosion</option>
                 <option value={'fountain'}>Fountain</option>
@@ -194,6 +221,10 @@ class GeneralProperties extends React.Component<IProps> {
 
   private handleChangeAnimatedSprite = (event) => {
     this.props.updateProps('global-animatedSprite', [0, event.target.checked])
+  }
+
+  private handleChangeAnimatedSpriteLoop = (event) => {
+    this.props.updateProps('global-animatedSpriteLoop', [0, event.target.checked])
   }
 
   private changeSubmenuVisibility() {

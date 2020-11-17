@@ -56,9 +56,13 @@ legend .up {
 }
 
 .form-group {
+  margin-top: 15px;
   margin-bottom: 15px;
   margin-left: -15px;
   margin-right: -15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-horizontal .form-group {
@@ -112,7 +116,6 @@ legend .up {
 
 .form-label {
   font-size: 90%;
-  padding-top: 10px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;

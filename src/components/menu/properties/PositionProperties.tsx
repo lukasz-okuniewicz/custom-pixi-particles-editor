@@ -18,6 +18,36 @@ class PositionProperties extends React.Component<IProps> {
     if (typeof config.enabled === 'undefined') {
       config.enabled = false
     }
+    if (typeof config.sinX === 'undefined') {
+      config.sinX = false
+    }
+    if (typeof config.sinY === 'undefined') {
+      config.sinY = false
+    }
+    if (typeof config.sinXVal === 'undefined') {
+      config.sinXVal = {
+        x: 0,
+        y: 0,
+      }
+    }
+    if (typeof config.sinYVal === 'undefined') {
+      config.sinYVal = {
+        x: 0,
+        y: 0,
+      }
+    }
+    if (typeof config.sinXValVariance === 'undefined') {
+      config.sinXValVariance = {
+        x: 0,
+        y: 0,
+      }
+    }
+    if (typeof config.sinYValVariance === 'undefined') {
+      config.sinYValVariance = {
+        x: 0,
+        y: 0,
+      }
+    }
 
     return (
       <div className="position-properties">
@@ -98,9 +128,67 @@ class PositionProperties extends React.Component<IProps> {
             ]}
             updateProps={this.updateProps.bind(this, 'positionProperties-accelerationVariance')}
           />
+          <div className="form-group">
+            <div className="col-xs-4 form-label">Sine X</div>
+            <div className="col-xs-8">
+              <input type={'checkbox'} checked={config.sinX} onChange={this.handleChangeSinX} />
+            </div>
+          </div>
+          {config.sinX && (
+            <>
+              <FormGroup
+                title={'Sine X Value'}
+                params={['Value 1', 'Value 2']}
+                value={[(config.sinXVal && config.sinXVal.x) || 0, (config.sinXVal && config.sinXVal.y) || 0]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-sinXVal')}
+              />
+              <FormGroup
+                title={'Sine X Value Variance'}
+                params={['Value 1 Variance', 'Value 2 Variance']}
+                value={[
+                  (config.sinXValVariance && config.sinXValVariance.x) || 0,
+                  (config.sinXValVariance && config.sinXValVariance.y) || 0,
+                ]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-sinXValVariance')}
+              />
+            </>
+          )}
+          <div className="form-group">
+            <div className="col-xs-4 form-label">Sine Y</div>
+            <div className="col-xs-8">
+              <input type={'checkbox'} checked={config.sinY} onChange={this.handleChangeSinY} />
+            </div>
+          </div>
+          {config.sinY && (
+            <>
+              <FormGroup
+                title={'Sine Y Value'}
+                params={['Value 1', 'Value 2']}
+                value={[(config.sinYVal && config.sinYVal.x) || 0, (config.sinYVal && config.sinYVal.y) || 0]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-sinYVal')}
+              />
+              <FormGroup
+                title={'Sine Y Value Variance'}
+                params={['Value 1 Variance', 'Value 2 Variance']}
+                value={[
+                  (config.sinYValVariance && config.sinYValVariance.x) || 0,
+                  (config.sinYValVariance && config.sinYValVariance.y) || 0,
+                ]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-sinYValVariance')}
+              />
+            </>
+          )}
         </div>
       </div>
     )
+  }
+
+  private handleChangeSinX = (event) => {
+    this.props.updateProps('positionProperties-sinX', [0, event.target.checked])
+  }
+
+  private handleChangeSinY = (event) => {
+    this.props.updateProps('positionProperties-sinY', [0, event.target.checked])
   }
 
   private handleChangeSpawnType(index: number, name: string, event) {

@@ -25,6 +25,13 @@ class LoadAndSaveProperties extends React.Component<IProps> {
               </button>
             </div>
           </div>
+          <div className="form-group">
+            <div className="col-xs-10">
+              <button className="btn btn-default btn-block" onClick={this.refresh}>
+                Refresh
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -54,6 +61,10 @@ class LoadAndSaveProperties extends React.Component<IProps> {
 
   private downloadConfig = () => {
     this.updateProps('download-config', [0, ''])
+  }
+
+  private refresh = () => {
+    this.updateProps('refresh', [])
   }
 }
 

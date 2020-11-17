@@ -1219,6 +1219,8 @@ export default class ParticlesDefaultConfig {
       duration: 0.3,
     },
     animatedSprite: true,
+    animatedSpriteFrameRate: 15 / 60,
+    animatedSpriteLoop: true,
     textures: ['coin'],
   }
   fountain = {
@@ -2307,6 +2309,8 @@ export default class ParticlesDefaultConfig {
       duration: 1.6,
     },
     animatedSprite: true,
+    animatedSpriteFrameRate: 15 / 60,
+    animatedSpriteLoop: true,
     textures: ['coin'],
   }
   birds = {
@@ -2345,6 +2349,8 @@ export default class ParticlesDefaultConfig {
       duration: -1,
     },
     animatedSprite: true,
+    animatedSpriteFrameRate: 15 / 60,
+    animatedSpriteLoop: true,
     textures: ['bird'],
   }
   cigarette = {
@@ -2411,6 +2417,8 @@ export default class ParticlesDefaultConfig {
       duration: -1,
     },
     animatedSprite: true,
+    animatedSpriteFrameRate: 15 / 60,
+    animatedSpriteLoop: true,
     textures: ['smoke01_white_blurred.png'],
   }
   squareSmoke = {
@@ -2456,6 +2464,8 @@ export default class ParticlesDefaultConfig {
       duration: -1,
     },
     animatedSprite: true,
+    animatedSpriteFrameRate: 15 / 60,
+    animatedSpriteLoop: true,
     textures: ['smoke01_white_blurred.png'],
   }
   ember = {
@@ -3246,5 +3256,48 @@ export default class ParticlesDefaultConfig {
     },
     finishingTextures: ['pop_00.png', 'pop_01.png', 'pop_02.png'],
     textures: ['Bubbles99.png'],
+  }
+  coinsRing = {
+    emitterConfig: {
+      behaviours: [
+        { priority: 10000, enabled: true, maxLifeTime: 10, timeVariance: 0, name: 'LifeBehaviour' },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Ring',
+          radius: 300,
+          sinX: true,
+          sinY: true,
+          sinXVal: { x: 200, y: 20 },
+          sinYVal: { x: 200, y: 40 },
+          sinXValVariance: { x: 100, y: 20 },
+          sinYValVariance: { x: 100, y: 20 },
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 50, y: 50 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 110, y: 110 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.1, y: 0.1 },
+          sizeEnd: { x: 0, y: 0 },
+          startVariance: 0.1,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        { priority: 0, enabled: true, rotation: 0, variance: 2, name: 'RotationBehaviour' },
+      ],
+      emitController: { _maxParticles: 0, _maxLife: 1, _emitPerSecond: 150, _frames: 0, name: 'UniformEmission' },
+      duration: -1,
+    },
+    animatedSprite: true,
+    animatedSpriteFrameRate: 15 / 60,
+    animatedSpriteLoop: true,
+    textures: ['coin'],
   }
 }
