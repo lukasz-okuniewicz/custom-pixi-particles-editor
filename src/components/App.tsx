@@ -786,10 +786,28 @@ class App extends React.Component {
         this.particlesContainer.alpha = parseFloat(props[1])
         this.newDefaultConfig.alpha = parseFloat(props[1])
         this.defaultConfig.alpha = parseFloat(props[1])
+        this.newDefaultConfig.emitterConfig.alpha = props[1]
+        this.defaultConfig.emitterConfig.alpha = parseFloat(props[1])
         break
       case 'global-animatedSprite':
         this.newDefaultConfig.animatedSprite = props[1]
         this.defaultConfig.animatedSprite = props[1]
+        if (!this.newDefaultConfig.emitterConfig.animatedSprite) {
+          this.newDefaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        } else {
+          this.newDefaultConfig.emitterConfig.animatedSprite = undefined
+        }
+        if (!this.defaultConfig.emitterConfig.animatedSprite) {
+          this.defaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        } else {
+          this.newDefaultConfig.emitterConfig.animatedSprite = undefined
+        }
         break
       case 'global-animatedSpriteName':
         this.newDefaultConfig.animatedSpriteName = props[1]
@@ -800,10 +818,38 @@ class App extends React.Component {
       case 'global-animatedSpriteFrameRate':
         this.newDefaultConfig.animatedSpriteFrameRate = props[1]
         this.defaultConfig.animatedSpriteFrameRate = parseFloat(props[1])
+        if (!this.newDefaultConfig.emitterConfig.animatedSprite) {
+          this.newDefaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        if (!this.defaultConfig.emitterConfig.animatedSprite) {
+          this.defaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        this.newDefaultConfig.emitterConfig.animatedSprite.frameRate = props[1]
+        this.defaultConfig.emitterConfig.animatedSprite.frameRate = parseFloat(props[1])
         break
       case 'global-animatedSpriteLoop':
         this.newDefaultConfig.animatedSpriteLoop = props[1]
         this.defaultConfig.animatedSpriteLoop = props[1]
+        if (!this.newDefaultConfig.emitterConfig.animatedSprite) {
+          this.newDefaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        if (!this.defaultConfig.emitterConfig.animatedSprite) {
+          this.defaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        this.newDefaultConfig.emitterConfig.animatedSprite.loop = props[1]
+        this.defaultConfig.emitterConfig.animatedSprite.loop = props[1]
         break
       case 'global-blendMode':
         if (props[1] === 'Normal') {
@@ -817,6 +863,8 @@ class App extends React.Component {
         }
         this.newDefaultConfig.blendMode = props[1]
         this.defaultConfig.blendMode = props[1]
+        this.newDefaultConfig.emitterConfig.blendMode = this.blendMode
+        this.defaultConfig.emitterConfig.blendMode = this.blendMode
         break
       case 'pathProperties-enabledPath':
         this.newDefaultConfig.speed = 0

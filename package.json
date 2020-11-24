@@ -80,5 +80,5 @@
     "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --mode=development --host=0.0.0.0 --port=12345",
     "start-prod": "npm run build && node express.js"
   },
-  "version": "1.0.3"
+  "version": "1.1.0"
 }

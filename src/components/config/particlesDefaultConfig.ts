@@ -2307,10 +2307,12 @@ export default class ParticlesDefaultConfig {
         name: 'UniformEmission',
       },
       duration: 1.6,
+      animatedSprite: {
+        enabled: true,
+        frameRate: 15 / 60,
+        loop: true,
+      },
     },
-    animatedSprite: true,
-    animatedSpriteFrameRate: 15 / 60,
-    animatedSpriteLoop: true,
     textures: ['coin'],
   }
   birds = {
@@ -2347,10 +2349,12 @@ export default class ParticlesDefaultConfig {
         name: 'UniformEmission',
       },
       duration: -1,
+      animatedSprite: {
+        enabled: true,
+        frameRate: 15 / 60,
+        loop: true,
+      },
     },
-    animatedSprite: true,
-    animatedSpriteFrameRate: 15 / 60,
-    animatedSpriteLoop: true,
     textures: ['bird'],
   }
   cigarette = {
@@ -2415,10 +2419,11 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 300, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      animatedSprite: {
+        frameRate: 15 / 60,
+        loop: true,
+      },
     },
-    animatedSprite: true,
-    animatedSpriteFrameRate: 15 / 60,
-    animatedSpriteLoop: true,
     textures: ['smoke01_white_blurred.png'],
   }
   squareSmoke = {
@@ -2462,10 +2467,12 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 500, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      animatedSprite: {
+        enabled: true,
+        frameRate: 15 / 60,
+        loop: true,
+      },
     },
-    animatedSprite: true,
-    animatedSpriteFrameRate: 15 / 60,
-    animatedSpriteLoop: true,
     textures: ['smoke01_white_blurred.png'],
   }
   ember = {
@@ -3294,10 +3301,12 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 0, _maxLife: 1, _emitPerSecond: 150, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      animatedSprite: {
+        enabled: true,
+        frameRate: 15 / 60,
+        loop: true,
+      },
     },
-    animatedSprite: true,
-    animatedSpriteFrameRate: 15 / 60,
-    animatedSpriteLoop: true,
     textures: ['coin'],
   }
 }
