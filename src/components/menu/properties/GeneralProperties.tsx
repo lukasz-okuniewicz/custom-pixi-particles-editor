@@ -18,14 +18,16 @@ class GeneralProperties extends React.Component<IProps> {
     const { config } = this.props
     const { isSubmenuVisible, globalAlpha, blendMode } = this.state
 
-    if (typeof config.animatedSprite === 'undefined') {
-      config.animatedSprite = false
+    if (typeof config.emitterConfig.animatedSprite === 'undefined') {
+      config.emitterConfig.animatedSprite = {
+        enabled: false,
+      }
     }
-    if (typeof config.animatedSpriteFrameRate === 'undefined') {
-      config.animatedSpriteFrameRate = 0.25
+    if (typeof config.emitterConfig.animatedSprite.frameRate === 'undefined') {
+      config.emitterConfig.animatedSprite.frameRate = 0.25
     }
-    if (typeof config.animatedSpriteLoop === 'undefined') {
-      config.animatedSpriteLoop = true
+    if (typeof config.emitterConfig.animatedSprite.loop === 'undefined') {
+      config.emitterConfig.animatedSprite.loop = true
     }
 
     return (
@@ -51,21 +53,25 @@ class GeneralProperties extends React.Component<IProps> {
           <div className="form-group">
             <div className="col-xs-4 form-label">Animated Sprite</div>
             <div className="col-xs-8">
-              <input type={'checkbox'} checked={config.animatedSprite} onChange={this.handleChangeAnimatedSprite} />
+              <input
+                type={'checkbox'}
+                checked={config.emitterConfig.animatedSprite.enabled}
+                onChange={this.handleChangeAnimatedSprite}
+              />
             </div>
           </div>
-          {config.animatedSprite && (
+          {config.emitterConfig.animatedSprite && config.emitterConfig.animatedSprite.enabled && (
             <>
               <FormGroup
                 title={'Animated Sprite Name'}
                 type={'text'}
-                value={[config.animatedSpriteName]}
+                value={[config.emitterConfig.animatedSprite.spriteName]}
                 updateProps={this.updateProps.bind(this, 'global-animatedSpriteName')}
               />
               <FormGroup
                 title={'Animated Sprite Frame Rate'}
                 type={'number'}
-                value={[config.animatedSpriteFrameRate]}
+                value={[config.emitterConfig.animatedSprite.frameRate]}
                 updateProps={this.updateProps.bind(this, 'global-animatedSpriteFrameRate')}
               />
               <div className="form-group">
@@ -73,7 +79,7 @@ class GeneralProperties extends React.Component<IProps> {
                 <div className="col-xs-8">
                   <input
                     type={'checkbox'}
-                    checked={config.animatedSpriteLoop}
+                    checked={config.emitterConfig.animatedSprite.loop}
                     onChange={this.handleChangeAnimatedSpriteLoop}
                   />
                 </div>
@@ -175,7 +181,7 @@ class GeneralProperties extends React.Component<IProps> {
                 className={`form-control`}
                 type="number"
                 step="0.1"
-                value={config.alpha ? config.alpha : globalAlpha}
+                value={config.emitterConfig.alpha ? config.emitterConfig.alpha : globalAlpha}
                 onChange={this.handleChangeGlobalAlpha.bind(this)}
               />
             </div>
@@ -185,13 +191,13 @@ class GeneralProperties extends React.Component<IProps> {
             <div className="col-xs-8">
               <select
                 className={'form-control'}
-                value={config.blendMode ? config.blendMode : blendMode}
+                value={config.emitterConfig.blendMode ? config.emitterConfig.blendMode : blendMode}
                 onChange={this.handleChange.bind(this, 0, 'global-blendMode')}
               >
-                <option>Normal</option>
-                <option>Add</option>
-                <option>Multiply</option>
-                <option>Screen</option>
+                <option value={PIXI.BLEND_MODES.NORMAL}>Normal</option>
+                <option value={PIXI.BLEND_MODES.ADD}>Add</option>
+                <option value={PIXI.BLEND_MODES.MULTIPLY}>Multiply</option>
+                <option value={PIXI.BLEND_MODES.SCREEN}>Screen</option>
               </select>
             </div>
           </div>
@@ -255,7 +261,7 @@ class GeneralProperties extends React.Component<IProps> {
     Array.from(files).forEach((file) => {
       const reader = new FileReader()
       reader.onload = () => {
-        images.push({ fileName: file.name, result: reader.result })
+        images.push({ fileName: Math.random() + file.name, result: reader.result })
         loadedImages++
         if (loadedImages === files.length) {
           this.sendParticleImages(images)

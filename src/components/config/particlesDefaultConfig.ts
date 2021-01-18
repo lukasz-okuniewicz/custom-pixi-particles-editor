@@ -634,6 +634,8 @@ export default class ParticlesDefaultConfig {
         name: 'UniformEmission',
       },
       duration: -1,
+      alpha: 0.05,
+      blendMode: 3,
     },
     textures: ['fog.png'],
   }
@@ -676,6 +678,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 500, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      blendMode: 3,
     },
     textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
   }
@@ -743,6 +746,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 1000, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      blendMode: 1,
     },
     textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
   }
@@ -810,6 +814,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 1000, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      blendMode: 1,
     },
     textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
   }
@@ -853,6 +858,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 300, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      blendMode: 1,
     },
     textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
   }
@@ -966,6 +972,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 300, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      blendMode: 1,
     },
     textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
   }
@@ -1008,6 +1015,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 2000, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      blendMode: 3,
     },
     textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
   }
@@ -1050,6 +1058,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 1000, _frames: 0, name: 'UniformEmission' },
       duration: 0.05,
+      blendMode: 3,
     },
     textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
   }
@@ -1114,6 +1123,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 500, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      blendMode: 3,
     },
     textures: ['fire001.png', 'fire002.png', 'fire003.png', 'fire004.png', 'smoke1.png'],
   }
@@ -1217,10 +1227,12 @@ export default class ParticlesDefaultConfig {
         name: 'UniformEmission',
       },
       duration: 0.3,
+      animatedSprite: {
+        enabled: true,
+        frameRate: 15 / 60,
+        loop: true,
+      },
     },
-    animatedSprite: true,
-    animatedSpriteFrameRate: 15 / 60,
-    animatedSpriteLoop: true,
     textures: ['coin'],
   }
   fountain = {
@@ -2066,6 +2078,8 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 0, _maxLife: 1, _emitPerSecond: 5000, _frames: 0, name: 'UniformEmission' },
       duration: 0.1,
+      blendMode: 3,
+      alpha: 0.3,
     },
     textures: ['fog.png', 'smokeparticle.png', 'smoke1.png', 'smoke2.png', 'smoke3.png'],
   }
@@ -2419,6 +2433,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 300, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      blendMode: 3,
       animatedSprite: {
         frameRate: 15 / 60,
         loop: true,
@@ -2467,6 +2482,7 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 500, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+      blendMode: 3,
       animatedSprite: {
         enabled: true,
         frameRate: 15 / 60,

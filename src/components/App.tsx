@@ -25,7 +25,6 @@ class App extends React.Component {
   private orgConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private defaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
-  private blendMode: PIXI.BLEND_MODES
   private tween: gsap.TweenLite
   private activeEffect: string
   private bgSprite: PIXI.Sprite
@@ -445,6 +444,10 @@ class App extends React.Component {
         this.updateNewBehaviour('ColorBehaviour', 'enabled', props[1])
         this.updateBehaviour('ColorBehaviour', 'enabled', props[1])
         break
+      case 'colorProperties-sine':
+        this.updateNewBehaviour('ColorBehaviour', 'sinus', props[1])
+        this.updateBehaviour('ColorBehaviour', 'sinus', props[1])
+        break
       case 'colorProperties-start':
         this.updateNewBehaviour('ColorBehaviour', ['start', '_r'], props.rgb.r)
         this.updateNewBehaviour('ColorBehaviour', ['start', '_g'], props.rgb.g)
@@ -589,50 +592,18 @@ class App extends React.Component {
       case 'particlePredefinedEffect':
         this.bgSprite = null
         this.bgContainer.removeChildren()
-        this.particlesContainer.alpha = 1
-        this.blendMode = PIXI.BLEND_MODES.NORMAL
         props = props[1]
         this.activeEffect = props
         this.orgConfig = JSON.parse(JSON.stringify(this.conf[props]))
         this.defaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
         this.newDefaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
 
-        if (this.defaultConfig.animatedSprite) {
-          this.newDefaultConfig.animatedSpriteName = this.defaultConfig.textures[0]
-          this.defaultConfig.animatedSpriteName = this.defaultConfig.textures[0]
+        if (this.defaultConfig.emitterConfig.animatedSprite) {
+          this.newDefaultConfig.emitterConfig.animatedSprite.animatedSpriteName = this.defaultConfig.textures[0]
+          this.defaultConfig.emitterConfig.animatedSprite.animatedSpriteName = this.defaultConfig.textures[0]
         }
 
-        if (props === 'fire') {
-          this.blendMode = PIXI.BLEND_MODES.SCREEN
-          this.newDefaultConfig.blendMode = 'Screen'
-          this.defaultConfig.blendMode = 'Screen'
-        } else if (props === 'fireWithTurbulence') {
-          this.blendMode = PIXI.BLEND_MODES.SCREEN
-          this.newDefaultConfig.blendMode = 'Screen'
-          this.defaultConfig.blendMode = 'Screen'
-        } else if (props === 'flyingFire') {
-          this.blendMode = PIXI.BLEND_MODES.SCREEN
-          this.newDefaultConfig.blendMode = 'Screen'
-          this.defaultConfig.blendMode = 'Screen'
-        } else if (props === 'meteor') {
-          this.blendMode = PIXI.BLEND_MODES.SCREEN
-          this.newDefaultConfig.blendMode = 'Screen'
-          this.defaultConfig.blendMode = 'Screen'
-        } else if (props === 'fog') {
-          this.blendMode = PIXI.BLEND_MODES.SCREEN
-          this.newDefaultConfig.blendMode = 'Screen'
-          this.defaultConfig.blendMode = 'Screen'
-          this.newDefaultConfig.alpha = 0.05
-          this.defaultConfig.alpha = 0.05
-          this.particlesContainer.alpha = 0.05
-        } else if (props === 'explosion') {
-          this.blendMode = PIXI.BLEND_MODES.SCREEN
-          this.newDefaultConfig.blendMode = 'Screen'
-          this.defaultConfig.blendMode = 'Screen'
-          this.newDefaultConfig.alpha = 0.3
-          this.defaultConfig.alpha = 0.3
-          this.particlesContainer.alpha = 0.3
-        } else if (props === 'sun') {
+        if (props === 'sun') {
           const bgTexture = PIXI.Texture.from('blackHole')
           const sprite = new PIXI.Sprite(bgTexture)
           this.bgSprite = sprite
@@ -641,9 +612,6 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.bgContainer.addChild(sprite)
-          this.blendMode = PIXI.BLEND_MODES.ADD
-          this.newDefaultConfig.blendMode = 'Add'
-          this.defaultConfig.blendMode = 'Add'
         } else if (props === 'sun2') {
           const bgTexture = PIXI.Texture.from('blackHole')
           const sprite = new PIXI.Sprite(bgTexture)
@@ -653,13 +621,7 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.bgContainer.addChild(sprite)
-          this.blendMode = PIXI.BLEND_MODES.ADD
-          this.newDefaultConfig.blendMode = 'Add'
-          this.defaultConfig.blendMode = 'Add'
         } else if (props === 'squareSmoke') {
-          this.blendMode = PIXI.BLEND_MODES.SCREEN
-          this.newDefaultConfig.blendMode = 'Screen'
-          this.defaultConfig.blendMode = 'Screen'
         } else if (props === 'fall') {
           const bgTexture = PIXI.Texture.from('autumn')
           const sprite = new PIXI.Sprite(bgTexture)
@@ -687,9 +649,6 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.bgContainer.addChild(sprite)
-          this.blendMode = PIXI.BLEND_MODES.ADD
-          this.newDefaultConfig.blendMode = 'Add'
-          this.defaultConfig.blendMode = 'Add'
         } else if (props === 'campFireTurbulence') {
           const bgTexture = PIXI.Texture.from('campFire')
           const sprite = new PIXI.Sprite(bgTexture)
@@ -699,9 +658,6 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.bgContainer.addChild(sprite)
-          this.blendMode = PIXI.BLEND_MODES.ADD
-          this.newDefaultConfig.blendMode = 'Add'
-          this.defaultConfig.blendMode = 'Add'
         } else if (props === 'birds') {
           const bgTexture = PIXI.Texture.from('birds')
           const sprite = new PIXI.Sprite(bgTexture)
@@ -720,13 +676,9 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.bgContainer.addChild(sprite)
-          this.blendMode = PIXI.BLEND_MODES.SCREEN
-          this.newDefaultConfig.blendMode = 'Screen'
-          this.defaultConfig.blendMode = 'Screen'
         } else {
-          this.newDefaultConfig.alpha = this.particlesContainer.alpha
-          this.defaultConfig.alpha = this.particlesContainer.alpha
-          this.particlesContainer.alpha = this.particlesContainer.alpha
+          this.newDefaultConfig.emitterConfig.alpha = this.particlesContainer.alpha
+          this.defaultConfig.emitterConfig.alpha = this.particlesContainer.alpha
         }
         this.newDefaultConfig.particlePredefinedEffect = props
         this.defaultConfig.particlePredefinedEffect = props
@@ -737,11 +689,14 @@ class App extends React.Component {
         const bgTexture = PIXI.Texture.from(props[1])
         const sprite = new PIXI.Sprite(bgTexture)
         this.bgSprite = sprite
-        this.bgSpriteSize = {
-          w: sprite.width,
-          h: sprite.height,
-        }
         this.bgContainer.addChild(sprite)
+        setTimeout(() => {
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.resize()
+        })
         break
       case 'particle-images':
         const loader = PIXI.Loader.shared
@@ -751,7 +706,7 @@ class App extends React.Component {
           arrayOfTextures.push(file.fileName)
         })
         loader.load()
-        loader.onComplete.add((x) => {
+        loader.onComplete.once((x) => {
           if (
             props[1][0].result.indexOf('data:application/octet-stream;') !== -1 ||
             props[1][0].result.indexOf('data:application/json;') !== -1
@@ -783,41 +738,39 @@ class App extends React.Component {
         saveAs(blob, 'particle_config')
         break
       case 'global-alpha':
-        this.particlesContainer.alpha = parseFloat(props[1])
-        this.newDefaultConfig.alpha = parseFloat(props[1])
-        this.defaultConfig.alpha = parseFloat(props[1])
         this.newDefaultConfig.emitterConfig.alpha = props[1]
         this.defaultConfig.emitterConfig.alpha = parseFloat(props[1])
         break
       case 'global-animatedSprite':
-        this.newDefaultConfig.animatedSprite = props[1]
-        this.defaultConfig.animatedSprite = props[1]
-        if (!this.newDefaultConfig.emitterConfig.animatedSprite) {
+        if (props[1]) {
           this.newDefaultConfig.emitterConfig.animatedSprite = {
+            enabled: props[1],
             loop: true,
             frameRate: 0.25,
           }
         } else {
           this.newDefaultConfig.emitterConfig.animatedSprite = undefined
         }
-        if (!this.defaultConfig.emitterConfig.animatedSprite) {
+        if (props[1]) {
           this.defaultConfig.emitterConfig.animatedSprite = {
+            enabled: props[1],
             loop: true,
             frameRate: 0.25,
           }
         } else {
           this.newDefaultConfig.emitterConfig.animatedSprite = undefined
         }
+
         break
       case 'global-animatedSpriteName':
-        this.newDefaultConfig.animatedSpriteName = props[1]
-        this.defaultConfig.animatedSpriteName = props[1]
+        this.newDefaultConfig.emitterConfig.animatedSpriteName = props[1]
+        this.defaultConfig.emitterConfig.animatedSpriteName = props[1]
         this.newDefaultConfig.textures = [props[1]]
         this.defaultConfig.textures = [props[1]]
         break
       case 'global-animatedSpriteFrameRate':
-        this.newDefaultConfig.animatedSpriteFrameRate = props[1]
-        this.defaultConfig.animatedSpriteFrameRate = parseFloat(props[1])
+        this.newDefaultConfig.emitterConfig.animatedSpriteFrameRate = props[1]
+        this.defaultConfig.emitterConfig.animatedSpriteFrameRate = parseFloat(props[1])
         if (!this.newDefaultConfig.emitterConfig.animatedSprite) {
           this.newDefaultConfig.emitterConfig.animatedSprite = {
             loop: true,
@@ -834,8 +787,8 @@ class App extends React.Component {
         this.defaultConfig.emitterConfig.animatedSprite.frameRate = parseFloat(props[1])
         break
       case 'global-animatedSpriteLoop':
-        this.newDefaultConfig.animatedSpriteLoop = props[1]
-        this.defaultConfig.animatedSpriteLoop = props[1]
+        this.newDefaultConfig.emitterConfig.animatedSpriteLoop = props[1]
+        this.defaultConfig.emitterConfig.animatedSpriteLoop = props[1]
         if (!this.newDefaultConfig.emitterConfig.animatedSprite) {
           this.newDefaultConfig.emitterConfig.animatedSprite = {
             loop: true,
@@ -852,19 +805,8 @@ class App extends React.Component {
         this.defaultConfig.emitterConfig.animatedSprite.loop = props[1]
         break
       case 'global-blendMode':
-        if (props[1] === 'Normal') {
-          this.blendMode = PIXI.BLEND_MODES.NORMAL
-        } else if (props[1] === 'Add') {
-          this.blendMode = PIXI.BLEND_MODES.ADD
-        } else if (props[1] === 'Multiply') {
-          this.blendMode = PIXI.BLEND_MODES.MULTIPLY
-        } else if (props[1] === 'Screen') {
-          this.blendMode = PIXI.BLEND_MODES.SCREEN
-        }
-        this.newDefaultConfig.blendMode = props[1]
-        this.defaultConfig.blendMode = props[1]
-        this.newDefaultConfig.emitterConfig.blendMode = this.blendMode
-        this.defaultConfig.emitterConfig.blendMode = this.blendMode
+        this.newDefaultConfig.emitterConfig.blendMode = props[1]
+        this.defaultConfig.emitterConfig.blendMode = props[1]
         break
       case 'pathProperties-enabledPath':
         this.newDefaultConfig.speed = 0
@@ -927,18 +869,16 @@ class App extends React.Component {
         break
     }
 
-    this.particles.stopEmitter()
+    this.particles.stopImmediately()
     this.particlesContainer.removeChildren()
 
     if (this.activeEffect === 'campFire' || this.activeEffect === 'campFireTurbulence') {
       const campfireSparklesConfig = JSON.parse(JSON.stringify(this.conf.campFireSparkles))
-      this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
+      const particles = this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
+      particles.play()
     }
 
     this.createParticles()
-    if (this.blendMode) {
-      this.particles.blendMode = this.blendMode
-    }
 
     this.animateTween(this.activeEffect)
 
@@ -951,6 +891,7 @@ class App extends React.Component {
 
   private createParticles(): Renderer {
     this.particles = customPixiParticles.create(this.defaultConfig)
+    this.particles.play()
     return this.particlesContainer.addChild(this.particles)
   }
 

@@ -46,6 +46,9 @@ class ColorProperties extends React.Component<IProps> {
         _alpha: 1,
       }
     }
+    if (typeof config.sinus === 'undefined') {
+      config.sinus = false
+    }
 
     return (
       <div className="color-properties">
@@ -55,6 +58,17 @@ class ColorProperties extends React.Component<IProps> {
             <div className="col-xs-4 form-label">Enabled</div>
             <div className="col-xs-8">
               <input type={'checkbox'} checked={config.enabled} onChange={this.handleChangeEnabled} />
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="col-xs-4 form-label">Fade in and out</div>
+            <div className="col-xs-8">
+              <input
+                title={'Let it fade in and out'}
+                type={'checkbox'}
+                checked={config.sinus}
+                onChange={this.handleChangeSine}
+              />
             </div>
           </div>
           <FormGroup
@@ -92,6 +106,10 @@ class ColorProperties extends React.Component<IProps> {
         </div>
       </div>
     )
+  }
+
+  private handleChangeSine = (event) => {
+    this.props.updateProps('colorProperties-sine', [0, event.target.checked])
   }
 
   private handleChangeEnabled = (event) => {
