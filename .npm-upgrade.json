@@ -1,0 +1,8 @@
+{
+  "ignore": {
+    "gsap": {
+      "versions": "3.6.0",
+      "reason": ""
+    }
+  }
+}

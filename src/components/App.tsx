@@ -1,4 +1,3 @@
-///<reference types="pixi.js"/>
 import * as React from 'react'
 import { hot } from 'react-hot-loader'
 import './../assets/scss/App.scss'
@@ -9,6 +8,9 @@ import { saveAs } from 'file-saver'
 import { customPixiParticles, Renderer } from 'custom-pixi-particles'
 import * as Stats from 'stats.js'
 import { TweenLite, Linear } from 'gsap'
+import { Application, Container, Loader, Sprite, Texture } from 'pixi.js'
+import { Simulate } from 'react-dom/test-utils'
+import load = Simulate.load
 
 class App extends React.Component {
   state = {
@@ -17,9 +19,9 @@ class App extends React.Component {
     defaultConfig: null,
   }
 
-  private app: PIXI.Application
-  private bgContainer: PIXI.Container
-  private particlesContainer: PIXI.Container
+  private app: Application
+  private bgContainer: Container
+  private particlesContainer: Container
   private particles: Renderer
   private conf: ParticlesDefaultConfig = new ParticlesDefaultConfig()
   private orgConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
@@ -27,7 +29,7 @@ class App extends React.Component {
   private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private tween: gsap.TweenLite
   private activeEffect: string
-  private bgSprite: PIXI.Sprite
+  private bgSprite: Sprite
   private bgSpriteSize: { w: number; h: number }
 
   componentDidMount() {
@@ -35,7 +37,8 @@ class App extends React.Component {
     stats.showPanel(0)
     document.body.appendChild(stats.dom)
 
-    this.app = new PIXI.Application({ backgroundColor: 0 })
+    // @ts-ignore
+    this.app = new Application({ backgroundColor: 0 })
     // @ts-ignore
     window.app = this.app
     document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
@@ -44,12 +47,12 @@ class App extends React.Component {
       stats.end()
     })
 
-    this.bgContainer = new PIXI.Container()
+    this.bgContainer = new Container()
     this.app.stage.addChild(this.bgContainer)
-    this.particlesContainer = new PIXI.Container()
+    this.particlesContainer = new Container()
     this.app.stage.addChild(this.particlesContainer)
 
-    const loader = PIXI.Loader.shared
+    const loader = Loader.shared
     loader.add('assets/img/images.json')
     loader.add('autumn', 'assets/img/backgrounds/autumn.jpg')
     loader.add('campFire', 'assets/img/backgrounds/campfire.jpg')
@@ -604,8 +607,8 @@ class App extends React.Component {
         }
 
         if (props === 'sun') {
-          const bgTexture = PIXI.Texture.from('blackHole')
-          const sprite = new PIXI.Sprite(bgTexture)
+          const bgTexture = Texture.from('blackHole')
+          const sprite = new Sprite(bgTexture)
           this.bgSprite = sprite
           this.bgSpriteSize = {
             w: sprite.width,
@@ -613,8 +616,8 @@ class App extends React.Component {
           }
           this.bgContainer.addChild(sprite)
         } else if (props === 'sun2') {
-          const bgTexture = PIXI.Texture.from('blackHole')
-          const sprite = new PIXI.Sprite(bgTexture)
+          const bgTexture = Texture.from('blackHole')
+          const sprite = new Sprite(bgTexture)
           this.bgSprite = sprite
           this.bgSpriteSize = {
             w: sprite.width,
@@ -623,8 +626,8 @@ class App extends React.Component {
           this.bgContainer.addChild(sprite)
         } else if (props === 'squareSmoke') {
         } else if (props === 'fall') {
-          const bgTexture = PIXI.Texture.from('autumn')
-          const sprite = new PIXI.Sprite(bgTexture)
+          const bgTexture = Texture.from('autumn')
+          const sprite = new Sprite(bgTexture)
           this.bgSprite = sprite
           this.bgSpriteSize = {
             w: sprite.width,
@@ -632,8 +635,8 @@ class App extends React.Component {
           }
           this.bgContainer.addChild(sprite)
         } else if (props === 'twist') {
-          const bgTexture = PIXI.Texture.from('autumn')
-          const sprite = new PIXI.Sprite(bgTexture)
+          const bgTexture = Texture.from('autumn')
+          const sprite = new Sprite(bgTexture)
           this.bgSprite = sprite
           this.bgSpriteSize = {
             w: sprite.width,
@@ -641,8 +644,8 @@ class App extends React.Component {
           }
           this.bgContainer.addChild(sprite)
         } else if (props === 'campFire') {
-          const bgTexture = PIXI.Texture.from('campFire')
-          const sprite = new PIXI.Sprite(bgTexture)
+          const bgTexture = Texture.from('campFire')
+          const sprite = new Sprite(bgTexture)
           this.bgSprite = sprite
           this.bgSpriteSize = {
             w: sprite.width,
@@ -650,8 +653,8 @@ class App extends React.Component {
           }
           this.bgContainer.addChild(sprite)
         } else if (props === 'campFireTurbulence') {
-          const bgTexture = PIXI.Texture.from('campFire')
-          const sprite = new PIXI.Sprite(bgTexture)
+          const bgTexture = Texture.from('campFire')
+          const sprite = new Sprite(bgTexture)
           this.bgSprite = sprite
           this.bgSpriteSize = {
             w: sprite.width,
@@ -659,8 +662,8 @@ class App extends React.Component {
           }
           this.bgContainer.addChild(sprite)
         } else if (props === 'birds') {
-          const bgTexture = PIXI.Texture.from('birds')
-          const sprite = new PIXI.Sprite(bgTexture)
+          const bgTexture = Texture.from('birds')
+          const sprite = new Sprite(bgTexture)
           this.bgSprite = sprite
           this.bgSpriteSize = {
             w: sprite.width,
@@ -668,8 +671,8 @@ class App extends React.Component {
           }
           this.bgContainer.addChild(sprite)
         } else if (props === 'cigarette') {
-          const bgTexture = PIXI.Texture.from('cigarette')
-          const sprite = new PIXI.Sprite(bgTexture)
+          const bgTexture = Texture.from('cigarette')
+          const sprite = new Sprite(bgTexture)
           this.bgSprite = sprite
           this.bgSpriteSize = {
             w: sprite.width,
@@ -686,8 +689,8 @@ class App extends React.Component {
         break
       case 'bg-image':
         this.bgContainer.removeChildren()
-        const bgTexture = PIXI.Texture.from(props[1])
-        const sprite = new PIXI.Sprite(bgTexture)
+        const bgTexture = Texture.from(props[1])
+        const sprite = new Sprite(bgTexture)
         this.bgSprite = sprite
         this.bgContainer.addChild(sprite)
         setTimeout(() => {
@@ -699,7 +702,7 @@ class App extends React.Component {
         })
         break
       case 'particle-images':
-        const loader = PIXI.Loader.shared
+        const loader = Loader.shared
         const arrayOfTextures = []
         props[1].forEach((file) => {
           loader.add(file.fileName, file.result)
@@ -765,6 +768,8 @@ class App extends React.Component {
       case 'global-animatedSpriteName':
         this.newDefaultConfig.emitterConfig.animatedSpriteName = props[1]
         this.defaultConfig.emitterConfig.animatedSpriteName = props[1]
+        this.newDefaultConfig.emitterConfig.animatedSprite.animatedSpriteName = props[1]
+        this.defaultConfig.emitterConfig.animatedSprite.animatedSpriteName = props[1]
         this.newDefaultConfig.textures = [props[1]]
         this.defaultConfig.textures = [props[1]]
         break

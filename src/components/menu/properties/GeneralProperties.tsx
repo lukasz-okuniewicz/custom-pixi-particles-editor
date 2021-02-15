@@ -1,3 +1,4 @@
+import { BLEND_MODES } from 'pixi.js'
 import * as React from 'react'
 import { hot } from 'react-hot-loader'
 import FormGroup from '../utils/FormGroup'
@@ -65,7 +66,7 @@ class GeneralProperties extends React.Component<IProps> {
               <FormGroup
                 title={'Animated Sprite Name'}
                 type={'text'}
-                value={[config.emitterConfig.animatedSprite.spriteName]}
+                value={[config.emitterConfig.animatedSprite.animatedSpriteName]}
                 updateProps={this.updateProps.bind(this, 'global-animatedSpriteName')}
               />
               <FormGroup
@@ -194,10 +195,10 @@ class GeneralProperties extends React.Component<IProps> {
                 value={config.emitterConfig.blendMode ? config.emitterConfig.blendMode : blendMode}
                 onChange={this.handleChange.bind(this, 0, 'global-blendMode')}
               >
-                <option value={PIXI.BLEND_MODES.NORMAL}>Normal</option>
-                <option value={PIXI.BLEND_MODES.ADD}>Add</option>
-                <option value={PIXI.BLEND_MODES.MULTIPLY}>Multiply</option>
-                <option value={PIXI.BLEND_MODES.SCREEN}>Screen</option>
+                <option value={BLEND_MODES.NORMAL}>Normal</option>
+                <option value={BLEND_MODES.ADD}>Add</option>
+                <option value={BLEND_MODES.MULTIPLY}>Multiply</option>
+                <option value={BLEND_MODES.SCREEN}>Screen</option>
               </select>
             </div>
           </div>
@@ -261,7 +262,7 @@ class GeneralProperties extends React.Component<IProps> {
     Array.from(files).forEach((file) => {
       const reader = new FileReader()
       reader.onload = () => {
-        images.push({ fileName: Math.random() + file.name, result: reader.result })
+        images.push({ fileName: file.name, result: reader.result })
         loadedImages++
         if (loadedImages === files.length) {
           this.sendParticleImages(images)
