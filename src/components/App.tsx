@@ -766,12 +766,13 @@ class App extends React.Component {
 
         break
       case 'global-animatedSpriteName':
+        const spirites = props[1].replace(' ', '').split(',')
         this.newDefaultConfig.emitterConfig.animatedSpriteName = props[1]
         this.defaultConfig.emitterConfig.animatedSpriteName = props[1]
         this.newDefaultConfig.emitterConfig.animatedSprite.animatedSpriteName = props[1]
         this.defaultConfig.emitterConfig.animatedSprite.animatedSpriteName = props[1]
-        this.newDefaultConfig.textures = [props[1]]
-        this.defaultConfig.textures = [props[1]]
+        this.newDefaultConfig.textures = spirites
+        this.defaultConfig.textures = spirites
         break
       case 'global-animatedSpriteFrameRate':
         this.newDefaultConfig.emitterConfig.animatedSpriteFrameRate = props[1]
