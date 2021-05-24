@@ -7,7 +7,7 @@ import ParticlesDefaultConfig from './config/particlesDefaultConfig'
 import { saveAs } from 'file-saver'
 import { customPixiParticles, Renderer } from 'custom-pixi-particles'
 import * as Stats from 'stats.js'
-import { TweenLite, Linear } from 'gsap'
+import { gsap, Linear } from 'gsap'
 import { Application, Container, Loader, Sprite, Texture } from 'pixi.js'
 import { Simulate } from 'react-dom/test-utils'
 import load = Simulate.load
@@ -27,7 +27,7 @@ class App extends React.Component {
   private orgConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private defaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
-  private tween: gsap.TweenLite
+  private tween: any
   private activeEffect: string
   private bgSprite: Sprite
   private bgSpriteSize: { w: number; h: number }
@@ -1010,7 +1010,7 @@ class App extends React.Component {
       this.defaultConfig.emitterConfig.behaviours[1].position.x = this.newDefaultConfig.point1.x
       this.defaultConfig.emitterConfig.behaviours[1].position.y = this.newDefaultConfig.point1.y
 
-      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
         x: this.newDefaultConfig.point2.x,
         y: this.newDefaultConfig.point2.y,
         ease: Linear.easeNone,
@@ -1023,7 +1023,7 @@ class App extends React.Component {
     }
 
     if (props === 'flyingFire') {
-      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
         x: -300,
         y: 300,
         ease: Linear.easeNone,
@@ -1031,7 +1031,7 @@ class App extends React.Component {
           this.particles.updateConfig(this.defaultConfig.emitterConfig)
         },
         onComplete: () => {
-          this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+          this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
             x: 300,
             y: 300,
             ease: Linear.easeNone,
@@ -1039,7 +1039,7 @@ class App extends React.Component {
               this.particles.updateConfig(this.defaultConfig.emitterConfig)
             },
             onComplete: () => {
-              this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+              this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
                 x: 300,
                 y: -300,
                 ease: Linear.easeNone,
@@ -1047,7 +1047,7 @@ class App extends React.Component {
                   this.particles.updateConfig(this.defaultConfig.emitterConfig)
                 },
                 onComplete: () => {
-                  this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                  this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
                     x: -300,
                     y: -300,
                     ease: Linear.easeNone,
@@ -1065,7 +1065,7 @@ class App extends React.Component {
         },
       })
     } else if (props === 'flyingFountain') {
-      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
         x: -300,
         y: 300,
         ease: Linear.easeNone,
@@ -1073,7 +1073,7 @@ class App extends React.Component {
           this.particles.updateConfig(this.defaultConfig.emitterConfig)
         },
         onComplete: () => {
-          this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+          this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
             x: 300,
             y: 300,
             ease: Linear.easeNone,
@@ -1081,7 +1081,7 @@ class App extends React.Component {
               this.particles.updateConfig(this.defaultConfig.emitterConfig)
             },
             onComplete: () => {
-              this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+              this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
                 x: 300,
                 y: -300,
                 ease: Linear.easeNone,
@@ -1089,7 +1089,7 @@ class App extends React.Component {
                   this.particles.updateConfig(this.defaultConfig.emitterConfig)
                 },
                 onComplete: () => {
-                  this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                  this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
                     x: -300,
                     y: -300,
                     ease: Linear.easeNone,
@@ -1107,7 +1107,7 @@ class App extends React.Component {
         },
       })
     } else if (props === 'flyingBubbles') {
-      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
         x: -300,
         y: 300,
         ease: Linear.easeNone,
@@ -1115,7 +1115,7 @@ class App extends React.Component {
           this.particles.updateConfig(this.defaultConfig.emitterConfig)
         },
         onComplete: () => {
-          this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+          this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
             x: 300,
             y: 300,
             ease: Linear.easeNone,
@@ -1123,7 +1123,7 @@ class App extends React.Component {
               this.particles.updateConfig(this.defaultConfig.emitterConfig)
             },
             onComplete: () => {
-              this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+              this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
                 x: 300,
                 y: -300,
                 ease: Linear.easeNone,
@@ -1131,7 +1131,7 @@ class App extends React.Component {
                   this.particles.updateConfig(this.defaultConfig.emitterConfig)
                 },
                 onComplete: () => {
-                  this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                  this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
                     x: -300,
                     y: -300,
                     ease: Linear.easeNone,
@@ -1149,7 +1149,7 @@ class App extends React.Component {
         },
       })
     } else if (props === 'meteor') {
-      this.tween = TweenLite.to(this.defaultConfig.emitterConfig.behaviours[1].position, 1, {
+      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, 1, {
         x: -200,
         y: 200,
         ease: Linear.easeNone,
