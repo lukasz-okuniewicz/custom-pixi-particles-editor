@@ -39,7 +39,7 @@ class EmissionTypeProperties extends React.Component<IProps> {
           {emissionType === 'UniformEmission' && (
             <FormGroup
               title={'Emit/sec'}
-              value={[(config.emitController && config.emitController._emitPerSecond) || 200]}
+              value={[(config.emitController && config.emitController._emitPerSecond)]}
               updateProps={this.updateProps.bind(this, 'EmissionTypeProperties-_emitPerSecond')}
             />
           )}
@@ -47,19 +47,19 @@ class EmissionTypeProperties extends React.Component<IProps> {
             <>
               <FormGroup
                 title={'Max Particles'}
-                value={[(config.emitController && config.emitController._maxParticles) || 10]}
+                value={[(config.emitController && config.emitController._maxParticles)]}
                 updateProps={this.updateProps.bind(this, 'EmissionTypeProperties-_maxParticles')}
               />
               <FormGroup
                 title={'Emission Rate'}
-                value={[(config.emitController && config.emitController._emissionRate) || 10]}
+                value={[(config.emitController && config.emitController._emissionRate)]}
                 updateProps={this.updateProps.bind(this, 'EmissionTypeProperties-_emissionRate')}
               />
             </>
           )}
           <FormGroup
             title={'Duration'}
-            value={[config.duration || -1]}
+            value={[config.duration]}
             updateProps={this.updateProps.bind(this, 'EmissionTypeProperties-duration')}
           />
         </div>

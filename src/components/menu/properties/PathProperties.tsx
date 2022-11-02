@@ -18,6 +18,21 @@ class PathProperties extends React.Component<IProps> {
     if (typeof config.enabledPath === 'undefined') {
       config.enabledPath = false
     }
+    if (typeof config.point1 === 'undefined') {
+      config.point1 = {
+        x: 0,
+        y: 0,
+      }
+    }
+    if (typeof config.point2 === 'undefined') {
+      config.point2 = {
+        x: 0,
+        y: 0,
+      }
+    }
+    if (typeof config.speed === 'undefined') {
+      config.speed = 0
+    }
 
     return (
       <div className="turbulence-properties">
@@ -32,19 +47,19 @@ class PathProperties extends React.Component<IProps> {
           <FormGroup
             title={'Speed'}
             type={'text'}
-            value={[config.speed || 0]}
+            value={[config.speed]}
             updateProps={this.updateProps.bind(this, 'pathProperties-speed')}
           />
           <FormGroup
             title={'Point 1'}
             params={['X Point 1', 'Y Point 1']}
-            value={[(config.point1 && config.point1.x) || 0, (config.point1 && config.point1.y) || 0]}
+            value={[(config.point1 && config.point1.x), (config.point1 && config.point1.y)]}
             updateProps={this.updateProps.bind(this, 'pathProperties-point1')}
           />
           <FormGroup
             title={'Point 2'}
             params={['X Point 2', 'Y Point 2']}
-            value={[(config.point2 && config.point2.x) || 0, (config.point2 && config.point2.y) || 0]}
+            value={[(config.point2 && config.point2.x), (config.point2 && config.point2.y)]}
             updateProps={this.updateProps.bind(this, 'pathProperties-point2')}
           />
         </div>

@@ -18,6 +18,12 @@ class EmitDirectionProperties extends React.Component<IProps> {
     if (typeof config.enabled === 'undefined') {
       config.enabled = false
     }
+    if (typeof config.angle === 'undefined') {
+      config.angle = 0
+    }
+    if (typeof config.variance === 'undefined') {
+      config.variance = 0
+    }
 
     return (
       <div className="emit-direction-properties">
@@ -31,12 +37,12 @@ class EmitDirectionProperties extends React.Component<IProps> {
           </div>
           <FormGroup
             title={'Angle'}
-            value={[config.angle || 0]}
+            value={[config.angle]}
             updateProps={this.updateProps.bind(this, 'emitDirectionProperties-angle')}
           />
           <FormGroup
             title={'Variance'}
-            value={[config.variance || 0]}
+            value={[config.variance]}
             updateProps={this.updateProps.bind(this, 'emitDirectionProperties-variance')}
           />
         </div>

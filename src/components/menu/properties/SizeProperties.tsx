@@ -32,23 +32,23 @@ class SizeProperties extends React.Component<IProps> {
           <FormGroup
             title={'Size Start'}
             params={['X Size Start', 'Y Size Start']}
-            value={[(config.sizeStart && config.sizeStart.x) || 0, (config.sizeStart && config.sizeStart.y) || 1]}
+            value={[(config.sizeStart && config.sizeStart.x), (config.sizeStart && config.sizeStart.y)]}
             updateProps={this.updateProps.bind(this, 'sizeProperties-sizeStart')}
           />
           <FormGroup
             title={'Start Variance'}
-            value={[config.startVariance || 0]}
+            value={[config.startVariance]}
             updateProps={this.updateProps.bind(this, 'sizeProperties-startVariance')}
           />
           <FormGroup
             title={'Size End'}
             params={['X Size End', 'Y Size End']}
-            value={[(config.sizeEnd && config.sizeEnd.x) || 0, (config.sizeEnd && config.sizeEnd.y) || 0]}
+            value={[(config.sizeEnd && config.sizeEnd.x), (config.sizeEnd && config.sizeEnd.y)]}
             updateProps={this.updateProps.bind(this, 'sizeProperties-sizeEnd')}
           />
           <FormGroup
             title={'End Variance'}
-            value={[config.endVariance || 0]}
+            value={[config.endVariance]}
             updateProps={this.updateProps.bind(this, 'sizeProperties-endVariance')}
           />
         </div>

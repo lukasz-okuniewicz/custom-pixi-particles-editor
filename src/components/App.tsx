@@ -699,7 +699,7 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.resize()
-        })
+        }, 100)
         break
       case 'particle-images':
         const loader = Loader.shared

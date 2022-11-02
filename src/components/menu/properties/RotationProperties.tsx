@@ -18,6 +18,12 @@ class RotationProperties extends React.Component<IProps> {
     if (typeof config.enabled === 'undefined') {
       config.enabled = false
     }
+    if (typeof config.rotation === 'undefined') {
+      config.rotation = 0
+    }
+    if (typeof config.variance === 'undefined') {
+      config.variance = 0
+    }
 
     return (
       <div className="rotation-properties">
@@ -31,12 +37,12 @@ class RotationProperties extends React.Component<IProps> {
           </div>
           <FormGroup
             title={'Rotation'}
-            value={[config.rotation || 0]}
+            value={[config.rotation]}
             updateProps={this.updateProps.bind(this, 'rotationProperties-rotation')}
           />
           <FormGroup
             title={'Variance'}
-            value={[config.variance || 0]}
+            value={[config.variance]}
             updateProps={this.updateProps.bind(this, 'rotationProperties-variance')}
           />
         </div>

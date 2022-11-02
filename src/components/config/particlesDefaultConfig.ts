@@ -98,8 +98,8 @@ export default class ParticlesDefaultConfig {
             y: 500,
           },
           velocity: {
-            x: null,
-            y: null,
+            x: 0,
+            y: 0,
           },
           velocityVariance: {
             x: 500,
@@ -1233,7 +1233,7 @@ export default class ParticlesDefaultConfig {
         loop: true,
       },
     },
-    textures: ['coin'],
+    textures: ['coin_'],
   }
   fountain = {
     emitterConfig: {
@@ -1529,6 +1529,7 @@ export default class ParticlesDefaultConfig {
       emitController: {
         _maxParticles: 300,
         _emissionRate: 30,
+        _emitPerSecond: 0,
         name: 'RandomEmission',
       },
       duration: -1,
@@ -1624,6 +1625,7 @@ export default class ParticlesDefaultConfig {
         _maxParticles: 1000,
         _emissionRate: 200,
         _emitCounter: 0.0003099999999584468,
+        _emitPerSecond: 0,
         name: 'StandardEmission',
       },
       duration: 1.2,
@@ -2327,7 +2329,7 @@ export default class ParticlesDefaultConfig {
         loop: true,
       },
     },
-    textures: ['coin'],
+    textures: ['coin_'],
   }
   birds = {
     emitterConfig: {
@@ -2369,7 +2371,7 @@ export default class ParticlesDefaultConfig {
         loop: true,
       },
     },
-    textures: ['bird'],
+    textures: ['bird_'],
   }
   cigarette = {
     emitterConfig: {
@@ -2434,10 +2436,6 @@ export default class ParticlesDefaultConfig {
       emitController: { _maxParticles: 200, _maxLife: 1, _emitPerSecond: 300, _frames: 0, name: 'UniformEmission' },
       duration: -1,
       blendMode: 3,
-      animatedSprite: {
-        frameRate: 15 / 60,
-        loop: true,
-      },
     },
     textures: ['smoke01_white_blurred.png'],
   }
@@ -3323,6 +3321,6 @@ export default class ParticlesDefaultConfig {
         loop: true,
       },
     },
-    textures: ['coin'],
+    textures: ['coin_'],
   }
 }

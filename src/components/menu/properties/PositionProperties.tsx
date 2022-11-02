@@ -48,6 +48,9 @@ class PositionProperties extends React.Component<IProps> {
         y: 0,
       }
     }
+    if (typeof config.radius === 'undefined') {
+      config.radius = 0
+    }
 
     return (
       <div className="position-properties">
@@ -75,21 +78,21 @@ class PositionProperties extends React.Component<IProps> {
           </div>
           <FormGroup
             title={'Radius'}
-            value={[config.radius || 0]}
+            value={[config.radius]}
             updateProps={this.updateProps.bind(this, 'positionProperties-radius')}
           />
           <FormGroup
             title={'Position'}
             params={['X Position', 'Y Position']}
-            value={[(config.position && config.position.x) || 0, (config.position && config.position.y) || 0]}
+            value={[(config.position && config.position.x), (config.position && config.position.y)]}
             updateProps={this.updateProps.bind(this, 'positionProperties-position')}
           />
           <FormGroup
             title={'Position Variance'}
             params={['X Variance', 'Y Variance']}
             value={[
-              (config.positionVariance && config.positionVariance.x) || 0,
-              (config.positionVariance && config.positionVariance.y) || 0,
+              (config.positionVariance && config.positionVariance.x),
+              (config.positionVariance && config.positionVariance.y),
             ]}
             updateProps={this.updateProps.bind(this, 'positionProperties-positionVariance')}
           />
@@ -97,15 +100,15 @@ class PositionProperties extends React.Component<IProps> {
           <FormGroup
             title={'Velocity'}
             params={['X Velocity', 'Y Velocity']}
-            value={[(config.velocity && config.velocity.x) || 0, (config.velocity && config.velocity.y) || 0]}
+            value={[(config.velocity && config.velocity.x), (config.velocity && config.velocity.y)]}
             updateProps={this.updateProps.bind(this, 'positionProperties-velocity')}
           />
           <FormGroup
             title={'Velocity Variance'}
             params={['X Velocity Variance', 'Y Velocity Variance']}
             value={[
-              (config.velocityVariance && config.velocityVariance.x) || 0,
-              (config.velocityVariance && config.velocityVariance.y) || 0,
+              (config.velocityVariance && config.velocityVariance.x),
+              (config.velocityVariance && config.velocityVariance.y),
             ]}
             updateProps={this.updateProps.bind(this, 'positionProperties-velocityVariance')}
           />
@@ -114,8 +117,8 @@ class PositionProperties extends React.Component<IProps> {
             title={'Gravity/Acceleration'}
             params={['X Gravity', 'Y Gravity']}
             value={[
-              (config.acceleration && config.acceleration.x) || 0,
-              (config.acceleration && config.acceleration.y) || 0,
+              (config.acceleration && config.acceleration.x),
+              (config.acceleration && config.acceleration.y),
             ]}
             updateProps={this.updateProps.bind(this, 'positionProperties-acceleration')}
           />
@@ -123,8 +126,8 @@ class PositionProperties extends React.Component<IProps> {
             title={'Gravity Variance'}
             params={['X Gravity Variance', 'Y Gravity Variance']}
             value={[
-              (config.accelerationVariance && config.accelerationVariance.x) || 0,
-              (config.accelerationVariance && config.accelerationVariance.y) || 0,
+              (config.accelerationVariance && config.accelerationVariance.x),
+              (config.accelerationVariance && config.accelerationVariance.y),
             ]}
             updateProps={this.updateProps.bind(this, 'positionProperties-accelerationVariance')}
           />
@@ -139,15 +142,15 @@ class PositionProperties extends React.Component<IProps> {
               <FormGroup
                 title={'Sine X Value'}
                 params={['Value 1', 'Value 2']}
-                value={[(config.sinXVal && config.sinXVal.x) || 0, (config.sinXVal && config.sinXVal.y) || 0]}
+                value={[(config.sinXVal && config.sinXVal.x), (config.sinXVal && config.sinXVal.y)]}
                 updateProps={this.updateProps.bind(this, 'positionProperties-sinXVal')}
               />
               <FormGroup
                 title={'Sine X Value Variance'}
                 params={['Value 1 Variance', 'Value 2 Variance']}
                 value={[
-                  (config.sinXValVariance && config.sinXValVariance.x) || 0,
-                  (config.sinXValVariance && config.sinXValVariance.y) || 0,
+                  (config.sinXValVariance && config.sinXValVariance.x),
+                  (config.sinXValVariance && config.sinXValVariance.y),
                 ]}
                 updateProps={this.updateProps.bind(this, 'positionProperties-sinXValVariance')}
               />
@@ -164,15 +167,15 @@ class PositionProperties extends React.Component<IProps> {
               <FormGroup
                 title={'Sine Y Value'}
                 params={['Value 1', 'Value 2']}
-                value={[(config.sinYVal && config.sinYVal.x) || 0, (config.sinYVal && config.sinYVal.y) || 0]}
+                value={[(config.sinYVal && config.sinYVal.x), (config.sinYVal && config.sinYVal.y)]}
                 updateProps={this.updateProps.bind(this, 'positionProperties-sinYVal')}
               />
               <FormGroup
                 title={'Sine Y Value Variance'}
                 params={['Value 1 Variance', 'Value 2 Variance']}
                 value={[
-                  (config.sinYValVariance && config.sinYValVariance.x) || 0,
-                  (config.sinYValVariance && config.sinYValVariance.y) || 0,
+                  (config.sinYValVariance && config.sinYValVariance.x),
+                  (config.sinYValVariance && config.sinYValVariance.y),
                 ]}
                 updateProps={this.updateProps.bind(this, 'positionProperties-sinYValVariance')}
               />

@@ -22,12 +22,12 @@ class LifeProperties extends React.Component<IProps> {
         <div className={`collapse ${isSubmenuVisible}`}>
           <FormGroup
             title={'Max Life Time'}
-            value={[config.maxLifeTime || 10]}
+            value={[config.maxLifeTime]}
             updateProps={this.updateProps.bind(this, 'lifeProperties-maxLifeTime')}
           />
           <FormGroup
             title={'Time Variance'}
-            value={[config.timeVariance || 0]}
+            value={[config.timeVariance]}
             updateProps={this.updateProps.bind(this, 'lifeProperties-timeVariance')}
           />
         </div>
