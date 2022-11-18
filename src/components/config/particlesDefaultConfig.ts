@@ -1994,8 +1994,14 @@ export default class ParticlesDefaultConfig {
         name: 'UniformEmission',
       },
       duration: 5,
+      animatedSprite: {
+        enabled: true,
+        frameRate: 15 / 60,
+        loop: true,
+        randomFrameStart: true,
+      },
     },
-    textures: ['Bubbles99.png'],
+    textures: ['coin_'],
   }
   snow = {
     emitterConfig: {
@@ -2369,6 +2375,7 @@ export default class ParticlesDefaultConfig {
         enabled: true,
         frameRate: 15 / 60,
         loop: true,
+        randomFrameStart: true,
       },
     },
     textures: ['bird_'],
@@ -3319,6 +3326,7 @@ export default class ParticlesDefaultConfig {
         enabled: true,
         frameRate: 15 / 60,
         loop: true,
+        randomFrameStart: true,
       },
     },
     textures: ['coin_'],

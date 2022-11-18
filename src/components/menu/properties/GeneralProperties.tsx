@@ -30,6 +30,9 @@ class GeneralProperties extends React.Component<IProps> {
     if (typeof config.emitterConfig.animatedSprite.loop === 'undefined') {
       config.emitterConfig.animatedSprite.loop = true
     }
+    if (typeof config.emitterConfig.animatedSprite.randomFrameStart === 'undefined') {
+      config.emitterConfig.animatedSprite.randomFrameStart = false
+    }
 
     return (
       <div className="general-properties">
@@ -82,6 +85,16 @@ class GeneralProperties extends React.Component<IProps> {
                     type={'checkbox'}
                     checked={config.emitterConfig.animatedSprite.loop}
                     onChange={this.handleChangeAnimatedSpriteLoop}
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Random Frame Start</div>
+                <div className="col-xs-8">
+                  <input
+                    type={'checkbox'}
+                    checked={config.emitterConfig.animatedSprite.randomFrameStart}
+                    onChange={this.handleChangeAnimatedSpriteRandomFrameStart}
                   />
                 </div>
               </div>
@@ -232,6 +245,10 @@ class GeneralProperties extends React.Component<IProps> {
 
   private handleChangeAnimatedSpriteLoop = (event) => {
     this.props.updateProps('global-animatedSpriteLoop', [0, event.target.checked])
+  }
+
+  private handleChangeAnimatedSpriteRandomFrameStart = (event) => {
+    this.props.updateProps('global-animatedSpriteRandomFrameStart', [0, event.target.checked])
   }
 
   private changeSubmenuVisibility() {

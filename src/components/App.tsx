@@ -11,6 +11,7 @@ import { gsap, Linear } from 'gsap'
 import { Application, Container, Loader, Sprite, Texture } from 'pixi.js'
 import { Simulate } from 'react-dom/test-utils'
 import load = Simulate.load
+import TestRenderer from "custom-pixi-particles/dist/lib/pixi/TestRenderer";
 
 class App extends React.Component {
   state = {
@@ -22,7 +23,7 @@ class App extends React.Component {
   private app: Application
   private bgContainer: Container
   private particlesContainer: Container
-  private particles: Renderer
+  private particles: TestRenderer
   private conf: ParticlesDefaultConfig = new ParticlesDefaultConfig()
   private orgConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
   private defaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
@@ -810,6 +811,26 @@ class App extends React.Component {
         this.newDefaultConfig.emitterConfig.animatedSprite.loop = props[1]
         this.defaultConfig.emitterConfig.animatedSprite.loop = props[1]
         break
+      case 'global-animatedSpriteRandomFrameStart':
+        this.newDefaultConfig.emitterConfig.animatedSpriteRandomFrameStart = props[1]
+        this.defaultConfig.emitterConfig.animatedSpriteRandomFrameStart = props[1]
+        if (!this.newDefaultConfig.emitterConfig.animatedSprite) {
+          this.newDefaultConfig.emitterConfig.animatedSprite = {
+            RandomFrameStart: false,
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        if (!this.defaultConfig.emitterConfig.animatedSprite) {
+          this.defaultConfig.emitterConfig.animatedSprite = {
+            RandomFrameStart: false,
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        this.newDefaultConfig.emitterConfig.animatedSprite.randomFrameStart = props[1]
+        this.defaultConfig.emitterConfig.animatedSprite.randomFrameStart = props[1]
+        break
       case 'global-blendMode':
         this.newDefaultConfig.emitterConfig.blendMode = props[1]
         this.defaultConfig.emitterConfig.blendMode = props[1]
@@ -880,6 +901,7 @@ class App extends React.Component {
 
     if (this.activeEffect === 'campFire' || this.activeEffect === 'campFireTurbulence') {
       const campfireSparklesConfig = JSON.parse(JSON.stringify(this.conf.campFireSparkles))
+      // @ts-ignore
       const particles = this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
       particles.play()
     }
@@ -896,8 +918,9 @@ class App extends React.Component {
   }
 
   private createParticles(): Renderer {
-    this.particles = customPixiParticles.create(this.defaultConfig)
+    this.particles = customPixiParticles.createTest(this.defaultConfig)
     this.particles.play()
+    // @ts-ignore
     return this.particlesContainer.addChild(this.particles)
   }
 
