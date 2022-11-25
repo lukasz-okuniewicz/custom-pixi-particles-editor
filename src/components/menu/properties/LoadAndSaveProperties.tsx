@@ -56,6 +56,7 @@ class LoadAndSaveProperties extends React.Component<IProps> {
   }
 
   private loadConfig = () => {
+    // @ts-ignore
     document.getElementById('load-config').click()
   }
 

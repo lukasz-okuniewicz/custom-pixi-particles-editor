@@ -1,22 +1,31 @@
 {
     "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "noImplicitAny": false,
-        "module": "commonjs",
-        "target": "es5",
         "allowJs": true,
+        "resolveJsonModule": true,
+        "module": "es6",
+        "noImplicitAny": false,
+        "target": "es6",
+        "sourceMap": true,
+        "lib": ["es6", "es5", "dom"],
+        "strictNullChecks": true,
+        "moduleResolution": "node",
+        "outDir": "./dist",
+        "jsx": "react",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "noUnusedLocals": false,
-        "moduleResolution": "node",
-        "jsx": "react",
-        "resolveJsonModule": true,
-        "lib": ["es5", "es6", "dom"]
+        "declaration": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true
     },
     "include": [
         "./src/**/*"
     ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ],
+    "types": ["pixi.js"],
     "awesomeTypescriptLoaderOptions": {
         "reportFiles": [
             "./src/**/*"

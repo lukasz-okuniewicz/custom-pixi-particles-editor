@@ -1,4 +1,4 @@
-import { BLEND_MODES } from 'pixi.js'
+import { BLEND_MODES } from 'pixi.js-legacy'
 import * as React from 'react'
 import { hot } from 'react-hot-loader'
 import FormGroup from '../utils/FormGroup'
@@ -279,6 +279,7 @@ class GeneralProperties extends React.Component<IProps> {
     Array.from(files).forEach((file) => {
       const reader = new FileReader()
       reader.onload = () => {
+        // @ts-ignore
         images.push({ fileName: file.name, result: reader.result })
         loadedImages++
         if (loadedImages === files.length) {
@@ -297,6 +298,7 @@ class GeneralProperties extends React.Component<IProps> {
     Array.from(files).forEach((file) => {
       const reader = new FileReader()
       reader.onload = () => {
+        // @ts-ignore
         images.push(reader.result)
         loadedImages++
         if (loadedImages === files.length) {
@@ -316,14 +318,17 @@ class GeneralProperties extends React.Component<IProps> {
   }
 
   private loadBgImage = () => {
+    // @ts-ignore
     document.getElementById('load-bg-image').click()
   }
 
   private loadParticleImages = () => {
+    // @ts-ignore
     document.getElementById('load-particle-images').click()
   }
 
   private loadParticleFinishingImages = () => {
+    // @ts-ignore
     document.getElementById('load-particle-finishing-images').click()
   }
 }

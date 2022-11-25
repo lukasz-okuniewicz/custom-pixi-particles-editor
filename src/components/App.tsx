@@ -8,9 +8,7 @@ import { saveAs } from 'file-saver'
 import { customPixiParticles, Renderer } from 'custom-pixi-particles'
 import * as Stats from 'stats.js'
 import { gsap, Linear } from 'gsap'
-import { Application, Container, Loader, Sprite, Texture } from 'pixi.js'
-import { Simulate } from 'react-dom/test-utils'
-import load = Simulate.load
+import { Application, Container, Loader, Sprite, Texture } from 'pixi.js-legacy'
 import TestRenderer from "custom-pixi-particles/dist/lib/pixi/TestRenderer";
 
 class App extends React.Component {
@@ -594,6 +592,7 @@ class App extends React.Component {
         this.defaultConfig.emitterConfig.emitController._emissionRate = props[1]
         break
       case 'particlePredefinedEffect':
+        // @ts-ignore
         this.bgSprite = null
         this.bgContainer.removeChildren()
         props = props[1]
@@ -707,6 +706,7 @@ class App extends React.Component {
         const arrayOfTextures = []
         props[1].forEach((file) => {
           loader.add(file.fileName, file.result)
+          // @ts-ignore
           arrayOfTextures.push(file.fileName)
         })
         loader.load()
@@ -918,6 +918,7 @@ class App extends React.Component {
   }
 
   private createParticles(): Renderer {
+    console.log(111, Loader.shared.resources)
     this.particles = customPixiParticles.createTest(this.defaultConfig)
     this.particles.play()
     // @ts-ignore

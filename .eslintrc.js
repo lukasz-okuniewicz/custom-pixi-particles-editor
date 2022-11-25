@@ -22,8 +22,12 @@ module.exports = {
             version: "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
         }
     },
+    env: {
+        browser: true,
+        es6: true
+    },
     // Fine tune rules
     rules: {
         "@typescript-eslint/no-var-requires": 0
-    },
+    }
 };

@@ -55,7 +55,7 @@ class FormGroup extends React.Component<IProps> {
                   className={`form-control ${inputHidden ? 'hidden' : ''}`}
                   type={type}
                   step="0.1"
-                  value={value[0]}
+                  value={value![0]}
                   onChange={this.handleChange.bind(this, 0)}
                 />
                 <span className="tooltiptext">{params[0]}</span>
@@ -65,7 +65,7 @@ class FormGroup extends React.Component<IProps> {
                   className={`form-control ${inputHidden ? 'hidden' : ''}`}
                   type={type}
                   step="0.1"
-                  value={value[1]}
+                  value={value![1]}
                   onChange={this.handleChange.bind(this, 1)}
                 />
                 <span className="tooltiptext">{params[1]}</span>
@@ -78,10 +78,10 @@ class FormGroup extends React.Component<IProps> {
                 className={`form-control ${inputHidden ? 'hidden' : ''}`}
                 type={type}
                 step="0.1"
-                value={value[0]}
+                value={value![0]}
                 onChange={this.handleChange.bind(this, 0)}
               />
-              {color ? <ColorPicker color={value[0]} colorChanged={this.colorChanged} /> : ''}
+              {color ? <ColorPicker color={value![0]} colorChanged={this.colorChanged} /> : ''}
             </div>
           )}
         </div>
