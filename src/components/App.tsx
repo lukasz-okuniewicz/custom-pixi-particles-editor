@@ -62,6 +62,7 @@ class App extends React.Component {
     loader.onComplete.add((x) => {
       this.createParticles()
       this.resize()
+      this.detectMouseMove();
     })
 
     window.addEventListener('resize', this.resize.bind(this, true))
@@ -811,6 +812,9 @@ class App extends React.Component {
         this.newDefaultConfig.emitterConfig.animatedSprite.loop = props[1]
         this.defaultConfig.emitterConfig.animatedSprite.loop = props[1]
         break
+      case 'global-followMouse':
+        this.app.stage.interactive = props[1]
+        break
       case 'global-animatedSpriteRandomFrameStart':
         this.newDefaultConfig.emitterConfig.animatedSpriteRandomFrameStart = props[1]
         this.defaultConfig.emitterConfig.animatedSpriteRandomFrameStart = props[1]
@@ -853,7 +857,7 @@ class App extends React.Component {
         this.defaultConfig.enabledPath = props[1]
         break
       case 'pathProperties-speed':
-        this.newDefaultConfig.speed = props[1]
+        this.newDefaultConfig.speed = parseFloat(props[1])
         this.defaultConfig.speed = parseFloat(props[1])
         break
       case 'pathProperties-point1':
@@ -862,16 +866,18 @@ class App extends React.Component {
             x: 0,
             y: 0,
           }
+        }
+        if (!this.defaultConfig.point1) {
           this.defaultConfig.point1 = {
             x: 0,
             y: 0,
           }
         }
         if (props[0] === 0) {
-          this.newDefaultConfig.point1.x = props[1]
+          this.newDefaultConfig.point1.x = parseFloat(props[1])
           this.defaultConfig.point1.x = parseFloat(props[1])
         } else {
-          this.newDefaultConfig.point1.y = props[1]
+          this.newDefaultConfig.point1.y = parseFloat(props[1])
           this.defaultConfig.point1.y = parseFloat(props[1])
         }
         break
@@ -881,16 +887,18 @@ class App extends React.Component {
             x: 0,
             y: 0,
           }
+        }
+        if (!this.defaultConfig.point2) {
           this.defaultConfig.point2 = {
             x: 0,
             y: 0,
           }
         }
         if (props[0] === 0) {
-          this.newDefaultConfig.point2.x = props[1]
+          this.newDefaultConfig.point2.x = parseFloat(props[1])
           this.defaultConfig.point2.x = parseFloat(props[1])
         } else {
-          this.newDefaultConfig.point2.y = props[1]
+          this.newDefaultConfig.point2.y = parseFloat(props[1])
           this.defaultConfig.point2.y = parseFloat(props[1])
         }
         break
@@ -918,7 +926,6 @@ class App extends React.Component {
   }
 
   private createParticles(): Renderer {
-    console.log(111, Loader.shared.resources)
     this.particles = customPixiParticles.createTest(this.defaultConfig)
     this.particles.play()
     // @ts-ignore
@@ -1185,6 +1192,20 @@ class App extends React.Component {
         },
       })
     }
+  }
+
+  private detectMouseMove() {
+    const content = document.getElementsByClassName('content')[0]
+    this.app.stage.on('mousemove', (e) => {
+      const finalInnerWidth = content.clientWidth
+      const finalInnerHeight = content.clientHeight
+      const x = -(finalInnerWidth / 2 - e.data.global.x)
+      const y = -(finalInnerHeight / 2 - e.data.global.y)
+      const config = this.particles.emitter.getParser().write();
+      config.behaviours[1].position.x = x;
+      config.behaviours[1].position.y = y;
+      this.particles.updateConfig(config)
+    });
   }
 }
 

@@ -30,23 +30,27 @@ class SizeProperties extends React.Component<IProps> {
             </div>
           </div>
           <FormGroup
+              type={'number'}
             title={'Size Start'}
             params={['X Size Start', 'Y Size Start']}
             value={[(config.sizeStart && config.sizeStart.x), (config.sizeStart && config.sizeStart.y)]}
             updateProps={this.updateProps.bind(this, 'sizeProperties-sizeStart')}
           />
           <FormGroup
+              type={'number'}
             title={'Start Variance'}
             value={[config.startVariance]}
             updateProps={this.updateProps.bind(this, 'sizeProperties-startVariance')}
           />
           <FormGroup
+              type={'number'}
             title={'Size End'}
             params={['X Size End', 'Y Size End']}
             value={[(config.sizeEnd && config.sizeEnd.x), (config.sizeEnd && config.sizeEnd.y)]}
             updateProps={this.updateProps.bind(this, 'sizeProperties-sizeEnd')}
           />
           <FormGroup
+              type={'number'}
             title={'End Variance'}
             value={[config.endVariance]}
             updateProps={this.updateProps.bind(this, 'sizeProperties-endVariance')}

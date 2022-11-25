@@ -36,11 +36,15 @@ class RotationProperties extends React.Component<IProps> {
             </div>
           </div>
           <FormGroup
+              type={'number'}
+              step={'1'}
             title={'Rotation'}
             value={[config.rotation]}
             updateProps={this.updateProps.bind(this, 'rotationProperties-rotation')}
           />
           <FormGroup
+              type={'number'}
+              step={'1'}
             title={'Variance'}
             value={[config.variance]}
             updateProps={this.updateProps.bind(this, 'rotationProperties-variance')}

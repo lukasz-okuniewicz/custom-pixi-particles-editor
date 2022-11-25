@@ -36,11 +36,13 @@ class EmitDirectionProperties extends React.Component<IProps> {
             </div>
           </div>
           <FormGroup
+            type={'number'}
             title={'Angle'}
             value={[config.angle]}
             updateProps={this.updateProps.bind(this, 'emitDirectionProperties-angle')}
           />
           <FormGroup
+            type={'number'}
             title={'Variance'}
             value={[config.variance]}
             updateProps={this.updateProps.bind(this, 'emitDirectionProperties-variance')}

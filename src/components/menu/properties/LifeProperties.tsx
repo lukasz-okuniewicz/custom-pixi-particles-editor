@@ -21,11 +21,13 @@ class LifeProperties extends React.Component<IProps> {
         <legend onClick={this.changeSubmenuVisibility.bind(this)}>Particle Properties</legend>
         <div className={`collapse ${isSubmenuVisible}`}>
           <FormGroup
+              type={'number'}
             title={'Max Life Time'}
             value={[config.maxLifeTime]}
             updateProps={this.updateProps.bind(this, 'lifeProperties-maxLifeTime')}
           />
           <FormGroup
+              type={'number'}
             title={'Time Variance'}
             value={[config.timeVariance]}
             updateProps={this.updateProps.bind(this, 'lifeProperties-timeVariance')}

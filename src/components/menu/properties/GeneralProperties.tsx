@@ -39,6 +39,17 @@ class GeneralProperties extends React.Component<IProps> {
         <legend onClick={this.changeSubmenuVisibility.bind(this)}>General Properties</legend>
         <div className={`collapse ${isSubmenuVisible}`}>
           <div className="form-group">
+            <div className="col-xs-4 form-label">Follow Mouse</div>
+            <div className="col-xs-8">
+              <input
+                  type={'checkbox'}
+                  checked={config.followMouse}
+                  onChange={this.handleChangeFollowMouse}
+              />
+            </div>
+          </div>
+          <hr />
+          <div className="form-group">
             <div className="col-xs-4 form-label">Particle Images</div>
             <div className="col-xs-8">
               <button className="btn btn-default btn-block" onClick={this.loadParticleImages}>
@@ -241,6 +252,10 @@ class GeneralProperties extends React.Component<IProps> {
 
   private handleChangeAnimatedSprite = (event) => {
     this.props.updateProps('global-animatedSprite', [0, event.target.checked])
+  }
+
+  private handleChangeFollowMouse = (event) => {
+    this.props.updateProps('global-followMouse', [0, event.target.checked])
   }
 
   private handleChangeAnimatedSpriteLoop = (event) => {

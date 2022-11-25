@@ -46,17 +46,19 @@ class PathProperties extends React.Component<IProps> {
           </div>
           <FormGroup
             title={'Speed'}
-            type={'text'}
+            type={'number'}
             value={[config.speed]}
             updateProps={this.updateProps.bind(this, 'pathProperties-speed')}
           />
           <FormGroup
+              type={'number'}
             title={'Point 1'}
             params={['X Point 1', 'Y Point 1']}
             value={[(config.point1 && config.point1.x), (config.point1 && config.point1.y)]}
             updateProps={this.updateProps.bind(this, 'pathProperties-point1')}
           />
           <FormGroup
+              type={'number'}
             title={'Point 2'}
             params={['X Point 2', 'Y Point 2']}
             value={[(config.point2 && config.point2.x), (config.point2 && config.point2.y)]}

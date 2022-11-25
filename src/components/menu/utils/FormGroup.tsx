@@ -6,6 +6,7 @@ export interface IProps {
   title: string
   updateProps?: any
   type?: string
+  step?: string
   value?: string[] | number[]
   params?: string[]
   color?: boolean
@@ -38,10 +39,13 @@ class FormGroup extends React.Component<IProps> {
 
   public render() {
     const { title, params, color, inputHidden, value } = this.props
-    let { type } = this.props
+    let { type, step } = this.props
 
     if (!type) {
       type = 'text'
+    }
+    if (!step) {
+      step = '0.1'
     }
 
     return (
@@ -54,7 +58,7 @@ class FormGroup extends React.Component<IProps> {
                 <input
                   className={`form-control ${inputHidden ? 'hidden' : ''}`}
                   type={type}
-                  step="0.1"
+                  step={step}
                   value={value![0]}
                   onChange={this.handleChange.bind(this, 0)}
                 />
@@ -64,7 +68,7 @@ class FormGroup extends React.Component<IProps> {
                 <input
                   className={`form-control ${inputHidden ? 'hidden' : ''}`}
                   type={type}
-                  step="0.1"
+                  step={step}
                   value={value![1]}
                   onChange={this.handleChange.bind(this, 1)}
                 />
@@ -77,7 +81,7 @@ class FormGroup extends React.Component<IProps> {
                 ref={this.input}
                 className={`form-control ${inputHidden ? 'hidden' : ''}`}
                 type={type}
-                step="0.1"
+                step={step}
                 value={value![0]}
                 onChange={this.handleChange.bind(this, 0)}
               />
