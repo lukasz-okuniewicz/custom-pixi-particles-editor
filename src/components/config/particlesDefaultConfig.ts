@@ -3331,4 +3331,130 @@ export default class ParticlesDefaultConfig {
     },
     textures: ['coin_'],
   }
+  test1 = {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 10000,
+          enabled: true,
+          maxLifeTime: 0.3,
+          timeVariance: 0.3,
+          name: 'LifeBehaviour',
+        },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Rectangle',
+          radius: 0,
+          sinX: false,
+          sinY: false,
+          sinXVal: {
+            x: 0,
+            y: 0,
+          },
+          sinYVal: {
+            x: 0,
+            y: 0,
+          },
+          sinXValVariance: {
+            x: 0,
+            y: 0,
+          },
+          sinYValVariance: {
+            x: 0,
+            y: 0,
+          },
+          position: {
+            x: 177,
+            y: 300,
+          },
+          positionVariance: {
+            x: 50,
+            y: 50,
+          },
+          velocity: {
+            x: 0,
+            y: 0,
+          },
+          velocityVariance: {
+            x: 100,
+            y: 100,
+          },
+          acceleration: {
+            x: 5,
+            y: 0,
+          },
+          accelerationVariance: {
+            x: 0,
+            y: 0,
+          },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: {
+            x: 0.7,
+            y: 0.7,
+          },
+          sizeEnd: {
+            x: 0,
+            y: 0,
+          },
+          startVariance: 0.3,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          start: {
+            _r: 250,
+            _g: 250,
+            _b: 7,
+            _alpha: 1,
+          },
+          end: {
+            _r: 255,
+            _g: 255,
+            _b: 255,
+            _alpha: 1,
+          },
+          startVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 0,
+          },
+          endVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 0,
+          },
+          sinus: false,
+          name: 'ColorBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          rotation: 2,
+          variance: 3,
+          name: 'RotationBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 200,
+        _maxLife: 1,
+        _emitPerSecond: 2000,
+        _frames: 0,
+        name: 'UniformEmission',
+      },
+      duration: -1,
+      alpha: 1,
+      blendMode: 0,
+    },
+    textures: ['coin_'],
+  }
 }

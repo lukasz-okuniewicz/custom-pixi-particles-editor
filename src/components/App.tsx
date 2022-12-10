@@ -59,7 +59,7 @@ class App extends React.Component {
     loader.add('cigarette', 'assets/img/backgrounds/cigarette.jpg')
     loader.add('blackHole', 'assets/img/backgrounds/blackHole.jpg')
     loader.load()
-    loader.onComplete.add((x) => {
+    loader.onComplete.once((x) => {
       this.createParticles()
       this.resize()
       this.detectMouseMove();
@@ -689,41 +689,68 @@ class App extends React.Component {
         this.resize()
         break
       case 'bg-image':
-        this.bgContainer.removeChildren()
-        const bgTexture = Texture.from(props[1])
-        const sprite = new Sprite(bgTexture)
-        this.bgSprite = sprite
-        this.bgContainer.addChild(sprite)
-        setTimeout(() => {
+        const loader2 = Loader.shared
+        if (!loader2.resources[props[1].fileName]) {
+          loader2.add(props[1].fileName, props[1].result)
+          loader2.load()
+          loader2.onComplete.once((x) => {
+            this.bgContainer.removeChildren()
+            const bgTexture = Texture.from(props[1].fileName)
+            const sprite = new Sprite(bgTexture)
+            this.bgSprite = sprite
+            this.bgContainer.addChild(sprite)
+            this.bgSpriteSize = {
+              w: sprite.width,
+              h: sprite.height,
+            }
+            this.resize()
+          })
+        } else {
+          this.bgContainer.removeChildren()
+          const bgTexture = Texture.from(props[1].fileName)
+          const sprite = new Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgContainer.addChild(sprite)
           this.bgSpriteSize = {
             w: sprite.width,
             h: sprite.height,
           }
           this.resize()
-        }, 100)
+        }
         break
       case 'particle-images':
         const loader = Loader.shared
         const arrayOfTextures = []
+
+        let howManyToLoad = 0;
         props[1].forEach((file) => {
-          loader.add(file.fileName, file.result)
           // @ts-ignore
           arrayOfTextures.push(file.fileName)
-        })
-        loader.load()
-        loader.onComplete.once((x) => {
-          if (
-            props[1][0].result.indexOf('data:application/octet-stream;') !== -1 ||
-            props[1][0].result.indexOf('data:application/json;') !== -1
-          ) {
-            this.newDefaultConfig.textures = props[1]
-            this.defaultConfig.textures = props[1]
+          if (!loader.resources[file.fileName]) {
+            howManyToLoad++;
+            loader.add(file.fileName, file.result)
           } else {
             this.newDefaultConfig.textures = arrayOfTextures
             this.defaultConfig.textures = arrayOfTextures
+            this.updateProps('refresh', [])
           }
-          this.updateProps('refresh', [])
         })
+        if (howManyToLoad > 0) {
+          loader.load()
+          loader.onComplete.once((x) => {
+            if (
+              props[1][0].result.indexOf('data:application/octet-stream;') !== -1 ||
+              props[1][0].result.indexOf('data:application/json;') !== -1
+            ) {
+              this.newDefaultConfig.textures = props[1]
+              this.defaultConfig.textures = props[1]
+            } else {
+              this.newDefaultConfig.textures = arrayOfTextures
+              this.defaultConfig.textures = arrayOfTextures
+            }
+            this.updateProps('refresh', [])
+          })
+        }
         break
       case 'particle-finishing-images':
         this.newDefaultConfig.finishingTextures = props[1]
@@ -753,17 +780,16 @@ class App extends React.Component {
             loop: true,
             frameRate: 0.25,
           }
-        } else {
-          this.newDefaultConfig.emitterConfig.animatedSprite = undefined
-        }
-        if (props[1]) {
           this.defaultConfig.emitterConfig.animatedSprite = {
             enabled: props[1],
             loop: true,
             frameRate: 0.25,
           }
         } else {
+          this.defaultConfig.emitterConfig.animatedSprite = undefined
           this.newDefaultConfig.emitterConfig.animatedSprite = undefined
+          this.newDefaultConfig.textures = [...this.orgConfig.textures]
+          this.defaultConfig.textures = [...this.orgConfig.textures]
         }
 
         break
@@ -836,8 +862,8 @@ class App extends React.Component {
         this.defaultConfig.emitterConfig.animatedSprite.randomFrameStart = props[1]
         break
       case 'global-blendMode':
-        this.newDefaultConfig.emitterConfig.blendMode = props[1]
-        this.defaultConfig.emitterConfig.blendMode = props[1]
+        this.newDefaultConfig.emitterConfig.blendMode = parseFloat(props[1])
+        this.defaultConfig.emitterConfig.blendMode = parseFloat(props[1])
         break
       case 'pathProperties-enabledPath':
         this.newDefaultConfig.speed = 0
