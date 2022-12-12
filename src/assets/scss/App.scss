@@ -22,3 +22,11 @@ body {
 canvas {
   transform: translateZ(0px);
 }
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 40px;
+}

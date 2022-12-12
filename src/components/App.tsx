@@ -9,10 +9,11 @@ import { customPixiParticles, Renderer } from 'custom-pixi-particles'
 import * as Stats from 'stats.js'
 import { gsap, Linear } from 'gsap'
 import { Application, Container, Loader, Sprite, Texture } from 'pixi.js-legacy'
-import TestRenderer from "custom-pixi-particles/dist/lib/pixi/TestRenderer";
+import TestRenderer from 'custom-pixi-particles/dist/lib/pixi/TestRenderer'
 
 class App extends React.Component {
   state = {
+    isLoading: true,
     name: '',
     props: {},
     defaultConfig: null,
@@ -21,14 +22,16 @@ class App extends React.Component {
   private app: Application
   private bgContainer: Container
   private particlesContainer: Container
+  private bgContainer2: Container
   private particles: TestRenderer
   private conf: ParticlesDefaultConfig = new ParticlesDefaultConfig()
-  private orgConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
-  private defaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
-  private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf.chaos))
+  private orgConfig: any = JSON.parse(JSON.stringify(this.conf.office))
+  private defaultConfig: any = JSON.parse(JSON.stringify(this.conf.office))
+  private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf.office))
   private tween: any
   private activeEffect: string
   private bgSprite: Sprite
+  private bgSprite2: Sprite
   private bgSpriteSize: { w: number; h: number }
 
   componentDidMount() {
@@ -40,29 +43,95 @@ class App extends React.Component {
     this.app = new Application({ backgroundColor: 0 })
     // @ts-ignore
     window.app = this.app
-    document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
+
     this.app.ticker.add(() => {
       stats.begin()
       stats.end()
     })
 
     this.bgContainer = new Container()
+    this.bgContainer.name = "bgContainer"
     this.app.stage.addChild(this.bgContainer)
     this.particlesContainer = new Container()
+    this.particlesContainer.name = "particlesContainer"
     this.app.stage.addChild(this.particlesContainer)
+    this.bgContainer2 = new Container()
+    this.bgContainer2.name = "bgContainer2"
+    this.app.stage.addChild(this.bgContainer2)
 
     const loader = Loader.shared
     loader.add('assets/img/images.json')
+    loader.add('assets/img/multipacked-0.json')
     loader.add('autumn', 'assets/img/backgrounds/autumn.jpg')
     loader.add('campFire', 'assets/img/backgrounds/campfire.jpg')
     loader.add('birds', 'assets/img/backgrounds/birds.jpg')
     loader.add('cigarette', 'assets/img/backgrounds/cigarette.jpg')
     loader.add('blackHole', 'assets/img/backgrounds/blackHole.jpg')
+    loader.add('face', 'assets/img/backgrounds/face.jpeg')
+    loader.add('office1', 'assets/img/backgrounds/office1.png')
+    loader.add('office2', 'assets/img/backgrounds/office2.png')
     loader.load()
     loader.onComplete.once((x) => {
+      this.setState({
+        isLoading: false,
+      })
+      document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
+      this.removeLoader()
       this.createParticles()
       this.resize()
-      this.detectMouseMove();
+      this.detectMouseMove()
+      this.forceUpdate()
+
+      const bgTexture = Texture.from('office2')
+      const sprite = new Sprite(bgTexture)
+      this.bgSprite = sprite
+      this.bgSpriteSize = {
+        w: sprite.width,
+        h: sprite.height,
+      }
+      this.bgContainer.addChild(sprite)
+
+      const bgTexture2 = Texture.from('office1')
+      const sprite2 = new Sprite(bgTexture2)
+      this.bgSprite2 = sprite2
+      this.bgContainer2.addChild(sprite2)
+
+      const campFire = JSON.parse(JSON.stringify(this.conf.campFire2))
+      // @ts-ignore
+      const particles = this.particlesContainer.addChild(customPixiParticles.create(campFire))
+      particles.position.x = 400
+      particles.position.y = 30
+      particles.play()
+
+      const campFireSparkles = JSON.parse(JSON.stringify(this.conf.campFireSparkles2))
+      // @ts-ignore
+      const particles2 = this.particlesContainer.addChild(customPixiParticles.create(campFireSparkles))
+      particles2.position.x = 400
+      particles2.position.y = 30
+      particles2.play()
+
+      const campFire3 = JSON.parse(JSON.stringify(this.conf.campFire3))
+      // @ts-ignore
+      const particles3 = this.bgSprite2.addChild(customPixiParticles.create(campFire3))
+      particles3.position.x = 870
+      particles3.position.y = 182
+      particles3.play()
+
+      const campFire4 = JSON.parse(JSON.stringify(this.conf.campFire3))
+      // @ts-ignore
+      const particles4 = this.bgSprite2.addChild(customPixiParticles.create(campFire4))
+      particles4.position.x = 886
+      particles4.position.y = 193
+      particles4.play()
+
+      const campFire5 = JSON.parse(JSON.stringify(this.conf.campFire3))
+      // @ts-ignore
+      const particles5 = this.bgSprite2.addChild(customPixiParticles.create(campFire5))
+      particles5.position.x = 897
+      particles5.position.y = 230
+      particles5.play()
+
+      this.resize()
     })
 
     window.addEventListener('resize', this.resize.bind(this, true))
@@ -74,7 +143,14 @@ class App extends React.Component {
   }
 
   render() {
-    const { defaultConfig } = this.state
+    const { defaultConfig, isLoading } = this.state
+    if (isLoading) {
+      return (
+        <div className={"loading"}>
+          Loading...
+        </div>
+      )
+    }
     return (
       <>
         <Content />
@@ -592,10 +668,27 @@ class App extends React.Component {
         this.newDefaultConfig.emitterConfig.emitController._emissionRate = props[1]
         this.defaultConfig.emitterConfig.emitController._emissionRate = props[1]
         break
+      case 'particlePredefinedImage':
+        this.newDefaultConfig.particlePredefinedImage = props[1]
+        this.defaultConfig.particlePredefinedImage = props[1]
+        this.newDefaultConfig.textures = [props[1]]
+        this.defaultConfig.textures = [props[1]]
+        this.resize()
+        break
       case 'particlePredefinedEffect':
         // @ts-ignore
         this.bgSprite = null
+        // @ts-ignore
+        this.bgSprite2 = null
         this.bgContainer.removeChildren()
+        this.bgContainer2.removeChildren()
+        if (this.bgSprite) {
+          this.bgSprite.removeChildren()
+        }
+        if (this.bgSprite2) {
+          this.bgSprite2.removeChildren()
+        }
+
         props = props[1]
         this.activeEffect = props
         this.orgConfig = JSON.parse(JSON.stringify(this.conf[props]))
@@ -616,6 +709,47 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.bgContainer.addChild(sprite)
+        } else if (props === 'magic8') {
+          const bgTexture = Texture.from('face')
+          const sprite = new Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+        } else if (props === 'magic9') {
+          const bgTexture = Texture.from('face')
+          const sprite = new Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+        } else if (props === 'magic10') {
+          const bgTexture = Texture.from('face')
+          const sprite = new Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+        } else if (props === 'office') {
+          const bgTexture = Texture.from('office2')
+          const sprite = new Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+
+          const bgTexture2 = Texture.from('office1')
+          const sprite2 = new Sprite(bgTexture2)
+          this.bgSprite2 = sprite2
+          this.bgContainer2.addChild(sprite2)
         } else if (props === 'sun2') {
           const bgTexture = Texture.from('blackHole')
           const sprite = new Sprite(bgTexture)
@@ -695,6 +829,13 @@ class App extends React.Component {
           loader2.load()
           loader2.onComplete.once((x) => {
             this.bgContainer.removeChildren()
+            this.bgContainer2.removeChildren()
+            if (this.bgSprite) {
+              this.bgSprite.removeChildren()
+            }
+            if (this.bgSprite2) {
+              this.bgSprite2.removeChildren()
+            }
             const bgTexture = Texture.from(props[1].fileName)
             const sprite = new Sprite(bgTexture)
             this.bgSprite = sprite
@@ -707,6 +848,13 @@ class App extends React.Component {
           })
         } else {
           this.bgContainer.removeChildren()
+          this.bgContainer2.removeChildren()
+          if (this.bgSprite) {
+            this.bgSprite.removeChildren()
+          }
+          if (this.bgSprite2) {
+            this.bgSprite2.removeChildren()
+          }
           const bgTexture = Texture.from(props[1].fileName)
           const sprite = new Sprite(bgTexture)
           this.bgSprite = sprite
@@ -722,12 +870,12 @@ class App extends React.Component {
         const loader = Loader.shared
         const arrayOfTextures = []
 
-        let howManyToLoad = 0;
+        let howManyToLoad = 0
         props[1].forEach((file) => {
           // @ts-ignore
           arrayOfTextures.push(file.fileName)
           if (!loader.resources[file.fileName]) {
-            howManyToLoad++;
+            howManyToLoad++
             loader.add(file.fileName, file.result)
           } else {
             this.newDefaultConfig.textures = arrayOfTextures
@@ -940,6 +1088,43 @@ class App extends React.Component {
       particles.play()
     }
 
+    if (this.activeEffect === 'office') {
+      const campFire = JSON.parse(JSON.stringify(this.conf.campFire2))
+      // @ts-ignore
+      const particles = this.particlesContainer.addChild(customPixiParticles.create(campFire))
+      particles.position.x = 400
+      particles.position.y = 30
+      particles.play()
+
+      const campFireSparkles = JSON.parse(JSON.stringify(this.conf.campFireSparkles2))
+      // @ts-ignore
+      const particles2 = this.particlesContainer.addChild(customPixiParticles.create(campFireSparkles))
+      particles2.position.x = 400
+      particles2.position.y = 30
+      particles2.play()
+
+      const campFire3 = JSON.parse(JSON.stringify(this.conf.campFire3))
+      // @ts-ignore
+      const particles3 = this.bgSprite2.addChild(customPixiParticles.create(campFire3))
+      particles3.position.x = 870
+      particles3.position.y = 182
+      particles3.play()
+
+      const campFire4 = JSON.parse(JSON.stringify(this.conf.campFire3))
+      // @ts-ignore
+      const particles4 = this.bgSprite2.addChild(customPixiParticles.create(campFire4))
+      particles4.position.x = 886
+      particles4.position.y = 193
+      particles4.play()
+
+      const campFire5 = JSON.parse(JSON.stringify(this.conf.campFire3))
+      // @ts-ignore
+      const particles5 = this.bgSprite2.addChild(customPixiParticles.create(campFire5))
+      particles5.position.x = 897
+      particles5.position.y = 230
+      particles5.play()
+    }
+
     this.createParticles()
 
     this.animateTween(this.activeEffect)
@@ -975,12 +1160,21 @@ class App extends React.Component {
         scale = finalInnerWidth / this.bgSpriteSize.w
         this.bgContainer.position.x = 0
         this.bgContainer.position.y = (finalInnerHeight - this.bgSpriteSize.h * scale) / 2
+        this.bgContainer2.position.x = 0
+        this.bgContainer2.position.y = (finalInnerHeight - this.bgSpriteSize.h * scale) / 2
       } else {
         scale = finalInnerHeight / this.bgSpriteSize.h
         this.bgContainer.position.x = (finalInnerWidth - this.bgSpriteSize.w * scale) / 2
         this.bgContainer.position.y = 0
+        this.bgContainer2.position.x = (finalInnerWidth - this.bgSpriteSize.w * scale) / 2
+        this.bgContainer2.position.y = 0
       }
-      this.bgSprite.scale.set(scale)
+      if (this.bgSprite) {
+        this.bgSprite.scale.set(scale)
+      }
+      if (this.bgSprite2) {
+        this.bgSprite2.scale.set(scale)
+      }
       this.particlesContainer.scale.set(scale)
     } else {
       this.particlesContainer.scale.set(1)
@@ -1227,12 +1421,14 @@ class App extends React.Component {
       const finalInnerHeight = content.clientHeight
       const x = -(finalInnerWidth / 2 - e.data.global.x)
       const y = -(finalInnerHeight / 2 - e.data.global.y)
-      const config = this.particles.emitter.getParser().write();
-      config.behaviours[1].position.x = x;
-      config.behaviours[1].position.y = y;
+      const config = this.particles.emitter.getParser().write()
+      config.behaviours[1].position.x = x
+      config.behaviours[1].position.y = y
       this.particles.updateConfig(config)
-    });
+    })
   }
+
+  private removeLoader() {}
 }
 
 declare let module: Record<string, unknown>

@@ -2,6 +2,7 @@ import { BLEND_MODES } from 'pixi.js-legacy'
 import * as React from 'react'
 import { hot } from 'react-hot-loader'
 import FormGroup from '../utils/FormGroup'
+import { Loader } from 'pixi.js-legacy'
 
 export interface IProps {
   config: any
@@ -38,6 +39,9 @@ class GeneralProperties extends React.Component<IProps> {
       config.emitterConfig.animatedSprite.animatedSpriteName = ''
     }
 
+    const textures: any = Loader.shared.resources['assets/img/multipacked-0.json'].textures
+    const textures2: any = Loader.shared.resources['assets/img/images.json'].textures
+
     if (test === 2) {
       return <div></div>
     } else {
@@ -52,6 +56,34 @@ class GeneralProperties extends React.Component<IProps> {
               </div>
             </div>
             <hr />
+            <div className="form-group">
+              <div className="col-xs-4 form-label">Predefined Particle Image</div>
+              <div className="col-xs-8">
+                <select
+                  className={'form-control'}
+                  value={config.particlePredefinedImage || config.textures[0]}
+                  onChange={this.handleChangePredefinedImage.bind(this, 0, 'particlePredefinedImage')}
+                >
+                  <option value={''}>Choose</option>;
+                  {textures &&
+                    Object.keys(textures).map((key) => {
+                      return (
+                        <option key={key} value={key}>
+                          {key}
+                        </option>
+                      )
+                    })}
+                  {textures2 &&
+                    Object.keys(textures2).map((key) => {
+                      return (
+                        <option key={key} value={key}>
+                          {key}
+                        </option>
+                      )
+                    })}
+                </select>
+              </div>
+            </div>
             <div className="form-group">
               <div className="col-xs-4 form-label">Particle Images</div>
               <div className="col-xs-8">
@@ -135,9 +167,24 @@ class GeneralProperties extends React.Component<IProps> {
               <div className="col-xs-8">
                 <select
                   className={'form-control'}
-                  value={config.particlePredefinedEffect || 'chaos'}
+                  value={config.particlePredefinedEffect || 'office'}
                   onChange={this.handleChangeEffect.bind(this, 0, 'particlePredefinedEffect')}
                 >
+                  <option value={'office'}>Office</option>
+                  <option value={'bloodHand'}>Blood Hand</option>
+                  <option value={'darkMagicSmoke'}>Dark Magic Smoke</option>
+                  <option value={'runes'}>Runes</option>
+                  <option value={'trail'}>Trail</option>
+                  <option value={'magic1'}>Magic 1</option>
+                  <option value={'magic2'}>Magic 2</option>
+                  <option value={'magic3'}>Magic 3</option>
+                  <option value={'magic4'}>Magic 4</option>
+                  <option value={'magic5'}>Magic 5</option>
+                  <option value={'magic6'}>Magic 6</option>
+                  <option value={'magic7'}>Magic 7</option>
+                  <option value={'magic8'}>Magic 8</option>
+                  <option value={'magic9'}>Magic 9</option>
+                  <option value={'magic10'}>Magic 10</option>
                   <option value={'chaos'}>Chaos</option>
                   <option value={'liquid'}>Liquid</option>
                   <option value={'explodingBubbles'}>Exploding Bubbles</option>
@@ -167,7 +214,7 @@ class GeneralProperties extends React.Component<IProps> {
                   <option value={'multiplier'}>Multiplier</option>
                   <option value={'fall'}>Fall</option>
                   <option value={'twist'}>Twist</option>
-                  <option value={'snow'}>Fall snow</option>
+                  <option value={'snow'}>Snow</option>
                   <option value={'counter'}>Counter</option>
                   <option value={'bubbles'}>Bubbles</option>
                   <option value={'flyingBubbles'}>Flying Bubbles</option>
@@ -182,7 +229,6 @@ class GeneralProperties extends React.Component<IProps> {
                   <option value={'fog'}>Fog</option>
                   <option value={'fallSingle'}>Fall Single</option>
                   <option value={'fallRainDrops'}>Fall Rain Drops</option>
-                  <option value={'test1'}>Test1</option>
                 </select>
               </div>
             </div>
@@ -247,6 +293,11 @@ class GeneralProperties extends React.Component<IProps> {
   }
 
   private handleChangeEffect(index: number, name: string, event) {
+    this.setState({ blendMode: event.target.value })
+    this.props.updateProps(name, [index, event.target.value])
+  }
+
+  private handleChangePredefinedImage(index: number, name: string, event) {
     this.setState({ blendMode: event.target.value })
     this.props.updateProps(name, [index, event.target.value])
   }
