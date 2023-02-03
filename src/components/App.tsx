@@ -25,14 +25,15 @@ class App extends React.Component {
   private bgContainer2: Container
   private particles: TestRenderer
   private conf: ParticlesDefaultConfig = new ParticlesDefaultConfig()
-  private orgConfig: any = JSON.parse(JSON.stringify(this.conf.office))
-  private defaultConfig: any = JSON.parse(JSON.stringify(this.conf.office))
-  private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf.office))
+  private activeEffect: string = 'office'
+  private orgConfig: any = JSON.parse(JSON.stringify(this.conf[this.activeEffect]))
+  private defaultConfig: any = JSON.parse(JSON.stringify(this.conf[this.activeEffect]))
+  private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf[this.activeEffect]))
   private tween: any
-  private activeEffect: string
   private bgSprite: Sprite
   private bgSprite2: Sprite
   private bgSpriteSize: { w: number; h: number }
+  private particlesArr: any[] = []
 
   componentDidMount() {
     const stats = new Stats()
@@ -44,19 +45,35 @@ class App extends React.Component {
     // @ts-ignore
     window.app = this.app
 
+    document.addEventListener('visibilitychange', (event) => {
+      if (document.visibilityState === 'visible') {
+        this.particlesArr.forEach((particle) => {
+          particle.pause(false)
+        })
+        this.particles.pause(false)
+        this.app.start()
+      } else {
+        this.particlesArr.forEach((particle) => {
+          particle.pause(true)
+        })
+        this.particles.pause(true)
+        this.app.stop()
+      }
+    })
+
     this.app.ticker.add(() => {
       stats.begin()
       stats.end()
     })
 
     this.bgContainer = new Container()
-    this.bgContainer.name = "bgContainer"
+    this.bgContainer.name = 'bgContainer'
     this.app.stage.addChild(this.bgContainer)
     this.particlesContainer = new Container()
-    this.particlesContainer.name = "particlesContainer"
+    this.particlesContainer.name = 'particlesContainer'
     this.app.stage.addChild(this.particlesContainer)
     this.bgContainer2 = new Container()
-    this.bgContainer2.name = "bgContainer2"
+    this.bgContainer2.name = 'bgContainer2'
     this.app.stage.addChild(this.bgContainer2)
 
     const loader = Loader.shared
@@ -76,62 +93,12 @@ class App extends React.Component {
         isLoading: false,
       })
       document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
-      this.removeLoader()
       this.createParticles()
       this.resize()
       this.detectMouseMove()
       this.forceUpdate()
 
-      const bgTexture = Texture.from('office2')
-      const sprite = new Sprite(bgTexture)
-      this.bgSprite = sprite
-      this.bgSpriteSize = {
-        w: sprite.width,
-        h: sprite.height,
-      }
-      this.bgContainer.addChild(sprite)
-
-      const bgTexture2 = Texture.from('office1')
-      const sprite2 = new Sprite(bgTexture2)
-      this.bgSprite2 = sprite2
-      this.bgContainer2.addChild(sprite2)
-
-      const campFire = JSON.parse(JSON.stringify(this.conf.campFire2))
-      // @ts-ignore
-      const particles = this.particlesContainer.addChild(customPixiParticles.create(campFire))
-      particles.position.x = 400
-      particles.position.y = 30
-      particles.play()
-
-      const campFireSparkles = JSON.parse(JSON.stringify(this.conf.campFireSparkles2))
-      // @ts-ignore
-      const particles2 = this.particlesContainer.addChild(customPixiParticles.create(campFireSparkles))
-      particles2.position.x = 400
-      particles2.position.y = 30
-      particles2.play()
-
-      const campFire3 = JSON.parse(JSON.stringify(this.conf.campFire3))
-      // @ts-ignore
-      const particles3 = this.bgSprite2.addChild(customPixiParticles.create(campFire3))
-      particles3.position.x = 870
-      particles3.position.y = 182
-      particles3.play()
-
-      const campFire4 = JSON.parse(JSON.stringify(this.conf.campFire3))
-      // @ts-ignore
-      const particles4 = this.bgSprite2.addChild(customPixiParticles.create(campFire4))
-      particles4.position.x = 886
-      particles4.position.y = 193
-      particles4.play()
-
-      const campFire5 = JSON.parse(JSON.stringify(this.conf.campFire3))
-      // @ts-ignore
-      const particles5 = this.bgSprite2.addChild(customPixiParticles.create(campFire5))
-      particles5.position.x = 897
-      particles5.position.y = 230
-      particles5.play()
-
-      this.resize()
+      this.createOffice()
     })
 
     window.addEventListener('resize', this.resize.bind(this, true))
@@ -145,11 +112,7 @@ class App extends React.Component {
   render() {
     const { defaultConfig, isLoading } = this.state
     if (isLoading) {
-      return (
-        <div className={"loading"}>
-          Loading...
-        </div>
-      )
+      return <div className={'loading'}>Loading...</div>
     }
     return (
       <>
@@ -736,20 +699,6 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.bgContainer.addChild(sprite)
-        } else if (props === 'office') {
-          const bgTexture = Texture.from('office2')
-          const sprite = new Sprite(bgTexture)
-          this.bgSprite = sprite
-          this.bgSpriteSize = {
-            w: sprite.width,
-            h: sprite.height,
-          }
-          this.bgContainer.addChild(sprite)
-
-          const bgTexture2 = Texture.from('office1')
-          const sprite2 = new Sprite(bgTexture2)
-          this.bgSprite2 = sprite2
-          this.bgContainer2.addChild(sprite2)
         } else if (props === 'sun2') {
           const bgTexture = Texture.from('blackHole')
           const sprite = new Sprite(bgTexture)
@@ -1078,6 +1027,10 @@ class App extends React.Component {
         break
     }
 
+    this.particlesArr.forEach((particle) => {
+      particle.stopImmediately()
+    })
+    this.particlesArr = []
     this.particles.stopImmediately()
     this.particlesContainer.removeChildren()
 
@@ -1086,43 +1039,11 @@ class App extends React.Component {
       // @ts-ignore
       const particles = this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
       particles.play()
+      this.particlesArr.push(particles)
     }
 
     if (this.activeEffect === 'office') {
-      const campFire = JSON.parse(JSON.stringify(this.conf.campFire2))
-      // @ts-ignore
-      const particles = this.particlesContainer.addChild(customPixiParticles.create(campFire))
-      particles.position.x = 400
-      particles.position.y = 30
-      particles.play()
-
-      const campFireSparkles = JSON.parse(JSON.stringify(this.conf.campFireSparkles2))
-      // @ts-ignore
-      const particles2 = this.particlesContainer.addChild(customPixiParticles.create(campFireSparkles))
-      particles2.position.x = 400
-      particles2.position.y = 30
-      particles2.play()
-
-      const campFire3 = JSON.parse(JSON.stringify(this.conf.campFire3))
-      // @ts-ignore
-      const particles3 = this.bgSprite2.addChild(customPixiParticles.create(campFire3))
-      particles3.position.x = 870
-      particles3.position.y = 182
-      particles3.play()
-
-      const campFire4 = JSON.parse(JSON.stringify(this.conf.campFire3))
-      // @ts-ignore
-      const particles4 = this.bgSprite2.addChild(customPixiParticles.create(campFire4))
-      particles4.position.x = 886
-      particles4.position.y = 193
-      particles4.play()
-
-      const campFire5 = JSON.parse(JSON.stringify(this.conf.campFire3))
-      // @ts-ignore
-      const particles5 = this.bgSprite2.addChild(customPixiParticles.create(campFire5))
-      particles5.position.x = 897
-      particles5.position.y = 230
-      particles5.play()
+      this.createOffice()
     }
 
     this.createParticles()
@@ -1428,7 +1349,79 @@ class App extends React.Component {
     })
   }
 
-  private removeLoader() {}
+  private createOffice() {
+    const bgTexture = Texture.from('office2')
+    const sprite = new Sprite(bgTexture)
+    this.bgSprite = sprite
+    this.bgSpriteSize = {
+      w: sprite.width,
+      h: sprite.height,
+    }
+    this.bgContainer.addChild(sprite)
+
+    const bgTexture2 = Texture.from('office1')
+    const sprite2 = new Sprite(bgTexture2)
+    this.bgSprite2 = sprite2
+    this.bgContainer2.addChild(sprite2)
+
+    const fog = JSON.parse(JSON.stringify(this.conf.fog2))
+    const particles7 = this.particlesContainer.addChild(customPixiParticles.create(fog))
+    particles7.play()
+    this.particlesArr.push(particles7)
+
+    const fallRainDrops = JSON.parse(JSON.stringify(this.conf.fallRainDrops2))
+    const particles10 = this.bgSprite2.addChild(customPixiParticles.create(fallRainDrops))
+    particles10.play()
+    this.particlesArr.push(particles10)
+
+    const hotCoffee = JSON.parse(JSON.stringify(this.conf.darkMagicSmoke2))
+    const particles8 = this.bgSprite2.addChild(customPixiParticles.create(hotCoffee))
+    particles8.play()
+    this.particlesArr.push(particles8)
+
+    const hotCoffee2 = JSON.parse(JSON.stringify(this.conf.darkMagicSmoke3))
+    const particles9 = this.bgSprite2.addChild(customPixiParticles.create(hotCoffee2))
+    particles9.play()
+    this.particlesArr.push(particles9)
+
+    const runes = JSON.parse(JSON.stringify(this.conf.trail2))
+    const particles6 = this.particlesContainer.addChild(customPixiParticles.create(runes))
+    particles6.play()
+    this.particlesArr.push(particles6)
+
+    const campFire = JSON.parse(JSON.stringify(this.conf.campFire2))
+    const particles = this.particlesContainer.addChild(customPixiParticles.create(campFire))
+    particles.play()
+    this.particlesArr.push(particles)
+
+    const campFireSparkles = JSON.parse(JSON.stringify(this.conf.campFireSparkles2))
+    const particles2 = this.particlesContainer.addChild(customPixiParticles.create(campFireSparkles))
+    particles2.play()
+    this.particlesArr.push(particles2)
+
+    const campFire3 = JSON.parse(JSON.stringify(this.conf.campFire3))
+    const particles3 = this.bgSprite2.addChild(customPixiParticles.create(campFire3))
+    particles3.position.x = 870
+    particles3.position.y = 182
+    particles3.play()
+    this.particlesArr.push(particles3)
+
+    const campFire4 = JSON.parse(JSON.stringify(this.conf.campFire3))
+    const particles4 = this.bgSprite2.addChild(customPixiParticles.create(campFire4))
+    particles4.position.x = 886
+    particles4.position.y = 193
+    particles4.play()
+    this.particlesArr.push(particles4)
+
+    const campFire5 = JSON.parse(JSON.stringify(this.conf.campFire3))
+    const particles5 = this.bgSprite2.addChild(customPixiParticles.create(campFire5))
+    particles5.position.x = 897
+    particles5.position.y = 230
+    particles5.play()
+    this.particlesArr.push(particles5)
+
+    this.resize()
+  }
 }
 
 declare let module: Record<string, unknown>

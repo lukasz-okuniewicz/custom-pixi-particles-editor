@@ -57,6 +57,76 @@ class GeneralProperties extends React.Component<IProps> {
             </div>
             <hr />
             <div className="form-group">
+              <div className="col-xs-4 form-label">Particle Effects</div>
+              <div className="col-xs-8">
+                <select
+                  className={'form-control'}
+                  value={config.particlePredefinedEffect || 'office'}
+                  onChange={this.handleChangeEffect.bind(this, 0, 'particlePredefinedEffect')}
+                >
+                  <option value={'office'}>Office</option>
+                  <option value={'bloodHand'}>Blood Hand</option>
+                  <option value={'darkMagicSmoke'}>Dark Magic Smoke</option>
+                  <option value={'runes'}>Runes</option>
+                  <option value={'trail'}>Trail</option>
+                  <option value={'magic1'}>Magic 1</option>
+                  <option value={'magic2'}>Magic 2</option>
+                  <option value={'magic3'}>Magic 3</option>
+                  <option value={'magic4'}>Magic 4</option>
+                  <option value={'magic5'}>Magic 5</option>
+                  <option value={'magic6'}>Magic 6</option>
+                  <option value={'magic7'}>Magic 7</option>
+                  <option value={'magic8'}>Magic 8</option>
+                  <option value={'magic9'}>Magic 9</option>
+                  <option value={'chaos'}>Chaos</option>
+                  <option value={'liquid'}>Liquid</option>
+                  <option value={'explodingBubbles'}>Exploding Bubbles</option>
+                  <option value={'fire'}>Fire</option>
+                  <option value={'fireWithTurbulence'}>Fire with Turbulence</option>
+                  <option value={'campFire'}>Camp Fire</option>
+                  <option value={'campFireTurbulence'}>Camp Fire with Turbulence</option>
+                  <option value={'flyingFire'}>Flying Fire</option>
+                  <option value={'meteor'}>Meteor</option>
+                  <option value={'ember'}>Ember</option>
+                  <option value={'emberWithTurbulence'}>Ember with Turbulence</option>
+                  <option value={'birds'}>Birds</option>
+                  <option value={'cigarette'}>Cigarette</option>
+                  <option value={'squareSmoke'}>Square smoke</option>
+                  <option value={'sun'}>Sun</option>
+                  <option value={'sun2'}>Sun 2</option>
+                  <option value={'water'}>Water</option>
+                  <option value={'waterTurbulence'}>Water with Turbulence</option>
+                  <option value={'coinShower'}>Coin Shower</option>
+                  <option value={'bigWin'}>Big Win</option>
+                  <option value={'coinsRing'}>Coins Ring</option>
+                  <option value={'firework'}>Firework</option>
+                  <option value={'explosion'}>Explosion</option>
+                  <option value={'fountain'}>Fountain</option>
+                  <option value={'flyingFountain'}>Flying Fountain</option>
+                  <option value={'label'}>Label</option>
+                  <option value={'multiplier'}>Multiplier</option>
+                  <option value={'fall'}>Fall</option>
+                  <option value={'twist'}>Twist</option>
+                  <option value={'snow'}>Snow</option>
+                  <option value={'counter'}>Counter</option>
+                  <option value={'bubbles'}>Bubbles</option>
+                  <option value={'flyingBubbles'}>Flying Bubbles</option>
+                  <option value={'background1'}>Background 1</option>
+                  <option value={'abstractTunnel'}>Abstract tunnel</option>
+                  <option value={'warpOut'}>Warp Out</option>
+                  <option value={'warpIn'}>Warp In</option>
+                  <option value={'blackHoles'}>Black Holes</option>
+                  <option value={'warmOut'}>Warm Out</option>
+                  <option value={'bubbleSpray'}>Bubble Spray</option>
+                  <option value={'cartoonSmoke'}>Cartoon Smoke</option>
+                  <option value={'fog'}>Fog</option>
+                  <option value={'fallSingle'}>Fall Single</option>
+                  <option value={'fallRainDrops'}>Fall Rain Drops</option>
+                </select>
+              </div>
+            </div>
+            <hr />
+            <div className="form-group">
               <div className="col-xs-4 form-label">Predefined Particle Image</div>
               <div className="col-xs-8">
                 <select
@@ -95,6 +165,21 @@ class GeneralProperties extends React.Component<IProps> {
                   id={'load-particle-images'}
                   className={'hidden'}
                   onChange={this.particleImagesChange}
+                  multiple
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="col-xs-4 form-label">Particle Finishing Images</div>
+              <div className="col-xs-8">
+                <button className="btn btn-default btn-block" onClick={this.loadParticleFinishingImages}>
+                  Add Finishing Images
+                </button>
+                <input
+                  type={'file'}
+                  id={'load-particle-finishing-images'}
+                  className={'hidden'}
+                  onChange={this.particleFinishingImagesChange}
                   multiple
                 />
               </div>
@@ -147,91 +232,6 @@ class GeneralProperties extends React.Component<IProps> {
               </>
             )}
             <hr />
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Particle Finishing Images</div>
-              <div className="col-xs-8">
-                <button className="btn btn-default btn-block" onClick={this.loadParticleFinishingImages}>
-                  Add Finishing Images
-                </button>
-                <input
-                  type={'file'}
-                  id={'load-particle-finishing-images'}
-                  className={'hidden'}
-                  onChange={this.particleFinishingImagesChange}
-                  multiple
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Particle Effects</div>
-              <div className="col-xs-8">
-                <select
-                  className={'form-control'}
-                  value={config.particlePredefinedEffect || 'office'}
-                  onChange={this.handleChangeEffect.bind(this, 0, 'particlePredefinedEffect')}
-                >
-                  <option value={'office'}>Office</option>
-                  <option value={'bloodHand'}>Blood Hand</option>
-                  <option value={'darkMagicSmoke'}>Dark Magic Smoke</option>
-                  <option value={'runes'}>Runes</option>
-                  <option value={'trail'}>Trail</option>
-                  <option value={'magic1'}>Magic 1</option>
-                  <option value={'magic2'}>Magic 2</option>
-                  <option value={'magic3'}>Magic 3</option>
-                  <option value={'magic4'}>Magic 4</option>
-                  <option value={'magic5'}>Magic 5</option>
-                  <option value={'magic6'}>Magic 6</option>
-                  <option value={'magic7'}>Magic 7</option>
-                  <option value={'magic8'}>Magic 8</option>
-                  <option value={'magic9'}>Magic 9</option>
-                  <option value={'magic10'}>Magic 10</option>
-                  <option value={'chaos'}>Chaos</option>
-                  <option value={'liquid'}>Liquid</option>
-                  <option value={'explodingBubbles'}>Exploding Bubbles</option>
-                  <option value={'fire'}>Fire</option>
-                  <option value={'fireWithTurbulence'}>Fire with Turbulence</option>
-                  <option value={'campFire'}>Camp Fire</option>
-                  <option value={'campFireTurbulence'}>Camp Fire with Turbulence</option>
-                  <option value={'flyingFire'}>Flying Fire</option>
-                  <option value={'meteor'}>Meteor</option>
-                  <option value={'ember'}>Ember</option>
-                  <option value={'emberWithTurbulence'}>Ember with Turbulence</option>
-                  <option value={'birds'}>Birds</option>
-                  <option value={'cigarette'}>Cigarette</option>
-                  <option value={'squareSmoke'}>Square smoke</option>
-                  <option value={'sun'}>Sun</option>
-                  <option value={'sun2'}>Sun 2</option>
-                  <option value={'water'}>Water</option>
-                  <option value={'waterTurbulence'}>Water with Turbulence</option>
-                  <option value={'coinShower'}>Coin Shower</option>
-                  <option value={'bigWin'}>Big Win</option>
-                  <option value={'coinsRing'}>Coins Ring</option>
-                  <option value={'firework'}>Firework</option>
-                  <option value={'explosion'}>Explosion</option>
-                  <option value={'fountain'}>Fountain</option>
-                  <option value={'flyingFountain'}>Flying Fountain</option>
-                  <option value={'label'}>Label</option>
-                  <option value={'multiplier'}>Multiplier</option>
-                  <option value={'fall'}>Fall</option>
-                  <option value={'twist'}>Twist</option>
-                  <option value={'snow'}>Snow</option>
-                  <option value={'counter'}>Counter</option>
-                  <option value={'bubbles'}>Bubbles</option>
-                  <option value={'flyingBubbles'}>Flying Bubbles</option>
-                  <option value={'background1'}>Background 1</option>
-                  <option value={'abstractTunnel'}>Abstract tunnel</option>
-                  <option value={'warpOut'}>Warp Out</option>
-                  <option value={'warpIn'}>Warp In</option>
-                  <option value={'blackHoles'}>Black Holes</option>
-                  <option value={'warmOut'}>Warm Out</option>
-                  <option value={'bubbleSpray'}>Bubble Spray</option>
-                  <option value={'cartoonSmoke'}>Cartoon Smoke</option>
-                  <option value={'fog'}>Fog</option>
-                  <option value={'fallSingle'}>Fall Single</option>
-                  <option value={'fallRainDrops'}>Fall Rain Drops</option>
-                </select>
-              </div>
-            </div>
             <div className="form-group">
               <div className="col-xs-4 form-label">Background Image</div>
               <div className="col-xs-8">
@@ -338,6 +338,11 @@ class GeneralProperties extends React.Component<IProps> {
       // @ts-ignore
       const file = document.getElementById('load-bg-image').files[0]
       this.updateProps('bg-image', [0, { fileName: file.name, result: reader.result }])
+
+      this.setState({ test: 2 })
+      setTimeout(() => {
+        this.setState({ test: 1 })
+      }, 0)
     }
 
     // @ts-ignore
@@ -381,6 +386,11 @@ class GeneralProperties extends React.Component<IProps> {
         loadedImages++
         if (loadedImages === files.length) {
           this.sendParticleFinishingImages(images)
+
+          this.setState({ test: 2 })
+          setTimeout(() => {
+            this.setState({ test: 1 })
+          }, 0)
         }
       }
       reader.readAsDataURL(file)

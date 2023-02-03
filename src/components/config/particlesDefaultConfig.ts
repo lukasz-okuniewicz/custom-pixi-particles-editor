@@ -244,6 +244,222 @@ export default class ParticlesDefaultConfig {
     },
     textures: ['gdevelop/DarkMagicSmoke.png'],
   }
+  darkMagicSmoke2 = {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 10000,
+          enabled: true,
+          maxLifeTime: 2,
+          timeVariance: 0,
+          name: 'LifeBehaviour',
+        },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Ring',
+          radius: 1,
+          position: {
+            x: 1104,
+            y: 522,
+          },
+          positionVariance: {
+            x: 5,
+            y: 0,
+          },
+          velocity: {
+            x: 0,
+            y: -30,
+          },
+          velocityVariance: {
+            x: 10,
+            y: 5,
+          },
+          acceleration: {
+            x: 0,
+            y: -10,
+          },
+          accelerationVariance: {
+            x: 0,
+            y: 0,
+          },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: {
+            x: 0.3,
+            y: 0.3,
+          },
+          sizeEnd: {
+            x: 0.1,
+            y: 0.1,
+          },
+          startVariance: 0.1,
+          endVariance: 0.1,
+          name: 'SizeBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          rotation: 0,
+          variance: 1,
+          name: 'RotationBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          start: {
+            _r: 30,
+            _g: 30,
+            _b: 30,
+            _alpha: 1,
+          },
+          end: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 0,
+          },
+          startVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 1,
+          },
+          endVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 1,
+          },
+          sinus: true,
+          name: 'ColorBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 0,
+        _maxLife: 1,
+        _emitPerSecond: 20,
+        _frames: 0,
+        name: 'UniformEmission',
+      },
+      duration: -1,
+      alpha: 1,
+      blendMode: 3,
+    },
+    textures: ['gdevelop/DarkMagicSmoke.png'],
+  }
+  darkMagicSmoke3 = {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 10000,
+          enabled: true,
+          maxLifeTime: 1.5,
+          timeVariance: 0,
+          name: 'LifeBehaviour',
+        },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Ring',
+          radius: 1,
+          position: {
+            x: 674,
+            y: 412,
+          },
+          positionVariance: {
+            x: 2,
+            y: 0,
+          },
+          velocity: {
+            x: 0,
+            y: -20,
+          },
+          velocityVariance: {
+            x: 5,
+            y: 5,
+          },
+          acceleration: {
+            x: 0,
+            y: -5,
+          },
+          accelerationVariance: {
+            x: 0,
+            y: 0,
+          },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: {
+            x: 0.2,
+            y: 0.2,
+          },
+          sizeEnd: {
+            x: 0.1,
+            y: 0.1,
+          },
+          startVariance: 0.1,
+          endVariance: 0.1,
+          name: 'SizeBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          rotation: 0,
+          variance: 1,
+          name: 'RotationBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          start: {
+            _r: 30,
+            _g: 30,
+            _b: 30,
+            _alpha: 1,
+          },
+          end: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 0,
+          },
+          startVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 1,
+          },
+          endVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 1,
+          },
+          sinus: true,
+          name: 'ColorBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 0,
+        _maxLife: 1,
+        _emitPerSecond: 10,
+        _frames: 0,
+        name: 'UniformEmission',
+      },
+      duration: -1,
+      alpha: 1,
+      blendMode: 3,
+    },
+    textures: ['gdevelop/DarkMagicSmoke.png'],
+  }
   runes = {
     emitterConfig: {
       behaviours: [
@@ -361,6 +577,63 @@ export default class ParticlesDefaultConfig {
         _maxParticles: 0,
         _maxLife: 1,
         _emitPerSecond: 10,
+        _frames: 0,
+        name: 'UniformEmission',
+      },
+      duration: -1,
+      alpha: 1,
+      blendMode: 3,
+    },
+    textures: ['gdevelop/Trail3.png'],
+  }
+  trail2 = {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 10000,
+          enabled: true,
+          maxLifeTime: 2,
+          timeVariance: 0,
+          name: 'LifeBehaviour',
+        },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Rectangle',
+          radius: 200,
+          position: { x: -630, y: -270 },
+          positionVariance: { x: 50, y: 50 },
+          velocity: { x: 200, y: 0 },
+          velocityVariance: { x: 200, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: { x: 0, y: 1 },
+          sizeEnd: { x: 3, y: 1 },
+          startVariance: 1,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          start: { _r: 255, _g: 255, _b: 255, _alpha: 1 },
+          end: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
+          sinus: true,
+          name: 'ColorBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 0,
+        _maxLife: 1,
+        _emitPerSecond: 0.5,
         _frames: 0,
         name: 'UniformEmission',
       },
@@ -866,76 +1139,6 @@ export default class ParticlesDefaultConfig {
         {
           priority: 10000,
           enabled: true,
-          maxLifeTime: 5,
-          timeVariance: 0,
-          name: 'LifeBehaviour',
-        },
-        {
-          priority: 100,
-          enabled: true,
-          spawnType: 'Ring',
-          radius: 10,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 15, y: 60 },
-          positionVariance: { x: 0, y: 0 },
-          velocity: { x: 30, y: 10 },
-          velocityVariance: { x: 10, y: 0 },
-          acceleration: { x: 0, y: -10 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: 'PositionBehaviour',
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: { x: 0, y: 0 },
-          sizeEnd: { x: 0, y: 0 },
-          startVariance: 2,
-          endVariance: 2,
-          name: 'SizeBehaviour',
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: { _r: 7, _g: 7, _b: 7, _alpha: 1 },
-          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
-          sinus: true,
-          name: 'ColorBehaviour',
-        },
-        {
-          priority: 0,
-          enabled: true,
-          rotation: 0,
-          variance: 0.2,
-          name: 'RotationBehaviour',
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 100,
-        _frames: 0,
-        name: 'UniformEmission',
-      },
-      duration: -1,
-      alpha: 1,
-      blendMode: 3,
-    },
-    textures: ['magic particles/magic_particles_20.png'],
-  }
-  magic9 = {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
           maxLifeTime: 6,
           timeVariance: 0,
           name: 'LifeBehaviour',
@@ -1000,7 +1203,7 @@ export default class ParticlesDefaultConfig {
     },
     textures: ['particles/fire_01.png'],
   }
-  magic10 = {
+  magic9 = {
     emitterConfig: {
       behaviours: [
         {
@@ -1751,6 +1954,75 @@ export default class ParticlesDefaultConfig {
     },
     textures: ['fog.png'],
   }
+  fog2 = {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 4,
+          timeVariance: 0,
+          name: 'LifeBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: -400, y: 30 },
+          positionVariance: { x: 300, y: 100 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 15, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: 'PositionBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 6, y: 6 },
+          sizeEnd: { x: 6, y: 6 },
+          startVariance: 0,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: { _r: 100, _g: 100, _b: 100, _alpha: 1 },
+          end: { _r: 255, _g: 255, _b: 255, _alpha: 1 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          sinus: true,
+          name: 'ColorBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 0,
+          variance: 1,
+          name: 'RotationBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 0,
+        _maxLife: 1,
+        _emitPerSecond: 7,
+        _frames: 0,
+        name: 'UniformEmission',
+      },
+      duration: -1,
+      alpha: 0.5,
+      blendMode: 3,
+    },
+    textures: [
+      'smoke/smoke2_1.png',
+      'smoke/smoke2_2.png',
+      'smoke/smoke2_3.png',
+      'smoke/smoke2_4.png',
+      'smoke/smoke2_8.png',
+      'smoke/smoke2_9.png',
+    ],
+  }
   fire = {
     emitterConfig: {
       behaviours: [
@@ -1981,7 +2253,7 @@ export default class ParticlesDefaultConfig {
         {
           priority: 100,
           enabled: true,
-          position: { x: -90, y: 70 },
+          position: { x: 310, y: 100 },
           positionVariance: { x: 20, y: 10 },
           velocity: { x: 0, y: -80 },
           velocityVariance: { x: 0, y: 30 },
@@ -2033,7 +2305,7 @@ export default class ParticlesDefaultConfig {
           sinX: true,
           sinY: false,
           sinXVal: { x: 3, y: 0.5 },
-          sinXValVariance: { x: 3, y: 0.5},
+          sinXValVariance: { x: 3, y: 0.5 },
           name: 'PositionBehaviour',
         },
         {
@@ -2118,7 +2390,7 @@ export default class ParticlesDefaultConfig {
         {
           priority: 100,
           enabled: true,
-          position: { x: -90, y: 80 },
+          position: { x: 310, y: 110 },
           positionVariance: { x: 30, y: 10 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 100, y: 0 },
@@ -2130,7 +2402,7 @@ export default class ParticlesDefaultConfig {
           priority: 0,
           enabled: true,
           allowNegativeValues: false,
-          sizeStart: { x: 0.3, y: 0.3},
+          sizeStart: { x: 0.3, y: 0.3 },
           sizeEnd: { x: 0.2, y: 0.2 },
           startVariance: 0.05,
           endVariance: 0.025,
@@ -3252,6 +3524,104 @@ export default class ParticlesDefaultConfig {
       },
     },
     textures: ['coin_'],
+  }
+  fallRainDrops2 = {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 7,
+          timeVariance: 3,
+          name: 'LifeBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: {
+            x: 650,
+            y: 350,
+          },
+          positionVariance: {
+            x: 600,
+            y: 300,
+          },
+          velocity: {
+            x: 0,
+            y: 0,
+          },
+          velocityVariance: {
+            x: 0,
+            y: 0,
+          },
+          acceleration: {
+            x: 0,
+            y: 0,
+          },
+          accelerationVariance: {
+            x: 2,
+            y: 2,
+          },
+          name: 'PositionBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: {
+            x: 0.15,
+            y: 0.15,
+          },
+          sizeEnd: {
+            x: 0.15,
+            y: 0.15,
+          },
+          startVariance: 0.1,
+          endVariance: 0.1,
+          name: 'SizeBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: {
+            _r: 120,
+            _g: 60,
+            _b: 0,
+            _alpha: 1,
+          },
+          end: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 0,
+          },
+          startVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 1,
+          },
+          endVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 0,
+          },
+          sinus: true,
+          name: 'ColorBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 0,
+        _maxLife: 1,
+        _emitPerSecond: 10,
+        _frames: 0,
+        name: 'UniformEmission',
+      },
+      duration: -1,
+      blendMode: 3,
+    },
+    textures: ['flare/flare_12.png'],
   }
   snow = {
     emitterConfig: {
