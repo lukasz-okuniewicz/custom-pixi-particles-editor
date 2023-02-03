@@ -1,5 +1,4 @@
 const path = require('path')
-const { CheckerPlugin } = require('awesome-typescript-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
@@ -17,10 +16,7 @@ module.exports = {
         use: ['babel-loader', 'source-map-loader'],
         exclude: /node_modules/,
       },
-      {
-        test: /\.tsx?$/,
-        use: ['babel-loader', 'awesome-typescript-loader'],
-      },
+      { test: /\.([cm]?ts|tsx)$/, loader: 'ts-loader' },
       {
         test: /.(png|jp(e*)g)$/,
         include: [path.join(__dirname, 'src')],
@@ -79,7 +75,6 @@ module.exports = {
       'pixi.js': 'pixi.js',
       'pixi-spine': 'pixi-spine',
     }),
-    new CheckerPlugin(),
     new HtmlWebpackPlugin({ template: './src/index.html.ejs' }),
     new CopyWebpackPlugin({
       patterns: [{ from: './src/assets', to: './assets' }],

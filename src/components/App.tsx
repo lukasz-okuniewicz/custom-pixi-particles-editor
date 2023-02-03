@@ -6,7 +6,6 @@ import Content from './content/Content'
 import ParticlesDefaultConfig from './config/particlesDefaultConfig'
 import { saveAs } from 'file-saver'
 import { customPixiParticles, Renderer } from 'custom-pixi-particles'
-import * as Stats from 'stats.js'
 import { gsap, Linear } from 'gsap'
 import { Application, Container, Loader, Sprite, Texture } from 'pixi.js-legacy'
 import TestRenderer from 'custom-pixi-particles/dist/lib/pixi/TestRenderer'
@@ -36,10 +35,6 @@ class App extends React.Component {
   private particlesArr: any[] = []
 
   componentDidMount() {
-    const stats = new Stats()
-    stats.showPanel(0)
-    document.body.appendChild(stats.dom)
-
     // @ts-ignore
     this.app = new Application({ backgroundColor: 0 })
     // @ts-ignore
@@ -59,11 +54,6 @@ class App extends React.Component {
         this.particles.pause(true)
         this.app.stop()
       }
-    })
-
-    this.app.ticker.add(() => {
-      stats.begin()
-      stats.end()
     })
 
     this.bgContainer = new Container()

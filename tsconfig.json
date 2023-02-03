@@ -25,10 +25,5 @@
         "node_modules",
         "dist"
     ],
-    "types": ["pixi.js"],
-    "awesomeTypescriptLoaderOptions": {
-        "reportFiles": [
-            "./src/**/*"
-        ]
-    }
+    "types": ["pixi.js"]
 }
