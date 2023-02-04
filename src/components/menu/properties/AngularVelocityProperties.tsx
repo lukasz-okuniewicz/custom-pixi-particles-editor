@@ -5,6 +5,7 @@ import FormGroup from '../utils/FormGroup'
 export interface IProps {
   config: any
   updateProps: any
+  activeEffect: any
 }
 
 class AngularVelocityProperties extends React.Component<IProps> {
@@ -13,6 +14,7 @@ class AngularVelocityProperties extends React.Component<IProps> {
   }
 
   public render() {
+    if (this.props.activeEffect === 'office') return <></>
     const { config } = this.props
     const { isSubmenuVisible } = this.state
     if (typeof config.enabled === 'undefined') {
@@ -48,43 +50,43 @@ class AngularVelocityProperties extends React.Component<IProps> {
             </div>
           </div>
           <FormGroup
-              type={'number'}
-              step={'1'}
+            type={'number'}
+            step={'1'}
             title={'Degrees/sec'}
             value={[config.degrees]}
             updateProps={this.updateProps.bind(this, 'angularVelocityProperties-degrees')}
           />
           <FormGroup
-              type={'number'}
-              step={'1'}
+            type={'number'}
+            step={'1'}
             title={'Degrees Variance/sec'}
             value={[config.degreesVariance]}
             updateProps={this.updateProps.bind(this, 'angularVelocityProperties-degreesVariance')}
           />
           <FormGroup
-              type={'number'}
-              step={'1'}
+            type={'number'}
+            step={'1'}
             title={'Max Radius'}
             value={[config.maxRadius]}
             updateProps={this.updateProps.bind(this, 'angularVelocityProperties-maxRadius')}
           />
           <FormGroup
-              type={'number'}
-              step={'1'}
+            type={'number'}
+            step={'1'}
             title={'Max Radius Variance'}
             value={[config.maxRadiusVariance]}
             updateProps={this.updateProps.bind(this, 'angularVelocityProperties-maxRadiusVariance')}
           />
           <FormGroup
-              type={'number'}
-              step={'1'}
+            type={'number'}
+            step={'1'}
             title={'Min Radius'}
             value={[config.minRadius]}
             updateProps={this.updateProps.bind(this, 'angularVelocityProperties-minRadius')}
           />
           <FormGroup
-              type={'number'}
-              step={'1'}
+            type={'number'}
+            step={'1'}
             title={'Min Radius Variance'}
             value={[config.minRadiusVariance]}
             updateProps={this.updateProps.bind(this, 'angularVelocityProperties-minRadiusVariance')}

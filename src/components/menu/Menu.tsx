@@ -11,38 +11,70 @@ import AngularVelocityProperties from './properties/AngularVelocityProperties'
 import EmissionTypeProperties from './properties/EmissionTypeProperties'
 import LoadAndSaveProperties from './properties/LoadAndSaveProperties'
 import TurbulenceProperties from './properties/TurbulenceProperties'
-import PathProperties from './properties/PathProperties'
+// import PathProperties from './properties/PathProperties'
 
 export interface IProps {
   config: any
   updateProps: any
+  activeEffect: any
 }
 
 class Menu extends React.Component<IProps> {
   public render() {
     return (
       <div className="menu">
-        <LoadAndSaveProperties updateProps={this.props.updateProps} />
-        <GeneralProperties config={this.props.config} updateProps={this.props.updateProps} />
-        <EmissionTypeProperties config={this.props.config.emitterConfig} updateProps={this.props.updateProps} />
-        <LifeProperties config={this.getConfigByName('LifeBehaviour')} updateProps={this.props.updateProps} />
-        <SizeProperties config={this.getConfigByName('SizeBehaviour')} updateProps={this.props.updateProps} />
-        <RotationProperties config={this.getConfigByName('RotationBehaviour')} updateProps={this.props.updateProps} />
-        <PositionProperties config={this.getConfigByName('PositionBehaviour')} updateProps={this.props.updateProps} />
-        <ColorProperties config={this.getConfigByName('ColorBehaviour')} updateProps={this.props.updateProps} />
+        <LoadAndSaveProperties updateProps={this.props.updateProps} activeEffect={this.props.activeEffect} />
+        <GeneralProperties
+          config={this.props.config}
+          updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
+        />
+        <EmissionTypeProperties
+          config={this.props.config.emitterConfig}
+          updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
+        />
+        <LifeProperties
+          config={this.getConfigByName('LifeBehaviour')}
+          updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
+        />
+        <SizeProperties
+          config={this.getConfigByName('SizeBehaviour')}
+          updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
+        />
+        <RotationProperties
+          config={this.getConfigByName('RotationBehaviour')}
+          updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
+        />
+        <PositionProperties
+          config={this.getConfigByName('PositionBehaviour')}
+          updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
+        />
+        <ColorProperties
+          config={this.getConfigByName('ColorBehaviour')}
+          updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
+        />
         <AngularVelocityProperties
           config={this.getConfigByName('AngularVelocityBehaviour')}
           updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
         />
         <EmitDirectionProperties
           config={this.getConfigByName('EmitDirectionBehaviour')}
           updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
         />
         <TurbulenceProperties
           config={this.getConfigByName('TurbulenceBehaviour')}
           updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
         />
-        <PathProperties config={this.props.config} updateProps={this.props.updateProps} />
+        {/*<PathProperties config={this.props.config} updateProps={this.props.updateProps} activeEffect={this.props.activeEffect} />*/}
       </div>
     )
   }

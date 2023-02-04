@@ -5,6 +5,7 @@ import FormGroup from '../utils/FormGroup'
 export interface IProps {
   config: any
   updateProps: any
+  activeEffect: any
 }
 
 class TurbulenceProperties extends React.Component<IProps> {
@@ -13,6 +14,7 @@ class TurbulenceProperties extends React.Component<IProps> {
   }
 
   public render() {
+    if (this.props.activeEffect === 'office') return <></>
     const { config } = this.props
     const { isSubmenuVisible } = this.state
     if (typeof config.enabled === 'undefined') {
@@ -122,107 +124,104 @@ class TurbulenceProperties extends React.Component<IProps> {
             </div>
           </div>
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Position'}
             params={['X Position', 'Y Position']}
-            value={[(config.position && config.position.x), (config.position && config.position.y)]}
+            value={[config.position && config.position.x, config.position && config.position.y]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-position')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Position Variance'}
             params={['X Variance', 'Y Variance']}
             value={[
-              (config.positionVariance && config.positionVariance.x),
-              (config.positionVariance && config.positionVariance.y),
+              config.positionVariance && config.positionVariance.x,
+              config.positionVariance && config.positionVariance.y,
             ]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-positionVariance')}
           />
 
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Velocity'}
             params={['X Velocity', 'Y Velocity']}
-            value={[(config.velocity && config.velocity.x), (config.velocity && config.velocity.y)]}
+            value={[config.velocity && config.velocity.x, config.velocity && config.velocity.y]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-velocity')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Velocity Variance'}
             params={['X Velocity Variance', 'Y Velocity Variance']}
             value={[
-              (config.velocityVariance && config.velocityVariance.x),
-              (config.velocityVariance && config.velocityVariance.y),
+              config.velocityVariance && config.velocityVariance.x,
+              config.velocityVariance && config.velocityVariance.y,
             ]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-velocityVariance')}
           />
 
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Acceleration'}
             params={['X Acceleration', 'Y Acceleration']}
-            value={[
-              (config.acceleration && config.acceleration.x),
-              (config.acceleration && config.acceleration.y),
-            ]}
+            value={[config.acceleration && config.acceleration.x, config.acceleration && config.acceleration.y]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-acceleration')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Acceleration Variance'}
             params={['X Acceleration Variance', 'Y Acceleration Variance']}
             value={[
-              (config.accelerationVariance && config.accelerationVariance.x),
-              (config.accelerationVariance && config.accelerationVariance.y),
+              config.accelerationVariance && config.accelerationVariance.x,
+              config.accelerationVariance && config.accelerationVariance.y,
             ]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-accelerationVariance')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Size Start'}
             params={['X Size Start', 'Y Size Start']}
-            value={[(config.sizeStart && config.sizeStart.x), (config.sizeStart && config.sizeStart.y)]}
+            value={[config.sizeStart && config.sizeStart.x, config.sizeStart && config.sizeStart.y]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-sizeStart')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Start Variance'}
             value={[config.startVariance]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-startVariance')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Size End'}
             params={['X Size End', 'Y Size End']}
-            value={[(config.sizeEnd && config.sizeEnd.x), (config.sizeEnd && config.sizeEnd.y)]}
+            value={[config.sizeEnd && config.sizeEnd.x, config.sizeEnd && config.sizeEnd.y]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-sizeEnd')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'End Variance'}
             value={[config.endVariance]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-endVariance')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Emit/sec'}
             value={[config.emitPerSecond]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-emitPerSecond')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Duration'}
             value={[config.duration]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-duration')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Max Life Time'}
             value={[config.maxLifeTime]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-maxLifeTime')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Max Life Time Variance'}
             value={[config.maxLifeTimeVariance]}
             updateProps={this.updateProps.bind(this, 'turbulenceProperties-maxLifeTimeVariance')}

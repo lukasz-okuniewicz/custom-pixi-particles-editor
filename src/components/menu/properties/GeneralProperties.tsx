@@ -7,6 +7,7 @@ import { Loader } from 'pixi.js-legacy'
 export interface IProps {
   config: any
   updateProps: any
+  activeEffect: any
 }
 
 class GeneralProperties extends React.Component<IProps> {
@@ -38,6 +39,9 @@ class GeneralProperties extends React.Component<IProps> {
     if (typeof config.emitterConfig.animatedSprite.animatedSpriteName === 'undefined') {
       config.emitterConfig.animatedSprite.animatedSpriteName = ''
     }
+    if (typeof config.emitterConfig.anchor === 'undefined') {
+      config.emitterConfig.anchor = { x: 0.5, y: 0.5 }
+    }
 
     const textures: any = Loader.shared.resources['assets/img/multipacked-0.json'].textures
     const textures2: any = Loader.shared.resources['assets/img/images.json'].textures
@@ -49,13 +53,17 @@ class GeneralProperties extends React.Component<IProps> {
         <div className="general-properties">
           <legend onClick={this.changeSubmenuVisibility.bind(this)}>General Properties</legend>
           <div className={`collapse ${isSubmenuVisible}`}>
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Follow Mouse</div>
-              <div className="col-xs-8">
-                <input type={'checkbox'} checked={config.followMouse} onChange={this.handleChangeFollowMouse} />
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Follow Mouse</div>
+                <div className="col-xs-8">
+                  <input type={'checkbox'} checked={config.followMouse} onChange={this.handleChangeFollowMouse} />
+                </div>
               </div>
-            </div>
-            <hr />
+            )}
+            {this.props.activeEffect === 'office' ? <></> : <hr />}
             <div className="form-group">
               <div className="col-xs-4 form-label">Particle Effects</div>
               <div className="col-xs-8">
@@ -64,7 +72,7 @@ class GeneralProperties extends React.Component<IProps> {
                   value={config.particlePredefinedEffect || 'office'}
                   onChange={this.handleChangeEffect.bind(this, 0, 'particlePredefinedEffect')}
                 >
-                  <option value={'office'}>Office</option>
+                  <option value={'office'}>Coffee shop</option>
                   <option value={'bloodHand'}>Blood Hand</option>
                   <option value={'darkMagicSmoke'}>Dark Magic Smoke</option>
                   <option value={'runes'}>Runes</option>
@@ -125,76 +133,92 @@ class GeneralProperties extends React.Component<IProps> {
                 </select>
               </div>
             </div>
-            <hr />
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Predefined Particle Image</div>
-              <div className="col-xs-8">
-                <select
-                  className={'form-control'}
-                  value={config.particlePredefinedImage || config.textures[0]}
-                  onChange={this.handleChangePredefinedImage.bind(this, 0, 'particlePredefinedImage')}
-                >
-                  <option value={''}>Choose</option>;
-                  {textures &&
-                    Object.keys(textures).map((key) => {
-                      return (
-                        <option key={key} value={key}>
-                          {key}
-                        </option>
-                      )
-                    })}
-                  {textures2 &&
-                    Object.keys(textures2).map((key) => {
-                      return (
-                        <option key={key} value={key}>
-                          {key}
-                        </option>
-                      )
-                    })}
-                </select>
+            {this.props.activeEffect === 'office' ? <></> : <hr />}
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Predefined Particle Image</div>
+                <div className="col-xs-8">
+                  <select
+                    className={'form-control'}
+                    value={config.particlePredefinedImage || config.textures[0]}
+                    onChange={this.handleChangePredefinedImage.bind(this, 0, 'particlePredefinedImage')}
+                  >
+                    <option value={''}>Choose</option>;
+                    {textures &&
+                      Object.keys(textures).map((key) => {
+                        return (
+                          <option key={key} value={key}>
+                            {key}
+                          </option>
+                        )
+                      })}
+                    {textures2 &&
+                      Object.keys(textures2).map((key) => {
+                        return (
+                          <option key={key} value={key}>
+                            {key}
+                          </option>
+                        )
+                      })}
+                  </select>
+                </div>
               </div>
-            </div>
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Particle Images</div>
-              <div className="col-xs-8">
-                <button className="btn btn-default btn-block" onClick={this.loadParticleImages}>
-                  Add Images
-                </button>
-                <input
-                  type={'file'}
-                  id={'load-particle-images'}
-                  className={'hidden'}
-                  onChange={this.particleImagesChange}
-                  multiple
-                />
+            )}
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Particle Images</div>
+                <div className="col-xs-8">
+                  <button className="btn btn-default btn-block" onClick={this.loadParticleImages}>
+                    Add Images
+                  </button>
+                  <input
+                    type={'file'}
+                    id={'load-particle-images'}
+                    className={'hidden'}
+                    onChange={this.particleImagesChange}
+                    multiple
+                  />
+                </div>
               </div>
-            </div>
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Particle Finishing Images</div>
-              <div className="col-xs-8">
-                <button className="btn btn-default btn-block" onClick={this.loadParticleFinishingImages}>
-                  Add Finishing Images
-                </button>
-                <input
-                  type={'file'}
-                  id={'load-particle-finishing-images'}
-                  className={'hidden'}
-                  onChange={this.particleFinishingImagesChange}
-                  multiple
-                />
+            )}
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Particle Finishing Images</div>
+                <div className="col-xs-8">
+                  <button className="btn btn-default btn-block" onClick={this.loadParticleFinishingImages}>
+                    Add Finishing Images
+                  </button>
+                  <input
+                    type={'file'}
+                    id={'load-particle-finishing-images'}
+                    className={'hidden'}
+                    onChange={this.particleFinishingImagesChange}
+                    multiple
+                  />
+                </div>
               </div>
-            </div>
-            <hr />
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Animated Sprite</div>
-              <div className="col-xs-8">
-                <input
-                  type={'checkbox'}
-                  checked={config.emitterConfig.animatedSprite.enabled}
-                  onChange={this.handleChangeAnimatedSprite}
-                />
+            )}
+            {this.props.activeEffect === 'office' ? <></> : <hr />}
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Animated Sprite</div>
+                <div className="col-xs-8">
+                  <input
+                    type={'checkbox'}
+                    checked={config.emitterConfig.animatedSprite.enabled}
+                    onChange={this.handleChangeAnimatedSprite}
+                  />
+                </div>
               </div>
-            </div>
+            )}
             {config.emitterConfig.animatedSprite && config.emitterConfig.animatedSprite.enabled && (
               <>
                 <FormGroup
@@ -231,51 +255,82 @@ class GeneralProperties extends React.Component<IProps> {
                 </div>
               </>
             )}
-            <hr />
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Background Image</div>
-              <div className="col-xs-8">
-                <button type="button" className="btn btn-default btn-block" onClick={this.loadBgImage}>
-                  Load image
-                </button>
-                <input type={'file'} id={'load-bg-image'} className={'hidden'} onChange={this.bgImageChange} />
+            {this.props.activeEffect === 'office' ? <></> : <hr />}
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Background Image</div>
+                <div className="col-xs-8">
+                  <button type="button" className="btn btn-default btn-block" onClick={this.loadBgImage}>
+                    Load image
+                  </button>
+                  <input type={'file'} id={'load-bg-image'} className={'hidden'} onChange={this.bgImageChange} />
+                </div>
               </div>
-            </div>
-            <FormGroup
-              title={'Background'}
-              type={'text'}
-              color={true}
-              value={['#000000']}
-              inputHidden={true}
-              updateProps={this.updateProps.bind(this, 'BackgroundColor')}
-            />
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Alpha</div>
-              <div className="col-xs-8">
-                <input
-                  className={`form-control`}
-                  type="number"
-                  step="0.1"
-                  value={config.emitterConfig.alpha ? config.emitterConfig.alpha : globalAlpha}
-                  onChange={this.handleChangeGlobalAlpha.bind(this)}
-                />
+            )}
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <FormGroup
+                title={'Background'}
+                type={'text'}
+                color={true}
+                value={['#000000']}
+                inputHidden={true}
+                updateProps={this.updateProps.bind(this, 'BackgroundColor')}
+              />
+            )}
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Alpha</div>
+                <div className="col-xs-8">
+                  <input
+                    className={`form-control`}
+                    type="number"
+                    step="0.1"
+                    value={config.emitterConfig.alpha ? config.emitterConfig.alpha : globalAlpha}
+                    onChange={this.handleChangeGlobalAlpha.bind(this)}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="form-group">
-              <div className="col-xs-4 form-label">Blend Mode</div>
-              <div className="col-xs-8">
-                <select
-                  className={'form-control'}
-                  value={config.emitterConfig.blendMode ? config.emitterConfig.blendMode : blendMode}
-                  onChange={this.handleChange.bind(this, 0, 'global-blendMode')}
-                >
-                  <option value={BLEND_MODES.NORMAL}>NORMAL</option>
-                  <option value={BLEND_MODES.ADD}>ADD</option>
-                  <option value={BLEND_MODES.MULTIPLY}>MULTIPLY</option>
-                  <option value={BLEND_MODES.SCREEN}>SCREEN</option>
-                </select>
+            )}
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <FormGroup
+                type={'number'}
+                title={'Anchor'}
+                params={['x', 'y']}
+                step={'0.1'}
+                value={[
+                  config.emitterConfig.anchor && config.emitterConfig.anchor.x,
+                  config.emitterConfig.anchor && config.emitterConfig.anchor.y,
+                ]}
+                updateProps={this.updateProps.bind(this, 'global-anchor')}
+              />
+            )}
+            {this.props.activeEffect === 'office' ? (
+              <></>
+            ) : (
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Blend Mode</div>
+                <div className="col-xs-8">
+                  <select
+                    className={'form-control'}
+                    value={config.emitterConfig.blendMode ? config.emitterConfig.blendMode : blendMode}
+                    onChange={this.handleChange.bind(this, 0, 'global-blendMode')}
+                  >
+                    <option value={BLEND_MODES.NORMAL}>NORMAL</option>
+                    <option value={BLEND_MODES.ADD}>ADD</option>
+                    <option value={BLEND_MODES.MULTIPLY}>MULTIPLY</option>
+                    <option value={BLEND_MODES.SCREEN}>SCREEN</option>
+                  </select>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )

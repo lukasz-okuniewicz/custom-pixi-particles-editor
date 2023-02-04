@@ -5,6 +5,7 @@ import FormGroup from '../utils/FormGroup'
 export interface IProps {
   config: any
   updateProps: any
+  activeEffect: any
 }
 
 class ColorProperties extends React.Component<IProps> {
@@ -13,6 +14,7 @@ class ColorProperties extends React.Component<IProps> {
   }
 
   public render() {
+    if (this.props.activeEffect === 'office') return <></>
     const { config } = this.props
     const { isSubmenuVisible } = this.state
     if (typeof config.enabled === 'undefined') {

@@ -5,6 +5,7 @@ import FormGroup from '../utils/FormGroup'
 export interface IProps {
   config: any
   updateProps: any
+  activeEffect: any
 }
 
 class RotationProperties extends React.Component<IProps> {
@@ -13,6 +14,7 @@ class RotationProperties extends React.Component<IProps> {
   }
 
   public render() {
+    if (this.props.activeEffect === 'office') return <></>
     const { config } = this.props
     const { isSubmenuVisible } = this.state
     if (typeof config.enabled === 'undefined') {
@@ -36,15 +38,15 @@ class RotationProperties extends React.Component<IProps> {
             </div>
           </div>
           <FormGroup
-              type={'number'}
-              step={'1'}
+            type={'number'}
+            step={'1'}
             title={'Rotation'}
             value={[config.rotation]}
             updateProps={this.updateProps.bind(this, 'rotationProperties-rotation')}
           />
           <FormGroup
-              type={'number'}
-              step={'1'}
+            type={'number'}
+            step={'1'}
             title={'Variance'}
             value={[config.variance]}
             updateProps={this.updateProps.bind(this, 'rotationProperties-variance')}

@@ -5,6 +5,7 @@ import FormGroup from '../utils/FormGroup'
 export interface IProps {
   config: any
   updateProps: any
+  activeEffect: any
 }
 
 class PathProperties extends React.Component<IProps> {
@@ -13,6 +14,7 @@ class PathProperties extends React.Component<IProps> {
   }
 
   public render() {
+    if (this.props.activeEffect === 'office') return <></>
     const { config } = this.props
     const { isSubmenuVisible } = this.state
     if (typeof config.enabledPath === 'undefined') {
@@ -51,17 +53,17 @@ class PathProperties extends React.Component<IProps> {
             updateProps={this.updateProps.bind(this, 'pathProperties-speed')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Point 1'}
             params={['X Point 1', 'Y Point 1']}
-            value={[(config.point1 && config.point1.x), (config.point1 && config.point1.y)]}
+            value={[config.point1 && config.point1.x, config.point1 && config.point1.y]}
             updateProps={this.updateProps.bind(this, 'pathProperties-point1')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Point 2'}
             params={['X Point 2', 'Y Point 2']}
-            value={[(config.point2 && config.point2.x), (config.point2 && config.point2.y)]}
+            value={[config.point2 && config.point2.x, config.point2 && config.point2.y]}
             updateProps={this.updateProps.bind(this, 'pathProperties-point2')}
           />
         </div>

@@ -5,6 +5,7 @@ import FormGroup from '../utils/FormGroup'
 export interface IProps {
   config: any
   updateProps: any
+  activeEffect: any
 }
 
 class LifeProperties extends React.Component<IProps> {
@@ -13,6 +14,7 @@ class LifeProperties extends React.Component<IProps> {
   }
 
   public render() {
+    if (this.props.activeEffect === 'office') return <></>
     const { config } = this.props
     const { isSubmenuVisible } = this.state
 
@@ -21,13 +23,13 @@ class LifeProperties extends React.Component<IProps> {
         <legend onClick={this.changeSubmenuVisibility.bind(this)}>Particle Properties</legend>
         <div className={`collapse ${isSubmenuVisible}`}>
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Max Life Time'}
             value={[config.maxLifeTime]}
             updateProps={this.updateProps.bind(this, 'lifeProperties-maxLifeTime')}
           />
           <FormGroup
-              type={'number'}
+            type={'number'}
             title={'Time Variance'}
             value={[config.timeVariance]}
             updateProps={this.updateProps.bind(this, 'lifeProperties-timeVariance')}

@@ -4,10 +4,12 @@ import FormGroup from '../utils/FormGroup'
 
 export interface IProps {
   updateProps: any
+  activeEffect: any
 }
 
 class LoadAndSaveProperties extends React.Component<IProps> {
   public render() {
+    if (this.props.activeEffect === 'office') return <></>
     return (
       <div className="general-properties">
         <legend>Config</legend>

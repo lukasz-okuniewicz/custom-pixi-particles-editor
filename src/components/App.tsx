@@ -107,7 +107,11 @@ class App extends React.Component {
     return (
       <>
         <Content />
-        {defaultConfig ? <Menu config={defaultConfig} updateProps={this.updateProps} /> : <></>}
+        {defaultConfig ? (
+          <Menu config={defaultConfig} updateProps={this.updateProps} activeEffect={this.activeEffect} />
+        ) : (
+          <></>
+        )}
       </>
     )
   }
@@ -860,6 +864,21 @@ class App extends React.Component {
         this.newDefaultConfig.emitterConfig.alpha = props[1]
         this.defaultConfig.emitterConfig.alpha = parseFloat(props[1])
         break
+      case 'global-anchor':
+        if (!this.defaultConfig.emitterConfig.anchor) {
+          this.defaultConfig.emitterConfig.anchor = {}
+        }
+        if (!this.newDefaultConfig.emitterConfig.anchor) {
+          this.newDefaultConfig.emitterConfig.anchor = {}
+        }
+        if (props[0] === 0) {
+          this.newDefaultConfig.emitterConfig.anchor.x = props[1]
+          this.defaultConfig.emitterConfig.anchor.x = parseFloat(props[1])
+        } else {
+          this.newDefaultConfig.emitterConfig.anchor.y = props[1]
+          this.defaultConfig.emitterConfig.anchor.y = parseFloat(props[1])
+        }
+        break
       case 'global-animatedSprite':
         if (props[1]) {
           this.newDefaultConfig.emitterConfig.animatedSprite = {
@@ -1021,24 +1040,48 @@ class App extends React.Component {
       particle.stopImmediately()
     })
     this.particlesArr = []
-    this.particles.stopImmediately()
-    this.particlesContainer.removeChildren()
 
-    if (this.activeEffect === 'campFire' || this.activeEffect === 'campFireTurbulence') {
-      const campfireSparklesConfig = JSON.parse(JSON.stringify(this.conf.campFireSparkles))
-      // @ts-ignore
-      const particles = this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
-      particles.play()
-      this.particlesArr.push(particles)
+    if (
+      [
+        'particlePredefinedEffect',
+        'particlePredefinedImage',
+        'particle-images',
+        'refresh',
+        'particle-finishing-images',
+        'global-alpha',
+        'global-anchor',
+        'global-animatedSprite',
+        'global-animatedSpriteName',
+        'global-animatedSpriteName',
+        'global-animatedSpriteFrameRate',
+        'global-animatedSpriteLoop',
+        'global-animatedSpriteRandomFrameStart',
+        'bg-image',
+        'global-blendMode',
+      ].includes(name)
+    ) {
+      this.particles.stopImmediately()
+      this.particlesContainer.removeChildren()
+
+      if (this.activeEffect === 'campFire' || this.activeEffect === 'campFireTurbulence') {
+        const campfireSparklesConfig = JSON.parse(JSON.stringify(this.conf.campFireSparkles))
+        // @ts-ignore
+        const particles = this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
+        particles.play()
+        this.particlesArr.push(particles)
+      }
+
+      if (this.activeEffect === 'office') {
+        this.createOffice()
+      }
+
+      this.createParticles()
+
+      this.animateTween(this.activeEffect)
+    } else {
+      this.particles.updateConfig(this.defaultConfig.emitterConfig)
+      this.particles.updateTexture()
     }
-
-    if (this.activeEffect === 'office') {
-      this.createOffice()
-    }
-
-    this.createParticles()
-
-    this.animateTween(this.activeEffect)
 
     this.setState({
       name,

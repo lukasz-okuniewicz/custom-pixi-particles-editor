@@ -6,6 +6,7 @@ export interface IProps {
   config: any
   updateProps: any
   value?: string[] | number[]
+  activeEffect: any
 }
 
 class EmissionTypeProperties extends React.Component<IProps> {
@@ -15,6 +16,7 @@ class EmissionTypeProperties extends React.Component<IProps> {
   }
 
   public render() {
+    if (this.props.activeEffect === 'office') return <></>
     const { config } = this.props
     const { emissionType, isSubmenuVisible } = this.state
 
@@ -41,7 +43,7 @@ class EmissionTypeProperties extends React.Component<IProps> {
               type={'number'}
               step={'1'}
               title={'Emit/sec'}
-              value={[(config.emitController && config.emitController._emitPerSecond)]}
+              value={[config.emitController && config.emitController._emitPerSecond]}
               updateProps={this.updateProps.bind(this, 'EmissionTypeProperties-_emitPerSecond')}
             />
           )}
@@ -51,14 +53,14 @@ class EmissionTypeProperties extends React.Component<IProps> {
                 type={'number'}
                 step={'1'}
                 title={'Max Particles'}
-                value={[(config.emitController && config.emitController._maxParticles)]}
+                value={[config.emitController && config.emitController._maxParticles]}
                 updateProps={this.updateProps.bind(this, 'EmissionTypeProperties-_maxParticles')}
               />
               <FormGroup
                 type={'number'}
                 step={'1'}
                 title={'Emission Rate'}
-                value={[(config.emitController && config.emitController._emissionRate)]}
+                value={[config.emitController && config.emitController._emissionRate]}
                 updateProps={this.updateProps.bind(this, 'EmissionTypeProperties-_emissionRate')}
               />
             </>
