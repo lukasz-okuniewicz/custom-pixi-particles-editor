@@ -255,14 +255,14 @@ export default class ParticlesDefaultConfig {
           enabled: true,
           allowNegativeValues: false,
           sizeStart: {
-            x: 0.1,
-            y: 0.1,
+            x: 0.3,
+            y: 0.3,
           },
           sizeEnd: {
             x: 0,
             y: 0,
           },
-          startVariance: 0.08,
+          startVariance: 0.1,
           endVariance: 0,
           name: 'SizeBehaviour',
         },
@@ -279,8 +279,8 @@ export default class ParticlesDefaultConfig {
             y: 0,
           },
           positionVariance: {
-            x: 50,
-            y: 50,
+            x: 70,
+            y: 70,
           },
           velocity: {
             x: 0,
@@ -338,14 +338,14 @@ export default class ParticlesDefaultConfig {
           enabled: true,
           allowNegativeValues: false,
           sizeStart: {
-            x: 0.08,
-            y: 0.08,
+            x: 0.2,
+            y: 0.2,
           },
           sizeEnd: {
             x: 0,
             y: 0,
           },
-          startVariance: 0.02,
+          startVariance: 0.1,
           endVariance: 0,
           name: 'SizeBehaviour',
         },
@@ -353,35 +353,17 @@ export default class ParticlesDefaultConfig {
           priority: 100,
           enabled: true,
           spawnType: 'Ring',
-          radius: 1,
+          radius: 10,
           warp: true,
           warpSpeed: 0.001,
           warpBaseSpeed: 0.005,
-          sinX: false,
-          sinY: false,
-          sinXVal: {
-            x: 0,
-            y: 0,
-          },
-          sinYVal: {
-            x: 0,
-            y: 0,
-          },
-          sinXValVariance: {
-            x: 0,
-            y: 0,
-          },
-          sinYValVariance: {
-            x: 0,
-            y: 0,
-          },
           position: {
             x: 0,
             y: 0,
           },
           positionVariance: {
-            x: 40,
-            y: 40,
+            x: 70,
+            y: 70,
           },
           velocity: {
             x: 0,
