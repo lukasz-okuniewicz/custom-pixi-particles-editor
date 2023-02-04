@@ -181,25 +181,25 @@ export default class ParticlesDefaultConfig {
           start: {
             _r: 0,
             _g: 0,
-            _b: 20,
+            _b: 15,
             _alpha: 1,
           },
           end: {
             _r: 0,
             _g: 0,
-            _b: 20,
+            _b: 15,
             _alpha: 0,
           },
           startVariance: {
             _r: 20,
             _g: 0,
-            _b: 20,
+            _b: 10,
             _alpha: 1,
           },
           endVariance: {
             _r: 20,
             _g: 0,
-            _b: 20,
+            _b: 10,
             _alpha: 1,
           },
           sinus: true,
@@ -229,7 +229,6 @@ export default class ParticlesDefaultConfig {
       },
       blendMode: 3,
     },
-    // textures: ['energyball/energyball_1.png'],
     textures: [
       'gdevelop/Water.png',
       'magic particles/magic_particles_1.png',
@@ -241,7 +240,7 @@ export default class ParticlesDefaultConfig {
       'particles/smoke_01.png',
     ],
   }
-  warp = {
+  warpWithEffect = {
     emitterConfig: {
       behaviours: [
         {
@@ -256,14 +255,14 @@ export default class ParticlesDefaultConfig {
           enabled: true,
           allowNegativeValues: false,
           sizeStart: {
-            x: 0.08,
-            y: 0.08,
+            x: 0.1,
+            y: 0.1,
           },
           sizeEnd: {
             x: 0,
             y: 0,
           },
-          startVariance: 0.02,
+          startVariance: 0.08,
           endVariance: 0,
           name: 'SizeBehaviour',
         },
@@ -271,35 +270,17 @@ export default class ParticlesDefaultConfig {
           priority: 100,
           enabled: true,
           spawnType: 'Ring',
-          radius: 1,
+          radius: 50,
           warp: true,
           warpSpeed: 0.001,
           warpBaseSpeed: 0.005,
-          sinX: false,
-          sinY: false,
-          sinXVal: {
-            x: 0,
-            y: 0,
-          },
-          sinYVal: {
-            x: 0,
-            y: 0,
-          },
-          sinXValVariance: {
-            x: 0,
-            y: 0,
-          },
-          sinYValVariance: {
-            x: 0,
-            y: 0,
-          },
           position: {
             x: 0,
             y: 0,
           },
           positionVariance: {
-            x: 40,
-            y: 40,
+            x: 50,
+            y: 50,
           },
           velocity: {
             x: 0,
@@ -318,8 +299,8 @@ export default class ParticlesDefaultConfig {
             y: 0,
           },
           cameraZConverter: 5,
-          warpFov: 20,
-          warpStretch: 5,
+          warpFov: 15,
+          warpStretch: 10,
           warpDistanceScaleConverter: 5,
           name: 'PositionBehaviour',
         },
@@ -329,7 +310,7 @@ export default class ParticlesDefaultConfig {
         _emissionRate: '1011111',
         _maxLife: 1,
         _emitPerSecond: 100,
-        _frames: 0.5119999998807907,
+        _frames: 0,
         name: 'RandomEmission',
       },
       duration: -1,
@@ -340,9 +321,9 @@ export default class ParticlesDefaultConfig {
       },
       blendMode: 0,
     },
-    textures: ['particle.png'],
+    textures: ['sparkle.png'],
   }
-  warpWithEffect = {
+  warp = {
     emitterConfig: {
       behaviours: [
         {

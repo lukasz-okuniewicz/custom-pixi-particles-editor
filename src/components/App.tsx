@@ -7,8 +7,10 @@ import ParticlesDefaultConfig from './config/particlesDefaultConfig'
 import { saveAs } from 'file-saver'
 import { customPixiParticles, Renderer } from 'custom-pixi-particles'
 import { gsap, Linear } from 'gsap'
-import { Application, Container, Loader, Sprite, Texture } from 'pixi.js-legacy'
+import { Application, Container, Loader as PixiLoader, Sprite, Texture } from 'pixi.js-legacy'
 import TestRenderer from 'custom-pixi-particles/dist/lib/pixi/TestRenderer'
+import Loader from './utils/Loader'
+import { propsToReloadEverything } from './config'
 
 class App extends React.Component {
   state = {
@@ -24,75 +26,36 @@ class App extends React.Component {
   private bgContainer2: Container
   private particles: TestRenderer
   private conf: ParticlesDefaultConfig = new ParticlesDefaultConfig()
-  private activeEffect: string = 'office'
-  private orgConfig: any = JSON.parse(JSON.stringify(this.conf[this.activeEffect]))
-  private defaultConfig: any = JSON.parse(JSON.stringify(this.conf[this.activeEffect]))
-  private newDefaultConfig: any = JSON.parse(JSON.stringify(this.conf[this.activeEffect]))
+  private activeEffect: string
+  private orgConfig: any
+  private defaultConfig: any
+  private newDefaultConfig: any
   private tween: any
   private bgSprite: Sprite
   private bgSprite2: Sprite
   private bgSpriteSize: { w: number; h: number }
   private particlesArr: any[] = []
 
-  componentDidMount() {
-    // @ts-ignore
-    this.app = new Application({ backgroundColor: 0 })
-    // @ts-ignore
-    window.app = this.app
+  async componentDidMount() {
+    await Loader.load()
 
-    document.addEventListener('visibilitychange', (event) => {
-      if (document.visibilityState === 'visible') {
-        this.particlesArr.forEach((particle) => {
-          particle.pause(false)
-        })
-        this.particles.pause(false)
-        this.app.start()
-      } else {
-        this.particlesArr.forEach((particle) => {
-          particle.pause(true)
-        })
-        this.particles.pause(true)
-        this.app.stop()
-      }
+    this.setState({
+      isLoading: false,
     })
 
-    this.bgContainer = new Container()
-    this.bgContainer.name = 'bgContainer'
-    this.app.stage.addChild(this.bgContainer)
-    this.particlesContainer = new Container()
-    this.particlesContainer.name = 'particlesContainer'
-    this.app.stage.addChild(this.particlesContainer)
-    this.bgContainer2 = new Container()
-    this.bgContainer2.name = 'bgContainer2'
-    this.app.stage.addChild(this.bgContainer2)
+    this.setActiveEffect()
+    this.initApp()
+    this.createParticles()
+    this.resize()
+    this.detectMouseMove()
+    this.createOffice()
+    this.createEventListeners()
 
-    const loader = Loader.shared
-    loader.add('assets/img/images.json')
-    loader.add('assets/img/multipacked-0.json')
-    loader.add('autumn', 'assets/img/backgrounds/autumn.jpg')
-    loader.add('campFire', 'assets/img/backgrounds/campfire.jpg')
-    loader.add('birds', 'assets/img/backgrounds/birds.jpg')
-    loader.add('cigarette', 'assets/img/backgrounds/cigarette.jpg')
-    loader.add('blackHole', 'assets/img/backgrounds/blackHole.jpg')
-    loader.add('face', 'assets/img/backgrounds/face.jpeg')
-    loader.add('office1', 'assets/img/backgrounds/office1.png')
-    loader.add('office2', 'assets/img/backgrounds/office2.png')
-    loader.load()
-    loader.onComplete.once((x) => {
-      this.setState({
-        isLoading: false,
-      })
-      document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
-      this.createParticles()
-      this.resize()
-      this.detectMouseMove()
-      this.forceUpdate()
-
-      this.createOffice()
-    })
-
-    window.addEventListener('resize', this.resize.bind(this, true))
-    window.addEventListener('orientationchange', this.resize.bind(this, true))
+    if (this.activeEffect !== 'office') {
+      this.newDefaultConfig.particlePredefinedEffect = this.activeEffect
+      this.defaultConfig.particlePredefinedEffect = this.activeEffect
+      this.updateProps('refresh', null)
+    }
 
     this.setState({
       defaultConfig: this.newDefaultConfig,
@@ -121,6 +84,7 @@ class App extends React.Component {
       this.app.renderer.backgroundColor = parseInt(`0x${props.hex.replace('#', '')}`, 16)
       return
     }
+
     switch (name) {
       case 'refresh':
         break
@@ -794,7 +758,7 @@ class App extends React.Component {
         this.resize()
         break
       case 'bg-image':
-        const loader2 = Loader.shared
+        const loader2 = PixiLoader.shared
         if (!loader2.resources[props[1].fileName]) {
           loader2.add(props[1].fileName, props[1].result)
           loader2.load()
@@ -838,7 +802,7 @@ class App extends React.Component {
         }
         break
       case 'particle-images':
-        const loader = Loader.shared
+        const loader = PixiLoader.shared
         const arrayOfTextures = []
 
         let howManyToLoad = 0
@@ -999,127 +963,14 @@ class App extends React.Component {
         this.newDefaultConfig.emitterConfig.blendMode = parseFloat(props[1])
         this.defaultConfig.emitterConfig.blendMode = parseFloat(props[1])
         break
-      case 'pathProperties-enabledPath':
-        this.newDefaultConfig.speed = 0
-        if (!this.newDefaultConfig.point1) {
-          this.newDefaultConfig.point1 = {
-            x: 0,
-            y: 0,
-          }
-        }
-        if (!this.newDefaultConfig.point2) {
-          this.newDefaultConfig.point2 = {
-            x: 0,
-            y: 0,
-          }
-        }
-        this.newDefaultConfig.enabledPath = props[1]
-        this.defaultConfig.enabledPath = props[1]
-        break
-      case 'pathProperties-speed':
-        this.newDefaultConfig.speed = parseFloat(props[1])
-        this.defaultConfig.speed = parseFloat(props[1])
-        break
-      case 'pathProperties-point1':
-        if (!this.newDefaultConfig.point1) {
-          this.newDefaultConfig.point1 = {
-            x: 0,
-            y: 0,
-          }
-        }
-        if (!this.defaultConfig.point1) {
-          this.defaultConfig.point1 = {
-            x: 0,
-            y: 0,
-          }
-        }
-        if (props[0] === 0) {
-          this.newDefaultConfig.point1.x = parseFloat(props[1])
-          this.defaultConfig.point1.x = parseFloat(props[1])
-        } else {
-          this.newDefaultConfig.point1.y = parseFloat(props[1])
-          this.defaultConfig.point1.y = parseFloat(props[1])
-        }
-        break
-      case 'pathProperties-point2':
-        if (!this.newDefaultConfig.point2) {
-          this.newDefaultConfig.point2 = {
-            x: 0,
-            y: 0,
-          }
-        }
-        if (!this.defaultConfig.point2) {
-          this.defaultConfig.point2 = {
-            x: 0,
-            y: 0,
-          }
-        }
-        if (props[0] === 0) {
-          this.newDefaultConfig.point2.x = parseFloat(props[1])
-          this.defaultConfig.point2.x = parseFloat(props[1])
-        } else {
-          this.newDefaultConfig.point2.y = parseFloat(props[1])
-          this.defaultConfig.point2.y = parseFloat(props[1])
-        }
-        break
     }
 
-    this.particlesArr.forEach((particle) => {
-      particle.stopImmediately()
-    })
-    this.particlesArr = []
+    if (this.activeEffect !== 'warpWithEffect') {
+      this.stopAllParticlesArr()
+    }
 
-    if (
-      [
-        'particlePredefinedEffect',
-        'particlePredefinedImage',
-        'particle-images',
-        'refresh',
-        'load-config',
-        'download-config',
-        'particle-finishing-images',
-        'global-alpha',
-        'global-anchor',
-        'global-animatedSprite',
-        'global-animatedSpriteName',
-        'global-animatedSpriteName',
-        'global-animatedSpriteFrameRate',
-        'global-animatedSpriteLoop',
-        'global-animatedSpriteRandomFrameStart',
-        'bg-image',
-        'global-blendMode',
-      ].includes(name)
-    ) {
-      this.particles.stopImmediately()
-      this.particlesContainer.removeChildren()
-
-      if (this.activeEffect === 'campFire' || this.activeEffect === 'campFireTurbulence') {
-        const campfireSparklesConfig = JSON.parse(JSON.stringify(this.conf.campFireSparkles))
-        // @ts-ignore
-        const particles = this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
-        particles.play()
-        this.particlesArr.push(particles)
-      }
-
-      if (this.activeEffect === 'warpWithEffect') {
-        setTimeout(() => {
-          this._animateWarp()
-        })
-
-        const warpCloudsConfig = JSON.parse(JSON.stringify(this.conf.warpClouds))
-        // @ts-ignore
-        const particles = this.particlesContainer.addChild(customPixiParticles.create(warpCloudsConfig))
-        particles.play()
-        this.particlesArr.push(particles)
-      }
-
-      if (this.activeEffect === 'office') {
-        this.createOffice()
-      }
-
-      this.createParticles()
-
-      this.animateTween(this.activeEffect)
+    if (propsToReloadEverything.includes(name)) {
+      this.reloadEverything()
     } else {
       this.particles.updateConfig(this.defaultConfig.emitterConfig)
       this.particles.updateTexture()
@@ -1245,168 +1096,16 @@ class App extends React.Component {
   }
 
   private animateTween(props: string) {
-    if (this.tween) {
-      this.tween.kill()
-    }
-
-    let speed = 0.2
-
-    if (this.newDefaultConfig.enabledPath) {
-      speed = this.newDefaultConfig.speed
-
-      this.defaultConfig.emitterConfig.behaviours[1].position.x = this.newDefaultConfig.point1.x
-      this.defaultConfig.emitterConfig.behaviours[1].position.y = this.newDefaultConfig.point1.y
-
-      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-        x: this.newDefaultConfig.point2.x,
-        y: this.newDefaultConfig.point2.y,
-        ease: Linear.easeNone,
-        onUpdate: () => {
-          this.particles.updateConfig(this.defaultConfig.emitterConfig)
-        },
-        onComplete: () => {},
-      })
-      return
-    }
+    this.killTween()
 
     if (props === 'flyingFire') {
-      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-        x: -300,
-        y: 300,
-        ease: Linear.easeNone,
-        onUpdate: () => {
-          this.particles.updateConfig(this.defaultConfig.emitterConfig)
-        },
-        onComplete: () => {
-          this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-            x: 300,
-            y: 300,
-            ease: Linear.easeNone,
-            onUpdate: () => {
-              this.particles.updateConfig(this.defaultConfig.emitterConfig)
-            },
-            onComplete: () => {
-              this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-                x: 300,
-                y: -300,
-                ease: Linear.easeNone,
-                onUpdate: () => {
-                  this.particles.updateConfig(this.defaultConfig.emitterConfig)
-                },
-                onComplete: () => {
-                  this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-                    x: -300,
-                    y: -300,
-                    ease: Linear.easeNone,
-                    onUpdate: () => {
-                      this.particles.updateConfig(this.defaultConfig.emitterConfig)
-                    },
-                    onComplete: () => {
-                      this.animateTween(props)
-                    },
-                  })
-                },
-              })
-            },
-          })
-        },
-      })
+      this.animateFlyingFire(props, 0.2)
     } else if (props === 'flyingFountain') {
-      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-        x: -300,
-        y: 300,
-        ease: Linear.easeNone,
-        onUpdate: () => {
-          this.particles.updateConfig(this.defaultConfig.emitterConfig)
-        },
-        onComplete: () => {
-          this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-            x: 300,
-            y: 300,
-            ease: Linear.easeNone,
-            onUpdate: () => {
-              this.particles.updateConfig(this.defaultConfig.emitterConfig)
-            },
-            onComplete: () => {
-              this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-                x: 300,
-                y: -300,
-                ease: Linear.easeNone,
-                onUpdate: () => {
-                  this.particles.updateConfig(this.defaultConfig.emitterConfig)
-                },
-                onComplete: () => {
-                  this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-                    x: -300,
-                    y: -300,
-                    ease: Linear.easeNone,
-                    onUpdate: () => {
-                      this.particles.updateConfig(this.defaultConfig.emitterConfig)
-                    },
-                    onComplete: () => {
-                      this.animateTween(props)
-                    },
-                  })
-                },
-              })
-            },
-          })
-        },
-      })
+      this.animateFlyingFountain(props, 0.2)
     } else if (props === 'flyingBubbles') {
-      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-        x: -300,
-        y: 300,
-        ease: Linear.easeNone,
-        onUpdate: () => {
-          this.particles.updateConfig(this.defaultConfig.emitterConfig)
-        },
-        onComplete: () => {
-          this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-            x: 300,
-            y: 300,
-            ease: Linear.easeNone,
-            onUpdate: () => {
-              this.particles.updateConfig(this.defaultConfig.emitterConfig)
-            },
-            onComplete: () => {
-              this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-                x: 300,
-                y: -300,
-                ease: Linear.easeNone,
-                onUpdate: () => {
-                  this.particles.updateConfig(this.defaultConfig.emitterConfig)
-                },
-                onComplete: () => {
-                  this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
-                    x: -300,
-                    y: -300,
-                    ease: Linear.easeNone,
-                    onUpdate: () => {
-                      this.particles.updateConfig(this.defaultConfig.emitterConfig)
-                    },
-                    onComplete: () => {
-                      this.animateTween(props)
-                    },
-                  })
-                },
-              })
-            },
-          })
-        },
-      })
+      this.animateFlyingBubbles(props, 0.2)
     } else if (props === 'meteor') {
-      this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, 1, {
-        x: -200,
-        y: 200,
-        ease: Linear.easeNone,
-        onUpdate: () => {
-          this.particles.updateConfig(this.defaultConfig.emitterConfig)
-        },
-        onComplete: () => {
-          this.particles.updateConfig(this.conf.explosionForMeteor.emitterConfig)
-        },
-      })
+      this.animateMeteor()
     }
   }
 
@@ -1425,6 +1124,7 @@ class App extends React.Component {
   }
 
   private createOffice() {
+    if (this.activeEffect !== 'office') return
     const bgTexture = Texture.from('office2')
     const sprite = new Sprite(bgTexture)
     this.bgSprite = sprite
@@ -1498,10 +1198,10 @@ class App extends React.Component {
     this.resize()
   }
 
-  private _animateWarp() {
-    if (this.tween) {
-      this.tween.kill()
-    }
+  private animateWarp() {
+    this.killTween()
+    this.defaultConfig.emitterConfig.behaviours[2].warpSpeed = 0.001
+    this.particles.updateConfig(this.defaultConfig.emitterConfig)
     const obj = {
       warpSpeed: this.defaultConfig.emitterConfig.behaviours[2].warpSpeed,
     }
@@ -1513,14 +1213,12 @@ class App extends React.Component {
         this.defaultConfig.emitterConfig.behaviours[2].warpSpeed = parseFloat(obj.warpSpeed)
         this.particles.updateConfig(this.defaultConfig.emitterConfig)
       },
-      onComplete: () => this._animateWarpStop(),
+      onComplete: () => this.animateWarpStop(),
     })
   }
 
-  private _animateWarpStop() {
-    if (this.tween) {
-      this.tween.kill()
-    }
+  private animateWarpStop() {
+    this.killTween()
     const obj = {
       warpSpeed: this.defaultConfig.emitterConfig.behaviours[2].warpSpeed,
     }
@@ -1532,8 +1230,232 @@ class App extends React.Component {
         this.defaultConfig.emitterConfig.behaviours[2].warpSpeed = parseFloat(obj.warpSpeed)
         this.particles.updateConfig(this.defaultConfig.emitterConfig)
       },
-      onComplete: () => this._animateWarp(),
+      onComplete: () => this.animateWarp(),
     })
+  }
+
+  private setActiveEffect() {
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const effect = urlParams.get('effect')
+    if (effect) {
+      this.activeEffect = effect
+    } else {
+      this.activeEffect = 'office'
+    }
+    this.orgConfig = JSON.parse(JSON.stringify(this.conf[this.activeEffect]))
+    this.defaultConfig = JSON.parse(JSON.stringify(this.conf[this.activeEffect]))
+    this.newDefaultConfig = JSON.parse(JSON.stringify(this.conf[this.activeEffect]))
+  }
+
+  private initApp() {
+    this.app = new Application({ backgroundColor: 0 })
+    this.bgContainer = new Container()
+    this.bgContainer.name = 'bgContainer'
+    this.app.stage.addChild(this.bgContainer)
+    this.particlesContainer = new Container()
+    this.particlesContainer.name = 'particlesContainer'
+    this.app.stage.addChild(this.particlesContainer)
+    this.bgContainer2 = new Container()
+    this.bgContainer2.name = 'bgContainer2'
+    this.app.stage.addChild(this.bgContainer2)
+    document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
+  }
+
+  private createEventListeners() {
+    window.addEventListener('resize', this.resize.bind(this, true))
+    window.addEventListener('orientationchange', this.resize.bind(this, true))
+  }
+
+  private animateMeteor() {
+    this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, 1, {
+      x: -200,
+      y: 200,
+      ease: Linear.easeNone,
+      onUpdate: () => {
+        this.particles.updateConfig(this.defaultConfig.emitterConfig)
+      },
+      onComplete: () => {
+        this.particles.updateConfig(this.conf.explosionForMeteor.emitterConfig)
+      },
+    })
+  }
+
+  private animateFlyingBubbles(props: string, speed: number) {
+    this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+      x: -300,
+      y: 300,
+      ease: Linear.easeNone,
+      onUpdate: () => {
+        this.particles.updateConfig(this.defaultConfig.emitterConfig)
+      },
+      onComplete: () => {
+        this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+          x: 300,
+          y: 300,
+          ease: Linear.easeNone,
+          onUpdate: () => {
+            this.particles.updateConfig(this.defaultConfig.emitterConfig)
+          },
+          onComplete: () => {
+            this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+              x: 300,
+              y: -300,
+              ease: Linear.easeNone,
+              onUpdate: () => {
+                this.particles.updateConfig(this.defaultConfig.emitterConfig)
+              },
+              onComplete: () => {
+                this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                  x: -300,
+                  y: -300,
+                  ease: Linear.easeNone,
+                  onUpdate: () => {
+                    this.particles.updateConfig(this.defaultConfig.emitterConfig)
+                  },
+                  onComplete: () => {
+                    this.animateTween(props)
+                  },
+                })
+              },
+            })
+          },
+        })
+      },
+    })
+  }
+
+  private animateFlyingFountain(props: string, speed: number) {
+    this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+      x: -300,
+      y: 300,
+      ease: Linear.easeNone,
+      onUpdate: () => {
+        this.particles.updateConfig(this.defaultConfig.emitterConfig)
+      },
+      onComplete: () => {
+        this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+          x: 300,
+          y: 300,
+          ease: Linear.easeNone,
+          onUpdate: () => {
+            this.particles.updateConfig(this.defaultConfig.emitterConfig)
+          },
+          onComplete: () => {
+            this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+              x: 300,
+              y: -300,
+              ease: Linear.easeNone,
+              onUpdate: () => {
+                this.particles.updateConfig(this.defaultConfig.emitterConfig)
+              },
+              onComplete: () => {
+                this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                  x: -300,
+                  y: -300,
+                  ease: Linear.easeNone,
+                  onUpdate: () => {
+                    this.particles.updateConfig(this.defaultConfig.emitterConfig)
+                  },
+                  onComplete: () => {
+                    this.animateTween(props)
+                  },
+                })
+              },
+            })
+          },
+        })
+      },
+    })
+  }
+
+  private animateFlyingFire(props: string, speed: number) {
+    this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+      x: -300,
+      y: 300,
+      ease: Linear.easeNone,
+      onUpdate: () => {
+        this.particles.updateConfig(this.defaultConfig.emitterConfig)
+      },
+      onComplete: () => {
+        this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+          x: 300,
+          y: 300,
+          ease: Linear.easeNone,
+          onUpdate: () => {
+            this.particles.updateConfig(this.defaultConfig.emitterConfig)
+          },
+          onComplete: () => {
+            this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+              x: 300,
+              y: -300,
+              ease: Linear.easeNone,
+              onUpdate: () => {
+                this.particles.updateConfig(this.defaultConfig.emitterConfig)
+              },
+              onComplete: () => {
+                this.tween = gsap.to(this.defaultConfig.emitterConfig.behaviours[1].position, speed, {
+                  x: -300,
+                  y: -300,
+                  ease: Linear.easeNone,
+                  onUpdate: () => {
+                    this.particles.updateConfig(this.defaultConfig.emitterConfig)
+                  },
+                  onComplete: () => {
+                    this.animateTween(props)
+                  },
+                })
+              },
+            })
+          },
+        })
+      },
+    })
+  }
+
+  private killTween() {
+    if (!this.tween) return
+    this.tween.kill()
+  }
+
+  private stopAllParticlesArr() {
+    this.particlesArr.forEach((particle) => {
+      particle.stopImmediately()
+    })
+    this.particlesArr = []
+  }
+
+  private reloadEverything() {
+    this.particles.stopImmediately()
+    this.particlesContainer.removeChildren()
+
+    if (this.activeEffect === 'campFire' || this.activeEffect === 'campFireTurbulence') {
+      const campfireSparklesConfig = JSON.parse(JSON.stringify(this.conf.campFireSparkles))
+      // @ts-ignore
+      const particles = this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
+      particles.play()
+      this.particlesArr.push(particles)
+    }
+
+    if (this.activeEffect === 'warpWithEffect') {
+      setTimeout(() => {
+        this.animateWarp()
+      })
+
+      const warpCloudsConfig = JSON.parse(JSON.stringify(this.conf.warpClouds))
+      // @ts-ignore
+      const particles = this.particlesContainer.addChild(customPixiParticles.create(warpCloudsConfig))
+      particles.play()
+      this.particlesArr.push(particles)
+
+      this.app.renderer.backgroundColor = parseInt(`0x000203`, 16)
+    }
+
+    this.createOffice()
+
+    this.createParticles()
+
+    this.animateTween(this.activeEffect)
   }
 }
 

@@ -11,7 +11,6 @@ import AngularVelocityProperties from './properties/AngularVelocityProperties'
 import EmissionTypeProperties from './properties/EmissionTypeProperties'
 import LoadAndSaveProperties from './properties/LoadAndSaveProperties'
 import TurbulenceProperties from './properties/TurbulenceProperties'
-// import PathProperties from './properties/PathProperties'
 
 export interface IProps {
   config: any
@@ -74,7 +73,6 @@ class Menu extends React.Component<IProps> {
           updateProps={this.props.updateProps}
           activeEffect={this.props.activeEffect}
         />
-        {/*<PathProperties config={this.props.config} updateProps={this.props.updateProps} activeEffect={this.props.activeEffect} />*/}
       </div>
     )
   }

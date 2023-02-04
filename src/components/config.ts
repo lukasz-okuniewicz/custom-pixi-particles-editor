@@ -1,0 +1,21 @@
+const propsToReloadEverything = [
+  'particlePredefinedEffect',
+  'particlePredefinedImage',
+  'particle-images',
+  'refresh',
+  'load-config',
+  'download-config',
+  'particle-finishing-images',
+  'global-alpha',
+  'global-anchor',
+  'global-animatedSprite',
+  'global-animatedSpriteName',
+  'global-animatedSpriteName',
+  'global-animatedSpriteFrameRate',
+  'global-animatedSpriteLoop',
+  'global-animatedSpriteRandomFrameStart',
+  'bg-image',
+  'global-blendMode',
+]
+
+export { propsToReloadEverything }
