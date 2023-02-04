@@ -72,7 +72,9 @@ class GeneralProperties extends React.Component<IProps> {
                   value={config.particlePredefinedEffect || 'office'}
                   onChange={this.handleChangeEffect.bind(this, 0, 'particlePredefinedEffect')}
                 >
-                  <option value={'office'}>Coffee shop</option>
+                  <option value={'office'}>Coffee Shop</option>
+                  <option value={'warpWithEffect'}>Warp Animation</option>
+                  <option value={'warp'}>Warp</option>
                   <option value={'bloodHand'}>Blood Hand</option>
                   <option value={'darkMagicSmoke'}>Dark Magic Smoke</option>
                   <option value={'runes'}>Runes</option>

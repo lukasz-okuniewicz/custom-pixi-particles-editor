@@ -38,7 +38,7 @@ class EmissionTypeProperties extends React.Component<IProps> {
               </select>
             </div>
           </div>
-          {emissionType === 'UniformEmission' && (
+          {config.emitController.name === 'UniformEmission' && (
             <FormGroup
               type={'number'}
               step={'1'}
@@ -47,7 +47,7 @@ class EmissionTypeProperties extends React.Component<IProps> {
               updateProps={this.updateProps.bind(this, 'EmissionTypeProperties-_emitPerSecond')}
             />
           )}
-          {emissionType !== 'UniformEmission' && (
+          {config.emitController.name !== 'UniformEmission' && (
             <>
               <FormGroup
                 type={'number'}

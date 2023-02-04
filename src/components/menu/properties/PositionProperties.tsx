@@ -26,6 +26,27 @@ class PositionProperties extends React.Component<IProps> {
     if (typeof config.sinY === 'undefined') {
       config.sinY = false
     }
+    if (typeof config.warp === 'undefined') {
+      config.warp = false
+    }
+    if (typeof config.warpSpeed === 'undefined') {
+      config.warpSpeed = 0
+    }
+    if (typeof config.warpBaseSpeed === 'undefined') {
+      config.warpBaseSpeed = 0.05
+    }
+    if (typeof config.cameraZConverter === 'undefined') {
+      config.cameraZConverter = 10
+    }
+    if (typeof config.warpFov === 'undefined') {
+      config.warpFov = 20
+    }
+    if (typeof config.warpStretch === 'undefined') {
+      config.warpStretch = 5
+    }
+    if (typeof config.warpDistanceScaleConverter === 'undefined') {
+      config.warpDistanceScaleConverter = 2000
+    }
     if (typeof config.sinXVal === 'undefined') {
       config.sinXVal = {
         x: 0,
@@ -85,6 +106,7 @@ class PositionProperties extends React.Component<IProps> {
             value={[config.radius]}
             updateProps={this.updateProps.bind(this, 'positionProperties-radius')}
           />
+          <hr />
           <FormGroup
             type={'number'}
             step={'1'}
@@ -104,7 +126,7 @@ class PositionProperties extends React.Component<IProps> {
             ]}
             updateProps={this.updateProps.bind(this, 'positionProperties-positionVariance')}
           />
-
+          <hr />
           <FormGroup
             type={'number'}
             step={'1'}
@@ -124,7 +146,7 @@ class PositionProperties extends React.Component<IProps> {
             ]}
             updateProps={this.updateProps.bind(this, 'positionProperties-velocityVariance')}
           />
-
+          <hr />
           <FormGroup
             type={'number'}
             step={'1'}
@@ -144,6 +166,7 @@ class PositionProperties extends React.Component<IProps> {
             ]}
             updateProps={this.updateProps.bind(this, 'positionProperties-accelerationVariance')}
           />
+          <hr />
           <div className="form-group">
             <div className="col-xs-4 form-label">Sine X</div>
             <div className="col-xs-8">
@@ -198,6 +221,59 @@ class PositionProperties extends React.Component<IProps> {
               />
             </>
           )}
+          <hr />
+          <div className="form-group">
+            <div className="col-xs-4 form-label">Warp effect</div>
+            <div className="col-xs-8">
+              <input type={'checkbox'} checked={config.warp} onChange={this.handleChangeWarp} />
+            </div>
+          </div>
+          {config.warp && (
+            <>
+              <FormGroup
+                type={'number'}
+                step={'0.0001'}
+                title={'Speed'}
+                value={[config.warpSpeed]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-warpSpeed')}
+              />
+              <FormGroup
+                type={'number'}
+                step={'0.01'}
+                title={'Base Speed'}
+                value={[config.warpBaseSpeed]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-warpBaseSpeed')}
+              />
+              <FormGroup
+                type={'number'}
+                step={'1'}
+                title={'Camera Z converter'}
+                value={[config.cameraZConverter]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-cameraZConverter')}
+              />
+              <FormGroup
+                type={'number'}
+                step={'1'}
+                title={'FOV'}
+                value={[config.warpFov]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-warpFov')}
+              />
+              <FormGroup
+                type={'number'}
+                step={'1'}
+                title={'Stretch'}
+                value={[config.warpStretch]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-warpStretch')}
+              />
+              <FormGroup
+                type={'number'}
+                step={'1'}
+                title={'Distance Scale Converter'}
+                value={[config.warpDistanceScaleConverter]}
+                updateProps={this.updateProps.bind(this, 'positionProperties-warpDistanceScaleConverter')}
+              />
+            </>
+          )}
         </div>
       </div>
     )
@@ -209,6 +285,10 @@ class PositionProperties extends React.Component<IProps> {
 
   private handleChangeSinY = (event) => {
     this.props.updateProps('positionProperties-sinY', [0, event.target.checked])
+  }
+
+  private handleChangeWarp = (event) => {
+    this.props.updateProps('positionProperties-warp', [0, event.target.checked])
   }
 
   private handleChangeSpawnType(index: number, name: string, event) {

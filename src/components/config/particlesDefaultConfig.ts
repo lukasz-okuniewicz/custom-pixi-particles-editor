@@ -118,6 +118,331 @@ export default class ParticlesDefaultConfig {
     },
     textures: ['gdevelop/BloodHand.png'],
   }
+  warpClouds = {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 10000,
+          enabled: true,
+          maxLifeTime: 10,
+          timeVariance: 5,
+          name: 'LifeBehaviour',
+        },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Ring',
+          radius: 300,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 50,
+            y: 50,
+          },
+          velocity: {
+            x: 0,
+            y: 0,
+          },
+          velocityVariance: {
+            x: 50,
+            y: 50,
+          },
+          acceleration: {
+            x: 0,
+            y: 0,
+          },
+          accelerationVariance: {
+            x: 0,
+            y: 0,
+          },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: {
+            x: 15,
+            y: 15,
+          },
+          sizeEnd: {
+            x: 15,
+            y: 15,
+          },
+          startVariance: 5,
+          endVariance: 5,
+          name: 'SizeBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          start: {
+            _r: 0,
+            _g: 0,
+            _b: 20,
+            _alpha: 1,
+          },
+          end: {
+            _r: 0,
+            _g: 0,
+            _b: 20,
+            _alpha: 0,
+          },
+          startVariance: {
+            _r: 20,
+            _g: 0,
+            _b: 20,
+            _alpha: 1,
+          },
+          endVariance: {
+            _r: 20,
+            _g: 0,
+            _b: 20,
+            _alpha: 1,
+          },
+          sinus: true,
+          name: 'ColorBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          rotation: 0,
+          variance: 0.2,
+          name: 'RotationBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 10,
+        _emissionRate: 2,
+        _maxLife: 1,
+        _emitPerSecond: 1,
+        _frames: 0,
+        name: 'RandomEmission',
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: {
+        x: 0.5,
+        y: 0.5,
+      },
+      blendMode: 3,
+    },
+    // textures: ['energyball/energyball_1.png'],
+    textures: [
+      'gdevelop/Water.png',
+      'magic particles/magic_particles_1.png',
+      'magic particles/magic_particles_5.png',
+      'magic particles/magic_particles_7.png',
+      'magic particles/magic_particles_9.png',
+      'magic particles/magic_particles_10.png',
+      'magic particles/magic_particles_18.png',
+      'particles/smoke_01.png',
+    ],
+  }
+  warp = {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 10000,
+          enabled: true,
+          maxLifeTime: 10000000,
+          timeVariance: 0,
+          name: 'LifeBehaviour',
+        },
+        {
+          priority: 200,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: {
+            x: 0.08,
+            y: 0.08,
+          },
+          sizeEnd: {
+            x: 0,
+            y: 0,
+          },
+          startVariance: 0.02,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Ring',
+          radius: 1,
+          warp: true,
+          warpSpeed: 0.001,
+          warpBaseSpeed: 0.005,
+          sinX: false,
+          sinY: false,
+          sinXVal: {
+            x: 0,
+            y: 0,
+          },
+          sinYVal: {
+            x: 0,
+            y: 0,
+          },
+          sinXValVariance: {
+            x: 0,
+            y: 0,
+          },
+          sinYValVariance: {
+            x: 0,
+            y: 0,
+          },
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 40,
+            y: 40,
+          },
+          velocity: {
+            x: 0,
+            y: 0,
+          },
+          velocityVariance: {
+            x: 0,
+            y: 0,
+          },
+          acceleration: {
+            x: 0,
+            y: 0,
+          },
+          accelerationVariance: {
+            x: 0,
+            y: 0,
+          },
+          cameraZConverter: 5,
+          warpFov: 20,
+          warpStretch: 5,
+          warpDistanceScaleConverter: 5,
+          name: 'PositionBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 1000,
+        _emissionRate: '1011111',
+        _maxLife: 1,
+        _emitPerSecond: 100,
+        _frames: 0.5119999998807907,
+        name: 'RandomEmission',
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: {
+        x: 0.5,
+        y: 0.5,
+      },
+      blendMode: 0,
+    },
+    textures: ['particle.png'],
+  }
+  warpWithEffect = {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 10000,
+          enabled: true,
+          maxLifeTime: 10000000,
+          timeVariance: 0,
+          name: 'LifeBehaviour',
+        },
+        {
+          priority: 200,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: {
+            x: 0.08,
+            y: 0.08,
+          },
+          sizeEnd: {
+            x: 0,
+            y: 0,
+          },
+          startVariance: 0.02,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Ring',
+          radius: 1,
+          warp: true,
+          warpSpeed: 0.001,
+          warpBaseSpeed: 0.005,
+          sinX: false,
+          sinY: false,
+          sinXVal: {
+            x: 0,
+            y: 0,
+          },
+          sinYVal: {
+            x: 0,
+            y: 0,
+          },
+          sinXValVariance: {
+            x: 0,
+            y: 0,
+          },
+          sinYValVariance: {
+            x: 0,
+            y: 0,
+          },
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 40,
+            y: 40,
+          },
+          velocity: {
+            x: 0,
+            y: 0,
+          },
+          velocityVariance: {
+            x: 0,
+            y: 0,
+          },
+          acceleration: {
+            x: 0,
+            y: 0,
+          },
+          accelerationVariance: {
+            x: 0,
+            y: 0,
+          },
+          cameraZConverter: 5,
+          warpFov: 20,
+          warpStretch: 5,
+          warpDistanceScaleConverter: 5,
+          name: 'PositionBehaviour',
+        },
+      ],
+      emitController: {
+        _maxParticles: 1000,
+        _emissionRate: '1011111',
+        _maxLife: 1,
+        _emitPerSecond: 100,
+        _frames: 0.5119999998807907,
+        name: 'RandomEmission',
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: {
+        x: 0.5,
+        y: 0.5,
+      },
+      blendMode: 0,
+    },
+    textures: ['particle.png'],
+  }
   darkMagicSmoke = {
     emitterConfig: {
       behaviours: [

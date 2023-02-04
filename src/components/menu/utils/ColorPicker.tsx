@@ -24,6 +24,20 @@ class ColorPicker extends React.Component<IProps> {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    const { color } = this.props
+    if (JSON.stringify(prevProps.color) !== JSON.stringify(color)) {
+      this.setState({
+        background: {
+          r: color._r,
+          g: color._g,
+          b: color._b,
+          a: color._alpha,
+        },
+      })
+    }
+  }
+
   handleChange = (color) => {
     this.setState({
       background: {

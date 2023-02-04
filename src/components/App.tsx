@@ -424,6 +424,34 @@ class App extends React.Component {
         this.updateBehaviour('PositionBehaviour', ['sinYVal', 'y'], 10)
         this.updateNewBehaviour('PositionBehaviour', ['sinYValVariance', 'y'], 0)
         break
+      case 'positionProperties-warp':
+        this.updateNewBehaviour('PositionBehaviour', 'warp', props[1])
+        this.updateBehaviour('PositionBehaviour', 'warp', props[1])
+        break
+      case 'positionProperties-warpSpeed':
+        this.updateNewBehaviour('PositionBehaviour', 'warpSpeed', props[1])
+        this.updateBehaviour('PositionBehaviour', 'warpSpeed', parseFloat(props[1]))
+        break
+      case 'positionProperties-warpBaseSpeed':
+        this.updateNewBehaviour('PositionBehaviour', 'warpBaseSpeed', props[1])
+        this.updateBehaviour('PositionBehaviour', 'warpBaseSpeed', parseFloat(props[1]))
+        break
+      case 'positionProperties-cameraZConverter':
+        this.updateNewBehaviour('PositionBehaviour', 'cameraZConverter', props[1])
+        this.updateBehaviour('PositionBehaviour', 'cameraZConverter', parseFloat(props[1]))
+        break
+      case 'positionProperties-warpFov':
+        this.updateNewBehaviour('PositionBehaviour', 'warpFov', props[1])
+        this.updateBehaviour('PositionBehaviour', 'warpFov', parseFloat(props[1]))
+        break
+      case 'positionProperties-warpStretch':
+        this.updateNewBehaviour('PositionBehaviour', 'warpStretch', props[1])
+        this.updateBehaviour('PositionBehaviour', 'warpStretch', parseFloat(props[1]))
+        break
+      case 'positionProperties-warpDistanceScaleConverter':
+        this.updateNewBehaviour('PositionBehaviour', 'warpDistanceScaleConverter', props[1])
+        this.updateBehaviour('PositionBehaviour', 'warpDistanceScaleConverter', parseFloat(props[1]))
+        break
       case 'positionProperties-sinXVal':
         if (props[0] === 0) {
           this.updateNewBehaviour('PositionBehaviour', ['sinXVal', 'x'], props[1])
@@ -1047,6 +1075,8 @@ class App extends React.Component {
         'particlePredefinedImage',
         'particle-images',
         'refresh',
+        'load-config',
+        'download-config',
         'particle-finishing-images',
         'global-alpha',
         'global-anchor',
@@ -1067,6 +1097,18 @@ class App extends React.Component {
         const campfireSparklesConfig = JSON.parse(JSON.stringify(this.conf.campFireSparkles))
         // @ts-ignore
         const particles = this.particlesContainer.addChild(customPixiParticles.create(campfireSparklesConfig))
+        particles.play()
+        this.particlesArr.push(particles)
+      }
+
+      if (this.activeEffect === 'warpWithEffect') {
+        setTimeout(() => {
+          this._animateWarp()
+        })
+
+        const warpCloudsConfig = JSON.parse(JSON.stringify(this.conf.warpClouds))
+        // @ts-ignore
+        const particles = this.particlesContainer.addChild(customPixiParticles.create(warpCloudsConfig))
         particles.play()
         this.particlesArr.push(particles)
       }
@@ -1454,6 +1496,44 @@ class App extends React.Component {
     this.particlesArr.push(particles5)
 
     this.resize()
+  }
+
+  private _animateWarp() {
+    if (this.tween) {
+      this.tween.kill()
+    }
+    const obj = {
+      warpSpeed: this.defaultConfig.emitterConfig.behaviours[2].warpSpeed,
+    }
+    this.tween = gsap.to(obj, 4, {
+      warpSpeed: this.defaultConfig.emitterConfig.behaviours[2].warpSpeed * 20,
+      delay: 4,
+      repeat: 0,
+      onUpdate: () => {
+        this.defaultConfig.emitterConfig.behaviours[2].warpSpeed = parseFloat(obj.warpSpeed)
+        this.particles.updateConfig(this.defaultConfig.emitterConfig)
+      },
+      onComplete: () => this._animateWarpStop(),
+    })
+  }
+
+  private _animateWarpStop() {
+    if (this.tween) {
+      this.tween.kill()
+    }
+    const obj = {
+      warpSpeed: this.defaultConfig.emitterConfig.behaviours[2].warpSpeed,
+    }
+    this.tween = gsap.to(obj, 2, {
+      warpSpeed: 0.001,
+      delay: 2,
+      repeat: 0,
+      onUpdate: () => {
+        this.defaultConfig.emitterConfig.behaviours[2].warpSpeed = parseFloat(obj.warpSpeed)
+        this.particles.updateConfig(this.defaultConfig.emitterConfig)
+      },
+      onComplete: () => this._animateWarp(),
+    })
   }
 }
 
