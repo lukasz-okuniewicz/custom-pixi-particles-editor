@@ -55,7 +55,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "custom-pixi-particles": "4.0.20",
+    "custom-pixi-particles": "4.0.21",
     "pixi.js-legacy": "^6.5.8"
   },
   "files": [
@@ -83,5 +83,5 @@
     "start-dev": "webpack serve --config=configs/webpack/dev.js --mode=development --host=0.0.0.0 --port=12345",
     "start-prod": "npm run build && node express.js"
   },
-  "version": "1.2.5"
+  "version": "1.2.6"
 }

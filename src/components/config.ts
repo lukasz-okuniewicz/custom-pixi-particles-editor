@@ -16,6 +16,7 @@ const propsToReloadEverything = [
   'global-animatedSpriteRandomFrameStart',
   'bg-image',
   'global-blendMode',
+  'positionProperties-warpDistanceToCenter',
 ]
 
 export { propsToReloadEverything }

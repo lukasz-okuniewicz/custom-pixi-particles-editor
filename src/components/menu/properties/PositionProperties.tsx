@@ -29,6 +29,9 @@ class PositionProperties extends React.Component<IProps> {
     if (typeof config.warp === 'undefined') {
       config.warp = false
     }
+    if (typeof config.warpDistanceToCenter === 'undefined') {
+      config.warpDistanceToCenter = false
+    }
     if (typeof config.warpSpeed === 'undefined') {
       config.warpSpeed = 0
     }
@@ -272,6 +275,16 @@ class PositionProperties extends React.Component<IProps> {
                 value={[config.warpDistanceScaleConverter]}
                 updateProps={this.updateProps.bind(this, 'positionProperties-warpDistanceScaleConverter')}
               />
+              <div className="form-group">
+                <div className="col-xs-4 form-label">Closer to center</div>
+                <div className="col-xs-8">
+                  <input
+                    type={'checkbox'}
+                    checked={config.warpDistanceToCenter}
+                    onChange={this.handleChangeWarpCloser}
+                  />
+                </div>
+              </div>
             </>
           )}
         </div>
@@ -289,6 +302,10 @@ class PositionProperties extends React.Component<IProps> {
 
   private handleChangeWarp = (event) => {
     this.props.updateProps('positionProperties-warp', [0, event.target.checked])
+  }
+
+  private handleChangeWarpCloser = (event) => {
+    this.props.updateProps('positionProperties-warpDistanceToCenter', [0, event.target.checked])
   }
 
   private handleChangeSpawnType(index: number, name: string, event) {

@@ -392,6 +392,10 @@ class App extends React.Component {
         this.updateNewBehaviour('PositionBehaviour', 'warp', props[1])
         this.updateBehaviour('PositionBehaviour', 'warp', props[1])
         break
+      case 'positionProperties-warpDistanceToCenter':
+        this.updateNewBehaviour('PositionBehaviour', 'warpDistanceToCenter', props[1])
+        this.updateBehaviour('PositionBehaviour', 'warpDistanceToCenter', props[1])
+        break
       case 'positionProperties-warpSpeed':
         this.updateNewBehaviour('PositionBehaviour', 'warpSpeed', props[1])
         this.updateBehaviour('PositionBehaviour', 'warpSpeed', parseFloat(props[1]))
