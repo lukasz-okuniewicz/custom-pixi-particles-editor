@@ -969,7 +969,7 @@ class App extends React.Component {
         break
     }
 
-    if (this.activeEffect !== 'warpWithEffect') {
+    if (this.activeEffect !== 'warpWithEffect' && this.activeEffect !== 'warpWithEffectV2') {
       this.stopAllParticlesArr()
     }
 
@@ -1441,7 +1441,7 @@ class App extends React.Component {
       this.particlesArr.push(particles)
     }
 
-    if (this.activeEffect === 'warpWithEffect') {
+    if (this.activeEffect === 'warpWithEffect' || this.activeEffect === 'warpWithEffectV2') {
       setTimeout(() => {
         this.animateWarp()
       })

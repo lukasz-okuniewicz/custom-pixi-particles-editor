@@ -74,6 +74,7 @@ class GeneralProperties extends React.Component<IProps> {
                 >
                   <option value={'office'}>Coffee Shop</option>
                   <option value={'warpWithEffect'}>Warp Animation</option>
+                  <option value={'warpWithEffectV2'}>Warp Animation v2</option>
                   <option value={'warp'}>Warp</option>
                   <option value={'bloodHand'}>Blood Hand</option>
                   <option value={'darkMagicSmoke'}>Dark Magic Smoke</option>
