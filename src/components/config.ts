@@ -5,6 +5,7 @@ const propsToReloadEverything = [
   'refresh',
   'load-config',
   'download-config',
+  'EmissionTypeProperties-name',
   'particle-finishing-images',
   'global-alpha',
   'global-anchor',
@@ -17,6 +18,8 @@ const propsToReloadEverything = [
   'bg-image',
   'global-blendMode',
   'positionProperties-warpDistanceToCenter',
+  'global-animatedSpriteIndexToStart',
+  'global-animatedSpriteZeroPad',
 ]
 
 export { propsToReloadEverything }

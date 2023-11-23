@@ -30,6 +30,12 @@ class GeneralProperties extends React.Component<IProps> {
     if (typeof config.emitterConfig.animatedSprite.frameRate === 'undefined') {
       config.emitterConfig.animatedSprite.frameRate = 0.25
     }
+    if (typeof config.animatedSpriteIndexToStart === 'undefined') {
+      config.animatedSpriteIndexToStart = 0
+    }
+    if (typeof config.animatedSpriteZeroPad === 'undefined') {
+      config.animatedSpriteZeroPad = 1
+    }
     if (typeof config.emitterConfig.animatedSprite.loop === 'undefined') {
       config.emitterConfig.animatedSprite.loop = true
     }
@@ -235,6 +241,20 @@ class GeneralProperties extends React.Component<IProps> {
                   type={'number'}
                   value={[config.emitterConfig.animatedSprite.frameRate]}
                   updateProps={this.updateProps.bind(this, 'global-animatedSpriteFrameRate')}
+                />
+                <FormGroup
+                  title={'Animated Sprite Index To Start'}
+                  type={'number'}
+                  step={'1'}
+                  value={[config.animatedSpriteIndexToStart]}
+                  updateProps={this.updateProps.bind(this, 'global-animatedSpriteIndexToStart')}
+                />
+                <FormGroup
+                  title={'Animated Sprite Zero Pad'}
+                  type={'number'}
+                  step={'1'}
+                  value={[config.animatedSpriteZeroPad]}
+                  updateProps={this.updateProps.bind(this, 'global-animatedSpriteZeroPad')}
                 />
                 <div className="form-group">
                   <div className="col-xs-4 form-label">Animated Sprite Loop</div>

@@ -55,7 +55,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "custom-pixi-particles": "4.0.21",
+    "custom-pixi-particles": "4.1.16",
     "pixi.js-legacy": "^6.5.8"
   },
   "files": [

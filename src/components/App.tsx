@@ -8,7 +8,6 @@ import { saveAs } from 'file-saver'
 import { customPixiParticles, Renderer } from 'custom-pixi-particles'
 import { gsap, Linear } from 'gsap'
 import { Application, Container, Loader as PixiLoader, Sprite, Texture } from 'pixi.js-legacy'
-import TestRenderer from 'custom-pixi-particles/dist/lib/pixi/TestRenderer'
 import Loader from './utils/Loader'
 import { propsToReloadEverything } from './config'
 
@@ -24,7 +23,7 @@ class App extends React.Component {
   private bgContainer: Container
   private particlesContainer: Container
   private bgContainer2: Container
-  private particles: TestRenderer
+  private particles: any
   private conf: ParticlesDefaultConfig = new ParticlesDefaultConfig()
   private activeEffect: string
   private orgConfig: any
@@ -922,6 +921,42 @@ class App extends React.Component {
         this.newDefaultConfig.emitterConfig.animatedSprite.frameRate = props[1]
         this.defaultConfig.emitterConfig.animatedSprite.frameRate = parseFloat(props[1])
         break
+      case 'global-animatedSpriteIndexToStart':
+        this.newDefaultConfig.emitterConfig.animatedSpriteIndexToStart = props[1]
+        this.defaultConfig.emitterConfig.animatedSpriteIndexToStart = parseFloat(props[1])
+        if (!this.newDefaultConfig.emitterConfig.animatedSprite) {
+          this.newDefaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        if (!this.defaultConfig.emitterConfig.animatedSprite) {
+          this.defaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        this.newDefaultConfig.animatedSpriteIndexToStart = props[1]
+        this.defaultConfig.animatedSpriteIndexToStart = parseFloat(props[1])
+        break
+      case 'global-animatedSpriteZeroPad':
+        this.newDefaultConfig.emitterConfig.animatedSpriteZeroPad = props[1]
+        this.defaultConfig.emitterConfig.animatedSpriteZeroPad = parseFloat(props[1])
+        if (!this.newDefaultConfig.emitterConfig.animatedSprite) {
+          this.newDefaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        if (!this.defaultConfig.emitterConfig.animatedSprite) {
+          this.defaultConfig.emitterConfig.animatedSprite = {
+            loop: true,
+            frameRate: 0.25,
+          }
+        }
+        this.newDefaultConfig.animatedSpriteZeroPad = props[1]
+        this.defaultConfig.animatedSpriteZeroPad = parseFloat(props[1])
+        break
       case 'global-animatedSpriteLoop':
         this.newDefaultConfig.emitterConfig.animatedSpriteLoop = props[1]
         this.defaultConfig.emitterConfig.animatedSpriteLoop = props[1]
@@ -988,7 +1023,7 @@ class App extends React.Component {
   }
 
   private createParticles(): Renderer {
-    this.particles = customPixiParticles.createTest(this.defaultConfig)
+    this.particles = customPixiParticles.create(this.defaultConfig)
     this.particles.play()
     // @ts-ignore
     return this.particlesContainer.addChild(this.particles)
@@ -1120,10 +1155,7 @@ class App extends React.Component {
       const finalInnerHeight = content.clientHeight
       const x = -(finalInnerWidth / 2 - e.data.global.x)
       const y = -(finalInnerHeight / 2 - e.data.global.y)
-      const config = this.particles.emitter.getParser().write()
-      config.behaviours[1].position.x = x
-      config.behaviours[1].position.y = y
-      this.particles.updateConfig(config)
+      this.particles.updatePosition({ x, y })
     })
   }
 
