@@ -16,3 +16,5 @@ npm start
 
 http://localhost:12345/
 ```
+
+Demo: [custom-pixi-particles](http://particles.okuniewicz.eu/)
