@@ -387,6 +387,92 @@ class App extends React.Component {
         this.updateBehaviour('PositionBehaviour', ['sinYVal', 'y'], 10)
         this.updateNewBehaviour('PositionBehaviour', ['sinYValVariance', 'y'], 0)
         break
+      case 'positionProperties-fromAtoB':
+        this.updateNewBehaviour('PositionBehaviour', 'fromAtoB', props[1])
+        this.updateBehaviour('PositionBehaviour', 'fromAtoB', props[1])
+        break
+      case 'positionProperties-fromAtoBTwoWays':
+        this.updateNewBehaviour('PositionBehaviour', 'fromAtoBTwoWays', props[1])
+        this.updateBehaviour('PositionBehaviour', 'fromAtoBTwoWays', props[1])
+        break
+      case 'positionProperties-pointA':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['pointA', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['pointA', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['pointA', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['pointA', 'y'], parseFloat(props[1]))
+        }
+        break
+      case 'positionProperties-pointB':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['pointB', 'x'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['pointB', 'x'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['pointB', 'y'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['pointB', 'y'], parseFloat(props[1]))
+        }
+        break
+      case 'positionProperties-there-duration':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['thereDuration', 'min'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['thereDuration', 'min'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['thereDuration', 'max'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['thereDuration', 'max'], parseFloat(props[1]))
+        }
+        break
+      case 'positionProperties-there-amplitude':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['thereAmplitude', 'min'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['thereAmplitude', 'min'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['thereAmplitude', 'max'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['thereAmplitude', 'max'], parseFloat(props[1]))
+        }
+        break
+      case 'positionProperties-back-duration':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['backDuration', 'min'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['backDuration', 'min'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['backDuration', 'max'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['backDuration', 'max'], parseFloat(props[1]))
+        }
+        break
+      case 'positionProperties-back-amplitude':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', ['backAmplitude', 'min'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['backAmplitude', 'min'], parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', ['backAmplitude', 'max'], props[1])
+          this.updateBehaviour('PositionBehaviour', ['backAmplitude', 'max'], parseFloat(props[1]))
+        }
+        break
+      case 'positionProperties-thereX':
+        this.updateNewBehaviour('PositionBehaviour', ['there', 'x'], props[1])
+        this.updateBehaviour('PositionBehaviour', ['there', 'x'], props[1])
+        break
+      case 'positionProperties-thereY':
+        this.updateNewBehaviour('PositionBehaviour', ['there', 'y'], props[1])
+        this.updateBehaviour('PositionBehaviour', ['there', 'y'], props[1])
+        break
+      case 'positionProperties-thereEase':
+        this.updateNewBehaviour('PositionBehaviour', ['there', 'ease'], props[1])
+        this.updateBehaviour('PositionBehaviour', ['there', 'ease'], props[1])
+        break
+      case 'positionProperties-backX':
+        this.updateNewBehaviour('PositionBehaviour', ['back', 'x'], props[1])
+        this.updateBehaviour('PositionBehaviour', ['back', 'x'], props[1])
+        break
+      case 'positionProperties-backY':
+        this.updateNewBehaviour('PositionBehaviour', ['back', 'y'], props[1])
+        this.updateBehaviour('PositionBehaviour', ['back', 'y'], props[1])
+        break
+      case 'positionProperties-backEase':
+        this.updateNewBehaviour('PositionBehaviour', ['back', 'ease'], props[1])
+        this.updateBehaviour('PositionBehaviour', ['back', 'ease'], props[1])
+        break
       case 'positionProperties-warp':
         this.updateNewBehaviour('PositionBehaviour', 'warp', props[1])
         this.updateBehaviour('PositionBehaviour', 'warp', props[1])
@@ -753,8 +839,8 @@ class App extends React.Component {
           }
           this.bgContainer.addChild(sprite)
         } else {
-          this.newDefaultConfig.emitterConfig.alpha = this.particlesContainer.alpha
-          this.defaultConfig.emitterConfig.alpha = this.particlesContainer.alpha
+          // this.newDefaultConfig.emitterConfig.alpha = this.particlesContainer.alpha
+          // this.defaultConfig.emitterConfig.alpha = this.particlesContainer.alpha
         }
         this.newDefaultConfig.particlePredefinedEffect = props
         this.defaultConfig.particlePredefinedEffect = props
@@ -1083,7 +1169,12 @@ class App extends React.Component {
     if (typeof key === 'string') {
       behaviour[key] = props
     } else {
-      behaviour[key[0]][key[1]] = props
+      if (behaviour[key[0]]) {
+        behaviour[key[0]][key[1]] = props
+      } else {
+        behaviour[key[0]] = {}
+        behaviour[key[0]][key[1]] = props
+      }
     }
     this.updateNewBehaviourByIndex(behaviourIndex, behaviour)
   }
