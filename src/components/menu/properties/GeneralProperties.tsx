@@ -79,6 +79,10 @@ class GeneralProperties extends React.Component<IProps> {
                   onChange={this.handleChangeEffect.bind(this, 0, 'particlePredefinedEffect')}
                 >
                   <option value={'office'}>Coffee Shop</option>
+                  <option value={'fromAtoB1'}>From A to B version 1</option>
+                  <option value={'fromAtoB2'}>From A to B version 2</option>
+                  <option value={'fromAtoB3'}>From A to B version 3</option>
+                  <option value={'fromAtoB4'}>From A to B version 4</option>
                   <option value={'fromAtoB5'}>From A to B version 5</option>
                   <option value={'fromAtoB6'}>From A to B version 6</option>
                   <option value={'fromAtoB7'}>From A to B version 7</option>

@@ -83,6 +83,12 @@ class PositionProperties extends React.Component<IProps> {
     if (typeof config.radius === 'undefined') {
       config.radius = 0
     }
+    if (typeof config.radiusX === 'undefined') {
+      config.radiusX = 0
+    }
+    if (typeof config.radiusY === 'undefined') {
+      config.radiusY = 0
+    }
     if (typeof config.pointA === 'undefined') {
       config.pointA = {
         x: 0,
@@ -360,17 +366,34 @@ class PositionProperties extends React.Component<IProps> {
                   >
                     <option>Rectangle</option>
                     <option>Frame</option>
+                    <option>FrameRectangle</option>
                     <option>Ring</option>
                   </select>
                 </div>
               </div>
-              <FormGroup
-                type={'number'}
-                step={'1'}
-                title={'Radius'}
-                value={[config.radius]}
-                updateProps={this.updateProps.bind(this, 'positionProperties-radius')}
-              />
+              {config.spawnType === 'FrameRectangle' && (
+                <>
+                  <FormGroup
+                    type={'number'}
+                    step={'1'}
+                    title={'Distance'}
+                    params={['X Distance', 'Y Distance']}
+                    value={[config.radiusX, config.radiusY]}
+                    updateProps={this.updateProps.bind(this, 'positionProperties-radiusXY')}
+                  />
+                </>
+              )}
+              {config.spawnType !== 'FrameRectangle' && (
+                <>
+                  <FormGroup
+                    type={'number'}
+                    step={'1'}
+                    title={'Radius'}
+                    value={[config.radius]}
+                    updateProps={this.updateProps.bind(this, 'positionProperties-radius')}
+                  />
+                </>
+              )}
               <hr />
               <FormGroup
                 type={'number'}

@@ -301,6 +301,17 @@ class App extends React.Component {
         this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
         this.updateBehaviour('PositionBehaviour', 'enabled', true)
         break
+      case 'positionProperties-radiusXY':
+        if (props[0] === 0) {
+          this.updateNewBehaviour('PositionBehaviour', 'radiusX', props[1])
+          this.updateBehaviour('PositionBehaviour', 'radiusX', parseFloat(props[1]))
+        } else {
+          this.updateNewBehaviour('PositionBehaviour', 'radiusY', props[1])
+          this.updateBehaviour('PositionBehaviour', 'radiusY', parseFloat(props[1]))
+        }
+        this.updateNewBehaviour('PositionBehaviour', 'enabled', true)
+        this.updateBehaviour('PositionBehaviour', 'enabled', true)
+        break
       case 'positionProperties-position':
         if (props[0] === 0) {
           this.updateNewBehaviour('PositionBehaviour', ['position', 'x'], props[1])
@@ -935,8 +946,32 @@ class App extends React.Component {
         this.defaultConfig.emitterConfig = JSON.parse(JSON.stringify(config))
         break
       case 'download-config':
-        this.particles.emitter.getParser().write()
-        const blob = new Blob([JSON.stringify(this.particles.emitter.getParser().write())], {
+        const downloadableObj = this.particles.emitter.getParser().write()
+        const behaviourIndex = this.getConfigIndexByName('PositionBehaviour')
+        const behaviour = this.getBehaviourByIndex(behaviourIndex, name)
+        if (behaviour) {
+          if (!behaviour.warp) {
+            delete behaviour.warpStretch
+            delete behaviour.warpSpeed
+            delete behaviour.warpFov
+            delete behaviour.warpDistanceScaleConverter
+            delete behaviour.warpBaseSpeed
+            delete behaviour.warp
+            delete behaviour.cameraZConverter
+          }
+          if (!behaviour.sinX) {
+            delete behaviour.sinXVal
+            delete behaviour.sinX
+            delete behaviour.sinXValVariance
+          }
+          if (!behaviour.sinY) {
+            delete behaviour.sinYVal
+            delete behaviour.sinY
+            delete behaviour.sinYValVariance
+          }
+        }
+        downloadableObj.behaviours[behaviourIndex] = behaviour
+        const blob = new Blob([JSON.stringify(downloadableObj)], {
           type: 'application/json',
         })
         saveAs(blob, 'particle_config')
