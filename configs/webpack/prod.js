@@ -3,7 +3,7 @@ const { merge } = require('webpack-merge')
 const { resolve } = require('path')
 
 const commonConfig = require('./common')
-const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = merge(commonConfig, {
   mode: 'production',
@@ -11,10 +11,8 @@ module.exports = merge(commonConfig, {
   output: {
     filename: 'js/bundle.[hash].min.js',
     path: resolve(__dirname, '../../dist'),
-    publicPath: '/',
+    publicPath: '',
   },
   devtool: 'source-map',
-  plugins: [
-    new CleanWebpackPlugin(),
-  ],
+  plugins: [new CleanWebpackPlugin()],
 })
