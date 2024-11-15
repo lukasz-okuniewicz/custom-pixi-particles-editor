@@ -11,6 +11,7 @@ declare class App extends React.Component {
     private bgContainer;
     private particlesContainer;
     private bgContainer2;
+    private graphics;
     private particles;
     private conf;
     private activeEffect;
