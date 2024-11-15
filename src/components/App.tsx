@@ -899,6 +899,8 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.bgContainer.addChild(sprite)
+        } else if (props === 'coinShowerWithCollision') {
+          this.graphics.visible = false
         } else if (props === 'campFireTurbulence') {
           const bgTexture = Texture.from('campFire')
           const sprite = new Sprite(bgTexture)

@@ -3706,6 +3706,68 @@ export default class ParticlesDefaultConfig {
     },
     textures: ['coin_'],
   }
+  coinShowerWithCollision = {
+    emitterConfig: {
+      behaviours: [
+        { enabled: true, priority: 10000, maxLifeTime: 4.4, timeVariance: 0.4, name: 'LifeBehaviour' },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 50, y: 20 },
+          velocity: { x: 0, y: -1000 },
+          velocityVariance: { x: 800, y: 0 },
+          acceleration: { x: 0, y: 2500 },
+          accelerationVariance: { x: 0, y: 500 },
+          name: 'PositionBehaviour',
+        },
+        {
+          enabled: true,
+          skipPositionBehaviourOnCollision: false,
+          skipAngularVelocityBehaviourOnCollision: false,
+          skipColorBehaviourOnCollision: false,
+          skipEmitDirectionBehaviourOnCollision: false,
+          skipRotationBehaviourOnCollision: false,
+          skipSizeBehaviourOnCollision: false,
+          priority: 100,
+          lines: [
+            { point1: { x: -633, y: -234 }, point2: { x: -236, y: 62 } },
+            { point1: { x: 50, y: 419 }, point2: { x: 607, y: -266 } },
+          ],
+          distance: 10,
+          name: 'CollisionBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.2, y: 0.2 },
+          sizeEnd: { x: 0.3, y: 0.3 },
+          startVariance: 0.1,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: { _r: 255, _g: 255, _b: 0, _alpha: 1 },
+          end: { _r: 255, _g: 255, _b: 255, _alpha: 1 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          sinus: false,
+          name: 'ColorBehaviour',
+        },
+        { enabled: true, priority: 0, rotation: 0, variance: 6, name: 'RotationBehaviour' },
+      ],
+      emitController: { _maxParticles: 0, _maxLife: 3, _emitPerSecond: 250, name: 'UniformEmission' },
+      duration: 0.3,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 0,
+      animatedSprite: { enabled: true, frameRate: 0.25, loop: true, animatedSpriteName: 'coin_' },
+    },
+    textures: ['coin_'],
+  }
   fountain = {
     emitterConfig: {
       behaviours: [
@@ -4619,13 +4681,13 @@ export default class ParticlesDefaultConfig {
   snowWithCollision = {
     emitterConfig: {
       behaviours: [
-        { enabled: true, priority: 10000, maxLifeTime: 10, timeVariance: 0, name: 'LifeBehaviour' },
+        { enabled: true, priority: 10000, maxLifeTime: 8, timeVariance: 0, name: 'LifeBehaviour' },
         {
           priority: 100,
           enabled: true,
           spawnType: 'Rectangle',
           radius: 0,
-          position: { x: 0, y: -500 },
+          position: { x: 0, y: -420 },
           positionVariance: { x: 281, y: 0 },
           velocity: { x: 0, y: 200 },
           velocityVariance: { x: 0, y: 200 },
@@ -4652,7 +4714,7 @@ export default class ParticlesDefaultConfig {
             { point1: { x: 231, y: 111 }, point2: { x: 342, y: 160 } },
             { point1: { x: 231, y: 134 }, point2: { x: 342, y: 190 } },
           ],
-          distance: 1,
+          distance: 1.2,
           name: 'CollisionBehaviour',
         },
         {

@@ -13,12 +13,14 @@ export interface IProps {
 
 interface IState {
   isSubmenuVisible: string
+  pointKey: string
   selectedLineIndex: number | null
 }
 
 class CollisionProperties extends React.Component<IProps, IState> {
   state: IState = {
     isSubmenuVisible: '',
+    pointKey: '',
     selectedLineIndex: null, // Tracks the currently selected line
   }
 
@@ -93,6 +95,7 @@ class CollisionProperties extends React.Component<IProps, IState> {
           {config.lines &&
             config.lines.map((line, index) => (
               <React.Fragment key={index}>
+                <h1>Line {index + 1}</h1>
                 <FormGroup
                   type="number"
                   step="1"
@@ -101,6 +104,18 @@ class CollisionProperties extends React.Component<IProps, IState> {
                   value={[line.point1.x, line.point1.y]}
                   updateProps={this.updateLinePoint.bind(this, index, 'point1')}
                 />
+                <button
+                  className="btn btn-default btn-block"
+                  onClick={(e) => this.selectPoint(index, 'point1', e)}
+                  style={{
+                    backgroundColor:
+                      this.state.selectedLineIndex === index && this.state.isSubmenuVisible === 'point1'
+                        ? 'blue'
+                        : 'grey',
+                  }}
+                >
+                  Select Point 1
+                </button>
                 <FormGroup
                   type="number"
                   step="1"
@@ -109,21 +124,41 @@ class CollisionProperties extends React.Component<IProps, IState> {
                   value={[line.point2.x, line.point2.y]}
                   updateProps={this.updateLinePoint.bind(this, index, 'point2')}
                 />
-                <button onClick={(e) => this.removeLine(index, e)}>Remove Line</button>
                 <button
-                  onClick={(e) => this.selectLine(index, e)}
+                  className="btn btn-default btn-block"
+                  onClick={(e) => this.selectPoint(index, 'point2', e)}
                   style={{
-                    backgroundColor: selectedLineIndex === index ? 'blue' : 'grey',
+                    backgroundColor:
+                      this.state.selectedLineIndex === index && this.state.isSubmenuVisible === 'point2'
+                        ? 'blue'
+                        : 'grey',
                   }}
                 >
-                  Select
+                  Select Point 2
                 </button>
+                <br />
+                <button
+                  className="btn btn-default btn-block"
+                  onClick={(e) => this.removeLine(index, e)}
+                  style={{
+                    backgroundImage: 'linear-gradient(rgb(71 11 11) 0px, rgb(136 13 13) 100%)',
+                  }}
+                >
+                  Remove Line
+                </button>
+                <br />
                 <hr />
               </React.Fragment>
             ))}
-          <button onClick={this.addLine}>Add Line</button>
-          <br />
-          <br />
+          <button
+            className="btn btn-default btn-block"
+            onClick={this.addLine}
+            style={{
+              backgroundImage: 'linear-gradient(rgb(11 71 24) 0px, rgb(15 136 13) 100%)',
+            }}
+          >
+            Add New Line
+          </button>
           <hr />
           <div className="form-group">
             <div className="col-xs-4 form-label">Skip Position on Collision</div>
@@ -208,6 +243,14 @@ class CollisionProperties extends React.Component<IProps, IState> {
     this.props.updateProps(name, props)
   }
 
+  private selectPoint = (index: number, pointKey: 'point1' | 'point2', event: React.MouseEvent) => {
+    event.stopPropagation()
+    this.setState({
+      selectedLineIndex: index,
+      pointKey, // Tracks which point is being selected
+    })
+  }
+
   private addLine = (e) => {
     e.stopPropagation()
     this.setState({ selectedLineIndex: null })
@@ -229,17 +272,10 @@ class CollisionProperties extends React.Component<IProps, IState> {
     }))
   }
 
-  private selectLine = (index, event) => {
-    event.stopPropagation()
-    this.setState((prevState) => ({
-      selectedLineIndex: prevState.selectedLineIndex === index ? null : index,
-    }))
-  }
+  private handleWindowClick = (event: MouseEvent) => {
+    const { selectedLineIndex, pointKey } = this.state
 
-  private handleWindowClick = (event) => {
-    const { selectedLineIndex } = this.state
-
-    if (selectedLineIndex !== null) {
+    if (selectedLineIndex !== null && pointKey) {
       const localPosition = new Point(0, 0)
       this.props.app.renderer.plugins.interaction.mapPositionToPoint(localPosition, event.clientX, event.clientY)
 
@@ -247,20 +283,15 @@ class CollisionProperties extends React.Component<IProps, IState> {
       const newY = localPosition.y - this.props.app.screen.height / 2
 
       const updatedLines = [...this.props.config.lines]
-
-      // Check which point to update based on proximity to click
-      const line = updatedLines[selectedLineIndex]
-      const distanceToPoint1 = Math.sqrt(Math.pow(newX - line.point1.x, 2) + Math.pow(newY - line.point1.y, 2))
-      const distanceToPoint2 = Math.sqrt(Math.pow(newX - line.point2.x, 2) + Math.pow(newY - line.point2.y, 2))
-
-      // Update the closer point
-      if (distanceToPoint1 < distanceToPoint2) {
-        line.point1 = { x: newX, y: newY }
-      } else {
-        line.point2 = { x: newX, y: newY }
-      }
+      updatedLines[selectedLineIndex][pointKey] = { x: newX, y: newY } // Update the specific point
 
       this.props.updateProps('collisionProperties-lines', [0, updatedLines])
+
+      // Reset state
+      this.setState({
+        selectedLineIndex: null,
+        pointKey: '',
+      })
     }
   }
 

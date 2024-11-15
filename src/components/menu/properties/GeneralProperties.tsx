@@ -92,7 +92,6 @@ class GeneralProperties extends React.Component<IProps> {
                   <option value={'warp'}>Warp</option>
                   <option value={'bloodHand'}>Blood Hand</option>
                   <option value={'darkMagicSmoke'}>Dark Magic Smoke</option>
-                  <option value={'collisionV1'}>Collision v1</option>
                   <option value={'runes'}>Runes</option>
                   <option value={'trail'}>Trail</option>
                   <option value={'magic1'}>Magic 1</option>
@@ -123,6 +122,7 @@ class GeneralProperties extends React.Component<IProps> {
                   <option value={'water'}>Water</option>
                   <option value={'waterTurbulence'}>Water with Turbulence</option>
                   <option value={'coinShower'}>Coin Shower</option>
+                  <option value={'coinShowerWithCollision'}>Coin Shower + Collision</option>
                   <option value={'bigWin'}>Big Win</option>
                   <option value={'coinsRing'}>Coins Ring</option>
                   <option value={'firework'}>Firework</option>
@@ -134,7 +134,7 @@ class GeneralProperties extends React.Component<IProps> {
                   <option value={'fall'}>Fall</option>
                   <option value={'twist'}>Twist</option>
                   <option value={'snow'}>Snow</option>
-                  <option value={'snowWithCollision'}>Snow with Collision</option>
+                  <option value={'snowWithCollision'}>Snow + Collision</option>
                   <option value={'counter'}>Counter</option>
                   <option value={'bubbles'}>Bubbles</option>
                   <option value={'flyingBubbles'}>Flying Bubbles</option>
