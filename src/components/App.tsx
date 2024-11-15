@@ -7,7 +7,7 @@ import ParticlesDefaultConfig from './config/particlesDefaultConfig'
 import { saveAs } from 'file-saver'
 import { customPixiParticles, Renderer } from 'custom-pixi-particles'
 import { gsap, Linear } from 'gsap'
-import { Application, Container, Loader as PixiLoader, Sprite, Texture } from 'pixi.js-legacy'
+import { Application, Container, Loader as PixiLoader, Sprite, Texture, Graphics } from 'pixi.js-legacy'
 import Loader from './utils/Loader'
 import { propsToReloadEverything } from './config'
 
@@ -23,6 +23,7 @@ class App extends React.Component {
   private bgContainer: Container
   private particlesContainer: Container
   private bgContainer2: Container
+  private graphics: Graphics
   private particles: any
   private conf: ParticlesDefaultConfig = new ParticlesDefaultConfig()
   private activeEffect: string
@@ -70,7 +71,7 @@ class App extends React.Component {
       <>
         <Content />
         {defaultConfig ? (
-          <Menu config={defaultConfig} updateProps={this.updateProps} activeEffect={this.activeEffect} />
+          <Menu config={defaultConfig} updateProps={this.updateProps} activeEffect={this.activeEffect} app={this.app} />
         ) : (
           <></>
         )}
@@ -568,6 +569,51 @@ class App extends React.Component {
         this.updateNewBehaviour('PositionBehaviour', 'sinY', true)
         this.updateBehaviour('PositionBehaviour', 'sinY', true)
         break
+      case 'collisionProperties-enabled':
+        this.updateNewBehaviour('CollisionBehaviour', 'enabled', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'enabled', props[1])
+        break
+      case 'collisionProperties-lines':
+        console.log(props[1])
+        this.graphics.visible = !props[1]
+        break
+      case 'collisionProperties-distance':
+        this.updateNewBehaviour('CollisionBehaviour', 'distance', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'distance', parseFloat(props[1]))
+        this.updateNewBehaviour('CollisionBehaviour', 'enabled', true)
+        this.updateBehaviour('CollisionBehaviour', 'enabled', true)
+        break
+      case 'collisionProperties-points':
+        this.updateNewBehaviour('CollisionBehaviour', 'points', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'points', props[1])
+        this.updateNewBehaviour('CollisionBehaviour', 'enabled', true)
+        this.updateBehaviour('CollisionBehaviour', 'enabled', true)
+        this.updateProps('refresh', [])
+        break
+      case 'collisionProperties-skipPositionBehaviourOnCollision':
+        this.updateNewBehaviour('CollisionBehaviour', 'skipPositionBehaviourOnCollision', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'skipPositionBehaviourOnCollision', props[1])
+        break
+      case 'collisionProperties-skipAngularVelocityBehaviourOnCollision':
+        this.updateNewBehaviour('CollisionBehaviour', 'skipAngularVelocityBehaviourOnCollision', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'skipAngularVelocityBehaviourOnCollision', props[1])
+        break
+      case 'collisionProperties-skipColorBehaviourOnCollision':
+        this.updateNewBehaviour('CollisionBehaviour', 'skipColorBehaviourOnCollision', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'skipColorBehaviourOnCollision', props[1])
+        break
+      case 'collisionProperties-skipEmitDirectionBehaviourOnCollision':
+        this.updateNewBehaviour('CollisionBehaviour', 'skipEmitDirectionBehaviourOnCollision', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'skipEmitDirectionBehaviourOnCollision', props[1])
+        break
+      case 'collisionProperties-skipRotationBehaviourOnCollision':
+        this.updateNewBehaviour('CollisionBehaviour', 'skipRotationBehaviourOnCollision', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'skipRotationBehaviourOnCollision', props[1])
+        break
+      case 'collisionProperties-skipSizeBehaviourOnCollision':
+        this.updateNewBehaviour('CollisionBehaviour', 'skipSizeBehaviourOnCollision', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'skipSizeBehaviourOnCollision', props[1])
+        break
       case 'colorProperties-enabled':
         this.updateNewBehaviour('ColorBehaviour', 'enabled', props[1])
         this.updateBehaviour('ColorBehaviour', 'enabled', props[1])
@@ -740,6 +786,22 @@ class App extends React.Component {
 
         props = props[1]
         this.activeEffect = props
+
+        function updateQueryParameter(key, value) {
+          const url = new URL(window.location.href)
+
+          if (value === null || value === undefined) {
+            url.searchParams.delete(key) // Remove the parameter if value is null or undefined
+          } else {
+            url.searchParams.set(key, value) // Add or update the parameter
+          }
+
+          // Use history.pushState() or history.replaceState() to update the URL without reloading
+          history.replaceState(null, '', url.toString())
+        }
+
+        updateQueryParameter('effect', this.activeEffect)
+
         this.orgConfig = JSON.parse(JSON.stringify(this.conf[props]))
         this.defaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
         this.newDefaultConfig = JSON.parse(JSON.stringify(this.conf[props]))
@@ -1160,6 +1222,7 @@ class App extends React.Component {
 
     this.particlesContainer.position.x = content.clientWidth / 2
     this.particlesContainer.position.y = content.clientHeight / 2
+    this.graphics.position.set(content.clientWidth / 2, content.clientHeight / 2)
 
     if (this.bgSprite) {
       let scale
@@ -1422,6 +1485,8 @@ class App extends React.Component {
     this.bgContainer2.name = 'bgContainer2'
     this.app.stage.addChild(this.bgContainer2)
     document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
+    this.graphics = new Graphics()
+    this.app.stage.addChild(this.graphics)
   }
 
   private createEventListeners() {
@@ -1618,6 +1683,24 @@ class App extends React.Component {
     this.createParticles()
 
     this.animateTween(this.activeEffect)
+
+    const behaviourIndex = this.getConfigIndexByName('CollisionBehaviour')
+    if (behaviourIndex >= 0) {
+      const drawLines = (points) => {
+        this.graphics.clear()
+        this.graphics.lineStyle(2, 0xffffff, 1)
+
+        if (points.length > 0) {
+          this.graphics.moveTo(points[0].x, points[0].y)
+          points.forEach((point) => this.graphics.lineTo(point.x, point.y))
+        }
+      }
+
+      const points = this.defaultConfig.emitterConfig.behaviours[behaviourIndex].points
+      drawLines(points)
+    } else {
+      this.graphics.clear()
+    }
   }
 }
 

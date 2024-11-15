@@ -92,6 +92,7 @@ class GeneralProperties extends React.Component<IProps> {
                   <option value={'warp'}>Warp</option>
                   <option value={'bloodHand'}>Blood Hand</option>
                   <option value={'darkMagicSmoke'}>Dark Magic Smoke</option>
+                  <option value={'collisionV1'}>Collision v1</option>
                   <option value={'runes'}>Runes</option>
                   <option value={'trail'}>Trail</option>
                   <option value={'magic1'}>Magic 1</option>

@@ -1193,6 +1193,144 @@ export default class ParticlesDefaultConfig {
     },
     textures: ['gdevelop/DarkMagicSmoke.png'],
   }
+  collisionV1 = {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 10000,
+          enabled: true,
+          maxLifeTime: 2,
+          timeVariance: 0,
+          name: 'LifeBehaviour',
+        },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Ring',
+          radius: 20,
+          sinX: false,
+          sinY: false,
+          sinXVal: {
+            x: 50,
+            y: 10,
+          },
+          sinYVal: {
+            x: 50,
+            y: 10,
+          },
+          sinXValVariance: {
+            x: 100,
+            y: 20,
+          },
+          sinYValVariance: {
+            x: 100,
+            y: 20,
+          },
+          position: {
+            x: 0,
+            y: 150,
+          },
+          positionVariance: {
+            x: 20,
+            y: 20,
+          },
+          velocity: {
+            x: 0,
+            y: -600,
+          },
+          velocityVariance: {
+            x: 100,
+            y: 100,
+          },
+          acceleration: {
+            x: 0,
+            y: 100,
+          },
+          accelerationVariance: {
+            x: 0,
+            y: 0,
+          },
+          name: 'PositionBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: {
+            x: 1,
+            y: 1,
+          },
+          sizeEnd: {
+            x: 0,
+            y: 0,
+          },
+          startVariance: 1,
+          endVariance: 1,
+          name: 'SizeBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          rotation: 0,
+          variance: 1,
+          name: 'RotationBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          start: {
+            _r: 7,
+            _g: 7,
+            _b: 7,
+            _alpha: 1,
+          },
+          end: {
+            _r: 49,
+            _g: 1,
+            _b: 49,
+            _alpha: 0,
+          },
+          startVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 1,
+          },
+          endVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 1,
+          },
+          sinus: true,
+          name: 'ColorBehaviour',
+        },
+        {
+          priority: 0,
+          enabled: true,
+          name: 'CollisionBehaviour',
+          points: [
+            { x: 0, y: -300 },
+            { x: -200, y: -400 },
+            { x: 200, y: -400 },
+            { x: 0, y: -300 },
+          ],
+          distance: 10,
+        },
+      ],
+      emitController: {
+        _maxParticles: 0,
+        _maxLife: 1,
+        _emitPerSecond: 1150,
+        _frames: 0,
+        name: 'UniformEmission',
+      },
+      duration: -1,
+      alpha: 1,
+      blendMode: 3,
+    },
+    textures: ['gdevelop/DarkMagicSmoke.png'],
+  }
   darkMagicSmoke2 = {
     emitterConfig: {
       behaviours: [

@@ -11,11 +11,13 @@ import AngularVelocityProperties from './properties/AngularVelocityProperties'
 import EmissionTypeProperties from './properties/EmissionTypeProperties'
 import LoadAndSaveProperties from './properties/LoadAndSaveProperties'
 import TurbulenceProperties from './properties/TurbulenceProperties'
+import CollisionProperties from './properties/CollisionProperties'
 
 export interface IProps {
   config: any
   updateProps: any
   activeEffect: any
+  app: any
 }
 
 class Menu extends React.Component<IProps> {
@@ -52,6 +54,12 @@ class Menu extends React.Component<IProps> {
           config={this.getConfigByName('PositionBehaviour')}
           updateProps={this.props.updateProps}
           activeEffect={this.props.activeEffect}
+        />
+        <CollisionProperties
+          config={this.getConfigByName('CollisionBehaviour')}
+          updateProps={this.props.updateProps}
+          activeEffect={this.props.activeEffect}
+          app={this.props.app}
         />
         <ColorProperties
           config={this.getConfigByName('ColorBehaviour')}
