@@ -4,6 +4,7 @@ export interface IProps {
     updateProps: any;
     activeEffect: any;
     app: any;
+    helpingLines: boolean;
 }
 declare class Menu extends React.Component<IProps> {
     render(): React.JSX.Element;
