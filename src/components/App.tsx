@@ -71,7 +71,13 @@ class App extends React.Component {
       <>
         <Content />
         {defaultConfig ? (
-          <Menu config={defaultConfig} updateProps={this.updateProps} activeEffect={this.activeEffect} app={this.app} />
+          <Menu
+            config={defaultConfig}
+            updateProps={this.updateProps}
+            activeEffect={this.activeEffect}
+            app={this.app}
+            helpingLines={this.graphics.visible}
+          />
         ) : (
           <></>
         )}
@@ -573,9 +579,8 @@ class App extends React.Component {
         this.updateNewBehaviour('CollisionBehaviour', 'enabled', props[1])
         this.updateBehaviour('CollisionBehaviour', 'enabled', props[1])
         break
-      case 'collisionProperties-lines':
-        console.log(props[1])
-        this.graphics.visible = !props[1]
+      case 'collisionProperties-changeHelpingLines':
+        this.graphics.visible = props[1]
         break
       case 'collisionProperties-distance':
         this.updateNewBehaviour('CollisionBehaviour', 'distance', props[1])
@@ -583,9 +588,9 @@ class App extends React.Component {
         this.updateNewBehaviour('CollisionBehaviour', 'enabled', true)
         this.updateBehaviour('CollisionBehaviour', 'enabled', true)
         break
-      case 'collisionProperties-points':
-        this.updateNewBehaviour('CollisionBehaviour', 'points', props[1])
-        this.updateBehaviour('CollisionBehaviour', 'points', props[1])
+      case 'collisionProperties-lines':
+        this.updateNewBehaviour('CollisionBehaviour', 'lines', props[1])
+        this.updateBehaviour('CollisionBehaviour', 'lines', props[1])
         this.updateNewBehaviour('CollisionBehaviour', 'enabled', true)
         this.updateBehaviour('CollisionBehaviour', 'enabled', true)
         this.updateProps('refresh', [])
@@ -875,6 +880,16 @@ class App extends React.Component {
             h: sprite.height,
           }
           this.bgContainer.addChild(sprite)
+        } else if (props === 'snowWithCollision') {
+          const bgTexture = Texture.from('house')
+          const sprite = new Sprite(bgTexture)
+          this.bgSprite = sprite
+          this.bgSpriteSize = {
+            w: sprite.width,
+            h: sprite.height,
+          }
+          this.bgContainer.addChild(sprite)
+          this.graphics.visible = false
         } else if (props === 'campFire') {
           const bgTexture = Texture.from('campFire')
           const sprite = new Sprite(bgTexture)
@@ -1487,6 +1502,10 @@ class App extends React.Component {
     document.body.getElementsByClassName('content')[0].appendChild(this.app.view)
     this.graphics = new Graphics()
     this.app.stage.addChild(this.graphics)
+
+    setTimeout(() => {
+      this.updateProps('particlePredefinedEffect', [null, this.activeEffect])
+    })
   }
 
   private createEventListeners() {
@@ -1686,18 +1705,20 @@ class App extends React.Component {
 
     const behaviourIndex = this.getConfigIndexByName('CollisionBehaviour')
     if (behaviourIndex >= 0) {
-      const drawLines = (points) => {
+      const drawLines = (lines) => {
         this.graphics.clear()
         this.graphics.lineStyle(2, 0xffffff, 1)
 
-        if (points.length > 0) {
-          this.graphics.moveTo(points[0].x, points[0].y)
-          points.forEach((point) => this.graphics.lineTo(point.x, point.y))
+        if (lines.length > 0) {
+          lines.forEach((line) => {
+            this.graphics.moveTo(line.point1.x, line.point1.y)
+            this.graphics.lineTo(line.point2.x, line.point2.y)
+          })
         }
       }
 
-      const points = this.defaultConfig.emitterConfig.behaviours[behaviourIndex].points
-      drawLines(points)
+      const lines = this.defaultConfig.emitterConfig.behaviours[behaviourIndex].lines
+      drawLines(lines)
     } else {
       this.graphics.clear()
     }

@@ -18,12 +18,18 @@ export interface IProps {
   updateProps: any
   activeEffect: any
   app: any
+  helpingLines: boolean
 }
 
 class Menu extends React.Component<IProps> {
   public render() {
     return (
-      <div className="menu">
+      <div
+        className="menu"
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
+      >
         <LoadAndSaveProperties updateProps={this.props.updateProps} activeEffect={this.props.activeEffect} />
         <GeneralProperties
           config={this.props.config}
@@ -60,6 +66,7 @@ class Menu extends React.Component<IProps> {
           updateProps={this.props.updateProps}
           activeEffect={this.props.activeEffect}
           app={this.props.app}
+          helpingLines={this.props.helpingLines}
         />
         <ColorProperties
           config={this.getConfigByName('ColorBehaviour')}

@@ -8,12 +8,18 @@ export interface IProps {
   updateProps: any
   activeEffect: any
   app: any
+  helpingLines: boolean
 }
 
-class CollisionProperties extends React.Component<IProps> {
-  state = {
+interface IState {
+  isSubmenuVisible: string
+  selectedLineIndex: number | null
+}
+
+class CollisionProperties extends React.Component<IProps, IState> {
+  state: IState = {
     isSubmenuVisible: '',
-    selectedPointIndex: null, // Tracks the currently selected point
+    selectedLineIndex: null, // Tracks the currently selected line
   }
 
   componentDidMount() {
@@ -27,15 +33,19 @@ class CollisionProperties extends React.Component<IProps> {
   public render() {
     if (this.props.activeEffect === 'office') return <></>
     const { config } = this.props
-    const { isSubmenuVisible, selectedPointIndex } = this.state
+    const { isSubmenuVisible, selectedLineIndex } = this.state
+
     if (typeof config.enabled === 'undefined') {
       config.enabled = false
     }
-    if (typeof config.distance === 'undefined') {
-      config.distance = 0
+    if (typeof config.hideLines === 'undefined') {
+      config.hideLines = false
     }
-    if (typeof config.points === 'undefined') {
-      config.points = [{ x: 0, y: 0 }]
+    if (typeof config.distance === 'undefined') {
+      config.distance = 10
+    }
+    if (typeof config.lines === 'undefined') {
+      config.lines = [{ point1: { x: 0, y: 0 }, point2: { x: 0, y: 0 } }]
     }
     if (typeof config.skipPositionBehaviourOnCollision === 'undefined') {
       config.skipPositionBehaviourOnCollision = false
@@ -63,13 +73,13 @@ class CollisionProperties extends React.Component<IProps> {
           <div className="form-group">
             <div className="col-xs-4 form-label">Enabled</div>
             <div className="col-xs-8">
-              <input type={'checkbox'} checked={config.enabled} onChange={this.handleChangeEnabled} />
+              <input type="checkbox" checked={config.enabled} onChange={this.handleChangeEnabled} />
             </div>
           </div>
           <div className="form-group">
-            <div className="col-xs-4 form-label">Hide Lines</div>
+            <div className="col-xs-4 form-label">Show Lines</div>
             <div className="col-xs-8">
-              <input type={'checkbox'} checked={config.hideLines} onChange={this.handleChangeLines} />
+              <input type={'checkbox'} checked={this.props.helpingLines} onChange={this.handleChangeLines} />
             </div>
           </div>
           <FormGroup
@@ -80,22 +90,30 @@ class CollisionProperties extends React.Component<IProps> {
             updateProps={this.updateProps.bind(this, 'collisionProperties-distance')}
           />
           <hr />
-          {config.points &&
-            config.points.map((point, index) => (
+          {config.lines &&
+            config.lines.map((line, index) => (
               <React.Fragment key={index}>
                 <FormGroup
                   type="number"
                   step="1"
-                  title={`Point ${index + 1}`}
-                  params={['X Point', 'Y Point']}
-                  value={[point.x, point.y]}
-                  updateProps={this.updatePoints.bind(this, index, 'collisionProperties-points')}
+                  title={`Line ${index + 1} - Point 1`}
+                  params={['X', 'Y']}
+                  value={[line.point1.x, line.point1.y]}
+                  updateProps={this.updateLinePoint.bind(this, index, 'point1')}
                 />
-                <button onClick={(e) => this.removePoint(index, e)}>Remove Point</button>
+                <FormGroup
+                  type="number"
+                  step="1"
+                  title={`Line ${index + 1} - Point 2`}
+                  params={['X', 'Y']}
+                  value={[line.point2.x, line.point2.y]}
+                  updateProps={this.updateLinePoint.bind(this, index, 'point2')}
+                />
+                <button onClick={(e) => this.removeLine(index, e)}>Remove Line</button>
                 <button
-                  onClick={(e) => this.selectPoint(index, e)}
+                  onClick={(e) => this.selectLine(index, e)}
                   style={{
-                    backgroundColor: selectedPointIndex === index ? 'blue' : 'grey',
+                    backgroundColor: selectedLineIndex === index ? 'blue' : 'grey',
                   }}
                 >
                   Select
@@ -103,10 +121,9 @@ class CollisionProperties extends React.Component<IProps> {
                 <hr />
               </React.Fragment>
             ))}
-          <button onClick={this.addPoint}>Add Point</button>
+          <button onClick={this.addLine}>Add Line</button>
           <br />
           <br />
-
           <hr />
           <div className="form-group">
             <div className="col-xs-4 form-label">Skip Position on Collision</div>
@@ -177,60 +194,78 @@ class CollisionProperties extends React.Component<IProps> {
     this.props.updateProps('collisionProperties-enabled', [0, event.target.checked])
   }
 
-  private handleChangeLines = (event) => {
-    this.props.updateProps('collisionProperties-lines', [0, event.target.checked])
+  private updateLinePoint(index: number, pointKey: 'point1' | 'point2', updatedValue: any) {
+    const updatedLines = [...this.props.config.lines]
+    if (updatedValue[0] === 0) {
+      updatedLines[index][pointKey].x = parseInt(updatedValue[1])
+    } else if (updatedValue[0] === 1) {
+      updatedLines[index][pointKey].y = parseInt(updatedValue[1])
+    }
+    this.props.updateProps('collisionProperties-lines', [0, updatedLines])
   }
 
   private updateProps(name: string, props: any) {
     this.props.updateProps(name, props)
   }
 
-  private updatePoints(index: string, name: string, updatedValue: any) {
-    const updatedPoints = [...this.props.config.points]
-    if (updatedValue[0] === 0) {
-      updatedPoints[index].x = parseInt(updatedValue[1])
-    } else if (updatedValue[0] === 1) {
-      updatedPoints[index].y = parseInt(updatedValue[1])
-    }
-    this.props.updateProps(name, [0, updatedPoints])
+  private addLine = (e) => {
+    e.stopPropagation()
+    this.setState({ selectedLineIndex: null })
+    const newLine = { point1: { x: 0, y: 0 }, point2: { x: 0, y: 0 } } // Default values for new line
+    const updatedLines = [...this.props.config.lines, newLine]
+    this.props.updateProps('collisionProperties-lines', [0, updatedLines])
   }
 
-  private addPoint = (e) => {
+  private removeLine = (index, e) => {
     e.stopPropagation()
-    this.setState({ selectedPointIndex: null })
-    const newPoint = { x: 0, y: 0 } // Default values for new point
-    const updatedPoints = [...this.props.config.points]
-    updatedPoints.push(newPoint)
-    this.props.updateProps('collisionProperties-points', [0, updatedPoints])
-  }
-
-  private removePoint = (index, e) => {
-    e.stopPropagation()
-    this.setState({ selectedPointIndex: null })
-    let updatedPoints = [...this.props.config.points]
-    updatedPoints = updatedPoints.filter((_, i) => i !== index)
-    console.log(updatedPoints)
-    this.props.updateProps('collisionProperties-points', [0, updatedPoints])
+    this.setState({ selectedLineIndex: null })
+    const updatedLines = this.props.config.lines.filter((_, i) => i !== index)
+    this.props.updateProps('collisionProperties-lines', [0, updatedLines])
   }
 
   private changeSubmenuVisibility() {
-    let { isSubmenuVisible } = this.state
-    if (!isSubmenuVisible) {
-      isSubmenuVisible = 'in'
-    } else {
-      isSubmenuVisible = ''
-    }
-    this.setState({ isSubmenuVisible })
+    this.setState((prevState) => ({
+      isSubmenuVisible: prevState.isSubmenuVisible ? '' : 'in',
+    }))
   }
 
-  private selectPoint = (index, event) => {
+  private selectLine = (index, event) => {
     event.stopPropagation()
-    const { selectedPointIndex } = this.state
-    if (selectedPointIndex === index) {
-      this.setState({ selectedPointIndex: null })
-      return
+    this.setState((prevState) => ({
+      selectedLineIndex: prevState.selectedLineIndex === index ? null : index,
+    }))
+  }
+
+  private handleWindowClick = (event) => {
+    const { selectedLineIndex } = this.state
+
+    if (selectedLineIndex !== null) {
+      const localPosition = new Point(0, 0)
+      this.props.app.renderer.plugins.interaction.mapPositionToPoint(localPosition, event.clientX, event.clientY)
+
+      const newX = localPosition.x - this.props.app.screen.width / 2
+      const newY = localPosition.y - this.props.app.screen.height / 2
+
+      const updatedLines = [...this.props.config.lines]
+
+      // Check which point to update based on proximity to click
+      const line = updatedLines[selectedLineIndex]
+      const distanceToPoint1 = Math.sqrt(Math.pow(newX - line.point1.x, 2) + Math.pow(newY - line.point1.y, 2))
+      const distanceToPoint2 = Math.sqrt(Math.pow(newX - line.point2.x, 2) + Math.pow(newY - line.point2.y, 2))
+
+      // Update the closer point
+      if (distanceToPoint1 < distanceToPoint2) {
+        line.point1 = { x: newX, y: newY }
+      } else {
+        line.point2 = { x: newX, y: newY }
+      }
+
+      this.props.updateProps('collisionProperties-lines', [0, updatedLines])
     }
-    this.setState({ selectedPointIndex: index })
+  }
+
+  private handleChangeLines = (event) => {
+    this.props.updateProps('collisionProperties-changeHelpingLines', [0, event.target.checked])
   }
 
   private skipPositionBehaviourOnCollision = (event) => {
@@ -255,28 +290,6 @@ class CollisionProperties extends React.Component<IProps> {
 
   private skipSizeBehaviourOnCollision = (event) => {
     this.props.updateProps('collisionProperties-skipSizeBehaviourOnCollision', [0, event.target.checked])
-  }
-
-  private handleWindowClick = (event) => {
-    const { selectedPointIndex } = this.state
-
-    if (selectedPointIndex !== null) {
-      console.log(event.clientX, event.clientY)
-      const localPosition = new Point(0, 0)
-      this.props.app.renderer.plugins.interaction.mapPositionToPoint(localPosition, event.clientX, event.clientY)
-
-      // Calculate cursor position relative to the canvas center
-      const newX = localPosition.x - this.props.app.screen.width / 2
-      const newY = localPosition.y - this.props.app.screen.height / 2
-
-      const updatedPoints = [...this.props.config.points]
-      updatedPoints[selectedPointIndex] = {
-        x: newX,
-        y: newY,
-      }
-
-      this.props.updateProps('collisionProperties-points', [0, updatedPoints])
-    }
   }
 }
 

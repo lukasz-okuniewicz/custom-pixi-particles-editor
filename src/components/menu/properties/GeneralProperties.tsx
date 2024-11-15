@@ -134,6 +134,7 @@ class GeneralProperties extends React.Component<IProps> {
                   <option value={'fall'}>Fall</option>
                   <option value={'twist'}>Twist</option>
                   <option value={'snow'}>Snow</option>
+                  <option value={'snowWithCollision'}>Snow with Collision</option>
                   <option value={'counter'}>Counter</option>
                   <option value={'bubbles'}>Bubbles</option>
                   <option value={'flyingBubbles'}>Flying Bubbles</option>

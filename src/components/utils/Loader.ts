@@ -14,6 +14,7 @@ export default class Loader {
       loader.add('face', 'assets/img/backgrounds/face.jpeg')
       loader.add('office1', 'assets/img/backgrounds/office1.png')
       loader.add('office2', 'assets/img/backgrounds/office2.png')
+      loader.add('house', 'assets/img/backgrounds/house.jpg')
       loader.load()
       loader.onComplete.once(() => resolve())
     })

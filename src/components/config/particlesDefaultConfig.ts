@@ -1193,144 +1193,6 @@ export default class ParticlesDefaultConfig {
     },
     textures: ['gdevelop/DarkMagicSmoke.png'],
   }
-  collisionV1 = {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 2,
-          timeVariance: 0,
-          name: 'LifeBehaviour',
-        },
-        {
-          priority: 100,
-          enabled: true,
-          spawnType: 'Ring',
-          radius: 20,
-          sinX: false,
-          sinY: false,
-          sinXVal: {
-            x: 50,
-            y: 10,
-          },
-          sinYVal: {
-            x: 50,
-            y: 10,
-          },
-          sinXValVariance: {
-            x: 100,
-            y: 20,
-          },
-          sinYValVariance: {
-            x: 100,
-            y: 20,
-          },
-          position: {
-            x: 0,
-            y: 150,
-          },
-          positionVariance: {
-            x: 20,
-            y: 20,
-          },
-          velocity: {
-            x: 0,
-            y: -600,
-          },
-          velocityVariance: {
-            x: 100,
-            y: 100,
-          },
-          acceleration: {
-            x: 0,
-            y: 100,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 0,
-          },
-          name: 'PositionBehaviour',
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: {
-            x: 1,
-            y: 1,
-          },
-          sizeEnd: {
-            x: 0,
-            y: 0,
-          },
-          startVariance: 1,
-          endVariance: 1,
-          name: 'SizeBehaviour',
-        },
-        {
-          priority: 0,
-          enabled: true,
-          rotation: 0,
-          variance: 1,
-          name: 'RotationBehaviour',
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: {
-            _r: 7,
-            _g: 7,
-            _b: 7,
-            _alpha: 1,
-          },
-          end: {
-            _r: 49,
-            _g: 1,
-            _b: 49,
-            _alpha: 0,
-          },
-          startVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 1,
-          },
-          endVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 1,
-          },
-          sinus: true,
-          name: 'ColorBehaviour',
-        },
-        {
-          priority: 0,
-          enabled: true,
-          name: 'CollisionBehaviour',
-          points: [
-            { x: 0, y: -300 },
-            { x: -200, y: -400 },
-            { x: 200, y: -400 },
-            { x: 0, y: -300 },
-          ],
-          distance: 10,
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 1150,
-        _frames: 0,
-        name: 'UniformEmission',
-      },
-      duration: -1,
-      alpha: 1,
-      blendMode: 3,
-    },
-    textures: ['gdevelop/DarkMagicSmoke.png'],
-  }
   darkMagicSmoke2 = {
     emitterConfig: {
       behaviours: [
@@ -4751,6 +4613,81 @@ export default class ParticlesDefaultConfig {
       ],
       emitController: { _maxParticles: 0, _maxLife: 1, _emitPerSecond: 250, _frames: 0, name: 'UniformEmission' },
       duration: -1,
+    },
+    textures: ['snow.png'],
+  }
+  snowWithCollision = {
+    emitterConfig: {
+      behaviours: [
+        { enabled: true, priority: 10000, maxLifeTime: 10, timeVariance: 0, name: 'LifeBehaviour' },
+        {
+          priority: 100,
+          enabled: true,
+          spawnType: 'Rectangle',
+          radius: 0,
+          position: { x: 0, y: -500 },
+          positionVariance: { x: 281, y: 0 },
+          velocity: { x: 0, y: 200 },
+          velocityVariance: { x: 0, y: 200 },
+          acceleration: { x: 0, y: 50 },
+          accelerationVariance: { x: 0, y: 50 },
+          name: 'PositionBehaviour',
+        },
+        {
+          enabled: true,
+          skipPositionBehaviourOnCollision: true,
+          skipAngularVelocityBehaviourOnCollision: false,
+          skipColorBehaviourOnCollision: false,
+          skipEmitDirectionBehaviourOnCollision: false,
+          skipRotationBehaviourOnCollision: true,
+          skipSizeBehaviourOnCollision: false,
+          priority: 100,
+          lines: [
+            { point1: { x: 0, y: -354 }, point2: { x: -271, y: 113 } },
+            { point1: { x: 264, y: 97 }, point2: { x: 1, y: -351 } },
+            { point1: { x: -220, y: 116 }, point2: { x: -345, y: 173 } },
+            { point1: { x: 321, y: 119 }, point2: { x: 236, y: 91 } },
+            { point1: { x: -209, y: 143 }, point2: { x: -318, y: 208 } },
+            { point1: { x: -320, y: 111 }, point2: { x: -200, y: 111 } },
+            { point1: { x: 231, y: 111 }, point2: { x: 342, y: 160 } },
+            { point1: { x: 231, y: 134 }, point2: { x: 342, y: 190 } },
+          ],
+          distance: 1,
+          name: 'CollisionBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.2, y: 0.2 },
+          sizeEnd: { x: 0, y: 0 },
+          startVariance: 0.1,
+          endVariance: 0,
+          name: 'SizeBehaviour',
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: { _r: 255, _g: 255, _b: 255, _alpha: 1 },
+          end: { _r: 255, _g: 255, _b: 255, _alpha: 1 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          sinus: false,
+          name: 'ColorBehaviour',
+        },
+        { enabled: true, priority: 0, rotation: 3, variance: 2, name: 'RotationBehaviour' },
+      ],
+      emitController: {
+        _maxParticles: 10000,
+        _maxLife: 1,
+        _emitPerSecond: 1000,
+        name: 'UniformEmission',
+        _emissionRate: '1000',
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 0,
     },
     textures: ['snow.png'],
   }
