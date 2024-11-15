@@ -3733,6 +3733,273 @@ export default class ParticlesDefaultConfig {
         };
         textures: string[];
     };
+    collisionV1: {
+        emitterConfig: {
+            behaviours: ({
+                priority: number;
+                enabled: boolean;
+                maxLifeTime: number;
+                timeVariance: number;
+                name: string;
+                spawnType?: undefined;
+                radius?: undefined;
+                sinX?: undefined;
+                sinY?: undefined;
+                sinXVal?: undefined;
+                sinYVal?: undefined;
+                sinXValVariance?: undefined;
+                sinYValVariance?: undefined;
+                position?: undefined;
+                positionVariance?: undefined;
+                velocity?: undefined;
+                velocityVariance?: undefined;
+                acceleration?: undefined;
+                accelerationVariance?: undefined;
+                allowNegativeValues?: undefined;
+                sizeStart?: undefined;
+                sizeEnd?: undefined;
+                startVariance?: undefined;
+                endVariance?: undefined;
+                rotation?: undefined;
+                variance?: undefined;
+                start?: undefined;
+                end?: undefined;
+                sinus?: undefined;
+                points?: undefined;
+                distance?: undefined;
+            } | {
+                priority: number;
+                enabled: boolean;
+                spawnType: string;
+                radius: number;
+                sinX: boolean;
+                sinY: boolean;
+                sinXVal: {
+                    x: number;
+                    y: number;
+                };
+                sinYVal: {
+                    x: number;
+                    y: number;
+                };
+                sinXValVariance: {
+                    x: number;
+                    y: number;
+                };
+                sinYValVariance: {
+                    x: number;
+                    y: number;
+                };
+                position: {
+                    x: number;
+                    y: number;
+                };
+                positionVariance: {
+                    x: number;
+                    y: number;
+                };
+                velocity: {
+                    x: number;
+                    y: number;
+                };
+                velocityVariance: {
+                    x: number;
+                    y: number;
+                };
+                acceleration: {
+                    x: number;
+                    y: number;
+                };
+                accelerationVariance: {
+                    x: number;
+                    y: number;
+                };
+                name: string;
+                maxLifeTime?: undefined;
+                timeVariance?: undefined;
+                allowNegativeValues?: undefined;
+                sizeStart?: undefined;
+                sizeEnd?: undefined;
+                startVariance?: undefined;
+                endVariance?: undefined;
+                rotation?: undefined;
+                variance?: undefined;
+                start?: undefined;
+                end?: undefined;
+                sinus?: undefined;
+                points?: undefined;
+                distance?: undefined;
+            } | {
+                priority: number;
+                enabled: boolean;
+                allowNegativeValues: boolean;
+                sizeStart: {
+                    x: number;
+                    y: number;
+                };
+                sizeEnd: {
+                    x: number;
+                    y: number;
+                };
+                startVariance: number;
+                endVariance: number;
+                name: string;
+                maxLifeTime?: undefined;
+                timeVariance?: undefined;
+                spawnType?: undefined;
+                radius?: undefined;
+                sinX?: undefined;
+                sinY?: undefined;
+                sinXVal?: undefined;
+                sinYVal?: undefined;
+                sinXValVariance?: undefined;
+                sinYValVariance?: undefined;
+                position?: undefined;
+                positionVariance?: undefined;
+                velocity?: undefined;
+                velocityVariance?: undefined;
+                acceleration?: undefined;
+                accelerationVariance?: undefined;
+                rotation?: undefined;
+                variance?: undefined;
+                start?: undefined;
+                end?: undefined;
+                sinus?: undefined;
+                points?: undefined;
+                distance?: undefined;
+            } | {
+                priority: number;
+                enabled: boolean;
+                rotation: number;
+                variance: number;
+                name: string;
+                maxLifeTime?: undefined;
+                timeVariance?: undefined;
+                spawnType?: undefined;
+                radius?: undefined;
+                sinX?: undefined;
+                sinY?: undefined;
+                sinXVal?: undefined;
+                sinYVal?: undefined;
+                sinXValVariance?: undefined;
+                sinYValVariance?: undefined;
+                position?: undefined;
+                positionVariance?: undefined;
+                velocity?: undefined;
+                velocityVariance?: undefined;
+                acceleration?: undefined;
+                accelerationVariance?: undefined;
+                allowNegativeValues?: undefined;
+                sizeStart?: undefined;
+                sizeEnd?: undefined;
+                startVariance?: undefined;
+                endVariance?: undefined;
+                start?: undefined;
+                end?: undefined;
+                sinus?: undefined;
+                points?: undefined;
+                distance?: undefined;
+            } | {
+                priority: number;
+                enabled: boolean;
+                start: {
+                    _r: number;
+                    _g: number;
+                    _b: number;
+                    _alpha: number;
+                };
+                end: {
+                    _r: number;
+                    _g: number;
+                    _b: number;
+                    _alpha: number;
+                };
+                startVariance: {
+                    _r: number;
+                    _g: number;
+                    _b: number;
+                    _alpha: number;
+                };
+                endVariance: {
+                    _r: number;
+                    _g: number;
+                    _b: number;
+                    _alpha: number;
+                };
+                sinus: boolean;
+                name: string;
+                maxLifeTime?: undefined;
+                timeVariance?: undefined;
+                spawnType?: undefined;
+                radius?: undefined;
+                sinX?: undefined;
+                sinY?: undefined;
+                sinXVal?: undefined;
+                sinYVal?: undefined;
+                sinXValVariance?: undefined;
+                sinYValVariance?: undefined;
+                position?: undefined;
+                positionVariance?: undefined;
+                velocity?: undefined;
+                velocityVariance?: undefined;
+                acceleration?: undefined;
+                accelerationVariance?: undefined;
+                allowNegativeValues?: undefined;
+                sizeStart?: undefined;
+                sizeEnd?: undefined;
+                rotation?: undefined;
+                variance?: undefined;
+                points?: undefined;
+                distance?: undefined;
+            } | {
+                priority: number;
+                enabled: boolean;
+                name: string;
+                points: {
+                    x: number;
+                    y: number;
+                }[];
+                distance: number;
+                maxLifeTime?: undefined;
+                timeVariance?: undefined;
+                spawnType?: undefined;
+                radius?: undefined;
+                sinX?: undefined;
+                sinY?: undefined;
+                sinXVal?: undefined;
+                sinYVal?: undefined;
+                sinXValVariance?: undefined;
+                sinYValVariance?: undefined;
+                position?: undefined;
+                positionVariance?: undefined;
+                velocity?: undefined;
+                velocityVariance?: undefined;
+                acceleration?: undefined;
+                accelerationVariance?: undefined;
+                allowNegativeValues?: undefined;
+                sizeStart?: undefined;
+                sizeEnd?: undefined;
+                startVariance?: undefined;
+                endVariance?: undefined;
+                rotation?: undefined;
+                variance?: undefined;
+                start?: undefined;
+                end?: undefined;
+                sinus?: undefined;
+            })[];
+            emitController: {
+                _maxParticles: number;
+                _maxLife: number;
+                _emitPerSecond: number;
+                _frames: number;
+                name: string;
+            };
+            duration: number;
+            alpha: number;
+            blendMode: number;
+        };
+        textures: string[];
+    };
     darkMagicSmoke2: {
         emitterConfig: {
             behaviours: ({
