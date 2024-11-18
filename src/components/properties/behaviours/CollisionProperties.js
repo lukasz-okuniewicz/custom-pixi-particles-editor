@@ -149,6 +149,14 @@ export default function CollisionProperties({ defaultConfig, index }) {
             This feature is useful for creating realistic interactions, such as
             particles bouncing off surfaces or being deflected by barriers.
           </span>
+          <span>
+            <a
+              href="http://localhost:3000/?effect=coinShowerWithCollision"
+              target="_blank"
+            >
+              Example
+            </a>
+          </span>
         </span>
         <Checkbox
           label="Enabled"

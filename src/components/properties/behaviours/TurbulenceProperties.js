@@ -82,6 +82,14 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
           like swirling smoke, drifting leaves, or turbulent water flows. It
           makes particle motion less uniform, adding realism and complexity to
           the simulation.
+          <span>
+            <a
+              href="http://localhost:3000/?effect=fireWithTurbulence"
+              target="_blank"
+            >
+              Example
+            </a>
+          </span>
         </span>
         <Checkbox
           label="Enabled"

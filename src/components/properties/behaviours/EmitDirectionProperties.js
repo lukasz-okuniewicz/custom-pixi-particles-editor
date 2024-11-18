@@ -68,6 +68,11 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
             angle, while variance introduces natural variation, creating effects
             like sprays or bursts.
           </span>
+          <span>
+            <a href="http://localhost:3000/?effect=bubbles" target="_blank">
+              Example
+            </a>
+          </span>
         </span>
         <Checkbox
           label="Enabled"

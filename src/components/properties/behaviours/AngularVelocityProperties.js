@@ -81,6 +81,11 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             their radius and speed changing over their lifetime. It creates
             effects like spirals, circular motions, or orbiting particles.
           </span>
+          <span>
+            <a href="http://localhost:3000/?effect=twist" target="_blank">
+              Example
+            </a>
+          </span>
         </span>
         <Checkbox
           label="Enabled"
