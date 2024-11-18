@@ -6,7 +6,7 @@ import {
   stopAllParticlesArr,
 } from "./particles";
 import { getConfigIndexByName, resize } from "@utils";
-import { customPixiParticles } from "custom-pixi-particles";
+import { _customPixiParticlesEditorOnly } from "custom-pixi-particles";
 import { animateTween, animateWarp, killTween } from "@animations";
 
 export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
@@ -144,7 +144,7 @@ const resetPixiContainers = () => {
 const prepareWarp = (fullConfig) => {
   const warpCloudsConfig = JSON.parse(JSON.stringify(fullConfig.warpClouds));
   const particles = pixiRefs.particlesContainer.addChild(
-    customPixiParticles.create(warpCloudsConfig),
+    _customPixiParticlesEditorOnly.create(warpCloudsConfig),
   );
   particles.play();
   pixiRefs.particlesArr.push(particles);
