@@ -82,7 +82,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             effects like spirals, circular motions, or orbiting particles.
           </span>
           <span>
-            <a href="http://localhost:3000/?effect=twist" target="_blank">
+            <a href="https://okuniewicz.eu/?effect=twist" target="_blank">
               Example
             </a>
           </span>

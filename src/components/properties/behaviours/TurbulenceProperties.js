@@ -84,7 +84,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
           the simulation.
           <span>
             <a
-              href="http://localhost:3000/?effect=fireWithTurbulence"
+              href="https://okuniewicz.eu/?effect=fireWithTurbulence"
               target="_blank"
             >
               Example

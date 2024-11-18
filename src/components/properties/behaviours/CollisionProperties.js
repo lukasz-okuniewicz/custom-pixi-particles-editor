@@ -151,7 +151,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
           </span>
           <span>
             <a
-              href="http://localhost:3000/?effect=coinShowerWithCollision"
+              href="https://okuniewicz.eu/?effect=coinShowerWithCollision"
               target="_blank"
             >
               Example

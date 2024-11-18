@@ -69,7 +69,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
             creating effects like sprays or bursts.
           </span>
           <span>
-            <a href="http://localhost:3000/?effect=bubbles" target="_blank">
+            <a href="https://okuniewicz.eu/?effect=bubbles" target="_blank">
               Example
             </a>
           </span>
