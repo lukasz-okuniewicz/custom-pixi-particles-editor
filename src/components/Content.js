@@ -30,8 +30,8 @@ export default function Content() {
   const contentRef = useRef(null);
   const fullConfig = JSON.parse(JSON.stringify(particlesDefaultConfig));
 
-  const setDefaultConfig = (a) => {
-    setDefaultConfig2(a);
+  const setDefaultConfig = (conf) => {
+    setDefaultConfig2(conf);
   };
 
   const handleResize = useCallback(() => {
@@ -170,6 +170,23 @@ export default function Content() {
   // Handle effects and events
   useEffect(() => {
     if (!defaultConfig) return;
+
+    const { emitterConfig, textures } = defaultConfig;
+
+    if (
+      !emitterConfig.animatedSprite &&
+      Array.isArray(textures) &&
+      textures.length > 0 &&
+      textures[0] === "coin_"
+    ) {
+      const updatedConfig = {
+        ...defaultConfig,
+        textures: ["sparkle.png", ...textures.slice(1)], // Ensures immutability
+      };
+
+      setDefaultConfig(updatedConfig);
+      return;
+    }
 
     if (
       defaultConfig.emitterConfig.animatedSprite &&
