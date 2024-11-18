@@ -49,15 +49,16 @@ export default function ColorProperties({ defaultConfig, index }) {
       <div className={`${isSubmenuVisible}`}>
         <span className="explanation">
           <span>
-            <b>Color properties</b> in a particle system define how a particle's
-            color changes over its lifetime.
+            <b>Color properties</b> in a particle system define how a
+            particle&apos;s color changes over its lifetime.
           </span>
           <ul>
             <li>
               <b>Starting Color</b>: The initial color of the particle.
             </li>
             <li>
-              <b>Ending Color</b>: The color at the end of the particle's life.
+              <b>Ending Color</b>: The color at the end of the particle&apos;s
+              life.
             </li>
             <li>
               <b>Starting Color Variance</b>: Adds randomness to the initial
@@ -68,8 +69,8 @@ export default function ColorProperties({ defaultConfig, index }) {
               color, enhancing visual diversity.
             </li>
             <li>
-              <b>Fade In/Out</b>: Gradually adjusts the particle's opacity at
-              the start and end of its life, creating smooth transitions and
+              <b>Fade In/Out</b>: Gradually adjusts the particle&apos;s opacity
+              at the start and end of its life, creating smooth transitions and
               more natural effects.
             </li>
           </ul>

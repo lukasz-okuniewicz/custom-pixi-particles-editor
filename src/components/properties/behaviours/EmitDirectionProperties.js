@@ -63,10 +63,10 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
           </ul>
           <span>
             This behavior calculates the cosine and sine of the direction angle
-            (adjusted with variance) to determine the particle's movement. It
-            ensures that each particle's trajectory aligns with the specified
-            angle, while variance introduces natural variation, creating effects
-            like sprays or bursts.
+            (adjusted with variance) to determine the particle&apos;s movement.
+            It ensures that each particle&apos;s trajectory aligns with the
+            specified angle, while variance introduces natural variation,
+            creating effects like sprays or bursts.
           </span>
           <span>
             <a href="http://localhost:3000/?effect=bubbles" target="_blank">
