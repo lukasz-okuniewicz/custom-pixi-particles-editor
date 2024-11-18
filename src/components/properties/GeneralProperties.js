@@ -15,7 +15,7 @@ const GeneralProperties = ({
   fullConfig,
   handlePredefinedEffectChange,
 }) => {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+  const [isSubmenuVisible, setIsSubmenuVisible] = useState("");
   const fileParticleImagesInputRef = useRef(null);
   const fileParticleFinishingInputRef = useRef(null);
   const fileParticleBackgroundImageRef = useRef(null);
