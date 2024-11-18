@@ -50,6 +50,38 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
         Angular Velocity Properties
       </legend>
       <div className={`${isSubmenuVisible}`}>
+        <span className="explanation">
+          <span>
+            <b>Angular velocity</b> in a particle system controls the rotation
+            speed of particles, measured in degrees or radians per second. It
+            determines how quickly particles spin around their center, adding
+            dynamic effects like swirling, tumbling, or rotational motion to
+            enhance visual complexity and realism.
+          </span>
+          <ul>
+            <li>
+              <b>Degrees</b>: Specifies the speed of rotation in degrees per
+              second.
+            </li>
+            <li>
+              <b>Degrees Variance</b>: Adds randomness to the rotation speed,
+              creating variation in how particles spin.
+            </li>
+            <li>
+              <b>Max/Min Radius</b>: Sets the initial and final distance of the
+              particle from the center.
+            </li>
+            <li>
+              <b>Radius Variance</b>: Introduces randomness to the starting and
+              ending radii.
+            </li>
+          </ul>
+          <span>
+            This behavior determines how particles orbit a central point, with
+            their radius and speed changing over their lifetime. It creates
+            effects like spirals, circular motions, or orbiting particles.
+          </span>
+        </span>
         <Checkbox
           label="Enabled"
           id="angular-enabled"

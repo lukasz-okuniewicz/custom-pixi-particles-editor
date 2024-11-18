@@ -8,6 +8,11 @@ import InputNumber from "@components/html/InputNumber";
 export default function RotationProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
 
+  if (index === -1) {
+    const x = JSON.parse(JSON.stringify(defaultConfig));
+    index = x.emitterConfig.behaviours.push({}) - 1;
+  }
+
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
   const keysToInitialize = {
     priority: 0,
@@ -39,6 +44,26 @@ export default function RotationProperties({ defaultConfig, index }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Rotation Properties</legend>
       <div className={`${isSubmenuVisible}`}>
+        <span className="explanation">
+          <span>
+            <b>Rotation properties</b> in a particle system define how particles
+            change their angle over time:
+          </span>
+          <ul>
+            <li>
+              <b>Rotation</b>: The speed at which a particle's angle changes,
+              measured in degrees or radians per second.
+            </li>
+            <li>
+              <b>Rotation Variance</b>: Adds randomness to the rotation speed,
+              creating variations in how particles spin.
+            </li>
+          </ul>
+          <span>
+            These settings add dynamic motion and visual complexity, simulating
+            effects like spinning sparks, rotating debris, or swirling leaves.
+          </span>
+        </span>
         <Checkbox
           label="Enabled"
           id="rotation-enabled"

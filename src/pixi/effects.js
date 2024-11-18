@@ -20,7 +20,10 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
 
   const effectMapping = {
     coffeeShop: () => createCoffeeShop({ fullConfig }),
-    faded: () => createFaded({ fullConfig }),
+    faded: () => createFaded({ defaultConfig }),
+    ringFire: () => createRingFire({ defaultConfig }),
+    leaves: () => createLeaves({ defaultConfig }),
+    leavesWithTurbulence: () => createLeaves({ defaultConfig }),
     sun: () => createSprite("blackHole"),
     sun2: () => createSprite("blackHole"),
     magic8: () => createSprite("face"),
@@ -82,31 +85,36 @@ const createCoffeeShop = ({ fullConfig }) => {
   });
 };
 
-const createFaded = ({ fullConfig }) => {
+const createFaded = ({ defaultConfig }) => {
   const { particlesContainer } = pixiRefs;
 
   // Create positioned particles
-  const fadedConfigs = [
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-    { config: fullConfig.faded },
-  ];
+  const fadedConfigs = Array(19).fill({ config: defaultConfig });
+
+  fadedConfigs.forEach(({ config, position }, index) => {
+    const particles = createAndAddParticles(config, particlesContainer);
+    particles.angle = index * 18 + 18;
+  });
+};
+
+const createRingFire = ({ defaultConfig }) => {
+  const { particlesContainer } = pixiRefs;
+
+  // Create positioned particles
+  const fadedConfigs = Array(19).fill({ config: defaultConfig });
+
+  fadedConfigs.forEach(({ config, position }, index) => {
+    const particles = createAndAddParticles(config, particlesContainer);
+    particles.angle = index * 18 + 18;
+  });
+};
+
+const createLeaves = ({ defaultConfig }) => {
+  const { particlesContainer } = pixiRefs;
+
+  // Create positioned particles
+  const fadedConfigs = Array(19).fill({ config: defaultConfig });
+
   fadedConfigs.forEach(({ config, position }, index) => {
     const particles = createAndAddParticles(config, particlesContainer);
     particles.angle = index * 18 + 18;

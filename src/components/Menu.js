@@ -14,6 +14,7 @@ import EmitDirectionProperties from "@components/properties/behaviours/EmitDirec
 import TurbulenceProperties from "@components/properties/behaviours/TurbulenceProperties";
 import { getConfigIndexByName } from "@utils";
 import React from "react";
+import ParticlesList from "@components/particlesList";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
   return (
@@ -66,6 +67,7 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("TurbulenceBehaviour", defaultConfig)}
       />
+      <ParticlesList defaultConfig={defaultConfig} />
     </div>
   );
 };

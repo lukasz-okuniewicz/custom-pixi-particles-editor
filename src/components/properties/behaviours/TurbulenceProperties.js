@@ -76,6 +76,13 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Turbulence Properties</legend>
       <div className={`${isSubmenuVisible}`}>
+        <span className="explanation">
+          <b>Turbulence</b> in a particle system introduces random or
+          semi-random motion to particles, simulating chaotic, natural effects
+          like swirling smoke, drifting leaves, or turbulent water flows. It
+          makes particle motion less uniform, adding realism and complexity to
+          the simulation.
+        </span>
         <Checkbox
           label="Enabled"
           id="turbulence-enabled"
