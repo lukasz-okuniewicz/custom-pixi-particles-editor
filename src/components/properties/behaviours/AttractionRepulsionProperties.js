@@ -125,6 +125,26 @@ export default function AttractionRepulsionProperties({
         Attraction Repulsion Properties
       </legend>
       <div className={`${isSubmenuVisible}`}>
+        <span className="explanation">
+          <span>
+            <b>Attraction/Repulsion Behaviour</b>: This behavior dynamically
+            influences particle motion by applying attraction or repulsion
+            forces based on predefined points. Each influence point has
+            adjustable strength (positive for attraction, negative for
+            repulsion), range, and effect radius. Forces are applied additively,
+            allowing seamless integration with other behaviors like position and
+            velocity updates. Ideal for creating effects like gravitational
+            pull, magnetic fields, or particle dispersion.
+          </span>
+          <span>
+            <a
+              href="https://okuniewicz.eu/?effect=attractionRepulsionBehaviour"
+              target="_blank"
+            >
+              Example
+            </a>
+          </span>
+        </span>
         <Checkbox
           label="Enabled"
           id="angular-enabled"
