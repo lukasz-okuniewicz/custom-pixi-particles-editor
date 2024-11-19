@@ -22,10 +22,7 @@ const TurbulenceDescription = () => {
         smoke, drifting leaves, or turbulent water flows. It makes particle
         motion less uniform, adding realism and complexity to the simulation.
         <span>
-          <a
-            href="https://okuniewicz.eu/?effect=fireWithTurbulence"
-            target="_blank"
-          >
+          <a href="/?effect=fireWithTurbulence" target="_blank">
             Example
           </a>
         </span>

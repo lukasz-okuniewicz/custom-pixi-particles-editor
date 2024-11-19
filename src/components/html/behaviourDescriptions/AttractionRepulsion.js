@@ -28,10 +28,7 @@ const AttractionRepulsionDescription = () => {
           or particle dispersion.
         </span>
         <span>
-          <a
-            href="https://okuniewicz.eu/?effect=attractionRepulsion"
-            target="_blank"
-          >
+          <a href="/?effect=attractionRepulsion" target="_blank">
             Example
           </a>
         </span>

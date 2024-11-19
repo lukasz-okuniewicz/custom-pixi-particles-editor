@@ -17,6 +17,7 @@ import React from "react";
 import ParticlesList from "@components/particlesList";
 import AttractionRepulsionProperties from "@components/properties/behaviours/AttractionRepulsionProperties";
 import NoiseBasedMotionProperties from "@components/properties/behaviours/NoiseBasedMotionBehaviour";
+import ForceFieldsProperties from "@components/properties/behaviours/ForceFieldsBehaviour";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
   return (
@@ -63,6 +64,10 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
       <CollisionProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("CollisionBehaviour", defaultConfig)}
+      />
+      <ForceFieldsProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("ForceFieldsBehaviour", defaultConfig)}
       />
       <ColorProperties
         defaultConfig={defaultConfig}

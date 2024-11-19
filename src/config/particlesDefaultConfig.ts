@@ -7276,6 +7276,83 @@ const particlesDefaultConfig = {
     },
     textures: ["fire001.png"],
   },
+  forceFields: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 15,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 300,
+          fields: [
+            {
+              position: { x: 145, y: -146 },
+              direction: { x: 1, y: 0 },
+              radius: 150,
+              strength: 250,
+              type: "turbulence",
+            },
+            {
+              position: { x: -176, y: 166 },
+              direction: { x: 1, y: 0 },
+              radius: 200,
+              strength: 50,
+              type: "gravity",
+            },
+            {
+              position: { x: -149, y: -149 },
+              direction: { x: -2, y: 0 },
+              radius: 170,
+              strength: 170,
+              type: "wind",
+            },
+          ],
+          name: "ForceFieldsBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          radiusX: 0,
+          radiusY: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 100, y: 100 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 1, y: 1 },
+          sizeEnd: { x: 1, y: 1 },
+          startVariance: 0,
+          endVariance: 0,
+          name: "SizeBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 200,
+        _maxLife: 1,
+        _emitPerSecond: 50,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
 };
 
 export default particlesDefaultConfig;

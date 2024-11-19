@@ -71,7 +71,7 @@ const NoiseBasedMotionDescription = () => {
           </li>
         </ul>
         <span>
-          <a href="https://okuniewicz.eu/?effect=background" target="_blank">
+          <a href="/?effect=background" target="_blank">
             Example
           </a>
         </span>

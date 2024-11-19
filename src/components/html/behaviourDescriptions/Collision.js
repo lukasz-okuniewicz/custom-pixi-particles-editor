@@ -40,10 +40,7 @@ const CollisionDescription = () => {
           particles bouncing off surfaces or being deflected by barriers.
         </span>
         <span>
-          <a
-            href="https://okuniewicz.eu/?effect=coinShowerWithCollision"
-            target="_blank"
-          >
+          <a href="/?effect=coinShowerWithCollision" target="_blank">
             Example
           </a>
         </span>

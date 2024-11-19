@@ -48,7 +48,7 @@ const AngularVelocityDescription = () => {
           effects like spirals, circular motions, or orbiting particles.
         </span>
         <span>
-          <a href="https://okuniewicz.eu/?effect=twist" target="_blank">
+          <a href="/?effect=twist" target="_blank">
             Example
           </a>
         </span>
