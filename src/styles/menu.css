@@ -250,10 +250,29 @@ h1 {
   display: none;
 }
 
+.showContent {
+  cursor: pointer;
+  color: #03805e;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.showContent:hover {
+  cursor: pointer;
+  color: #00ffb9;
+}
 .explanation {
   margin-bottom: 20px;
-  display: flex;
+  display: none;
   flex-direction: column;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.explanation.show {
+  display: flex;
 }
 .explanation span {
   padding: 5px 0;

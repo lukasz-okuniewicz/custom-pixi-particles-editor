@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
+import SizeDescription from "@components/html/behaviourDescriptions/Size";
 
 export default function SizeProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -47,28 +48,7 @@ export default function SizeProperties({ defaultConfig, index }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Size Properties</legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <span>
-            <b>Rotation properties</b> in a particle system control how the size
-            of particles changes throughout their lifetime:
-          </span>
-          <ul>
-            <li>
-              <b>Size Start and Variance</b>: Sets the initial size of particles
-              and adds randomness for variation among particles.
-            </li>
-            <li>
-              <b>Size End and Variance</b>: Defines the final size of particles
-              as they reach the end of their life, with variance introducing
-              additional randomness.
-            </li>
-          </ul>
-          <span>
-            These settings are used to create effects where particles grow,
-            shrink, or vary dynamically over time, enhancing realism and visual
-            appeal.
-          </span>
-        </span>
+        <SizeDescription />
         <Checkbox
           label="Enabled"
           id="size-enabled"
@@ -77,6 +57,16 @@ export default function SizeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
+        />
+        <InputNumber
+          label="Priority"
+          id="size-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
         />
         <InputNumber
           label="Size Start"

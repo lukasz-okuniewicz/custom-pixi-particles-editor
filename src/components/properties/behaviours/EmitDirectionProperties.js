@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
+import EmitDirectionDescription from "@components/html/behaviourDescriptions/EmitDirection";
 
 export default function EmitDirectionProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -46,34 +47,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
         Emit Direction Properties
       </legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <span>
-            <b>Emit Direction (Angle, Angle Variance)</b>: Controls the initial
-            direction particles move when emitted.
-          </span>
-          <ul>
-            <li>
-              <b>Angle</b>: Sets the main direction of particle emission,
-              defined in radians.
-            </li>
-            <li>
-              <b>Angle Variance</b>: Adds randomness to the direction, allowing
-              particles to spread within a range around the main angle.
-            </li>
-          </ul>
-          <span>
-            This behavior calculates the cosine and sine of the direction angle
-            (adjusted with variance) to determine the particle&apos;s movement.
-            It ensures that each particle&apos;s trajectory aligns with the
-            specified angle, while variance introduces natural variation,
-            creating effects like sprays or bursts.
-          </span>
-          <span>
-            <a href="https://okuniewicz.eu/?effect=bubbles" target="_blank">
-              Example
-            </a>
-          </span>
-        </span>
+        <EmitDirectionDescription />
         <Checkbox
           label="Enabled"
           id="emit-enabled"
@@ -82,6 +56,16 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
           checked={behaviour.enabled ?? false}
+        />
+        <InputNumber
+          label="Priority"
+          id="emit-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
         />
         <InputNumber
           label="Angle"

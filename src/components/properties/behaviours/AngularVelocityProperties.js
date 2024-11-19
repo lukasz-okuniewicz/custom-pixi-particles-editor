@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
+import AngularVelocityDescription from "@components/html/behaviourDescriptions/AngularVelocity";
 
 export default function AngularVelocityProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -15,7 +16,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
   const keysToInitialize = {
-    priority: 0,
+    priority: 100,
     enabled: false,
     degrees: 0,
     degreesVariance: 0,
@@ -50,43 +51,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
         Angular Velocity Properties
       </legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <span>
-            <b>Angular velocity</b> in a particle system controls the rotation
-            speed of particles, measured in degrees or radians per second. It
-            determines how quickly particles spin around their center, adding
-            dynamic effects like swirling, tumbling, or rotational motion to
-            enhance visual complexity and realism.
-          </span>
-          <ul>
-            <li>
-              <b>Degrees</b>: Specifies the speed of rotation in degrees per
-              second.
-            </li>
-            <li>
-              <b>Degrees Variance</b>: Adds randomness to the rotation speed,
-              creating variation in how particles spin.
-            </li>
-            <li>
-              <b>Max/Min Radius</b>: Sets the initial and final distance of the
-              particle from the center.
-            </li>
-            <li>
-              <b>Radius Variance</b>: Introduces randomness to the starting and
-              ending radii.
-            </li>
-          </ul>
-          <span>
-            This behavior determines how particles orbit a central point, with
-            their radius and speed changing over their lifetime. It creates
-            effects like spirals, circular motions, or orbiting particles.
-          </span>
-          <span>
-            <a href="https://okuniewicz.eu/?effect=twist" target="_blank">
-              Example
-            </a>
-          </span>
-        </span>
+        <AngularVelocityDescription />
         <Checkbox
           label="Enabled"
           id="angular-enabled"
@@ -94,12 +59,22 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             behaviour.enabled = value;
             updateBehaviours();
           }}
-          checked={behaviour.enabled ?? false}
+          checked={behaviour.enabled ?? keysToInitialize.enabled}
+        />
+        <InputNumber
+          label="Priority"
+          id="angular-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
         />
         <InputNumber
           label="Degrees/sec"
           id="degrees"
-          value={behaviour.degrees ?? 0}
+          value={behaviour.degrees ?? keysToInitialize.degrees}
           step="1"
           onChange={(value) => {
             behaviour.degrees = value;
@@ -109,7 +84,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
         <InputNumber
           label="Degrees/sec Variance"
           id="degrees"
-          value={behaviour.degreesVariance ?? 0}
+          value={behaviour.degreesVariance ?? keysToInitialize.degreesVariance}
           step="1"
           onChange={(value) => {
             behaviour.degreesVariance = value;
@@ -119,7 +94,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
         <InputNumber
           label="Max Radius"
           id="degrees"
-          value={behaviour.maxRadius ?? 0}
+          value={behaviour.maxRadius ?? keysToInitialize.maxRadius}
           step="1"
           onChange={(value) => {
             behaviour.maxRadius = value;
@@ -129,7 +104,9 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
         <InputNumber
           label="Max Radius Variance"
           id="degrees"
-          value={behaviour.maxRadiusVariance ?? 0}
+          value={
+            behaviour.maxRadiusVariance ?? keysToInitialize.maxRadiusVariance
+          }
           step="1"
           onChange={(value) => {
             behaviour.maxRadiusVariance = value;
@@ -139,7 +116,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
         <InputNumber
           label="Min Radius"
           id="degrees"
-          value={behaviour.minRadius ?? 0}
+          value={behaviour.minRadius ?? keysToInitialize.minRadius}
           step="1"
           onChange={(value) => {
             behaviour.minRadius = value;
@@ -149,7 +126,9 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
         <InputNumber
           label="Min Radius Variance"
           id="degrees"
-          value={behaviour.minRadiusVariance ?? 0}
+          value={
+            behaviour.minRadiusVariance ?? keysToInitialize.minRadiusVariance
+          }
           step="1"
           onChange={(value) => {
             behaviour.minRadiusVariance = value;

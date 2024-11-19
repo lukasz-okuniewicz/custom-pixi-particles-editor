@@ -6,6 +6,7 @@ import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
+import AttractionRepulsionDescription from "@components/html/behaviourDescriptions/AttractionRepulsion";
 
 export default function AttractionRepulsionProperties({
   defaultConfig,
@@ -87,7 +88,7 @@ export default function AttractionRepulsionProperties({
   };
 
   const updatePoint = (index, updatedValue, id) => {
-    behaviour.influencePoints[index][id] = parseInt(updatedValue);
+    behaviour.influencePoints[index].point[id] = parseInt(updatedValue);
     updateBehaviours();
   };
 
@@ -125,34 +126,25 @@ export default function AttractionRepulsionProperties({
         Attraction Repulsion Properties
       </legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <span>
-            <b>Attraction/Repulsion Behaviour</b>: This behavior dynamically
-            influences particle motion by applying attraction or repulsion
-            forces based on predefined points. Each influence point has
-            adjustable strength (positive for attraction, negative for
-            repulsion), range, and effect radius. Forces are applied additively,
-            allowing seamless integration with other behaviors like position and
-            velocity updates. Ideal for creating effects like gravitational
-            pull, magnetic fields, or particle dispersion.
-          </span>
-          <span>
-            <a
-              href="https://okuniewicz.eu/?effect=attractionRepulsionBehaviour"
-              target="_blank"
-            >
-              Example
-            </a>
-          </span>
-        </span>
+        <AttractionRepulsionDescription />
         <Checkbox
           label="Enabled"
-          id="angular-enabled"
+          id="attraction-enabled"
           onChange={(value) => {
             behaviour.enabled = value;
             updateBehaviours();
           }}
           checked={behaviour.enabled ?? false}
+        />
+        <InputNumber
+          label="Priority"
+          id="attraction-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
         />
         <hr />
         {behaviour.influencePoints &&

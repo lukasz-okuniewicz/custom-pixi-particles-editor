@@ -5,6 +5,7 @@ import { initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
+import TurbulenceDescription from "@components/html/behaviourDescriptions/Turbulence";
 
 export default function TurbulenceProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -76,21 +77,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Turbulence Properties</legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <b>Turbulence</b> in a particle system introduces random or
-          semi-random motion to particles, simulating chaotic, natural effects
-          like swirling smoke, drifting leaves, or turbulent water flows. It
-          makes particle motion less uniform, adding realism and complexity to
-          the simulation.
-          <span>
-            <a
-              href="https://okuniewicz.eu/?effect=fireWithTurbulence"
-              target="_blank"
-            >
-              Example
-            </a>
-          </span>
-        </span>
+        <TurbulenceDescription />
         <Checkbox
           label="Enabled"
           id="turbulence-enabled"
@@ -99,6 +86,16 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
+        />
+        <InputNumber
+          label="Priority"
+          id="turbulence-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
         />
         <Checkbox
           label="Show Vertices"

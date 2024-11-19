@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import { initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
-import RotationDescription from "@components/html/behaviourDescriptions/Rotation";
+import NoiseBasedMotionDescription from "@components/html/behaviourDescriptions/NoiseBasedMotion";
 
-export default function RotationProperties({ defaultConfig, index }) {
+export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
 
   if (index === -1) {
@@ -16,11 +16,13 @@ export default function RotationProperties({ defaultConfig, index }) {
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
   const keysToInitialize = {
-    priority: 0,
     enabled: false,
-    rotation: 3,
-    variance: 2,
-    name: "RotationBehaviour",
+    priority: 50,
+    noiseScale: 0.1,
+    noiseIntensity: 200,
+    noiseSpeed: 6,
+    noiseDirection: { x: 1, y: 1 },
+    name: "NoiseBasedMotionBehaviour",
   };
   Object.keys(keysToInitialize).forEach((key) => {
     initializeProperty(behaviour, key, keysToInitialize[key]);
@@ -43,12 +45,14 @@ export default function RotationProperties({ defaultConfig, index }) {
 
   return (
     <>
-      <legend onClick={toggleSubmenuVisibility}>Rotation Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>
+        Noise Based Motion Properties
+      </legend>
       <div className={`${isSubmenuVisible}`}>
-        <RotationDescription />
+        <NoiseBasedMotionDescription />
         <Checkbox
           label="Enabled"
-          id="rotation-enabled"
+          id="noise-enabled"
           onChange={(value) => {
             behaviour.enabled = value;
             updateBehaviours();
@@ -57,7 +61,7 @@ export default function RotationProperties({ defaultConfig, index }) {
         />
         <InputNumber
           label="Priority"
-          id="rotation-priority"
+          id="noise-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
           step="10"
           onChange={(value) => {
@@ -66,22 +70,46 @@ export default function RotationProperties({ defaultConfig, index }) {
           }}
         />
         <InputNumber
-          label="Rotation"
-          id="rotation"
-          value={behaviour.rotation ?? keysToInitialize.rotation}
+          label="Noise Scale"
+          id="noiseScale"
+          value={behaviour.noiseScale ?? keysToInitialize.noiseScale}
           step="0.1"
           onChange={(value) => {
-            behaviour.rotation = value;
+            behaviour.noiseScale = value;
             updateBehaviours();
           }}
         />
         <InputNumber
-          label="Variance"
-          id="rotation-variance"
-          value={behaviour.variance ?? keysToInitialize.variance}
-          step="0.1"
+          label="Noise Intensity"
+          id="noiseIntensity"
+          value={behaviour.noiseIntensity ?? keysToInitialize.noiseIntensity}
+          step="100"
           onChange={(value) => {
-            behaviour.variance = value;
+            behaviour.noiseIntensity = value;
+            updateBehaviours();
+          }}
+        />
+        <InputNumber
+          label="Noise Speed"
+          id="noiseSpeed"
+          value={behaviour.noiseSpeed ?? keysToInitialize.noiseSpeed}
+          step="1"
+          onChange={(value) => {
+            behaviour.noiseSpeed = value;
+            updateBehaviours();
+          }}
+        />
+        <InputNumber
+          label="Noise Direction"
+          id="noiseDirection"
+          params={["x", "y"]}
+          value={[
+            behaviour.noiseDirection.x ?? keysToInitialize.noiseDirection.x,
+            behaviour.noiseDirection.y ?? keysToInitialize.noiseDirection.y,
+          ]}
+          step="1"
+          onChange={(value, id) => {
+            behaviour.noiseDirection[id] = value;
             updateBehaviours();
           }}
         />

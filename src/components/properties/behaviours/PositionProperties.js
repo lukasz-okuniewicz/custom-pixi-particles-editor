@@ -5,6 +5,7 @@ import { initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import Select from "@components/html/Select";
 import InputNumber from "@components/html/InputNumber";
+import PositionDescription from "@components/html/behaviourDescriptions/Position";
 
 export default function PositionProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -600,56 +601,7 @@ export default function PositionProperties({ defaultConfig, index }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Position Properties</legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <span>
-            <b>Position properties</b> in a particle system control how
-            particles move and interact in space:
-          </span>
-          <ul>
-            <li>
-              <b>Position, Velocity, and Gravity (with Variances)</b>: Define
-              the starting position, speed, and acceleration due to gravity for
-              particles, with variances adding randomness to create dynamic
-              motion.
-            </li>
-            <li>
-              <b>Sin/Cos/Tan Motion</b>: Enable sinusoidal movement along the X
-              or Y axis for wave-like trajectories.
-            </li>
-            <li>
-              <b>Point A to Point B Movement</b>: Allows particles to travel
-              between two points with adjustable easing functions (sin, cos, tan
-              for X/Y), duration, and amplitude. You can also enable a return to
-              Point A for oscillating effects. This requires coordinating
-              particle lifetimes with movement durations.
-            </li>
-            <li>
-              <b>Warp Effect</b>: Overrides all other position settings to
-              simulate fast, perspective-based motion. Adjustable parameters
-              include:
-              <ul>
-                <li>
-                  <b>Speed/Base Speed</b>: Controls motion intensity.
-                </li>
-                <li>
-                  <b>Camera Z Converter and FOV</b>: Adjust perspective and
-                  depth.
-                </li>
-                <li>
-                  <b>Stretch</b>: Elongates particles along their movement path.
-                </li>
-                <li>
-                  <b>Distance Scale Converter</b>: Modifies scaling based on
-                  distance.
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <span>
-            These properties provide diverse control for creating complex and
-            visually appealing particle behaviors.
-          </span>
-        </span>
+        <PositionDescription />
         <Checkbox
           label="Enabled"
           id="position-enabled"
@@ -658,6 +610,16 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
+        />
+        <InputNumber
+          label="Priority"
+          id="position-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
         />
         <hr />
         <Checkbox

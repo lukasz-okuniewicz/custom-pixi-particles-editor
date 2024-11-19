@@ -4,6 +4,8 @@ import { useCallback, useState } from "react";
 import { initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import ColorPicker from "@components/html/ColorPicker";
+import ColorDescription from "@components/html/behaviourDescriptions/Color";
+import InputNumber from "@components/html/InputNumber";
 
 export default function ColorProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -47,38 +49,7 @@ export default function ColorProperties({ defaultConfig, index }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Color Properties</legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <span>
-            <b>Color properties</b> in a particle system define how a
-            particle&apos;s color changes over its lifetime.
-          </span>
-          <ul>
-            <li>
-              <b>Starting Color</b>: The initial color of the particle.
-            </li>
-            <li>
-              <b>Ending Color</b>: The color at the end of the particle&apos;s
-              life.
-            </li>
-            <li>
-              <b>Starting Color Variance</b>: Adds randomness to the initial
-              color, creating variation among particles.
-            </li>
-            <li>
-              <b>Ending Color Variance</b>: Introduces randomness to the final
-              color, enhancing visual diversity.
-            </li>
-            <li>
-              <b>Fade In/Out</b>: Gradually adjusts the particle&apos;s opacity
-              at the start and end of its life, creating smooth transitions and
-              more natural effects.
-            </li>
-          </ul>
-          <span>
-            These settings enhance the visual appeal and realism of particle
-            animations.
-          </span>
-        </span>
+        <ColorDescription />
         <Checkbox
           label="Enabled"
           id="color-enabled"
@@ -87,6 +58,16 @@ export default function ColorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
+        />
+        <InputNumber
+          label="Priority"
+          id="color-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
         />
         <Checkbox
           label="Fade In and Out"

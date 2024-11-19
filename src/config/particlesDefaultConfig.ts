@@ -6060,7 +6060,7 @@ const particlesDefaultConfig = {
     },
     textures: ["Bubbles99.png"],
   },
-  background1: {
+  background: {
     emitterConfig: {
       behaviours: [
         {
@@ -6082,6 +6082,15 @@ const particlesDefaultConfig = {
           acceleration: { x: 25, y: 25 },
           accelerationVariance: { x: 0, y: 0 },
           name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 50,
+          noiseScale: 0.1,
+          noiseIntensity: 300,
+          noiseSpeed: 6,
+          noiseDirection: { x: 1, y: 1 },
+          name: "NoiseBasedMotionBehaviour",
         },
         {
           priority: 0,
@@ -7105,6 +7114,15 @@ const particlesDefaultConfig = {
         },
         {
           enabled: true,
+          priority: 50,
+          noiseScale: 0.1,
+          noiseIntensity: 300,
+          noiseSpeed: 6,
+          noiseDirection: { x: 1, y: 1 },
+          name: "NoiseBasedMotionBehaviour",
+        },
+        {
+          enabled: true,
           priority: 0,
           allowNegativeValues: false,
           sizeStart: { x: 0.7, y: 0.7 },
@@ -7144,7 +7162,7 @@ const particlesDefaultConfig = {
     },
     textures: ["fire001.png"],
   },
-  attractionRepulsionBehaviour: {
+  attractionRepulsion: {
     emitterConfig: {
       behaviours: [
         {
@@ -7155,8 +7173,21 @@ const particlesDefaultConfig = {
           name: "LifeBehaviour",
         },
         {
-          priority: 100,
           enabled: true,
+          priority: 200,
+          influencePoints: [
+            { point: { x: 297, y: -4 }, strength: -100000, range: 200 },
+            { point: { x: -172, y: -119 }, strength: 1000, range: 200 },
+          ],
+          name: "AttractionRepulsionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          radiusX: 0,
+          radiusY: 0,
           position: { x: 0, y: 0 },
           positionVariance: { x: 1, y: 1 },
           velocity: { x: 0, y: 0 },
@@ -7164,16 +7195,6 @@ const particlesDefaultConfig = {
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 50, y: 50 },
           name: "PositionBehaviour",
-          spawnType: "Rectangle",
-          radius: 200,
-        },
-        {
-          enabled: true,
-          priority: 200,
-          influencePoints: [
-            { point: { x: 200, y: 0 }, strength: -100000, range: 200 },
-          ],
-          name: "AttractionRepulsionBehaviour",
         },
         {
           enabled: true,
@@ -7190,6 +7211,62 @@ const particlesDefaultConfig = {
         _maxParticles: 200,
         _maxLife: 1,
         _emitPerSecond: 250,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  noiseBasedMotion: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 15,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          priority: 100,
+          enabled: true,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 100, y: 100 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+          spawnType: "Rectangle",
+          radius: 200,
+        },
+        {
+          enabled: true,
+          priority: 50,
+          noiseScale: 0.1,
+          noiseIntensity: 200,
+          noiseSpeed: 6,
+          noiseDirection: { x: 1, y: 1 },
+          name: "NoiseBasedMotionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 1, y: 1 },
+          sizeEnd: { x: 1, y: 1 },
+          startVariance: 0,
+          endVariance: 0,
+          name: "SizeBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 200,
+        _maxLife: 1,
+        _emitPerSecond: 50,
         name: "UniformEmission",
       },
       duration: -1,

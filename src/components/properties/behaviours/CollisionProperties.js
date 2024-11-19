@@ -6,6 +6,7 @@ import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
+import CollisionDescription from "@components/html/behaviourDescriptions/Collision";
 
 export default function CollisionProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -30,7 +31,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
     skipEmitDirectionBehaviourOnCollision: false,
     skipRotationBehaviourOnCollision: false,
     skipSizeBehaviourOnCollision: false,
-    priority: 100,
+    priority: 10000,
     lines: [],
     distance: 10,
     name: "CollisionBehaviour",
@@ -125,39 +126,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Collision Properties</legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <span>
-            <b>Collision</b> in a particle system allows particles to interact
-            with defined lines by detecting when a particle gets close to the
-            line and altering its direction accordingly.
-          </span>
-          <ul>
-            <li>
-              <b>Distance</b>: Specifies how close a particle must be to detect
-              a collision. A distance of 0 means particles pass over the line,
-              while a small distance results in some particles colliding and
-              others bypassing the line.
-            </li>
-            <li>
-              <b>Collision Effects</b>: You can choose which particle properties
-              are affected upon collision, such as position, color, rotation, or
-              size, or opt to ignore certain effects for more customized
-              behavior.
-            </li>
-          </ul>
-          <span>
-            This feature is useful for creating realistic interactions, such as
-            particles bouncing off surfaces or being deflected by barriers.
-          </span>
-          <span>
-            <a
-              href="https://okuniewicz.eu/?effect=coinShowerWithCollision"
-              target="_blank"
-            >
-              Example
-            </a>
-          </span>
-        </span>
+        <CollisionDescription />
         <Checkbox
           label="Enabled"
           id="collision-enabled"
@@ -166,6 +135,16 @@ export default function CollisionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
+        />
+        <InputNumber
+          label="Priority"
+          id="collision-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
         />
         <Checkbox
           label="Show Line"

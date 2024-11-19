@@ -4,6 +4,7 @@ import Select from "@components/html/Select";
 import { useCallback, useMemo, useState } from "react";
 import { updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
+import EmissionTypeDescription from "@components/html/behaviourDescriptions/EmissionType";
 
 export default function EmissionTypeProperties({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -99,63 +100,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         Emission Type Properties
       </legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <span>
-            <b>Emission type properties</b> in a particle system control how
-            particles are emitted over time. There are three types:
-          </span>
-          <ul>
-            <li>
-              <b>Uniform Emission</b>: Particles are emitted at a consistent
-              rate.
-              <ul>
-                <li>
-                  <b>Emit/Sec</b>: Number of particles emitted per second.
-                </li>
-                <li>
-                  <b>Duration</b>: How long the emission lasts.
-                </li>
-              </ul>
-            </li>
-            <li>
-              <b>Standard Emission</b>: Particles are emitted at a defined rate,
-              up to a maximum count.
-              <ul>
-                <li>
-                  <b>Max Particles</b>: Total number of particles that can exist
-                  simultaneously.
-                </li>
-                <li>
-                  <b>Emission Rate</b>: Speed of particle generation.
-                </li>
-                <li>
-                  <b>Duration</b>: How long the emission lasts.
-                </li>
-              </ul>
-            </li>
-            <li>
-              <b>Random Emission</b>: Particles are emitted with a randomized
-              pattern.
-              <ul>
-                <li>
-                  <b>Max Particles</b>: Maximum number of particles at any time.
-                </li>
-                <li>
-                  <b>Emission Rate</b>: Rate of particle generation with
-                  randomness.
-                </li>
-                <li>
-                  <b>Duration</b>: Length of the emission period.
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <span>
-            If Duration = -1, the emission continues indefinitely. These options
-            allow for precise control of particle flow, from steady streams to
-            bursts and randomized patterns.
-          </span>
-        </span>
+        <EmissionTypeDescription />
         <Select
           label="Emission Type"
           defaultValue={

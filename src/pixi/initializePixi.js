@@ -5,6 +5,7 @@ export const initializeApp = (contentRef) => {
   if (pixiRefs.app) return;
 
   const app = new Application({ backgroundColor: 0 });
+  globalThis.__PIXI_APP__ = app;
   pixiRefs.app = app;
 
   const bgContainer = new Container();

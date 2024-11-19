@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import InputNumber from "@components/html/InputNumber";
 import { initializeProperty, updateProps } from "@utils";
+import LifeDescription from "@components/html/behaviourDescriptions/Life";
 
 export default function LifeProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -43,27 +44,7 @@ export default function LifeProperties({ defaultConfig, index }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Life Properties</legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          <span>
-            <b>Life properties</b> in a particle system define how long
-            particles exist before disappearing:
-          </span>
-          <ul>
-            <li>
-              <b>Max Lifetime</b>: Specifies the maximum duration a particle
-              stays active.
-            </li>
-            <li>
-              <b>Variance</b>: Adds randomness to the lifetime, making particles
-              expire at slightly different times.
-            </li>
-          </ul>
-          <span>
-            These settings create natural, dynamic effects by ensuring particles
-            don’t all behave identically, enhancing the overall realism of the
-            system.
-          </span>
-        </span>
+        <LifeDescription />
         <InputNumber
           label="Max Life Time"
           id="max-life-time"

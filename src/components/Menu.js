@@ -16,6 +16,7 @@ import { getConfigIndexByName } from "@utils";
 import React from "react";
 import ParticlesList from "@components/particlesList";
 import AttractionRepulsionProperties from "@components/properties/behaviours/AttractionRepulsionProperties";
+import NoiseBasedMotionProperties from "@components/properties/behaviours/NoiseBasedMotionBehaviour";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
   return (
@@ -54,6 +55,10 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
           "AttractionRepulsionBehaviour",
           defaultConfig,
         )}
+      />
+      <NoiseBasedMotionProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("NoiseBasedMotionBehaviour", defaultConfig)}
       />
       <CollisionProperties
         defaultConfig={defaultConfig}
