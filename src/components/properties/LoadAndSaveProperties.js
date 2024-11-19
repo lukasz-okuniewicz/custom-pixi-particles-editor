@@ -31,7 +31,6 @@ const LoadAndSaveProperties = ({ defaultConfig }) => {
 
   return (
     <>
-      <legend>Config</legend>
       <div className="form-group">
         <div className="col-xs-5">
           <button className="btn btn-default btn-block" onClick={loadConfig}>

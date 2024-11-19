@@ -47,7 +47,7 @@ const ForceFieldsDescription = () => {
               <b>Position</b>: Location of the field’s center.
             </li>
             <li>
-              <b>Radius</b>: Determines the field's area of influence.
+              <b>Radius</b>: Determines the field&apos;s area of influence.
             </li>
             <li>
               <b>Strength</b>: Controls the intensity of the force.
@@ -58,8 +58,8 @@ const ForceFieldsDescription = () => {
             </li>
           </ul>
           <br />
-          Forces weaken as particles move away from the field's center, creating
-          a realistic gradient effect.
+          Forces weaken as particles move away from the field&apos;s center,
+          creating a realistic gradient effect.
         </span>
         <span>
           <a href="/?effect=forceFields" target="_blank">
