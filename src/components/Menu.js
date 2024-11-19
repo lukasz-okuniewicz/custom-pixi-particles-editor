@@ -15,6 +15,7 @@ import TurbulenceProperties from "@components/properties/behaviours/TurbulencePr
 import { getConfigIndexByName } from "@utils";
 import React from "react";
 import ParticlesList from "@components/particlesList";
+import AttractionRepulsionProperties from "@components/properties/behaviours/AttractionRepulsionProperties";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
   return (
@@ -46,6 +47,13 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
       <PositionProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("PositionBehaviour", defaultConfig)}
+      />
+      <AttractionRepulsionProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName(
+          "AttractionRepulsionBehaviour",
+          defaultConfig,
+        )}
       />
       <CollisionProperties
         defaultConfig={defaultConfig}

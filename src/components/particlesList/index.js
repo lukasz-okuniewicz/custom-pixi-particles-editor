@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import pixiRefs from "@pixi/pixiRefs";
 import { createAndAddParticles } from "@pixi/particles";
 import InputNumber from "@components/html/InputNumber";
@@ -81,7 +81,7 @@ export default function ParticlesList({ defaultConfig }) {
           settings must then be manually applied to each particle emitter.
         </span>
         {particlesConfig.map((item, index) => (
-          <React.Fragment key={index}>
+          <Fragment key={index}>
             {index > 0 && (
               <>
                 <hr />
@@ -104,7 +104,7 @@ export default function ParticlesList({ defaultConfig }) {
               step="1"
               onChange={(value, id) => handlePositionChange(index, value, id)}
             />
-          </React.Fragment>
+          </Fragment>
         ))}
         <button className="btn btn-default btn-block" onClick={duplicate}>
           Duplicate Main Emitter

@@ -7144,6 +7144,61 @@ const particlesDefaultConfig = {
     },
     textures: ["fire001.png"],
   },
+  attractionRepulsionBehaviour: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 15,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          priority: 100,
+          enabled: true,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 1, y: 1 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 50, y: 50 },
+          name: "PositionBehaviour",
+          spawnType: "Rectangle",
+          radius: 200,
+        },
+        {
+          enabled: true,
+          priority: 200,
+          influencePoints: [
+            { point: { x: 200, y: 0 }, strength: -100000, range: 200 },
+          ],
+          name: "AttractionRepulsionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 1, y: 1 },
+          sizeEnd: { x: 1, y: 1 },
+          startVariance: 0,
+          endVariance: 0,
+          name: "SizeBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 200,
+        _maxLife: 1,
+        _emitPerSecond: 250,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["fire001.png"],
+  },
 };
 
 export default particlesDefaultConfig;

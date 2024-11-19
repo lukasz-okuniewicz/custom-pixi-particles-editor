@@ -189,7 +189,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
         <hr />
         {behaviour.lines &&
           behaviour.lines.map((line, index) => (
-            <React.Fragment key={index}>
+            <Fragment key={index}>
               <h1>Line {index + 1}</h1>
               <InputNumber
                 label={`Line ${index + 1} - Point 1`}
@@ -244,7 +244,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
               </button>
               <br />
               <hr />
-            </React.Fragment>
+            </Fragment>
           ))}
         <hr />
         <br />

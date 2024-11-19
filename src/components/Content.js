@@ -85,13 +85,14 @@ export default function Content() {
         const downloadableObj = pixiRefs.particles.emitter.getParser().write();
         const behaviourIndex = getConfigIndexByName(
           "PositionBehaviour",
-          defaultConfig,
+          downloadableObj,
         );
         const behaviour = getBehaviourByIndex(
           behaviourIndex,
-          name,
-          defaultConfig,
+          "PositionBehaviour",
+          downloadableObj,
         );
+
         if (behaviour) {
           if (!behaviour.warp) {
             delete behaviour.warpStretch;
@@ -101,6 +102,7 @@ export default function Content() {
             delete behaviour.warpBaseSpeed;
             delete behaviour.warp;
             delete behaviour.cameraZConverter;
+            delete behaviour.warpDistanceToCenter;
           }
           if (!behaviour.sinX) {
             delete behaviour.sinXVal;
@@ -111,6 +113,18 @@ export default function Content() {
             delete behaviour.sinYVal;
             delete behaviour.sinY;
             delete behaviour.sinYValVariance;
+          }
+          if (!behaviour.fromAtoB) {
+            delete behaviour.fromAtoB;
+            delete behaviour.fromAtoBTwoWays;
+            delete behaviour.there;
+            delete behaviour.back;
+            delete behaviour.pointA;
+            delete behaviour.pointB;
+            delete behaviour.thereDuration;
+            delete behaviour.thereAmplitude;
+            delete behaviour.backDuration;
+            delete behaviour.backAmplitude;
           }
         }
         downloadableObj.behaviours[behaviourIndex] = behaviour;

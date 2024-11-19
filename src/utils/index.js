@@ -19,10 +19,11 @@ export const getConfigByName = (name, config) => {
 };
 
 export const getConfigIndexByName = (name, config) => {
-  return (
-    config?.emitterConfig?.behaviours?.findIndex(
-      (behaviour) => behaviour.name === name,
-    ) ?? -1
+  if (config.behaviours) {
+    return config.behaviours.findIndex((behaviour) => behaviour.name === name);
+  }
+  return config.emitterConfig?.behaviours?.findIndex(
+    (behaviour) => behaviour.name === name,
   );
 };
 
@@ -83,6 +84,15 @@ export const getBehaviourByIndex = (index, name, config) => {
       `Behaviour with name "${name}" not found. Creating new behaviour.`,
     );
     return pixiRefs.particles.emitter.createBehaviourProps(name);
+  }
+
+  if (config.behaviours) {
+    if (!config.behaviours?.[index]) {
+      console.error(`Invalid index "${index}". Cannot retrieve behaviour.`);
+      return null;
+    }
+
+    return config.behaviours[index];
   }
 
   if (!config?.emitterConfig?.behaviours?.[index]) {
