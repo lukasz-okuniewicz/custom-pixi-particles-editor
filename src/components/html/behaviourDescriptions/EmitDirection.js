@@ -18,10 +18,20 @@ const EmitDirectionDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Emit Direction (Angle, Angle Variance)</b>: Controls the initial
-          direction particles move when emitted.
+          <b>Emit Direction Behaviour</b>: controls the initial direction of
+          particles when they are emitted. By specifying an angle and variance,
+          this behavior allows for dynamic and customizable particle
+          trajectories right from their point of origin.
         </span>
+        Key Properties:
         <ul>
+          <li>
+            <b>Enabled</b>: Toggle the behavior on or off.
+          </li>
+          <li>
+            <b>Priority</b>: Set execution order if multiple behaviors are
+            applied.
+          </li>
           <li>
             <b>Angle</b>: Sets the main direction of particle emission, defined
             in radians.

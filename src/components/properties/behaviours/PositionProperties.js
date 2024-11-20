@@ -58,21 +58,6 @@ export default function PositionProperties({ defaultConfig, index }) {
     initializeProperty(behaviour, key, keysToInitialize[key]);
   });
 
-  const predefinedSpawnType = useMemo(() => {
-    const names = {
-      Rectangle: true,
-      Frame: true,
-      FrameRectangle: true,
-      Ring: true,
-    };
-    return Object.keys(names)
-      .sort()
-      .map((key) => ({
-        key,
-        displayName: key,
-      }));
-  }, []);
-
   const predefinedThereBack = useMemo(() => {
     const names = {
       None: true,
@@ -203,6 +188,34 @@ export default function PositionProperties({ defaultConfig, index }) {
     return (
       <>
         <InputNumber
+          label="Position"
+          id="position"
+          params={["x", "y"]}
+          value={[
+            behaviour.position.x ?? keysToInitialize.position.x,
+            behaviour.position.y ?? keysToInitialize.position.y,
+          ]}
+          step="1"
+          onChange={(value, id) => {
+            behaviour.position[id] = value;
+            updateBehaviours();
+          }}
+        />
+        <InputNumber
+          label="Position Variance"
+          id="position-variance"
+          params={["x", "y"]}
+          value={[
+            behaviour.positionVariance.x ?? keysToInitialize.positionVariance.x,
+            behaviour.positionVariance.y ?? keysToInitialize.positionVariance.y,
+          ]}
+          step="1"
+          onChange={(value, id) => {
+            behaviour.positionVariance[id] = value;
+            updateBehaviours();
+          }}
+        />
+        <InputNumber
           label="Speed"
           id="speed"
           value={behaviour.warpSpeed ?? keysToInitialize.warpSpeed}
@@ -286,56 +299,6 @@ export default function PositionProperties({ defaultConfig, index }) {
   const renderNormal = () => {
     return (
       <>
-        <hr />
-        <Select
-          label="Spawn Type"
-          defaultValue={behaviour.spawnType || keysToInitialize.spawnType}
-          onChange={(value) => {
-            behaviour.spawnType = value;
-            updateBehaviours();
-          }}
-          elements={predefinedSpawnType}
-        />
-        <InputNumber
-          label="Radius"
-          id="radius"
-          value={behaviour.radius ?? keysToInitialize.radius}
-          step="1"
-          onChange={(value) => {
-            behaviour.radius = value;
-            updateBehaviours();
-          }}
-        />
-        <hr />
-        <InputNumber
-          label="Position"
-          id="position"
-          params={["x", "y"]}
-          value={[
-            behaviour.position.x ?? keysToInitialize.position.x,
-            behaviour.position.y ?? keysToInitialize.position.y,
-          ]}
-          step="1"
-          onChange={(value, id) => {
-            behaviour.position[id] = value;
-            updateBehaviours();
-          }}
-        />
-        <InputNumber
-          label="Position Variance"
-          id="position-variance"
-          params={["x", "y"]}
-          value={[
-            behaviour.positionVariance.x ?? keysToInitialize.positionVariance.x,
-            behaviour.positionVariance.y ?? keysToInitialize.positionVariance.y,
-          ]}
-          step="1"
-          onChange={(value, id) => {
-            behaviour.positionVariance[id] = value;
-            updateBehaviours();
-          }}
-        />
-        <hr />
         <InputNumber
           label="Velocity"
           id="velocity"
@@ -631,6 +594,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.fromAtoB ?? keysToInitialize.fromAtoB}
         />
+        <hr />
         {!behaviour.fromAtoB && renderNormal()}
         {behaviour.fromAtoB === true && renderFromAtoB()}
       </div>

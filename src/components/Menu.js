@@ -18,6 +18,10 @@ import ParticlesList from "@components/particlesList";
 import AttractionRepulsionProperties from "@components/properties/behaviours/AttractionRepulsionProperties";
 import NoiseBasedMotionProperties from "@components/properties/behaviours/NoiseBasedMotionBehaviour";
 import ForceFieldsProperties from "@components/properties/behaviours/ForceFieldsBehaviour";
+import SpawnProperties from "@components/properties/behaviours/SpawnProperties";
+import TimelineProperties from "@components/properties/behaviours/TimelineProperties";
+import GroupingProperties from "@components/properties/behaviours/GroupingProperties";
+import SoundReactiveProperties from "@components/properties/behaviours/SoundReactiveProperties";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
   return (
@@ -33,10 +37,18 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
         fullConfig={fullConfig}
         handlePredefinedEffectChange={handlePredefinedEffectChange}
       />
+      <SpawnProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("SpawnBehaviour", defaultConfig)}
+      />
       <EmissionTypeProperties defaultConfig={defaultConfig} />
       <LifeProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("LifeBehaviour", defaultConfig)}
+      />
+      <TimelineProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("TimelineBehaviour", defaultConfig)}
       />
       <SizeProperties
         defaultConfig={defaultConfig}
@@ -49,6 +61,14 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
       <PositionProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("PositionBehaviour", defaultConfig)}
+      />
+      <GroupingProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("GroupingBehaviour", defaultConfig)}
+      />
+      <SoundReactiveProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("SoundReactiveBehaviour", defaultConfig)}
       />
       <AttractionRepulsionProperties
         defaultConfig={defaultConfig}

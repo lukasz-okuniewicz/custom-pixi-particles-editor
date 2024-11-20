@@ -15,6 +15,7 @@ const GeneralProperties = ({
   fullConfig,
   handlePredefinedEffectChange,
 }) => {
+  const [bgColor, setBgColor] = useState({ r: 0, g: 0, b: 0, a: 1 });
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("");
   const fileParticleImagesInputRef = useRef(null);
   const fileParticleFinishingInputRef = useRef(null);
@@ -280,8 +281,14 @@ const GeneralProperties = ({
             <hr />
             <ColorPicker
               label="Background Color"
-              color="#000000"
+              color={{
+                r: bgColor.r,
+                g: bgColor.g,
+                b: bgColor.b,
+                a: bgColor.alpha,
+              }}
               colorChanged={(color) => {
+                setBgColor(color.rgb);
                 updateProps("noConfig.BackgroundColor", color);
               }}
             />

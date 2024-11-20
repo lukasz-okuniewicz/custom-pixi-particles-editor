@@ -18,10 +18,18 @@ const RotationDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Rotation properties</b> in a particle system define how particles
+          <b>Rotation Behaviour</b> in a particle system define how particles
           change their angle over time:
         </span>
+        Key Properties:
         <ul>
+          <li>
+            <b>Enabled</b>: Toggle the behavior on or off.
+          </li>
+          <li>
+            <b>Priority</b>: Set execution order if multiple behaviors are
+            applied.
+          </li>
           <li>
             <b>Rotation</b>: The speed at which a particle&apos;s angle changes,
             measured in degrees or radians per second.

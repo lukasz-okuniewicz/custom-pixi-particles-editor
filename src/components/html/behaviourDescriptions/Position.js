@@ -18,51 +18,54 @@ const PositionDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Position properties</b> in a particle system control how particles
-          move and interact in space:
+          <b>Position Behaviour</b> provides a powerful framework for
+          controlling particle movement through velocity, acceleration,
+          sinusoidal motion, and advanced warp effects. It allows particles to
+          traverse between points, follow sinusoidal paths, or simulate
+          depth-based warp effects for dynamic and visually rich animations.
         </span>
+        Key Properties:
         <ul>
           <li>
-            <b>Position, Velocity, and Gravity (with Variances)</b>: Define the
-            starting position, speed, and acceleration due to gravity for
-            particles, with variances adding randomness to create dynamic
-            motion.
+            <b>Enabled</b>: Toggle the behavior on or off.
           </li>
           <li>
-            <b>Sin/Cos/Tan Motion</b>: Enable sinusoidal movement along the X or
-            Y axis for wave-like trajectories.
+            <b>Priority</b>: Set execution order if multiple behaviors are
+            applied.
           </li>
           <li>
-            <b>Point A to Point B Movement</b>: Allows particles to travel
-            between two points with adjustable easing functions (sin, cos, tan
-            for X/Y), duration, and amplitude. You can also enable a return to
-            Point A for oscillating effects. This requires coordinating particle
-            lifetimes with movement durations.
+            <b>Warp Settings</b>: Control warp speed, FOV, stretch, and distance
+            scaling.
           </li>
           <li>
-            <b>Warp Effect</b>: Overrides all other position settings to
-            simulate fast, perspective-based motion. Adjustable parameters
-            include:
+            <b>Motion Settings</b>: Configure velocity, acceleration, and their
+            variances.
+          </li>
+          <li>
+            <b>Sinusoidal Motion</b>: Enable and configure sinusoidal movement
+            along the X and/or Y axes.
+          </li>
+          <li>
+            <b>Point-to-Point Motion:</b>:
             <ul>
               <li>
-                <b>Speed/Base Speed</b>: Controls motion intensity.
+                <b>Point A & B</b>: Define the start and end points.
               </li>
               <li>
-                <b>Camera Z Converter and FOV</b>: Adjust perspective and depth.
+                <b>Durations & Amplitudes</b>: Set durations and amplitudes for
+                the &quot;there&quot; and &quot;back&quot; motions.
               </li>
               <li>
-                <b>Stretch</b>: Elongates particles along their movement path.
-              </li>
-              <li>
-                <b>Distance Scale Converter</b>: Modifies scaling based on
-                distance.
+                <b>Easing Curves</b>: Choose custom easing functions for smooth
+                transitions.
               </li>
             </ul>
           </li>
         </ul>
         <span>
-          These properties provide diverse control for creating complex and
-          visually appealing particle behaviors.
+          The Position Behaviour is ideal for users seeking comprehensive
+          control over particle motion, offering versatile features to create
+          intricate and dynamic animations with ease.
         </span>
       </span>
     </>

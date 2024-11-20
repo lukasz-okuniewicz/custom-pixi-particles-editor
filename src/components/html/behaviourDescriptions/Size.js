@@ -18,10 +18,18 @@ const SizeDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Rotation properties</b> in a particle system control how the size
-          of particles changes throughout their lifetime:
+          <b>Rotation Behaviour</b> in a particle system control how the size of
+          particles changes throughout their lifetime:
         </span>
+        Key Properties:
         <ul>
+          <li>
+            <b>Enabled</b>: Toggle the behavior on or off.
+          </li>
+          <li>
+            <b>Priority</b>: Set execution order if multiple behaviors are
+            applied.
+          </li>
           <li>
             <b>Size Start and Variance</b>: Sets the initial size of particles
             and adds randomness for variation among particles.

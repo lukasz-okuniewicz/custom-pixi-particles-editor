@@ -3,6 +3,22 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 200,
+            y: 200,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -12,34 +28,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 200,
-          sinX: false,
-          sinY: false,
-          sinXVal: {
-            x: 50,
-            y: 10,
-          },
-          sinYVal: {
-            x: 50,
-            y: 10,
-          },
-          sinXValVariance: {
-            x: 100,
-            y: 20,
-          },
-          sinYValVariance: {
-            x: 100,
-            y: 20,
-          },
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 200,
-            y: 200,
-          },
           velocity: {
             x: 0,
             y: 0,
@@ -122,6 +110,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 16,
@@ -131,28 +129,10 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          warp: false,
-          warpSpeed: 0,
-          warpBaseSpeed: 0,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
-          cameraZConverter: 10,
-          warpFov: 20,
-          warpStretch: 5,
-          warpDistanceScaleConverter: 2000,
-          warpDistanceToCenter: false,
           fromAtoB: true,
           fromAtoBTwoWays: true,
           pointA: { x: -300, y: 0 },
@@ -211,6 +191,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 16,
@@ -220,28 +210,10 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          warp: false,
-          warpSpeed: 0,
-          warpBaseSpeed: 0,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
-          cameraZConverter: 10,
-          warpFov: 20,
-          warpStretch: 5,
-          warpDistanceScaleConverter: 2000,
-          warpDistanceToCenter: false,
           fromAtoB: true,
           fromAtoBTwoWays: true,
           pointA: { x: -300, y: 0 },
@@ -300,6 +272,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 16,
@@ -309,28 +291,10 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          warp: false,
-          warpSpeed: 0,
-          warpBaseSpeed: 0,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
-          cameraZConverter: 10,
-          warpFov: 20,
-          warpStretch: 5,
-          warpDistanceScaleConverter: 2000,
-          warpDistanceToCenter: false,
           fromAtoB: true,
           fromAtoBTwoWays: true,
           pointA: { x: -300, y: 0 },
@@ -389,6 +353,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 16,
@@ -398,28 +372,10 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          warp: false,
-          warpSpeed: 0,
-          warpBaseSpeed: 0,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
-          cameraZConverter: 10,
-          warpFov: 20,
-          warpStretch: 5,
-          warpDistanceScaleConverter: 2000,
-          warpDistanceToCenter: false,
           fromAtoB: true,
           fromAtoBTwoWays: true,
           pointA: { x: -300, y: 0 },
@@ -478,6 +434,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 5,
@@ -487,28 +453,10 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          warp: false,
-          warpSpeed: 0,
-          warpBaseSpeed: 0,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
-          cameraZConverter: 10,
-          warpFov: 20,
-          warpStretch: 5,
-          warpDistanceScaleConverter: 2000,
-          warpDistanceToCenter: false,
           fromAtoB: true,
           fromAtoBTwoWays: true,
           pointA: { x: -300, y: 0 },
@@ -567,6 +515,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 5,
@@ -576,28 +534,10 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          warp: false,
-          warpSpeed: 0,
-          warpBaseSpeed: 0,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
-          cameraZConverter: 10,
-          warpFov: 20,
-          warpStretch: 5,
-          warpDistanceScaleConverter: 2000,
-          warpDistanceToCenter: false,
           fromAtoB: true,
           fromAtoBTwoWays: true,
           pointA: { x: -300, y: 0 },
@@ -656,6 +596,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          perspective: 0,
+          maxZ: 0,
+          spawnType: "Rectangle",
+          radius: 200,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 5,
@@ -665,28 +615,10 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          warp: false,
-          warpSpeed: 0,
-          warpBaseSpeed: 0,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
-          cameraZConverter: 10,
-          warpFov: 20,
-          warpStretch: 5,
-          warpDistanceScaleConverter: 2000,
-          warpDistanceToCenter: false,
           fromAtoB: true,
           fromAtoBTwoWays: true,
           pointA: { x: -300, y: 0 },
@@ -745,6 +677,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 5,
@@ -754,28 +696,10 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          warp: false,
-          warpSpeed: 0,
-          warpBaseSpeed: 0,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
-          cameraZConverter: 10,
-          warpFov: 20,
-          warpStretch: 5,
-          warpDistanceScaleConverter: 2000,
-          warpDistanceToCenter: false,
           fromAtoB: true,
           fromAtoBTwoWays: true,
           pointA: { x: -300, y: 0 },
@@ -834,6 +758,22 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 300,
+          perspective: 0,
+          maxZ: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 50,
+            y: 50,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 10,
@@ -843,16 +783,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 300,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 50,
-            y: 50,
-          },
           velocity: {
             x: 0,
             y: 0,
@@ -957,6 +887,22 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 70,
+          perspective: 0,
+          maxZ: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 70,
+            y: 70,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 10000000,
@@ -982,19 +928,9 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 70,
           warp: true,
           warpSpeed: 0.001,
           warpBaseSpeed: 0.001,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 70,
-            y: 70,
-          },
           velocity: {
             x: 0,
             y: 0,
@@ -1041,6 +977,22 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 70,
+          perspective: 0,
+          maxZ: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 270,
+            y: 270,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 10000000,
@@ -1066,19 +1018,9 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 70,
           warp: true,
           warpSpeed: 0.001,
           warpBaseSpeed: 0.001,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 270,
-            y: 270,
-          },
           velocity: {
             x: 0,
             y: 0,
@@ -1125,6 +1067,22 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 10,
+          perspective: 0,
+          maxZ: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 70,
+            y: 70,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 10000000,
@@ -1150,19 +1108,9 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 10,
           warp: true,
           warpSpeed: 0.001,
           warpBaseSpeed: 0.005,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 70,
-            y: 70,
-          },
           velocity: {
             x: 0,
             y: 0,
@@ -1208,6 +1156,22 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: {
+            x: 0,
+            y: 150,
+          },
+          positionVariance: {
+            x: 20,
+            y: 20,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -1217,34 +1181,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 200,
-          sinX: false,
-          sinY: false,
-          sinXVal: {
-            x: 50,
-            y: 10,
-          },
-          sinYVal: {
-            x: 50,
-            y: 10,
-          },
-          sinXValVariance: {
-            x: 100,
-            y: 20,
-          },
-          sinYValVariance: {
-            x: 100,
-            y: 20,
-          },
-          position: {
-            x: 0,
-            y: 150,
-          },
-          positionVariance: {
-            x: 20,
-            y: 20,
-          },
           velocity: {
             x: 0,
             y: -300,
@@ -1334,6 +1270,22 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 1,
+          perspective: 0,
+          maxZ: 0,
+          position: {
+            x: 1104,
+            y: 522,
+          },
+          positionVariance: {
+            x: 5,
+            y: 0,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -1343,16 +1295,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 1,
-          position: {
-            x: 1104,
-            y: 522,
-          },
-          positionVariance: {
-            x: 5,
-            y: 0,
-          },
           velocity: {
             x: 0,
             y: -30,
@@ -1443,6 +1385,22 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 1,
+          perspective: 0,
+          maxZ: 0,
+          position: {
+            x: 674,
+            y: 412,
+          },
+          positionVariance: {
+            x: 2,
+            y: 0,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 1.5,
@@ -1452,16 +1410,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 1,
-          position: {
-            x: 674,
-            y: 412,
-          },
-          positionVariance: {
-            x: 2,
-            y: 0,
-          },
           velocity: {
             x: 0,
             y: -20,
@@ -1552,6 +1500,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 400,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 50, y: 50 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -1561,16 +1519,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 400,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 50, y: 50 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -1615,6 +1563,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 400,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: -200, y: 0 },
+          positionVariance: { x: 350, y: 350 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -1624,16 +1582,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 400,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: -200, y: 0 },
-          positionVariance: { x: 350, y: 350 },
           velocity: { x: 200, y: 0 },
           velocityVariance: { x: 200, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -1678,6 +1626,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: -630, y: -270 },
+          positionVariance: { x: 50, y: 50 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -1687,10 +1645,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          position: { x: -630, y: -270 },
-          positionVariance: { x: 50, y: 50 },
           velocity: { x: 200, y: 0 },
           velocityVariance: { x: 200, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -1736,6 +1690,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 5,
@@ -1745,16 +1709,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
@@ -1802,500 +1756,20 @@ const particlesDefaultConfig = {
     },
     textures: ["magic particles/magic_particles_20.png"],
   },
-  magic2: {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 3,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          priority: 100,
-          enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
-          velocity: { x: 0, y: 0 },
-          velocityVariance: { x: 50, y: 50 },
-          acceleration: { x: 0, y: 0 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: "PositionBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: { x: 0, y: 0 },
-          sizeEnd: { x: 0, y: 0 },
-          startVariance: 5,
-          endVariance: 5,
-          name: "SizeBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: { _r: 46, _g: 13, _b: 13, _alpha: 1 },
-          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
-          sinus: true,
-          name: "ColorBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          rotation: 0,
-          variance: 0.2,
-          name: "RotationBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 50,
-        _frames: 0.644999998807907,
-        name: "UniformEmission",
-      },
-      duration: -1,
-      alpha: 1,
-      blendMode: 3,
-    },
-    textures: ["energyball/energyball_3.png"],
-  },
-  magic3: {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 3,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          priority: 100,
-          enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
-          velocity: { x: 0, y: 0 },
-          velocityVariance: { x: 50, y: 50 },
-          acceleration: { x: 0, y: 0 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: "PositionBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: { x: 0, y: 0 },
-          sizeEnd: { x: 0, y: 0 },
-          startVariance: 5,
-          endVariance: 5,
-          name: "SizeBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: { _r: 46, _g: 13, _b: 13, _alpha: 1 },
-          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
-          sinus: true,
-          name: "ColorBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          rotation: 0,
-          variance: 0.2,
-          name: "RotationBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 50,
-        _frames: 0.644999998807907,
-        name: "UniformEmission",
-      },
-      duration: -1,
-      alpha: 1,
-      blendMode: 3,
-    },
-    textures: ["flare/flare_7.png"],
-  },
-  magic4: {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 3,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          priority: 100,
-          enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
-          velocity: { x: 0, y: 0 },
-          velocityVariance: { x: 50, y: 50 },
-          acceleration: { x: 0, y: 0 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: "PositionBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: { x: 0, y: 0 },
-          sizeEnd: { x: 0, y: 0 },
-          startVariance: 5,
-          endVariance: 5,
-          name: "SizeBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: { _r: 46, _g: 13, _b: 13, _alpha: 1 },
-          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
-          sinus: true,
-          name: "ColorBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          rotation: 0,
-          variance: 0.2,
-          name: "RotationBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 50,
-        _frames: 0.644999998807907,
-        name: "UniformEmission",
-      },
-      duration: -1,
-      alpha: 1,
-      blendMode: 3,
-    },
-    textures: ["others/squared_6.png"],
-  },
-  magic5: {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 3,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          priority: 100,
-          enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
-          velocity: { x: 0, y: 0 },
-          velocityVariance: { x: 50, y: 50 },
-          acceleration: { x: 0, y: 0 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: "PositionBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: { x: 0, y: 0 },
-          sizeEnd: { x: 0, y: 0 },
-          startVariance: 5,
-          endVariance: 5,
-          name: "SizeBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: { _r: 46, _g: 13, _b: 13, _alpha: 1 },
-          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
-          sinus: true,
-          name: "ColorBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          rotation: 0,
-          variance: 0.2,
-          name: "RotationBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 50,
-        _frames: 0.644999998807907,
-        name: "UniformEmission",
-      },
-      duration: -1,
-      alpha: 1,
-      blendMode: 3,
-    },
-    textures: ["others/turbine_8.png"],
-  },
-  magic6: {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 3,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          priority: 100,
-          enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
-          velocity: { x: 0, y: 0 },
-          velocityVariance: { x: 50, y: 50 },
-          acceleration: { x: 0, y: 0 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: "PositionBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: { x: 0, y: 0 },
-          sizeEnd: { x: 0, y: 0 },
-          startVariance: 5,
-          endVariance: 5,
-          name: "SizeBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: { _r: 46, _g: 13, _b: 13, _alpha: 1 },
-          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
-          sinus: true,
-          name: "ColorBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          rotation: 0,
-          variance: 0.2,
-          name: "RotationBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 50,
-        _frames: 0.644999998807907,
-        name: "UniformEmission",
-      },
-      duration: -1,
-      alpha: 1,
-      blendMode: 3,
-    },
-    textures: ["particles/circle_02.png"],
-  },
-  magic7: {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 3,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          priority: 100,
-          enabled: true,
-          spawnType: "Rectangle",
-          radius: 200,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 300, y: 100 },
-          velocity: { x: 0, y: 0 },
-          velocityVariance: { x: 50, y: 50 },
-          acceleration: { x: 0, y: 0 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: "PositionBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: { x: 0, y: 0 },
-          sizeEnd: { x: 0, y: 0 },
-          startVariance: 5,
-          endVariance: 5,
-          name: "SizeBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: { _r: 46, _g: 13, _b: 13, _alpha: 1 },
-          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
-          sinus: true,
-          name: "ColorBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          rotation: 0,
-          variance: 0.2,
-          name: "RotationBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 50,
-        _frames: 0.644999998807907,
-        name: "UniformEmission",
-      },
-      duration: -1,
-      alpha: 1,
-      blendMode: 3,
-    },
-    textures: ["particles/slash_02.png"],
-  },
-  magic8: {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 6,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          priority: 100,
-          enabled: true,
-          spawnType: "Ring",
-          radius: 15,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 20, y: 65 },
-          positionVariance: { x: 20, y: 20 },
-          velocity: { x: 30, y: 10 },
-          velocityVariance: { x: 10, y: 0 },
-          acceleration: { x: 0, y: -10 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: "PositionBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: { x: 0, y: 0 },
-          sizeEnd: { x: 0, y: 0 },
-          startVariance: 2,
-          endVariance: 2,
-          name: "SizeBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: { _r: 10, _g: 10, _b: 10, _alpha: 1 },
-          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 1 },
-          sinus: true,
-          name: "ColorBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          rotation: 0,
-          variance: 0.2,
-          name: "RotationBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 200,
-        _frames: 0,
-        name: "UniformEmission",
-      },
-      duration: -1,
-      alpha: 1,
-      blendMode: 3,
-    },
-    textures: ["particles/fire_01.png"],
-  },
   magic9: {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 15,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 20, y: 65 },
+          positionVariance: { x: 10, y: 10 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 6,
@@ -2305,16 +1779,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 15,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 50, y: 10 },
-          sinYVal: { x: 50, y: 10 },
-          sinXValVariance: { x: 100, y: 20 },
-          sinYValVariance: { x: 100, y: 20 },
-          position: { x: 20, y: 65 },
-          positionVariance: { x: 10, y: 10 },
           velocity: { x: 30, y: 10 },
           velocityVariance: { x: 10, y: 0 },
           acceleration: { x: 0, y: -10 },
@@ -2366,6 +1830,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: -500, y: -330 },
+          positionVariance: { x: 200, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 4.5,
@@ -2375,16 +1849,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 0,
-          sinX: false,
-          sinY: false,
-          sinXVal: { x: 0, y: 0 },
-          sinYVal: { x: 0, y: 0 },
-          sinXValVariance: { x: 0, y: 0 },
-          sinYValVariance: { x: 0, y: 0 },
-          position: { x: -500, y: -330 },
-          positionVariance: { x: 200, y: 0 },
           velocity: { x: 0, y: 50 },
           velocityVariance: { x: 50, y: 30 },
           acceleration: { x: 0, y: 20 },
@@ -2415,649 +1879,19 @@ const particlesDefaultConfig = {
     },
     textures: ["Snow100.png"],
   },
-  liquid: {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 10,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          priority: 100,
-          enabled: true,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 500,
-            y: 500,
-          },
-          velocity: {
-            x: 21,
-            y: 21,
-          },
-          velocityVariance: {
-            x: 87,
-            y: 110,
-          },
-          acceleration: {
-            x: -10,
-            y: 0,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 0,
-          },
-          name: "PositionBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: {
-            x: 1,
-            y: 1,
-          },
-          sizeEnd: {
-            x: 0,
-            y: 0,
-          },
-          startVariance: 1,
-          endVariance: 0,
-          name: "SizeBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          start: {
-            _r: 110,
-            _g: 255,
-            _b: 110,
-            _alpha: 1,
-          },
-          end: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 1,
-          },
-          startVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 1,
-          },
-          endVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          sinus: false,
-          name: "ColorBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          showVortices: false,
-          turbulence: false,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 500,
-            y: 500,
-          },
-          velocity: {
-            x: 0,
-            y: 0,
-          },
-          velocityVariance: {
-            x: 500,
-            y: 500,
-          },
-          acceleration: {
-            x: 0,
-            y: 0,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 0,
-          },
-          sizeStart: {
-            x: 1,
-            y: 1,
-          },
-          sizeEnd: {
-            x: 1,
-            y: 1,
-          },
-          startVariance: 0,
-          endVariance: 0,
-          emitPerSecond: 5,
-          duration: 0,
-          maxLifeTime: 3,
-          vortileSize: 500,
-          name: "TurbulenceBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 150,
-        _frames: 0,
-        name: "UniformEmission",
-      },
-      duration: -1,
-    },
-    textures: ["cloud.png"],
-  },
-  firework: {
-    emitterConfig: {
-      behaviours: [
-        {
-          enabled: true,
-          priority: 10000,
-          maxLifeTime: 0.8,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
-          velocity: {
-            x: 0,
-            y: 0,
-          },
-          velocityVariance: {
-            x: 500,
-            y: 500,
-          },
-          acceleration: {
-            x: 0,
-            y: 500,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 0,
-          },
-          name: "PositionBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          allowNegativeValues: false,
-          sizeStart: {
-            x: 1,
-            y: 1,
-          },
-          sizeEnd: {
-            x: 0,
-            y: 0,
-          },
-          startVariance: 0,
-          endVariance: 0,
-          name: "SizeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          start: {
-            _r: 255,
-            _g: 0,
-            _b: 0,
-            _alpha: 1,
-          },
-          end: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 1,
-          },
-          startVariance: {
-            _r: 255,
-            _g: 255,
-            _b: 255,
-            _alpha: 1,
-          },
-          endVariance: {
-            _r: 255,
-            _g: 255,
-            _b: 255,
-            _alpha: 1,
-          },
-          name: "ColorBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 500,
-        _frames: 0,
-      },
-      duration: 0.2,
-    },
-    textures: ["sparkle.png"],
-  },
-  waterTurbulence: {
-    emitterConfig: {
-      behaviours: [
-        {
-          enabled: true,
-          priority: 10000,
-          maxLifeTime: 1.6,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 100,
-          position: {
-            x: 0,
-            y: 400,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
-          velocity: {
-            x: -97,
-            y: -800,
-          },
-          velocityVariance: {
-            x: 80,
-            y: 80,
-          },
-          acceleration: {
-            x: 100,
-            y: 600,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 150,
-          },
-          name: "PositionBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          sizeStart: {
-            x: 0.3,
-            y: 0.3,
-          },
-          sizeEnd: {
-            x: 0,
-            y: 0,
-          },
-          startVariance: 0.2,
-          endVariance: 0,
-          name: "SizeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          start: {
-            _r: 255,
-            _g: 255,
-            _b: 255,
-            _alpha: 0,
-          },
-          end: {
-            _r: 255,
-            _g: 255,
-            _b: 255,
-            _alpha: 1,
-          },
-          startVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          endVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          name: "ColorBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          rotation: 0,
-          variance: 3.9983747833938095,
-          name: "RotationBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          position: {
-            x: -30,
-            y: 200,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
-          velocity: {
-            x: 0,
-            y: -300,
-          },
-          velocityVariance: {
-            x: 180,
-            y: 80,
-          },
-          acceleration: {
-            x: 0,
-            y: 0,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 0,
-          },
-          sizeStart: {
-            x: 2,
-            y: 2,
-          },
-          sizeEnd: {
-            x: 2,
-            y: 2,
-          },
-          startVariance: 0,
-          endVariance: 0,
-          emitPerSecond: 2,
-          duration: -1,
-          maxLifeTime: 1.5,
-          name: "TurbulenceBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 100,
-        _frames: 0,
-        name: "UniformEmission",
-      },
-      duration: -1,
-    },
-    textures: ["cloud2.png"],
-  },
-  water: {
-    emitterConfig: {
-      behaviours: [
-        {
-          enabled: true,
-          priority: 10000,
-          maxLifeTime: 1.6,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 100,
-          position: {
-            x: 0,
-            y: 400,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
-          velocity: {
-            x: -97,
-            y: -800,
-          },
-          velocityVariance: {
-            x: 80,
-            y: 80,
-          },
-          acceleration: {
-            x: 100,
-            y: 600,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 150,
-          },
-          name: "PositionBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          sizeStart: {
-            x: 0.3,
-            y: 0.3,
-          },
-          sizeEnd: {
-            x: 0,
-            y: 0,
-          },
-          startVariance: 0.2,
-          endVariance: 0,
-          name: "SizeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          start: {
-            _r: 255,
-            _g: 255,
-            _b: 255,
-            _alpha: 0,
-          },
-          end: {
-            _r: 255,
-            _g: 255,
-            _b: 255,
-            _alpha: 1,
-          },
-          startVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          endVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          name: "ColorBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          rotation: 0,
-          variance: 3.9983747833938095,
-          name: "RotationBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 100,
-        _frames: 0,
-        name: "UniformEmission",
-      },
-      duration: -1,
-    },
-    textures: ["cloud2.png"],
-  },
-  chaos: {
-    emitterConfig: {
-      behaviours: [
-        {
-          enabled: true,
-          priority: 10000,
-          maxLifeTime: 10,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 50,
-            y: 50,
-          },
-          velocity: {
-            x: 21,
-            y: 21,
-          },
-          velocityVariance: {
-            x: 110,
-            y: 110,
-          },
-          acceleration: {
-            x: 0,
-            y: 0,
-          },
-          accelerationVariance: {
-            x: 0,
-            y: 0,
-          },
-          name: "PositionBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          allowNegativeValues: false,
-          sizeStart: {
-            x: 1,
-            y: 1,
-          },
-          sizeEnd: {
-            x: 0,
-            y: 0,
-          },
-          startVariance: 1,
-          endVariance: 0,
-          name: "SizeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          start: {
-            _r: 110,
-            _g: 255,
-            _b: 110,
-            _alpha: 1,
-          },
-          end: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 1,
-          },
-          startVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 1,
-          },
-          endVariance: {
-            _r: 0,
-            _g: 0,
-            _b: 0,
-            _alpha: 0,
-          },
-          name: "ColorBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 150,
-        _frames: 0,
-      },
-      duration: -1,
-    },
-    textures: ["particle.png"],
-  },
-  fog: {
-    emitterConfig: {
-      behaviours: [
-        {
-          enabled: true,
-          priority: 10000,
-          maxLifeTime: 20,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 100,
-          position: { x: -150, y: 400 },
-          positionVariance: { x: 1300, y: 120 },
-          velocity: { x: 0, y: 0 },
-          velocityVariance: { x: 15, y: 0 },
-          acceleration: { x: 0, y: 0 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: "PositionBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          allowNegativeValues: false,
-          sizeStart: { x: 3, y: 3 },
-          sizeEnd: { x: 3, y: 3 },
-          startVariance: 0,
-          endVariance: 0,
-          name: "SizeBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          start: { _r: 255, _g: 255, _b: 255, _alpha: 0 },
-          end: { _r: 255, _g: 255, _b: 255, _alpha: 0 },
-          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
-          sinus: true,
-          name: "ColorBehaviour",
-        },
-        {
-          enabled: true,
-          priority: 0,
-          rotation: 0,
-          variance: 0.3,
-          name: "RotationBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 10,
-        _frames: 0,
-        name: "UniformEmission",
-      },
-      duration: -1,
-      alpha: 0.05,
-      blendMode: 3,
-    },
-    textures: ["fog.png"],
-  },
   fog2: {
     emitterConfig: {
       behaviours: [
+        {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: -400, y: 30 },
+          positionVariance: { x: 300, y: 100 },
+          name: "SpawnBehaviour",
+        },
         {
           enabled: true,
           priority: 10000,
@@ -3068,8 +1902,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: -400, y: 30 },
-          positionVariance: { x: 300, y: 100 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 15, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -3129,6 +1961,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 200 },
+          positionVariance: { x: 20, y: 20 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -3138,8 +1980,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 200 },
-          positionVariance: { x: 20, y: 20 },
           velocity: { x: 0, y: -50 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 5, y: -150 },
@@ -3196,6 +2036,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 220,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: -30 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 3,
@@ -3205,10 +2055,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 220,
-          position: { x: 0, y: -30 },
-          positionVariance: { x: 0, y: 0 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -3288,6 +2134,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 220,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: -30 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 3,
@@ -3297,10 +2153,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 220,
-          position: { x: 0, y: -30 },
-          positionVariance: { x: 0, y: 0 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -3380,6 +2232,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: -60, y: 110 },
+          positionVariance: { x: 60, y: 20 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 1,
@@ -3389,8 +2251,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: -60, y: 110 },
-          positionVariance: { x: 60, y: 20 },
           velocity: { x: -50, y: -100 },
           velocityVariance: { x: 0, y: 50 },
           acceleration: { x: -50, y: -100 },
@@ -3454,6 +2314,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 310, y: 100 },
+          positionVariance: { x: 20, y: 10 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 1,
@@ -3463,8 +2333,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 310, y: 100 },
-          positionVariance: { x: 20, y: 10 },
           velocity: { x: 0, y: -80 },
           velocityVariance: { x: 0, y: 30 },
           acceleration: { x: 0, y: 100 },
@@ -3522,6 +2390,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: -67, y: 99 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 1,
@@ -3531,8 +2409,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: -67, y: 99 },
-          positionVariance: { x: 0, y: 0 },
           velocity: { x: 0, y: -20 },
           velocityVariance: { x: 0, y: 15 },
           acceleration: { x: 0, y: 10 },
@@ -3594,6 +2470,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: -100, y: 100 },
+          positionVariance: { x: 60, y: 10 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -3603,8 +2489,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: -100, y: 100 },
-          positionVariance: { x: 60, y: 10 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 100, y: 0 },
           acceleration: { x: 0, y: -400 },
@@ -3648,6 +2532,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 310, y: 110 },
+          positionVariance: { x: 30, y: 10 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 1,
@@ -3657,8 +2551,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 310, y: 110 },
-          positionVariance: { x: 30, y: 10 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 100, y: 0 },
           acceleration: { x: 0, y: -400 },
@@ -3703,6 +2595,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          perspective: 0,
+          maxZ: 0,
+          radius: 0,
+          position: { x: -60, y: 110 },
+          positionVariance: { x: 60, y: 20 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 1,
@@ -3712,8 +2614,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: -60, y: 110 },
-          positionVariance: { x: 60, y: 20 },
           velocity: { x: -50, y: -100 },
           velocityVariance: { x: 0, y: 50 },
           acceleration: { x: -50, y: -100 },
@@ -3800,6 +2700,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: -300, y: -300 },
+          positionVariance: { x: 20, y: 20 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 0.5,
@@ -3809,8 +2719,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: -300, y: -300 },
-          positionVariance: { x: 20, y: 20 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 5, y: 0 },
@@ -3867,6 +2775,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 1000, y: -1000 },
+          positionVariance: { x: 20, y: 20 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 0.5,
@@ -3876,8 +2794,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 1000, y: -1000 },
-          positionVariance: { x: 20, y: 20 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -3934,6 +2850,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: { x: 0, y: 200 },
+          positionVariance: { x: 20, y: 20 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -3943,8 +2867,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 200 },
-          positionVariance: { x: 20, y: 20 },
           velocity: { x: 0, y: -50 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 5, y: -150 },
@@ -4023,6 +2945,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 50,
+            y: 20,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 4.4,
@@ -4032,14 +2968,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 50,
-            y: 20,
-          },
           velocity: {
             x: 0,
             y: -1000,
@@ -4131,6 +3059,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 50, y: 20 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 4.4,
@@ -4140,8 +3076,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 50, y: 20 },
           velocity: { x: 0, y: -1000 },
           velocityVariance: { x: 800, y: 0 },
           acceleration: { x: 0, y: 2500 },
@@ -4215,6 +3149,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 0,
+            y: 0,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 1.4,
@@ -4224,14 +3172,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
           velocity: {
             x: 0,
             y: -142,
@@ -4311,6 +3251,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 0,
+            y: 0,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 1.4,
@@ -4320,14 +3274,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
           velocity: {
             x: 0,
             y: -142,
@@ -4407,6 +3353,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 160,
+            y: 0,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 1.0,
@@ -4416,14 +3376,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 160,
-            y: 0,
-          },
           velocity: {
             x: 0,
             y: 0,
@@ -4516,6 +3468,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 11,
+            y: 11,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 1.3,
@@ -4525,14 +3491,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 11,
-            y: 11,
-          },
           velocity: {
             x: 0,
             y: -68,
@@ -4612,6 +3570,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: -1000,
+            y: 0,
+          },
+          positionVariance: {
+            x: 0,
+            y: 500,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 20,
@@ -4621,14 +3593,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: -1000,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 500,
-          },
           velocity: {
             x: 800,
             y: 0,
@@ -4686,6 +3650,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: -500,
+            y: 0,
+          },
+          positionVariance: {
+            x: 0,
+            y: 500,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 20,
@@ -4695,14 +3673,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: -500,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 500,
-          },
           velocity: {
             x: 1500,
             y: 0,
@@ -4760,6 +3730,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 17,
+            y: 0,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 2.5,
@@ -4769,14 +3753,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 17,
-            y: 0,
-          },
           velocity: {
             x: -148,
             y: -136,
@@ -4881,6 +3857,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 1000,
+            y: 500,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 15,
@@ -4890,14 +3880,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 1000,
-            y: 500,
-          },
           velocity: {
             x: 0,
             y: 0,
@@ -4977,6 +3959,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 0,
+          position: {
+            x: 650,
+            y: 350,
+          },
+          positionVariance: {
+            x: 600,
+            y: 300,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 7,
@@ -4986,14 +3982,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 650,
-            y: 350,
-          },
-          positionVariance: {
-            x: 600,
-            y: 300,
-          },
           velocity: {
             x: 0,
             y: 0,
@@ -5076,6 +4064,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: -800 },
+          positionVariance: { x: 1000, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 8,
@@ -5085,10 +4081,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: -800 },
-          positionVariance: { x: 1000, y: 0 },
           velocity: { x: 0, y: 200 },
           velocityVariance: { x: 150, y: 200 },
           acceleration: { x: 0, y: 50 },
@@ -5138,6 +4130,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: -420 },
+          positionVariance: { x: 281, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 8,
@@ -5147,10 +4147,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: -420 },
-          positionVariance: { x: 281, y: 0 },
           velocity: { x: 0, y: 200 },
           velocityVariance: { x: 0, y: 200 },
           acceleration: { x: 0, y: 50 },
@@ -5225,6 +4221,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 34, y: 65 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 0.5,
@@ -5234,8 +4238,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 34, y: 65 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 381, y: 384 },
           acceleration: { x: 0, y: 500 },
@@ -5293,6 +4295,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: -200, y: 200 },
+          positionVariance: { x: 30, y: 30 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 0.4,
@@ -5302,8 +4312,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: -200, y: 200 },
-          positionVariance: { x: 30, y: 30 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -5360,6 +4368,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 34,
+            y: 28,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 0.4,
@@ -5369,14 +4391,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 34,
-            y: 28,
-          },
           velocity: {
             x: 0,
             y: -200,
@@ -5456,6 +4470,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 800,
+            y: 0,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 2.3,
@@ -5465,14 +4493,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 800,
-            y: 0,
-          },
           velocity: {
             x: 0,
             y: -3000,
@@ -5564,6 +4584,16 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          perspective: 0,
+          maxZ: 0,
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 450, y: 0 },
+          positionVariance: { x: 0, y: 800 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 20,
@@ -5573,8 +4603,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 450, y: 0 },
-          positionVariance: { x: 0, y: 800 },
           velocity: { x: -50, y: 0 },
           velocityVariance: { x: 30, y: 10 },
           acceleration: { x: 0, y: 0 },
@@ -5613,6 +4641,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 100, y: 60 },
+          positionVariance: { x: 5, y: 5 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -5622,8 +4658,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 100, y: 60 },
-          positionVariance: { x: 5, y: 5 },
           velocity: { x: 0, y: -100 },
           velocityVariance: { x: 10, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -5697,6 +4731,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Frame",
+          radius: 200,
+          position: { x: -100, y: -100 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -5706,10 +4748,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Frame",
-          radius: 200,
-          position: { x: -100, y: -100 },
-          positionVariance: { x: 0, y: 0 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 50, y: 50 },
           acceleration: { x: 0, y: 0 },
@@ -5765,6 +4803,20 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: {
+            x: 100,
+            y: 300,
+          },
+          positionVariance: {
+            x: 500,
+            y: 0,
+          },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 10,
@@ -5774,14 +4826,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 100,
-            y: 300,
-          },
-          positionVariance: {
-            x: 500,
-            y: 0,
-          },
           velocity: {
             x: -100,
             y: 0,
@@ -5849,6 +4893,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 100, y: 300 },
+          positionVariance: { x: 500, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 10,
@@ -5858,8 +4910,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 100, y: 300 },
-          positionVariance: { x: 500, y: 0 },
           velocity: { x: -100, y: 0 },
           velocityVariance: { x: 100, y: 0 },
           acceleration: { x: 0, y: -100 },
@@ -5932,6 +4982,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 20, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 2,
@@ -5941,8 +4999,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 20, y: 0 },
           velocity: {
             x: 0,
             y: -100,
@@ -5998,6 +5054,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 20, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 2,
@@ -6007,8 +5071,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 20, y: 0 },
           velocity: {
             x: 0,
             y: -100,
@@ -6064,6 +5126,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 10,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: -600, y: -600 },
+          positionVariance: { x: 50, y: 50 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 8,
@@ -6073,10 +5143,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: -600, y: -600 },
-          positionVariance: { x: 50, y: 50 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 150, y: 150 },
           acceleration: { x: 25, y: 25 },
@@ -6128,6 +5194,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 80,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 5,
@@ -6137,10 +5211,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 80,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -6213,6 +5283,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 500, y: 500 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -6222,8 +5300,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 500, y: 500 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -6288,6 +5364,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 800, y: 800 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -6297,8 +5381,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 800, y: 800 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -6363,6 +5445,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 800, y: 800 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -6372,8 +5462,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 800, y: 800 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -6438,6 +5526,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 800, y: 800 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 2,
@@ -6447,8 +5543,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 800, y: 800 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -6513,6 +5607,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 200 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 1,
@@ -6522,8 +5624,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 200 },
-          positionVariance: { x: 0, y: 0 },
           velocity: { x: 0, y: -300 },
           velocityVariance: { x: 40, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -6575,6 +5675,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 1,
@@ -6584,8 +5692,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 500, y: 500 },
           acceleration: { x: 0, y: 0 },
@@ -6637,6 +5743,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 300 },
+          positionVariance: { x: 500, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 5,
@@ -6646,8 +5760,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 300 },
-          positionVariance: { x: 500, y: 0 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 100, y: 0 },
           acceleration: { x: 0, y: -50 },
@@ -6695,6 +5807,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Ring",
+          radius: 300,
+          perspective: 500,
+          maxZ: 1000,
+          name: "SpawnBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 10,
@@ -6704,8 +5824,6 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          spawnType: "Ring",
-          radius: 300,
           sinX: true,
           sinY: true,
           sinXVal: { x: 200, y: 20 },
@@ -6759,6 +5877,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: -100 },
+          positionVariance: { x: 100, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 1.3,
@@ -6768,8 +5894,6 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: 0, y: -100 },
-          positionVariance: { x: 100, y: 0 },
           velocity: { x: 0, y: -40 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 30 },
@@ -6815,6 +5939,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 20, y: 20 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 2,
@@ -6824,27 +5956,11 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 20, y: 20 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 5, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
           name: "PositionBehaviour",
-          spawnType: "Rectangle",
-          radius: 200,
-          warpDistanceToCenter: false,
-          fromAtoB: false,
-          fromAtoBTwoWays: false,
-          pointA: { x: -300, y: 0 },
-          pointB: { x: 300, y: 0 },
-          thereDuration: { min: 7, max: 7 },
-          thereAmplitude: { min: 220, max: 330 },
-          backDuration: { min: 7, max: 7 },
-          backAmplitude: { min: -220, max: -320 },
-          there: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-          back: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-          fromAtoBOneWay: false,
         },
         {
           enabled: true,
@@ -6910,6 +6026,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          position: { x: 0, y: -100 },
+          positionVariance: { x: 100, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 3,
@@ -6919,27 +6043,11 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: 0, y: -100 },
-          positionVariance: { x: 100, y: 0 },
           velocity: { x: 0, y: -140 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 30 },
           accelerationVariance: { x: 0, y: 0 },
           name: "PositionBehaviour",
-          spawnType: "Rectangle",
-          radius: 200,
-          warpDistanceToCenter: false,
-          fromAtoB: false,
-          fromAtoBTwoWays: false,
-          pointA: { x: -300, y: 0 },
-          pointB: { x: 300, y: 0 },
-          thereDuration: { min: 7, max: 7 },
-          thereAmplitude: { min: 220, max: 330 },
-          backDuration: { min: 7, max: 7 },
-          backAmplitude: { min: -220, max: -320 },
-          there: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-          back: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-          fromAtoBOneWay: false,
         },
         {
           enabled: true,
@@ -6988,6 +6096,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          position: { x: 0, y: -100 },
+          positionVariance: { x: 100, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 3,
@@ -6997,27 +6113,11 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: 0, y: -100 },
-          positionVariance: { x: 100, y: 0 },
           velocity: { x: 0, y: -140 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 30 },
           accelerationVariance: { x: 0, y: 0 },
           name: "PositionBehaviour",
-          spawnType: "Rectangle",
-          radius: 200,
-          warpDistanceToCenter: false,
-          fromAtoB: false,
-          fromAtoBTwoWays: false,
-          pointA: { x: -300, y: 0 },
-          pointB: { x: 300, y: 0 },
-          thereDuration: { min: 7, max: 7 },
-          thereAmplitude: { min: 220, max: 330 },
-          backDuration: { min: 7, max: 7 },
-          backAmplitude: { min: -220, max: -320 },
-          there: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-          back: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-          fromAtoBOneWay: false,
         },
         {
           enabled: true,
@@ -7081,6 +6181,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: -100 },
+          positionVariance: { x: 20, y: 20 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 2,
@@ -7090,27 +6198,11 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: -100 },
-          positionVariance: { x: 20, y: 20 },
           velocity: { x: 0, y: -50 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 5, y: -150 },
           accelerationVariance: { x: 0, y: 0 },
           name: "PositionBehaviour",
-          spawnType: "Rectangle",
-          radius: 200,
-          warpDistanceToCenter: false,
-          fromAtoB: false,
-          fromAtoBTwoWays: false,
-          pointA: { x: -300, y: 0 },
-          pointB: { x: 300, y: 0 },
-          thereDuration: { min: 7, max: 7 },
-          thereAmplitude: { min: 220, max: 330 },
-          backDuration: { min: 7, max: 7 },
-          backAmplitude: { min: -220, max: -320 },
-          there: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-          back: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-          fromAtoBOneWay: false,
         },
         {
           enabled: true,
@@ -7166,6 +6258,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 200,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 1, y: 1 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 15,
@@ -7184,12 +6284,8 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
           radiusX: 0,
           radiusY: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 1, y: 1 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 0, y: 0 },
           acceleration: { x: 0, y: 0 },
@@ -7224,6 +6320,14 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
           enabled: true,
           priority: 10000,
           maxLifeTime: 15,
@@ -7233,15 +6337,11 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 100, y: 100 },
           acceleration: { x: 0, y: 0 },
           accelerationVariance: { x: 0, y: 0 },
           name: "PositionBehaviour",
-          spawnType: "Rectangle",
-          radius: 200,
         },
         {
           enabled: true,
@@ -7274,11 +6374,19 @@ const particlesDefaultConfig = {
       anchor: { x: 0.5, y: 0.5 },
       blendMode: 3,
     },
-    textures: ["fire001.png"],
+    textures: ["sparkle.png"],
   },
   forceFields: {
     emitterConfig: {
       behaviours: [
+        {
+          priority: 100,
+          spawnType: "Rectangle",
+          radius: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
         {
           enabled: true,
           priority: 10000,
@@ -7317,12 +6425,8 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
           radiusX: 0,
           radiusY: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
           velocity: { x: 0, y: 0 },
           velocityVariance: { x: 100, y: 100 },
           acceleration: { x: 0, y: 0 },
@@ -7344,6 +6448,1393 @@ const particlesDefaultConfig = {
         _maxParticles: 200,
         _maxLife: 1,
         _emitPerSecond: 50,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  helloWord: {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 100,
+          spawnType: "Word",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          textAlign: "center",
+          textBaseline: "middle",
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          perspective: 500,
+          maxZ: 0,
+          starPoints: 10,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 10, y: -10 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: { _r: 255, _g: 255, _b: 0, _alpha: 1 },
+          end: { _r: 251, _g: 0, _b: 0, _alpha: 1 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 255, _b: 240, _alpha: 0 },
+          sinus: true,
+          name: "ColorBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  animatedHelloWord: {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 100,
+          spawnType: "Word",
+          word: "Hello",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          textAlign: "center",
+          textBaseline: "middle",
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          perspective: 500,
+          maxZ: 0,
+          starPoints: 10,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 200, y: 200 },
+          acceleration: { x: 20, y: -20 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: { _r: 255, _g: 255, _b: 0, _alpha: 1 },
+          end: { _r: 251, _g: 0, _b: 0, _alpha: 1 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 255, _b: 240, _alpha: 0 },
+          sinus: true,
+          name: "ColorBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  star: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          spawnType: "Star",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          starPoints: 10,
+          perspective: 500,
+          maxZ: 1000,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 50, y: 50 },
+          acceleration: { x: 10, y: -10 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  starAnimations: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 0.8,
+          timeVariance: 0.2,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          spawnType: "Star",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          radiusX: 0,
+          radiusY: 0,
+          starPoints: 2,
+          rows: 10,
+          columns: 10,
+          cellSize: 20,
+          center: { x: 0, y: 0, z: 0 },
+          apex: { x: 0, y: 0, z: 0 },
+          spread: 360,
+          baseRadius: 500,
+          height: 50,
+          coneAngle: 45,
+          perspective: 0,
+          maxZ: 0,
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 30, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 10, y: 10 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: { _r: 255, _g: 56, _b: 0, _alpha: 1 },
+          end: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          startVariance: { _r: 255, _g: 0, _b: 0, _alpha: 1 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          sinus: true,
+          name: "ColorBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  grid: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: -100, y: -100 },
+          positionVariance: { x: 0, y: 0 },
+          spawnType: "Grid",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          radiusX: 0,
+          radiusY: 0,
+          starPoints: 10,
+          rows: 10,
+          columns: 10,
+          cellSize: 30,
+          center: { x: 0, y: 0, z: 0 },
+          apex: { x: 0, y: 0, z: 0 },
+          spread: 360,
+          baseRadius: 500,
+          height: 50,
+          coneAngle: 45,
+          perspective: 0,
+          maxZ: 0,
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          velocity: { x: 5, y: 5 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  sphere: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: -100, y: -100 },
+          positionVariance: { x: 0, y: 0 },
+          spawnType: "Sphere",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          radiusX: 0,
+          radiusY: 0,
+          starPoints: 10,
+          rows: 10,
+          columns: 10,
+          cellSize: 30,
+          center: { x: 0, y: 0, z: 0 },
+          apex: { x: 0, y: 0, z: 0 },
+          spread: 360,
+          baseRadius: 500,
+          height: 50,
+          coneAngle: 45,
+          perspective: 0,
+          maxZ: 0,
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 100, y: 100 },
+          velocity: { x: 5, y: 5 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  cone: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: -100, y: -100 },
+          positionVariance: { x: 0, y: 0 },
+          spawnType: "Cone",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          radiusX: 0,
+          radiusY: 0,
+          starPoints: 10,
+          rows: 10,
+          columns: 10,
+          cellSize: 30,
+          center: { x: 0, y: 0, z: 0 },
+          apex: { x: 0, y: 0, z: 0 },
+          spread: 360,
+          baseRadius: 300,
+          coneDirection: 0,
+          height: 50,
+          coneAngle: 45,
+          perspective: 0,
+          maxZ: 0,
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          velocity: { x: 5, y: 5 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  coneAnimations: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: -100, y: -100 },
+          positionVariance: { x: 0, y: 0 },
+          spawnType: "Cone",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          radiusX: 0,
+          radiusY: 0,
+          starPoints: 10,
+          rows: 10,
+          columns: 10,
+          cellSize: 30,
+          center: { x: 0, y: 0, z: 0 },
+          apex: { x: 0, y: 0, z: 0 },
+          spread: 360,
+          baseRadius: 300,
+          coneDirection: 0,
+          height: 50,
+          coneAngle: 45,
+          perspective: 0,
+          maxZ: 0,
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          velocity: { x: 5, y: 5 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  timeline: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 0,
+          timeline: [
+            {
+              time: 0,
+              properties: {
+                size: 0,
+                color: { r: 255, g: 0, b: 0, alpha: 1 },
+                // rotation: 0,
+              },
+            }, // Start: Red, size 5, no rotation
+            {
+              time: 0.2,
+              properties: {
+                size: 1,
+                color: { r: 255, g: 165, b: 0, alpha: 1 },
+                // rotation: 90,
+              },
+            }, // Rotate 90° by 25%
+            {
+              time: 0.4,
+              properties: {
+                size: 0.3,
+                color: { r: 255, g: 255, b: 0, alpha: 1 },
+                // rotation: 180,
+              },
+            }, // Rotate 180° by 50%
+            {
+              time: 0.6,
+              properties: {
+                size: 1,
+                color: { r: 0, g: 128, b: 0, alpha: 1 },
+                // rotation: 270,
+              },
+            }, // Rotate 270° by 75%
+            {
+              time: 0.8,
+              properties: {
+                size: 0.6,
+                color: { r: 0, g: 128, b: 0, alpha: 1 },
+                // rotation: 270,
+              },
+            }, // Rotate 270° by 75%
+            {
+              time: 0.9,
+              properties: {
+                size: 0.1,
+                color: { r: 0, g: 0, b: 255, alpha: 0.5 },
+                // rotation: 360,
+              },
+            }, // End: Blue, fade out, full rotation
+          ],
+          name: "TimelineBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 10,
+          timeVariance: 0,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: -100, y: -100 },
+          positionVariance: { x: 0, y: 0 },
+          spawnType: "Ring",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          radiusX: 0,
+          radiusY: 0,
+          starPoints: 10,
+          rows: 10,
+          columns: 10,
+          cellSize: 30,
+          center: { x: 0, y: 0, z: 0 },
+          apex: { x: 0, y: 0, z: 0 },
+          spread: 360,
+          baseRadius: 300,
+          coneDirection: 0,
+          height: 50,
+          coneAngle: 45,
+          perspective: 0,
+          maxZ: 0,
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 10, y: 5 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 100,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["sparkle.png"],
+  },
+  basicSwarming: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 1000,
+          groupCenter: { x: 300, y: 300 },
+          groupRadius: 150,
+          attractionStrength: 0.2,
+          repulsionStrength: 0,
+          orbitSpeed: 0,
+          randomness: 0.1,
+          boundaryEnforcement: false,
+          dynamicRadiusSpeed: 0,
+          maxRadius: 0,
+          minRadius: 0,
+          clusterPoints: [],
+          name: "GroupingBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          spawnType: "Ring",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          starPoints: 10,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 110, y: 110 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  orbitingCluster: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 1000,
+          groupCenter: { x: 0, y: 0 },
+          groupRadius: 100,
+          attractionStrength: 0.1,
+          repulsionStrength: 0,
+          orbitSpeed: 0.55,
+          randomness: 0,
+          boundaryEnforcement: true,
+          dynamicRadiusSpeed: 0,
+          maxRadius: 0,
+          minRadius: 0,
+          clusterPoints: [],
+          name: "GroupingBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          spawnType: "Ring",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          starPoints: 10,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 110, y: 110 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  repellingParticles: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 1000,
+          groupCenter: { x: 400, y: 400 },
+          groupRadius: 200,
+          attractionStrength: 0.15,
+          repulsionStrength: 0.05,
+          orbitSpeed: 0,
+          randomness: 0.1,
+          boundaryEnforcement: false,
+          dynamicRadiusSpeed: 0,
+          maxRadius: 0,
+          minRadius: 0,
+          clusterPoints: [],
+          name: "GroupingBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          spawnType: "Ring",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          starPoints: 10,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 110, y: 110 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  expandingAndCollapsingSwarm: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 1000,
+          groupCenter: { x: 250, y: 250 },
+          groupRadius: 100,
+          attractionStrength: 0.2,
+          repulsionStrength: 0,
+          orbitSpeed: 0,
+          randomness: 0.05,
+          boundaryEnforcement: true,
+          dynamicRadiusSpeed: 2,
+          maxRadius: 300,
+          minRadius: 50,
+          name: "GroupingBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          spawnType: "Ring",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          starPoints: 10,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 110, y: 110 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  multiClusterSwarm: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 1000,
+          groupCenter: { x: 0, y: 0 },
+          groupRadius: 200,
+          attractionStrength: 0.25,
+          repulsionStrength: 0,
+          orbitSpeed: 0,
+          randomness: 0.1,
+          boundaryEnforcement: false,
+          dynamicRadiusSpeed: 0,
+          maxRadius: 0,
+          minRadius: 0,
+          clusterPoints: [
+            { x: 150, y: 150 },
+            { x: 300, y: 300 },
+            { x: 450, y: 150 },
+          ],
+          name: "GroupingBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 3,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          spawnType: "Ring",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          starPoints: 10,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 110, y: 110 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  dynamicOrbitWithRepulsion: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 1000,
+          groupCenter: { x: 0, y: 0 },
+          groupRadius: 120,
+          attractionStrength: 0.1,
+          repulsionStrength: 0.05,
+          orbitSpeed: 0.23,
+          randomness: 0.05,
+          boundaryEnforcement: true,
+          dynamicRadiusSpeed: 1,
+          maxRadius: 200,
+          minRadius: 100,
+          clusterPoints: [],
+          name: "GroupingBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          spawnType: "Ring",
+          word: "HELLO",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 200,
+          starPoints: 10,
+          perspective: 0,
+          maxZ: 0,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 110, y: 110 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 3,
+    },
+    textures: ["flare/flare_11.png"],
+  },
+  reactiveSound: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 2,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: { x: 0, y: 0 },
+          positionVariance: { x: 0, y: 0 },
+          spawnType: "Word",
+          word: "CLICK ME",
+          fontSize: 200,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 0,
+          radiusX: 0,
+          radiusY: 0,
+          starPoints: 10,
+          rows: 10,
+          columns: 10,
+          cellSize: 20,
+          center: { x: 0, y: 0, z: 0 },
+          apex: { x: 0, y: 0, z: 0 },
+          spread: 360,
+          baseRadius: 500,
+          coneDirection: 0,
+          height: 50,
+          coneAngle: 45,
+          perspective: 500,
+          maxZ: 0,
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.5, y: 0.5 },
+          sizeEnd: { x: 0.5, y: 0.5 },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 3,
+          variance: 2,
+          name: "RotationBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: { _r: 255, _g: 255, _b: 0, _alpha: 1 },
+          end: { _r: 251, _g: 0, _b: 0, _alpha: 1 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 255, _b: 240, _alpha: 0 },
+          sinus: true,
+          name: "ColorBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          amplitudeFactor: 1,
+          frequencyFactor: 1,
+          beatSensitivity: 1,
+          name: "SoundReactiveBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 500,
+        _maxLife: 1,
+        _emitPerSecond: 500,
         name: "UniformEmission",
       },
       duration: -1,

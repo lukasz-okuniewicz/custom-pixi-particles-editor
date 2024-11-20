@@ -18,34 +18,45 @@ const AngularVelocityDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Angular Velocity</b> in a particle system controls the rotation
-          speed of particles, measured in degrees or radians per second. It
-          determines how quickly particles spin around their center, adding
-          dynamic effects like swirling, tumbling, or rotational motion to
-          enhance visual complexity and realism.
+          <b>Angular Velocity Behaviour</b> controls the rotational movement of
+          particles around a central point. It allows particles to orbit
+          dynamically while varying their radius and angular velocity, creating
+          smooth and visually engaging motion effects.
         </span>
+        Key Properties:
         <ul>
           <li>
-            <b>Degrees</b>: Specifies the speed of rotation in degrees per
-            second.
+            <b>Enabled</b>: Toggle the behavior on or off.
           </li>
           <li>
-            <b>Degrees Variance</b>: Adds randomness to the rotation speed,
-            creating variation in how particles spin.
+            <b>Priority</b>: Set execution order if multiple behaviors are
+            applied.
           </li>
           <li>
-            <b>Max/Min Radius</b>: Sets the initial and final distance of the
-            particle from the center.
+            <b>Degrees</b>: Define the rotation speed in degrees per second.
           </li>
           <li>
-            <b>Radius Variance</b>: Introduces randomness to the starting and
-            ending radii.
+            <b>Degrees Variance</b>: Add randomness to the rotation speed.
+          </li>
+          <li>
+            <b>Max Radius</b>: Set the starting radius of the orbit.
+          </li>
+          <li>
+            <b>Max Radius Variance</b>: Introduce variation in the initial
+            radius.
+          </li>
+          <li>
+            <b>Min Radius</b>: Define the radius at the end of the particle’s
+            lifecycle.
+          </li>
+          <li>
+            <b>Min Radius Variance</b>: Add randomness to the final radius.
           </li>
         </ul>
         <span>
-          This behavior determines how particles orbit a central point, with
-          their radius and speed changing over their lifetime. It creates
-          effects like spirals, circular motions, or orbiting particles.
+          The Angular Velocity Behaviour is a versatile tool for designing
+          particles with rotational dynamics, offering rich customization to
+          suit a variety of creative and interactive applications.
         </span>
         <span>
           <a href="/?effect=twist" target="_blank">

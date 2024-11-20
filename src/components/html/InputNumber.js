@@ -2,7 +2,10 @@ import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 
 const InputNumber = forwardRef(
-  ({ label, onChange, value, id, step, tooltipText, params }, ref) => {
+  (
+    { label, onChange, value, id, step, tooltipText, params, max, min },
+    ref,
+  ) => {
     const handleInputChange = (value, newValue) => {
       if (typeof onChange === "function") {
         onChange(newValue, value);
@@ -16,6 +19,8 @@ const InputNumber = forwardRef(
           type="number"
           id={`${id}-${index}`}
           step={step}
+          min={min}
+          max={max}
           value={inputValue}
           onChange={(e) => {
             const val = parseFloat(e.target.value);

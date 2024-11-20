@@ -22,7 +22,10 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
     coffeeShop: () => createCoffeeShop({ fullConfig }),
     faded: () => createFaded({ defaultConfig }),
     ringFire: () => createRingFire({ defaultConfig }),
+    helloWord: () => createHelloWord({ defaultConfig }),
     leaves: () => createLeaves({ defaultConfig }),
+    starAnimations: () => createStarAnimations({ defaultConfig }),
+    coneAnimations: () => createConeAnimations({ defaultConfig }),
     leavesWithTurbulence: () => createLeaves({ defaultConfig }),
     sun: () => createSprite("blackHole"),
     sun2: () => createSprite("blackHole"),
@@ -107,6 +110,18 @@ const createRingFire = ({ defaultConfig }) => {
     const particles = createAndAddParticles(config, particlesContainer);
     particles.angle = index * 18 + 18;
   });
+};
+
+const createHelloWord = ({ defaultConfig }) => {
+  animateTween(defaultConfig);
+};
+
+const createStarAnimations = ({ defaultConfig }) => {
+  animateTween(defaultConfig);
+};
+
+const createConeAnimations = ({ defaultConfig }) => {
+  animateTween(defaultConfig);
 };
 
 const createLeaves = ({ defaultConfig }) => {

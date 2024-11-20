@@ -18,48 +18,47 @@ const ForceFieldsDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Force Fields Behaviour</b>: This behavior introduces dynamic
-          regions in particle system where particles are influenced by forces
-          such as wind, gravity, or turbulence. Each force field has
-          customizable properties like position, radius, and strength, allowing
-          you to define areas of influence.
-          <br />
-          <br />
-          Types of Force Fields:
-          <ul>
-            <li>
-              <b>Wind</b>: Applies a directional force (e.g., simulate wind
-              blowing particles in a specific direction).
-            </li>
-            <li>
-              <b>Gravity</b>: Attracts particles toward a specific point (e.g.,
-              a gravity well or black hole effect).
-            </li>
-            <li>
-              <b>Turbulence</b>: Adds random directional forces to particles for
-              chaotic motion.
-            </li>
-          </ul>
-          <br />
-          Customizable Parameters:
-          <ul>
-            <li>
-              <b>Position</b>: Location of the field’s center.
-            </li>
-            <li>
-              <b>Radius</b>: Determines the field&apos;s area of influence.
-            </li>
-            <li>
-              <b>Strength</b>: Controls the intensity of the force.
-            </li>
-            <li>
-              <b>Direction (for Wind)</b>: Specifies the direction of the force
-              vector.
-            </li>
-          </ul>
-          <br />
-          Forces weaken as particles move away from the field&apos;s center,
-          creating a realistic gradient effect.
+          <b>Force Fields Behaviour</b>: feature allows particles to interact
+          with region-based forces such as wind, gravity, and turbulence. This
+          behavior provides highly customizable and dynamic movement patterns by
+          simulating environmental effects, enabling users to create immersive
+          and realistic particle systems.
+        </span>
+        Key Properties:
+        <ul>
+          <li>
+            <b>Enabled</b>: Toggle the behavior on or off.
+          </li>
+          <li>
+            <b>Priority</b>: Set execution order if multiple behaviors are
+            applied.
+          </li>
+          <li>
+            <b>Fields</b>: Define an array of force fields with the following
+            properties:
+            <ul>
+              <li>
+                <b>Position</b>: The center of the force field.
+              </li>
+              <li>
+                <b>Radius</b>: The area of influence for the field.
+              </li>
+              <li>
+                <b>Strength</b>: The intensity of the force applied.
+              </li>
+              <li>
+                <b>Type</b>: The type of force (wind, gravity, turbulence).
+              </li>
+              <li>
+                <b>Direction</b>: Specify the direction for wind forces.
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <span>
+          The Force Fields Behaviour is ideal for users who want to add
+          environmental interactions to their particle systems, creating
+          lifelike and immersive animations with minimal effort.
         </span>
         <span>
           <a href="/?effect=forceFields" target="_blank">

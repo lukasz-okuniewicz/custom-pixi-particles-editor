@@ -18,30 +18,50 @@ const CollisionDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Collision</b> in a particle system allows particles to interact
-          with defined lines by detecting when a particle gets close to the line
-          and altering its direction accordingly.
+          <b>Collision Behaviour</b> is designed to handle particle interactions
+          with defined line segments in the environment. It detects collisions
+          and adjusts particle properties, such as velocity, based on collision
+          reflections, offering a realistic and customizable approach to
+          particle movement in constrained spaces.
         </span>
+        Key Properties:
         <ul>
           <li>
-            <b>Distance</b>: Specifies how close a particle must be to detect a
-            collision. A distance of 0 means particles pass over the line, while
-            a small distance results in some particles colliding and others
-            bypassing the line.
+            <b>Enabled</b>: Toggle the behavior on or off.
           </li>
           <li>
-            <b>Collision Effects</b>: You can choose which particle properties
-            are affected upon collision, such as position, color, rotation, or
-            size, or opt to ignore certain effects for more customized behavior.
+            <b>Priority</b>: Set execution order if multiple behaviors are
+            applied.
+          </li>
+          <li>
+            <b>Collision Threshold</b>: Set the distance at which a particle is
+            considered to have collided with a line.
+          </li>
+          <li>
+            <b>Velocity Reflection</b>: Adjusts particle velocity to simulate
+            bouncing effects.
+          </li>
+          <li>
+            <b>Behavior Skipping</b>: Disable specific behaviors post-collision
+            for tailored particle reactions.
+          </li>
+          <li>
+            <b>Custom Lines</b>: Define multiple line segments for particles to
+            interact with.
           </li>
         </ul>
         <span>
-          This feature is useful for creating realistic interactions, such as
-          particles bouncing off surfaces or being deflected by barriers.
+          The Collision Behaviour is ideal for users seeking to integrate
+          realistic and customizable collision handling into their particle
+          systems, enabling flexible and engaging interactive effects.
         </span>
         <span>
+          <a href="/?effect=snowWithCollision" target="_blank">
+            Snow With Collision
+          </a>
+          <br />
           <a href="/?effect=coinShowerWithCollision" target="_blank">
-            Example
+            Coin Shower With Collision
           </a>
         </span>
       </span>

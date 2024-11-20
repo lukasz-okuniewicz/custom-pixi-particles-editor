@@ -18,9 +18,10 @@ const LifeDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Life properties</b> in a particle system define how long particles
+          <b>Life Behaviour</b> in a particle system define how long particles
           exist before disappearing:
         </span>
+        Key Properties:
         <ul>
           <li>
             <b>Max Lifetime</b>: Specifies the maximum duration a particle stays

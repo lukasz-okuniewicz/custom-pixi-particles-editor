@@ -18,14 +18,42 @@ const AttractionRepulsionDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Attraction/Repulsion Behaviour</b>: This behavior dynamically
-          influences particle motion by applying attraction or repulsion forces
-          based on predefined points. Each influence point has adjustable
-          strength (positive for attraction, negative for repulsion), range, and
-          effect radius. Forces are applied additively, allowing seamless
-          integration with other behaviors like position and velocity updates.
-          Ideal for creating effects like gravitational pull, magnetic fields,
-          or particle dispersion.
+          <b>Attraction/Repulsion Behaviour</b> introduces forces that attract
+          or repel particles based on their proximity to specified influence
+          points. This behavior provides dynamic motion and interaction without
+          overriding other position-related behaviors, making it ideal for
+          creating complex and interactive particle systems.
+        </span>
+        Key Properties:
+        <ul>
+          <li>
+            <b>Enabled</b>: Toggle the behavior on or off.
+          </li>
+          <li>
+            <b>Priority</b>: Set execution order if multiple behaviors are
+            applied.
+          </li>
+          <li>
+            <b>Influence Points</b>: Define an array of points with:
+            <ul>
+              <li>
+                <b>Position</b>: The coordinates of the influence point.
+              </li>
+              <li>
+                <b>Strength</b>: Positive values for attraction, negative for
+                repulsion.
+              </li>
+              <li>
+                <b>Range</b>: The radius within which particles are affected.
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <span>
+          The Attraction & Repulsion Behaviour is perfect for users seeking to
+          create highly interactive and dynamic particle systems, offering
+          precise control over particle interactions with customizable points of
+          influence.
         </span>
         <span>
           <a href="/?effect=attractionRepulsion" target="_blank">

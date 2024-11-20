@@ -18,34 +18,46 @@ const ColorDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Color properties</b> in a particle system define how a
-          particle&apos;s color changes over its lifetime.
+          <b>Color Behaviour</b> feature enables dynamic color transitions for
+          particles throughout their lifecycle. It allows particles to gradually
+          change from a defined start color to an end color, with optional
+          variance and sinusoidal alpha modulation for added effects.
         </span>
+        Key Properties:
         <ul>
           <li>
-            <b>Starting Color</b>: The initial color of the particle.
+            <b>Enabled</b>: Toggle the behavior on or off.
           </li>
           <li>
-            <b>Ending Color</b>: The color at the end of the particle&apos;s
-            life.
+            <b>Priority</b>: Set execution order if multiple behaviors are
+            applied.
           </li>
           <li>
-            <b>Starting Color Variance</b>: Adds randomness to the initial
-            color, creating variation among particles.
+            <b>Start Color</b>: Define the initial color for particles.
           </li>
           <li>
-            <b>Ending Color Variance</b>: Introduces randomness to the final
-            color, enhancing visual diversity.
+            <b>End Color</b>: Specify the final color for particles.
           </li>
           <li>
-            <b>Fade In/Out</b>: Gradually adjusts the particle&apos;s opacity at
-            the start and end of its life, creating smooth transitions and more
-            natural effects.
+            <b>Start Variance</b>: Introduce randomness to the start color.
+          </li>
+          <li>
+            <b>End Variance</b>: Add randomness to the end color.
+          </li>
+          <li>
+            <b>Fade in and out</b>: Enable sinusoidal modulation for alpha
+            transparency.
           </li>
         </ul>
         <span>
-          These settings enhance the visual appeal and realism of particle
-          animations.
+          The Color Behaviour is an essential tool for creating dynamic and
+          immersive particle systems, offering precise control over color
+          transitions and unique customization options for vivid visual effects.
+        </span>
+        <span>
+          <a href="/?effect=background" target="_blank">
+            Example
+          </a>
         </span>
       </span>
     </>
