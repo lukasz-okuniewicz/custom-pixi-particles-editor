@@ -57,7 +57,12 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
       }
     } else {
       const handleWindowClick = () => {
-        if (!isPlaying && !behaviour.audioContext && audioRef.current) {
+        if (
+          !isPlaying &&
+          !behaviour.audioContext &&
+          audioRef.current &&
+          defaultConfig.particlePredefinedEffect === "reactiveSound"
+        ) {
           setIsPlaying(true);
           audioRef.current.play();
 
