@@ -118,6 +118,17 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
         <InputNumber
+          label="Priority"
+          id="color-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
+        />
+        <hr />
+        <InputNumber
           label="Amplitude Factor"
           id="amplitudeFactor"
           value={behaviour.amplitudeFactor ?? keysToInitialize.amplitudeFactor}

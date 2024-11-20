@@ -46,6 +46,17 @@ export default function LifeProperties({ defaultConfig, index }) {
       <div className={`${isSubmenuVisible}`}>
         <LifeDescription />
         <InputNumber
+          label="Priority"
+          id="color-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
+        />
+        <hr />
+        <InputNumber
           label="Max Life Time"
           id="max-life-time"
           value={behaviour.maxLifeTime ?? keysToInitialize.maxLifeTime}

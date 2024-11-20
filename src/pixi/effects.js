@@ -33,6 +33,7 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
     magic9: () => createSprite("face"),
     magic10: () => createSprite("face"),
     fall: () => createSprite("autumn"),
+    earthBarrier: () => createSprite("earth"),
     twist: () => createSprite("autumn"),
     warp: () => {
       prepareWarp(fullConfig);

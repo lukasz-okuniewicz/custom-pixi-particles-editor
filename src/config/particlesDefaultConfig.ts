@@ -7844,6 +7844,169 @@ const particlesDefaultConfig = {
     },
     textures: ["flare/flare_11.png"],
   },
+  earthBarrier: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 15,
+          timeVariance: 0.5,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 200,
+          influencePoints: [
+            {
+              point: {
+                x: 22,
+                y: 900,
+              },
+              strength: -1000,
+              range: 1100,
+            },
+          ],
+          name: "AttractionRepulsionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: {
+            x: 0,
+            y: -300,
+          },
+          positionVariance: {
+            x: 500,
+            y: 0,
+          },
+          spawnType: "Rectangle",
+          word: "SOUND!",
+          fontSize: 50,
+          fontSpacing: 5,
+          particleDensity: 1,
+          fontMaxWidth: 1334,
+          fontMaxHeight: 750,
+          textAlign: "center",
+          textBaseline: "middle",
+          radius: 0,
+          radiusX: 0,
+          radiusY: 0,
+          starPoints: 5,
+          rows: 10,
+          columns: 10,
+          cellSize: 20,
+          center: {
+            x: 0,
+            y: 0,
+            z: 0,
+          },
+          apex: {
+            x: 0,
+            y: 0,
+            z: 0,
+          },
+          spread: 360,
+          baseRadius: 500,
+          coneDirection: 0,
+          height: 50,
+          coneAngle: 45,
+          perspective: 0,
+          maxZ: 0,
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          position: {
+            x: 0,
+            y: 0,
+          },
+          positionVariance: {
+            x: 100,
+            y: 100,
+          },
+          velocity: {
+            x: 0,
+            y: 50,
+          },
+          velocityVariance: {
+            x: 0,
+            y: 0,
+          },
+          acceleration: {
+            x: 0,
+            y: 30,
+          },
+          accelerationVariance: {
+            x: 0,
+            y: 0,
+          },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: {
+            x: 0.7,
+            y: 0.7,
+          },
+          sizeEnd: {
+            x: 0.5,
+            y: 0.5,
+          },
+          startVariance: 0.3,
+          endVariance: 0.3,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: {
+            _r: 0,
+            _g: 199,
+            _b: 255,
+            _alpha: 1,
+          },
+          end: {
+            _r: 255,
+            _g: 255,
+            _b: 255,
+            _alpha: 1,
+          },
+          startVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 0,
+          },
+          endVariance: {
+            _r: 0,
+            _g: 0,
+            _b: 0,
+            _alpha: 0,
+          },
+          sinus: false,
+          name: "ColorBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 200,
+        _maxLife: 1,
+        _emitPerSecond: 50,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: {
+        x: 0.5,
+        y: 0.5,
+      },
+      blendMode: 3,
+    },
+    textures: ["flare.png"],
+  },
 };
 
 export default particlesDefaultConfig;

@@ -15,6 +15,7 @@ export default class Loader {
       loader.add("office1", "backgrounds/office1.png");
       loader.add("office2", "backgrounds/office2.png");
       loader.add("house", "backgrounds/house.jpg");
+      loader.add("earth", "backgrounds/earth.jpg");
       loader.load();
       loader.onComplete.once(() => resolve(true));
     });
