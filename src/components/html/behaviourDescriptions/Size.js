@@ -98,7 +98,7 @@ const SizeDescription = () => {
           </li>
           <li>
             <b>Invert at Midpoint</b>: Flips the size transition halfway through
-            the particle's life, creating unique shrinking and expanding
+            the particle&apos;s life, creating unique shrinking and expanding
             effects.
           </li>
           <li>

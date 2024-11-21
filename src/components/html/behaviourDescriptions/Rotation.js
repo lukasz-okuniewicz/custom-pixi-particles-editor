@@ -32,8 +32,8 @@ const RotationDescription = () => {
             behaviors are applied to the same particle.
           </li>
           <li>
-            <b>Rotation</b>: The base speed at which a particle's angle changes,
-            measured in degrees or radians per second.
+            <b>Rotation</b>: The base speed at which a particle&apos;s angle
+            changes, measured in degrees or radians per second.
           </li>
           <li>
             <b>Variance</b>: Adds randomness to the rotation speed, creating
