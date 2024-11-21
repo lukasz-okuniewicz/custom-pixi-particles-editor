@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getConfigByName, initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import SoundReactiveDescription from "@components/html/behaviourDescriptions/SoundReactive";
+import { Loader as PixiLoader } from "pixi.js-legacy";
 
 let audioContext = null;
 let analyser = null;
@@ -13,7 +14,15 @@ let frequencyData = null;
 export default function SoundReactiveProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+
+  const audioSources = [
+    PixiLoader.shared.resources.music_base.data,
+    PixiLoader.shared.resources.music_base2.data,
+    PixiLoader.shared.resources.music_base3.data,
+    PixiLoader.shared.resources.music_base4.data,
+    PixiLoader.shared.resources.music_base5.data,
+    PixiLoader.shared.resources.music_base6.data,
+  ];
 
   if (index === -1) {
     const x = JSON.parse(JSON.stringify(defaultConfig));
@@ -60,16 +69,20 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
         if (
           !isPlaying &&
           !behaviour.audioContext &&
-          audioRef.current &&
+          audioSources.length &&
           defaultConfig.particlePredefinedEffect === "reactiveSound"
         ) {
           setIsPlaying(true);
-          audioRef.current.play();
+
+          const randomIndex = Math.floor(Math.random() * audioSources.length);
+          const randomAudioRef = audioSources[randomIndex];
+
+          if (randomAudioRef) {
+            randomAudioRef.play();
+          }
 
           audioContext = new AudioContext();
-          const source = audioContext.createMediaElementSource(
-            audioRef.current,
-          );
+          const source = audioContext.createMediaElementSource(randomAudioRef);
           analyser = audioContext.createAnalyser();
           source.connect(analyser);
           analyser.connect(audioContext.destination);
@@ -107,7 +120,6 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
 
   return (
     <>
-      <audio ref={audioRef} src="/audio/music_base.mp3" loop />
       <legend onClick={toggleSubmenuVisibility}>
         Sound Reactive Properties
       </legend>
