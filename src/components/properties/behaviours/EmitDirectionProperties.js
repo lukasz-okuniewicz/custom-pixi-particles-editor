@@ -68,6 +68,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
           id="emit-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
           step="10"
+          min="0"
           onChange={(value) => {
             behaviour.priority = value;
             updateBehaviours();

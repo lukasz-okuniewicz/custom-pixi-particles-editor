@@ -16,7 +16,6 @@ export default class Loader {
       loader.add("office2", "backgrounds/office2.png");
       loader.add("house", "backgrounds/house.jpg");
       loader.add("earth", "backgrounds/earth.jpg");
-      loader.add("music_base5", "audio/music_base5.mp3");
       loader.add("music_base13", "audio/music_base13.mp3");
       loader.load();
       loader.onComplete.once(() => resolve(true));

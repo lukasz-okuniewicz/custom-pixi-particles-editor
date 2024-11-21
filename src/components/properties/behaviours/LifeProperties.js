@@ -50,6 +50,7 @@ export default function LifeProperties({ defaultConfig, index }) {
           id="color-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
           step="10"
+          min="0"
           onChange={(value) => {
             behaviour.priority = value;
             updateBehaviours();

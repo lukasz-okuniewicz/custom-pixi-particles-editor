@@ -55,6 +55,8 @@ const InputNumber = forwardRef(
               className="form-control"
               type="number"
               step={step}
+              min={min}
+              max={max}
               value={value || 0}
               onChange={(e) =>
                 handleInputChange(null, parseFloat(e.target.value) || 0)
@@ -87,12 +89,16 @@ InputNumber.propTypes = {
   step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   tooltipText: PropTypes.string,
   params: PropTypes.arrayOf(PropTypes.string),
+  max: PropTypes.number,
+  min: PropTypes.number,
 };
 
 InputNumber.defaultProps = {
   step: "0.1",
   tooltipText: "",
   params: null,
+  max: undefined,
+  min: undefined,
 };
 
 export default InputNumber;

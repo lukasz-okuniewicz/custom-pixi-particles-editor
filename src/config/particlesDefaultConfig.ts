@@ -6602,8 +6602,8 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 0,
-          amplitudeFactor: 0.6,
-          frequencyFactor: 0.7,
+          amplitudeFactor: 0.4,
+          frequencyFactor: 0.5,
           beatSensitivity: 1,
           name: "SoundReactiveBehaviour",
         },

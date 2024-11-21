@@ -64,6 +64,7 @@ export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
           id="noise-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
           step="10"
+          min="0"
           onChange={(value) => {
             behaviour.priority = value;
             updateBehaviours();

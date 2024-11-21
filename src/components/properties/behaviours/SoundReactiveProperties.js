@@ -4,32 +4,17 @@ import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import SoundReactiveDescription from "@components/html/behaviourDescriptions/SoundReactive";
 import { Loader as PixiLoader } from "pixi.js-legacy";
-
-let audioContext = null;
-let analyser = null;
-let frequencyData = null;
+import { playMusic } from "@utils/audio";
 
 export default function SoundReactiveProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const audioSources = [
-    PixiLoader.shared.resources.music_base13.data,
-    PixiLoader.shared.resources.music_base5.data,
-  ];
-
-  // Get the last played index from localStorage or default to -1
-  const getLastPlayedIndex = () => {
-    const savedIndex = localStorage.getItem("lastPlayedAudioIndex");
-    return savedIndex ? parseInt(savedIndex, 10) : -1;
-  };
+  const audioSources = [PixiLoader.shared.resources.music_base13.data];
 
   const saveLastPlayedIndex = (index) => {
     localStorage.setItem("lastPlayedAudioIndex", index);
   };
-
-  let lastPlayedIndex = getLastPlayedIndex();
-  let nextIndex = (lastPlayedIndex + 1) % audioSources.length;
 
   if (index === -1) {
     const x = JSON.parse(JSON.stringify(defaultConfig));
@@ -40,9 +25,9 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   const keysToInitialize = {
     enabled: false,
     priority: 0,
-    audioContext: audioContext ?? null,
-    analyser: analyser ?? null,
-    frequencyData: frequencyData ?? null,
+    audioContext: null,
+    analyser: null,
+    frequencyData: null,
     amplitudeFactor: 1,
     frequencyFactor: 1,
     beatSensitivity: 1,
@@ -65,6 +50,14 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     );
   };
 
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func(...args), delay);
+    };
+  };
+
   useEffect(() => {
     if (isPlaying) {
       if (defaultConfig.particlePredefinedEffect === "reactiveSound") {
@@ -73,47 +66,18 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
       }
     }
 
-    const handleWindowClick = () => {
-      if (!isPlaying && !behaviour.audioContext && audioSources.length) {
+    const handleWindowClick = debounce(() => {
+      if (!isPlaying && !behaviour.audioContext) {
         setIsPlaying(true);
-
-        const currentAudio = audioSources[nextIndex];
-
-        if (currentAudio) {
-          currentAudio.loop = true;
-          currentAudio.play();
-          saveLastPlayedIndex(nextIndex); // Save the index
-        }
-
-        audioContext = new AudioContext();
-        const source = audioContext.createMediaElementSource(currentAudio);
-        analyser = audioContext.createAnalyser();
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-
-        analyser.fftSize = 256; // Size of the Fast Fourier Transform
-        frequencyData = new Uint8Array(analyser.frequencyBinCount);
-
-        behaviour.audioContext = audioContext;
-        behaviour.analyser = analyser;
-        behaviour.frequencyData = frequencyData;
-        behaviour.isPlaying = true;
-        defaultConfig.emitterConfig.behaviours[index] = behaviour;
-
-        if (defaultConfig.particlePredefinedEffect === "reactiveSound") {
-          const spawnBehaviour = getConfigByName(
-            "SpawnBehaviour",
-            defaultConfig,
-          );
-          spawnBehaviour.word = "SOUND!";
-        }
-
-        updateProps(
-          "emitterConfig.behaviours",
-          defaultConfig.emitterConfig.behaviours,
-        );
+        const nextIndex = playMusic({
+          audioSources,
+          behaviour,
+          defaultConfig,
+          index,
+        });
+        saveLastPlayedIndex(nextIndex); // Save the index
       }
-    };
+    }, 100);
 
     window.addEventListener("click", handleWindowClick);
 
@@ -131,6 +95,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <SoundReactiveDescription />
+
         <Checkbox
           label="Enabled"
           id="angular-enabled"
@@ -145,6 +110,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           id="color-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
           step="10"
+          min="0"
           onChange={(value) => {
             behaviour.priority = value;
             updateBehaviours();

@@ -108,6 +108,7 @@ export default function SizeProperties({ defaultConfig, index }) {
           id="size-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
           step="10"
+          min="0"
           onChange={(value) => {
             behaviour.priority = value;
             updateBehaviours();
@@ -124,6 +125,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 behaviour.sizeStart.y ?? keysToInitialize.sizeStart.y,
               ]}
               step="0.1"
+              min="0"
               onChange={(value, id) => {
                 behaviour.sizeStart[id] = value;
                 updateBehaviours();
@@ -134,6 +136,7 @@ export default function SizeProperties({ defaultConfig, index }) {
               id="size-start-variance"
               value={behaviour.startVariance ?? keysToInitialize.startVariance}
               step="0.1"
+              min="0"
               onChange={(value) => {
                 behaviour.startVariance = value;
                 updateBehaviours();
@@ -148,6 +151,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 behaviour.sizeEnd.y ?? keysToInitialize.sizeEnd.y,
               ]}
               step="0.1"
+              min="0"
               onChange={(value, id) => {
                 behaviour.sizeEnd[id] = value;
                 updateBehaviours();
@@ -158,6 +162,7 @@ export default function SizeProperties({ defaultConfig, index }) {
               id="size-end-variance"
               value={behaviour.endVariance ?? keysToInitialize.endVariance}
               step="0.1"
+              min="0"
               onChange={(value) => {
                 behaviour.endVariance = value;
                 updateBehaviours();
@@ -172,6 +177,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 behaviour.maxSize.y ?? keysToInitialize.maxSize.y,
               ]}
               step="0.1"
+              min="0"
               onChange={(value, id) => {
                 behaviour.maxSize[id] = value;
                 updateBehaviours();
@@ -265,6 +271,7 @@ export default function SizeProperties({ defaultConfig, index }) {
               id="timeOffset"
               value={behaviour.timeOffset ?? keysToInitialize.timeOffset}
               step="0.1"
+              min="0"
               onChange={(value) => {
                 behaviour.timeOffset = value;
                 updateBehaviours();

@@ -140,6 +140,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
           id="position-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
           step="10"
+          min="0"
           onChange={(value) => {
             behaviour.priority = value;
             updateBehaviours();
@@ -205,23 +206,33 @@ export default function SpawnProperties({ defaultConfig, index }) {
           }}
           elements={predefinedSpawnType}
         />
-        {behaviour.spawnType !== "Word" &&
-          behaviour.spawnType !== "Rectangle" &&
-          behaviour.spawnType !== "Cone" &&
-          behaviour.spawnType !== "Grid" &&
-          behaviour.spawnType !== "FrameRectangle" && (
-            <InputNumber
-              label="Radius"
-              id="radius"
-              value={behaviour.radius ?? keysToInitialize.radius}
-              step="1"
-              onChange={(value) => {
-                behaviour.radius = value;
-                updateBehaviours();
-              }}
-            />
-          )}
 
+        {(behaviour.spawnType === "Star" ||
+          behaviour.spawnType === "Sphere" ||
+          behaviour.spawnType === "Ring") && (
+          <InputNumber
+            label="Radius"
+            id="radius"
+            value={behaviour.radius ?? keysToInitialize.radius}
+            step="1"
+            onChange={(value) => {
+              behaviour.radius = value;
+              updateBehaviours();
+            }}
+          />
+        )}
+        {behaviour.spawnType === "Frame" && (
+          <InputNumber
+            label="Area"
+            id="radius"
+            value={behaviour.radius ?? keysToInitialize.radius}
+            step="1"
+            onChange={(value) => {
+              behaviour.radius = value;
+              updateBehaviours();
+            }}
+          />
+        )}
         {behaviour.spawnType === "FrameRectangle" && (
           <>
             <InputNumber
@@ -246,7 +257,6 @@ export default function SpawnProperties({ defaultConfig, index }) {
             />
           </>
         )}
-
         {behaviour.spawnType === "Cone" && (
           <>
             <InputNumber
@@ -306,7 +316,6 @@ export default function SpawnProperties({ defaultConfig, index }) {
             />
           </>
         )}
-
         {behaviour.spawnType === "Grid" && (
           <>
             <InputNumber
@@ -341,7 +350,6 @@ export default function SpawnProperties({ defaultConfig, index }) {
             />
           </>
         )}
-
         {behaviour.spawnType === "Sphere" && (
           <>
             <InputNumber
@@ -371,7 +379,6 @@ export default function SpawnProperties({ defaultConfig, index }) {
             />
           </>
         )}
-
         {behaviour.spawnType === "Star" && (
           <InputNumber
             label="Points"
