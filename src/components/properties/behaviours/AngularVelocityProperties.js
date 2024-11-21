@@ -24,6 +24,11 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
     maxRadiusVariance: 0,
     minRadius: 0,
     minRadiusVariance: 0,
+    oscillate: false,
+    oscillationSpeed: 1,
+    oscillationAmplitude: 10,
+    linearRadiusReduction: true,
+    dynamicRadius: true,
     name: "AngularVelocityBehaviour",
   };
   Object.keys(keysToInitialize).forEach((key) => {
@@ -134,6 +139,65 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             behaviour.minRadiusVariance = value;
             updateBehaviours();
           }}
+        />
+        <Checkbox
+          label="Oscillate"
+          id="angular-oscillate"
+          onChange={(value) => {
+            behaviour.oscillate = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.oscillate ?? keysToInitialize.oscillate}
+        />
+        {behaviour.oscillate && (
+          <>
+            <InputNumber
+              label="Oscillation Speed"
+              id="oscillationSpeed"
+              value={
+                behaviour.oscillationSpeed ?? keysToInitialize.oscillationSpeed
+              }
+              step="1"
+              onChange={(value) => {
+                behaviour.oscillationSpeed = value;
+                updateBehaviours();
+              }}
+            />
+            <InputNumber
+              label="Oscillation Amplitude"
+              id="oscillationAmplitude"
+              value={
+                behaviour.oscillationAmplitude ??
+                keysToInitialize.oscillationAmplitude
+              }
+              step="1"
+              onChange={(value) => {
+                behaviour.oscillationAmplitude = value;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
+        <Checkbox
+          label="Linear Radius Reduction"
+          id="angular-linearRadiusReduction"
+          onChange={(value) => {
+            behaviour.linearRadiusReduction = value;
+            updateBehaviours();
+          }}
+          checked={
+            behaviour.linearRadiusReduction ??
+            keysToInitialize.linearRadiusReduction
+          }
+        />
+        <Checkbox
+          label="Dynamic Radius"
+          id="angular-dynamicRadius"
+          onChange={(value) => {
+            behaviour.dynamicRadius = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.dynamicRadius ?? keysToInitialize.dynamicRadius}
         />
       </div>
     </>

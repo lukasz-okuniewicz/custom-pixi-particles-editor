@@ -5,6 +5,7 @@ import { initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import TimelineDescription from "@components/html/behaviourDescriptions/Timeline";
+import ColorPicker from "@components/html/ColorPicker";
 
 export default function TimelineProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -68,11 +69,6 @@ export default function TimelineProperties({ defaultConfig, index }) {
     updateBehaviours();
   };
 
-  const updateColor = (index, value, id) => {
-    behaviour.lines[index].properties.color[id] = parseInt(value);
-    updateBehaviours();
-  };
-
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return <></>;
 
   return (
@@ -125,23 +121,21 @@ export default function TimelineProperties({ defaultConfig, index }) {
                 step="1"
                 onChange={(value) => updateRotation(index, value)}
               />
-              <InputNumber
+              <ColorPicker
                 label="Color"
-                id="color"
-                params={[
-                  line.properties.color.r,
-                  line.properties.color.g,
-                  line.properties.color.b,
-                  line.properties.color.alpha,
-                ]}
-                value={[
-                  line.properties.color.r,
-                  line.properties.color.g,
-                  line.properties.color.b,
-                  line.properties.color.alpha,
-                ]}
-                step="1"
-                onChange={(value, id) => updateColor(index, value, id)}
+                color={{
+                  r: line.properties.color.r,
+                  g: line.properties.color.g,
+                  b: line.properties.color.b,
+                  a: line.properties.color.alpha,
+                }}
+                colorChanged={(color) => {
+                  line.properties.color.r = color.rgb.r;
+                  line.properties.color.g = color.rgb.g;
+                  line.properties.color.b = color.rgb.b;
+                  line.properties.color.alpha = color.rgb.a;
+                  updateBehaviours();
+                }}
               />
               <br />
               <button

@@ -18,10 +18,12 @@ const AngularVelocityDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Angular Velocity Behaviour</b> controls the rotational movement of
-          particles around a central point. It allows particles to orbit
-          dynamically while varying their radius and angular velocity, creating
-          smooth and visually engaging motion effects.
+          <b>Angular Velocity Behaviour</b> provides advanced rotational control
+          for particles, allowing them to orbit dynamically while adjusting
+          their radius and angular velocity. It introduces enhanced features
+          such as oscillation, dynamic radius changes, and linear or exponential
+          radius reduction, making it ideal for complex and dynamic particle
+          effects.
         </span>
         Key Properties:
         <ul>
@@ -52,6 +54,38 @@ const AngularVelocityDescription = () => {
           <li>
             <b>Min Radius Variance</b>: Add randomness to the final radius.
           </li>
+          <li>
+            <b>Oscillation</b>:
+            <ul>
+              <li>
+                <b>Enabled</b>: Toggle oscillation of angular velocity.
+              </li>
+              <li>
+                <b>Speed</b>: Define how fast the oscillation occurs.
+              </li>
+              <li>
+                <b>Amplitude</b>: Control the intensity of oscillation in
+                degrees.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>Radius Reduction</b>:
+            <ul>
+              <li>
+                <b>Linear</b>: Reduce radius smoothly over the particle’s
+                lifecycle.
+              </li>
+              <li>
+                <b>Exponential</b>: Create a sharper radius reduction with a
+                non-linear approach.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>Dynamic Radius</b>: Enable real-time changes to the radius for
+            complex effects.
+          </li>
         </ul>
         <span>
           The Angular Velocity Behaviour is a versatile tool for designing
@@ -61,6 +95,10 @@ const AngularVelocityDescription = () => {
         <span>
           <a href="/?effect=twist" target="_blank">
             Example
+          </a>
+          <br />
+          <a href="/?effect=angularVelocity" target="_blank">
+            Angular Velocity
           </a>
         </span>
       </span>

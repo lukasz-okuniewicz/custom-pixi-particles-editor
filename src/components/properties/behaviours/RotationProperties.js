@@ -20,6 +20,13 @@ export default function RotationProperties({ defaultConfig, index }) {
     enabled: false,
     rotation: 3,
     variance: 2,
+    oscillate: false,
+    oscillationSpeed: 1,
+    oscillationAmplitude: 0,
+    useNoise: false,
+    noiseScale: 0.1,
+    acceleration: 0,
+    clockwise: false,
     name: "RotationBehaviour",
   };
   Object.keys(keysToInitialize).forEach((key) => {
@@ -84,6 +91,86 @@ export default function RotationProperties({ defaultConfig, index }) {
             behaviour.variance = value;
             updateBehaviours();
           }}
+        />
+        <Checkbox
+          label="Oscillate"
+          id="oscillate"
+          onChange={(value) => {
+            behaviour.oscillate = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.oscillate ?? keysToInitialize.oscillate}
+        />
+        {behaviour.oscillate && (
+          <>
+            <InputNumber
+              label="Oscillation Speed"
+              id="oscillationSpeed"
+              value={
+                behaviour.oscillationSpeed ?? keysToInitialize.oscillationSpeed
+              }
+              step="1"
+              onChange={(value) => {
+                behaviour.oscillationSpeed = value;
+                updateBehaviours();
+              }}
+            />
+            <InputNumber
+              label="Oscillation Amplitude"
+              id="oscillationAmplitude"
+              value={
+                behaviour.oscillationAmplitude ??
+                keysToInitialize.oscillationAmplitude
+              }
+              step="0.1"
+              onChange={(value) => {
+                behaviour.oscillationAmplitude = value;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
+        <Checkbox
+          label="Use Noise"
+          id="useNoise"
+          onChange={(value) => {
+            behaviour.useNoise = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useNoise ?? keysToInitialize.useNoise}
+        />
+        {behaviour.useNoise && (
+          <>
+            <InputNumber
+              label="Noise Scale"
+              id="noiseScale"
+              value={behaviour.noiseScale ?? keysToInitialize.noiseScale}
+              step="0.1"
+              onChange={(value) => {
+                behaviour.noiseScale = value;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
+        <InputNumber
+          label="Acceleration"
+          id="acceleration"
+          value={behaviour.acceleration ?? keysToInitialize.acceleration}
+          step="0.1"
+          onChange={(value) => {
+            behaviour.acceleration = value;
+            updateBehaviours();
+          }}
+        />
+        <Checkbox
+          label="Clockwise"
+          id="clockwise"
+          onChange={(value) => {
+            behaviour.clockwise = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.clockwise ?? keysToInitialize.clockwise}
         />
       </div>
     </>

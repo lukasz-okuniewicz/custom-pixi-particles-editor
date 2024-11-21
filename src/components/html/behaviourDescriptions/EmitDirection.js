@@ -18,10 +18,10 @@ const EmitDirectionDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Emit Direction Behaviour</b>: controls the initial direction of
-          particles when they are emitted. By specifying an angle and variance,
-          this behavior allows for dynamic and customizable particle
-          trajectories right from their point of origin.
+          <b>Emit Direction Behaviour</b>: provides advanced control over the
+          initial and ongoing directional movement of particles. It offers
+          features like oscillation, noise-based direction changes, and velocity
+          scaling, allowing for dynamic and visually diverse emission patterns.
         </span>
         Key Properties:
         <ul>
@@ -39,6 +39,35 @@ const EmitDirectionDescription = () => {
           <li>
             <b>Angle Variance</b>: Adds randomness to the direction, allowing
             particles to spread within a range around the main angle.
+          </li>
+          <li>
+            <b>Oscillation</b>:
+            <ul>
+              <li>
+                <b>Enabled</b>: Toggle oscillation for direction changes.
+              </li>
+              <li>
+                <b>Speed</b>: Define the speed of oscillation cycles.
+              </li>
+              <li>
+                <b>Amplitude</b>: Set the intensity of oscillation in radians.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>Noise-Based Direction</b>:
+            <ul>
+              <li>
+                <b>Enabled</b>: Use noise to modify direction dynamically.
+              </li>
+              <li>
+                <b>Scale</b>: Adjust the granularity of the noise effect.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>Velocity Scaling</b>: Enable scaling of velocity based on
+            particle lifecycle.
           </li>
         </ul>
         <span>

@@ -240,7 +240,7 @@ const animateFlyingBubbles = (defaultConfig, fullConfig, speed) => {
 };
 
 const animateMeteor = (defaultConfig, fullConfig) => {
-  tween = gsap.to(defaultConfig.emitterConfig.behaviours[1].position, 1, {
+  tween = gsap.to(defaultConfig.emitterConfig.behaviours[0].position, 1, {
     x: -200,
     y: 200,
     ease: Linear.easeNone,

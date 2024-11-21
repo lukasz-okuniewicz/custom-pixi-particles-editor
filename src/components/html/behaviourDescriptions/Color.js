@@ -18,10 +18,11 @@ const ColorDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Color Behaviour</b> feature enables dynamic color transitions for
-          particles throughout their lifecycle. It allows particles to gradually
-          change from a defined start color to an end color, with optional
-          variance and sinusoidal alpha modulation for added effects.
+          <b>Color Behaviour</b> feature provides an advanced framework for
+          dynamically controlling particle colors throughout their lifecycle. It
+          supports smooth transitions, multi-gradient effects, noise-based
+          variations, and advanced visual enhancements such as pulsing,
+          flickering, and fading.
         </span>
         Key Properties:
         <ul>
@@ -33,20 +34,38 @@ const ColorDescription = () => {
             applied.
           </li>
           <li>
-            <b>Start Color</b>: Define the initial color for particles.
+            <b>Start & End Colors</b>: Define the start and end colors for
+            transitions.
           </li>
           <li>
-            <b>End Color</b>: Specify the final color for particles.
-          </li>
-          <li>
-            <b>Start Variance</b>: Introduce randomness to the start color.
-          </li>
-          <li>
-            <b>End Variance</b>: Add randomness to the end color.
+            <b>Color Stops</b>: Add multiple gradient stops for complex
+            transitions.
           </li>
           <li>
             <b>Fade in and out</b>: Enable sinusoidal modulation for alpha
             transparency.
+          </li>
+          <li>
+            <b>Use Perlin Noise</b>: Apply Perlin noise for dynamic color
+            changes.
+          </li>
+          <li>
+            <b>Pulse Speed & Intensity</b>: Configure the speed and strength of
+            the pulse effect.
+          </li>
+          <li>
+            <b>Mirror Transition</b>: Enable mirrored color transitions for
+            symmetrical effects.
+          </li>
+          <li>
+            <b>Fade to Gray</b>: Gradually desaturate colors over time.
+          </li>
+          <li>
+            <b>Fade to Transparent</b>: Gradually reduce alpha over time.
+          </li>
+          <li>
+            <b>Flicker Intensity</b>: Control the strength of random flickering
+            effects.
           </li>
         </ul>
         <span>

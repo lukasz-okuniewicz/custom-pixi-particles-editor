@@ -71,56 +71,55 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
         const spawnBehaviour = getConfigByName("SpawnBehaviour", defaultConfig);
         spawnBehaviour.word = "SOUND!";
       }
-    } else {
-      const handleWindowClick = () => {
-        if (
-          !isPlaying &&
-          !behaviour.audioContext &&
-          audioSources.length &&
-          defaultConfig.particlePredefinedEffect === "reactiveSound"
-        ) {
-          setIsPlaying(true);
+    }
 
-          const currentAudio = audioSources[nextIndex];
+    const handleWindowClick = () => {
+      if (!isPlaying && !behaviour.audioContext && audioSources.length) {
+        setIsPlaying(true);
 
-          if (currentAudio) {
-            currentAudio.play();
-            saveLastPlayedIndex(nextIndex); // Save the index
-          }
+        const currentAudio = audioSources[nextIndex];
 
-          audioContext = new AudioContext();
-          const source = audioContext.createMediaElementSource(currentAudio);
-          analyser = audioContext.createAnalyser();
-          source.connect(analyser);
-          analyser.connect(audioContext.destination);
+        if (currentAudio) {
+          currentAudio.loop = true;
+          currentAudio.play();
+          saveLastPlayedIndex(nextIndex); // Save the index
+        }
 
-          analyser.fftSize = 256; // Size of the Fast Fourier Transform
-          frequencyData = new Uint8Array(analyser.frequencyBinCount);
+        audioContext = new AudioContext();
+        const source = audioContext.createMediaElementSource(currentAudio);
+        analyser = audioContext.createAnalyser();
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
 
-          behaviour.audioContext = audioContext;
-          behaviour.analyser = analyser;
-          behaviour.frequencyData = frequencyData;
-          defaultConfig.emitterConfig.behaviours[index] = behaviour;
+        analyser.fftSize = 256; // Size of the Fast Fourier Transform
+        frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
+        behaviour.audioContext = audioContext;
+        behaviour.analyser = analyser;
+        behaviour.frequencyData = frequencyData;
+        behaviour.isPlaying = true;
+        defaultConfig.emitterConfig.behaviours[index] = behaviour;
+
+        if (defaultConfig.particlePredefinedEffect === "reactiveSound") {
           const spawnBehaviour = getConfigByName(
             "SpawnBehaviour",
             defaultConfig,
           );
           spawnBehaviour.word = "SOUND!";
-
-          updateProps(
-            "emitterConfig.behaviours",
-            defaultConfig.emitterConfig.behaviours,
-          );
         }
-      };
 
-      window.addEventListener("click", handleWindowClick);
+        updateProps(
+          "emitterConfig.behaviours",
+          defaultConfig.emitterConfig.behaviours,
+        );
+      }
+    };
 
-      return () => {
-        window.removeEventListener("click", handleWindowClick);
-      };
-    }
+    window.addEventListener("click", handleWindowClick);
+
+    return () => {
+      window.removeEventListener("click", handleWindowClick);
+    };
   }, [defaultConfig]);
 
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return <></>;
