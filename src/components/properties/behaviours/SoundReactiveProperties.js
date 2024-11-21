@@ -1,5 +1,3 @@
-"use client";
-
 import { useCallback, useEffect, useState } from "react";
 import { getConfigByName, initializeProperty, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
@@ -22,7 +20,24 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     PixiLoader.shared.resources.music_base4.data,
     PixiLoader.shared.resources.music_base5.data,
     PixiLoader.shared.resources.music_base6.data,
+    PixiLoader.shared.resources.music_base7.data,
+    PixiLoader.shared.resources.music_base8.data,
+    PixiLoader.shared.resources.music_base9.data,
+    PixiLoader.shared.resources.music_base10.data,
   ];
+
+  // Get the last played index from localStorage or default to -1
+  const getLastPlayedIndex = () => {
+    const savedIndex = localStorage.getItem("lastPlayedAudioIndex");
+    return savedIndex ? parseInt(savedIndex, 10) : -1;
+  };
+
+  const saveLastPlayedIndex = (index) => {
+    localStorage.setItem("lastPlayedAudioIndex", index);
+  };
+
+  let lastPlayedIndex = getLastPlayedIndex();
+  let nextIndex = (lastPlayedIndex + 1) % audioSources.length;
 
   if (index === -1) {
     const x = JSON.parse(JSON.stringify(defaultConfig));
@@ -74,15 +89,15 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
         ) {
           setIsPlaying(true);
 
-          const randomIndex = Math.floor(Math.random() * audioSources.length);
-          const randomAudioRef = audioSources[randomIndex];
+          const currentAudio = audioSources[nextIndex];
 
-          if (randomAudioRef) {
-            randomAudioRef.play();
+          if (currentAudio) {
+            currentAudio.play();
+            saveLastPlayedIndex(nextIndex); // Save the index
           }
 
           audioContext = new AudioContext();
-          const source = audioContext.createMediaElementSource(randomAudioRef);
+          const source = audioContext.createMediaElementSource(currentAudio);
           analyser = audioContext.createAnalyser();
           source.connect(analyser);
           analyser.connect(audioContext.destination);
