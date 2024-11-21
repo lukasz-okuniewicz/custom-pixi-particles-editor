@@ -34,6 +34,9 @@ const TimelineDescription = () => {
             applied.
           </li>
           <li>
+            <b>Time control</b>: Time from range 0-1.
+          </li>
+          <li>
             <b>Size Evolution</b>: Gradually increase or decrease particle size
             across keyframes.
           </li>

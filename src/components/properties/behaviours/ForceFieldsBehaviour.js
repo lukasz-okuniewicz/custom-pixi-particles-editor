@@ -28,7 +28,7 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
   const keysToInitialize = {
-    enabled: true,
+    enabled: false,
     priority: 300,
     fields: [],
     name: "ForceFieldsBehaviour",
@@ -89,7 +89,7 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
     };
   }, [defaultConfig]);
 
-  const updateBehaviours = (index, value) => {
+  const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
     updateProps(
       "emitterConfig.behaviours",
@@ -135,6 +135,7 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
       type: "turbulence",
     }; // Default values for new point
     behaviour.fields = [...behaviour.fields, newPosition];
+
     updateBehaviours();
   };
 
