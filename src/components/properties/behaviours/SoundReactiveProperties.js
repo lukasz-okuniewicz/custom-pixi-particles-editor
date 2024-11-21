@@ -14,16 +14,8 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const audioSources = [
-    PixiLoader.shared.resources.music_base.data,
-    PixiLoader.shared.resources.music_base2.data,
-    PixiLoader.shared.resources.music_base3.data,
-    PixiLoader.shared.resources.music_base4.data,
+    PixiLoader.shared.resources.music_base13.data,
     PixiLoader.shared.resources.music_base5.data,
-    PixiLoader.shared.resources.music_base6.data,
-    PixiLoader.shared.resources.music_base7.data,
-    PixiLoader.shared.resources.music_base8.data,
-    PixiLoader.shared.resources.music_base9.data,
-    PixiLoader.shared.resources.music_base10.data,
   ];
 
   // Get the last played index from localStorage or default to -1
