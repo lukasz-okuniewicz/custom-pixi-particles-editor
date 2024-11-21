@@ -18,54 +18,62 @@ const AngularVelocityDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Angular Velocity Behaviour</b> provides advanced rotational control
-          for particles, allowing them to orbit dynamically while adjusting
-          their radius and angular velocity. It introduces enhanced features
-          such as oscillation, dynamic radius changes, and linear or exponential
-          radius reduction, making it ideal for complex and dynamic particle
-          effects.
+          <b>Angular Velocity Behaviour</b> adds rotational dynamics to
+          particles, enabling them to orbit smoothly around a center point with
+          customizable radius and angular velocity. This behavior supports
+          advanced features like oscillation, dynamic radius variations, and
+          flexible control over rotation speed and direction.
         </span>
-        Key Properties:
+        <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Enabled</b>: Toggle the behavior on or off.
+            <b>Enabled</b>: Activates or deactivates the behavior.
           </li>
           <li>
-            <b>Priority</b>: Set execution order if multiple behaviors are
-            applied.
+            <b>Priority</b>: Determines execution order relative to other
+            behaviors.
           </li>
           <li>
-            <b>Degrees</b>: Define the rotation speed in degrees per second.
+            <b>Degrees</b>: Sets the base angular velocity in degrees per
+            second.
           </li>
           <li>
-            <b>Degrees Variance</b>: Add randomness to the rotation speed.
+            <b>Degrees Variance</b>: Introduces random variations to the angular
+            velocity, creating more natural or chaotic motion.
           </li>
           <li>
-            <b>Max Radius</b>: Set the starting radius of the orbit.
-          </li>
-          <li>
-            <b>Max Radius Variance</b>: Introduce variation in the initial
-            radius.
-          </li>
-          <li>
-            <b>Min Radius</b>: Define the radius at the end of the particle’s
-            lifecycle.
-          </li>
-          <li>
-            <b>Min Radius Variance</b>: Add randomness to the final radius.
+            <b>Radius</b>:
+            <ul>
+              <li>
+                <b>Max Radius</b>: Defines the starting distance from the center
+                of rotation.
+              </li>
+              <li>
+                <b>Max Radius Variance</b>: Adds randomness to the initial
+                radius for each particle.
+              </li>
+              <li>
+                <b>Min Radius</b>: Specifies the radius as the particle
+                approaches the end of its life.
+              </li>
+              <li>
+                <b>Min Radius Variance</b>: Adjusts the variability of the final
+                radius.
+              </li>
+            </ul>
           </li>
           <li>
             <b>Oscillation</b>:
             <ul>
               <li>
-                <b>Enabled</b>: Toggle oscillation of angular velocity.
+                <b>Enabled</b>: Adds oscillating angular velocity for dynamic
+                effects.
               </li>
               <li>
-                <b>Speed</b>: Define how fast the oscillation occurs.
+                <b>Speed</b>: Controls the frequency of oscillation.
               </li>
               <li>
-                <b>Amplitude</b>: Control the intensity of oscillation in
-                degrees.
+                <b>Amplitude</b>: Sets the oscillation intensity in degrees.
               </li>
             </ul>
           </li>
@@ -73,32 +81,57 @@ const AngularVelocityDescription = () => {
             <b>Radius Reduction</b>:
             <ul>
               <li>
-                <b>Linear</b>: Reduce radius smoothly over the particle’s
-                lifecycle.
+                <b>Linear</b>: Reduces the radius linearly over the particle’s
+                lifetime.
               </li>
               <li>
-                <b>Exponential</b>: Create a sharper radius reduction with a
-                non-linear approach.
+                <b>Exponential</b>: Creates a sharper reduction in radius using
+                non-linear scaling.
               </li>
             </ul>
           </li>
           <li>
-            <b>Dynamic Radius</b>: Enable real-time changes to the radius for
-            complex effects.
+            <b>Dynamic Radius</b>: Allows real-time radius changes during the
+            particle&apos;s lifetime for effects like breathing or pulsing
+            motion.
           </li>
         </ul>
-        <span>
-          The Angular Velocity Behaviour is a versatile tool for designing
-          particles with rotational dynamics, offering rich customization to
-          suit a variety of creative and interactive applications.
-        </span>
+        <h4>Advanced Features:</h4>
+        <ul>
+          <li>
+            <b>Oscillation</b>: Perfect for creating wavy or undulating
+            rotational patterns.
+          </li>
+          <li>
+            <b>Dynamic Radius</b>: Adds organic motion by varying radius in real
+            time.
+          </li>
+          <li>
+            <b>Exponential Radius Reduction</b>: Achieve sharper shrinking
+            effects compared to linear scaling.
+          </li>
+        </ul>
+        <h4>Use Cases:</h4>
+        <ul>
+          <li>
+            Simulating orbiting particles like celestial objects or satellites.
+          </li>
+          <li>
+            Creating twisting or swirling effects for magical or fluid-like
+            visuals.
+          </li>
+          <li>
+            Designing dynamic particle patterns for interactive art or games.
+          </li>
+        </ul>
+        <h4>Live Examples:</h4>
         <span>
           <a href="/?effect=twist" target="_blank">
-            Example
+            Example: Twist Effect
           </a>
           <br />
           <a href="/?effect=angularVelocity" target="_blank">
-            Angular Velocity
+            Example: Angular Velocity
           </a>
         </span>
       </span>

@@ -16,54 +16,68 @@ const TimelineDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
-        <span>
-          <b>Timeline Behaviour</b> feature enables precise control over the
-          evolution of particles&apos; properties throughout their lifecycle. By
-          defining a timeline of keyframes, users can create smooth transitions
-          and animations for particle attributes such as size, color, and
-          rotation.
-        </span>
-        Key Properties:
+      <div className="explanation" ref={contentRef}>
+        <p>
+          <b>Timeline Behaviour</b> provides advanced control over the evolution
+          of particles&apos; properties throughout their lifecycle. By defining
+          a series of keyframes, users can orchestrate complex animations and
+          transitions for properties like size, color, and rotation.
+        </p>
+
+        <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Enabled</b>: Toggle the behavior on or off.
+            <b>Enabled</b>: Toggles the behavior on or off.
           </li>
           <li>
-            <b>Priority</b>: Set execution order if multiple behaviors are
-            applied.
+            <b>Priority</b>: Determines the order in which this behavior is
+            executed relative to others.
           </li>
           <li>
-            <b>Time control</b>: Time from range 0-1.
+            <b>Timeline</b>: Define keyframes that specify particle properties
+            at different points in their lifecycle (time range: 0–1).
           </li>
           <li>
-            <b>Size Evolution</b>: Gradually increase or decrease particle size
-            across keyframes.
+            <b>Size Evolution</b>: Adjust particle size dynamically across
+            keyframes for gradual growth or shrinkage.
           </li>
           <li>
-            <b>Color Animation</b>: Change particles’ color, including
-            transparency (alpha), over time.
+            <b>Color Animation</b>: Modify particle color (including alpha
+            transparency) over time to create fading or blending effects.
           </li>
           <li>
-            <b>Rotation Control</b>: Apply rotation changes in degrees for
-            spinning or orientation effects.
+            <b>Rotation Control</b>: Apply rotational changes in degrees for
+            spinning or directional effects.
           </li>
           <li>
-            <b>Smooth Interpolation</b>: Ensures all transitions are fluid using
-            linear interpolation.
+            <b>Smooth Transitions</b>: Ensures seamless animations using linear
+            interpolation between keyframes.
           </li>
         </ul>
-        <span>
-          The Timeline Behaviour is ideal for users who need precise control
-          over particle animations and lifecycle events, offering a flexible and
-          intuitive way to create complex visual effects.
-        </span>
+
+        <h4>How It Works:</h4>
+        <p>
+          The behavior calculates a particle&apos;s current lifecycle progress
+          and applies the properties defined in the closest surrounding
+          keyframes. If the particle&apos;s lifecycle falls between two
+          keyframes, the properties are interpolated to create a smooth
+          transition.
+        </p>
+
+        <h4>Use Cases:</h4>
+        <ul>
+          <li>Create gradual size and color changes for particles.</li>
+          <li>Design spinning particles with precise rotational controls.</li>
+          <li>Orchestrate complex animations for lifelike visual effects.</li>
+        </ul>
+
+        <h4>Live Examples:</h4>
         <span>
           <a href="/?effect=timeline" target="_blank">
-            Example
+            Timeline Animation
           </a>
         </span>
-      </span>
+      </div>
     </>
   );
 };

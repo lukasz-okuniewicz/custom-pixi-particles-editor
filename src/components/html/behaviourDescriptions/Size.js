@@ -16,117 +16,117 @@ const SizeDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
-        <span>
-          <b>Size Behaviour</b> in a particle system controls how the size of
-          particles evolves during their lifetime, providing options for dynamic
-          and realistic scaling effects.
-        </span>
-        <br />
+      <div className="explanation" ref={contentRef}>
+        <p>
+          <b>Size Behaviour</b> in a particle system controls how particle sizes
+          evolve during their lifecycle, providing options for dynamic,
+          realistic, and visually engaging effects.
+        </p>
+
         <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Enabled</b>: Toggles the size behavior on or off.
+            <b>Enabled</b>: Toggles the behavior on or off.
           </li>
           <li>
-            <b>Priority</b>: Determines the order in which this behavior is
-            applied relative to others.
+            <b>Priority</b>: Determines the execution order relative to other
+            behaviors.
           </li>
           <li>
-            <b>Size Start and Variance</b>: Specifies the initial size of
-            particles, with optional randomness for variation.
+            <b>Size Start and Variance</b>: Defines the initial size of
+            particles and adds optional randomness for variety.
           </li>
           <li>
             <b>Size End and Variance</b>: Sets the target size for particles at
-            the end of their lifetime, with additional randomness for variation.
+            the end of their lifecycle, with additional randomness for
+            variation.
           </li>
           <li>
-            <b>Max Size</b>: Limits the maximum size a particle can reach,
-            preventing overly large particles.
+            <b>Max Size</b>: Limits the maximum size particles can achieve.
           </li>
           <li>
             <b>Uniform Scaling</b>: Ensures particles maintain their aspect
-            ratio while scaling (e.g., circles remain circular).
+            ratio while scaling.
           </li>
         </ul>
-        <br />
+
         <h4>Advanced Features:</h4>
         <ul>
           <li>
-            <b>Pulsation</b>: Adds a pulsing effect to the particle size,
-            simulating breathing or throbbing objects. This is controlled by:
+            <b>Pulsation</b>: Simulates a breathing or throbbing effect with:
             <ul>
               <li>
-                <b>Pulsation Speed</b>: The speed of the pulsation cycle.
+                <b>Pulsation Speed</b>: Determines how fast the pulsation
+                occurs.
               </li>
               <li>
-                <b>Pulsation Amplitude</b>: The intensity of size fluctuations.
+                <b>Pulsation Amplitude</b>: Controls the intensity of pulsation.
               </li>
             </ul>
           </li>
           <li>
-            <b>Easing Functions</b>: Controls the rate of size change over time
-            for both the x- and y-axes, allowing for smooth or dynamic
-            transitions. Options include:
+            <b>Easing Functions</b>: Controls scaling transitions for both x-
+            and y-axes:
             <ul>
               <li>
-                <b>Linear</b>: Uniform scaling from start to end.
+                <b>Linear</b>: Uniform scaling throughout the lifecycle.
               </li>
               <li>
-                <b>Ease In</b>: Slower growth at the start, accelerating over
-                time.
+                <b>Ease In</b>: Gradual start, accelerating over time.
               </li>
               <li>
-                <b>Ease Out</b>: Faster growth initially, slowing near the end.
+                <b>Ease Out</b>: Fast at the start, slowing down near the end.
               </li>
               <li>
-                <b>Ease In-Out</b>: Combines ease-in and ease-out for smooth
+                <b>Ease In-Out</b>: Combines gradual start and end for smooth
                 transitions.
               </li>
             </ul>
           </li>
           <li>
-            <b>Noise Modulation</b>: Uses a pseudo-random noise function to
-            dynamically adjust size for chaotic or natural-looking effects.
-            Controlled by:
+            <b>Noise Modulation</b>: Introduces pseudo-random noise for dynamic
+            or natural size variations:
             <ul>
               <li>
-                <b>Noise Scale</b>: Adjusts the intensity and scale of the noise
-                effect.
+                <b>Noise Scale</b>: Adjusts the intensity of the noise effect.
               </li>
             </ul>
           </li>
           <li>
-            <b>Invert at Midpoint</b>: Flips the size transition halfway through
-            the particle&apos;s life, creating unique shrinking and expanding
-            effects.
+            <b>Invert at Midpoint</b>: Flips size transitions halfway through
+            the particle&apos;s life, creating shrinking and growing effects.
           </li>
           <li>
-            <b>Multi-Step Transitions</b>: Allows particles to follow a defined
-            sequence of size points throughout their life.
+            <b>Multi-Step Transitions</b>: Enables particles to follow a
+            sequence of predefined size points during their lifecycle.
           </li>
           <li>
             <b>Time Offset</b>: Delays or advances the scaling process for
-            particles.
+            particles, creating staggered effects.
           </li>
           <li>
-            <b>Size-Alpha Dependency</b>: Links particle size to their alpha
-            (transparency) for synchronized fading and scaling effects.
+            <b>Size-Alpha Dependency</b>: Links particle size to transparency,
+            enabling synchronized scaling and fading effects.
           </li>
         </ul>
-        <br />
+
         <h4>Use Cases:</h4>
         <ul>
-          <li>Particles that grow or shrink over their lifetime.</li>
-          <li>Dynamic pulsating particles for magical or energy effects.</li>
-          <li>Controlled size changes with easing for smoother animations.</li>
+          <li>Particles that grow or shrink dynamically over time.</li>
           <li>
-            Unique transitions like shrinking halfway or following custom
-            size-step patterns.
+            Pulsating particles for effects like magical spells, energy bursts,
+            or breathing orbs.
           </li>
-          <li>Realistic effects with size linked to transparency.</li>
+          <li>Realistic animations with easing for smooth transitions.</li>
+          <li>
+            Unique transitions such as shrinking halfway or following a custom
+            size-step pattern.
+          </li>
+          <li>
+            Integrating size changes with alpha for fading or glowing effects.
+          </li>
         </ul>
-      </span>
+      </div>
     </>
   );
 };

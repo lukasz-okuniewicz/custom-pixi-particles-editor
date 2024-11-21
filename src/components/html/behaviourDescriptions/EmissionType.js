@@ -21,7 +21,7 @@ const EmissionTypeDescription = () => {
           <b>Emission type properties</b> in a particle system control how
           particles are emitted over time. There are three types:
         </span>
-        Key Properties:
+        <h4>Key Properties:</h4>
         <ul>
           <li>
             <b>Uniform Emission</b>: Particles are emitted at a consistent rate.

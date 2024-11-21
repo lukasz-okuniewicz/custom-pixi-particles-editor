@@ -9,6 +9,7 @@ import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import InputString from "@components/html/InputString";
 import ColorPicker from "@components/html/ColorPicker";
+import GeneralDescription from "@components/html/behaviourDescriptions/General";
 
 const GeneralProperties = ({
   defaultConfig,
@@ -191,6 +192,7 @@ const GeneralProperties = ({
       {/* General Properties Section */}
       <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
       <div className={`${isSubmenuVisible}`}>
+        <GeneralDescription />
         {/* Follow Mouse Toggle */}
         {defaultConfig.particlePredefinedEffect !== "coffeeShop" && (
           <>

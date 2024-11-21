@@ -34,6 +34,12 @@ legend {
   border-bottom-color: rgb(55, 60, 62);
 }
 
+h4 {
+  padding-top: 10px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
 legend:hover {
   color: #00ffe9;
 }
@@ -252,7 +258,7 @@ h1 {
 
 .showContent {
   cursor: pointer;
-  color: #03805e;
+  color: #2fff00;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -291,8 +297,12 @@ li {
 
 b {
   color: #72c0b9;
+  padding-right: 2px;
 }
 
 a {
   color: #2fff00;
+}
+a:hover {
+  color: #00ffb9;
 }

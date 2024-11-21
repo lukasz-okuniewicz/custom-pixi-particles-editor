@@ -4,7 +4,10 @@ import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import SoundReactiveDescription from "@components/html/behaviourDescriptions/SoundReactive";
 import { Loader as PixiLoader } from "pixi.js-legacy";
-import { playMusic } from "@utils/audio";
+import { playMusic, updateContext } from "@utils/audio";
+import ColorPicker from "@components/html/ColorPicker";
+
+let lastParticlePredefinedEffect = null;
 
 export default function SoundReactiveProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -25,12 +28,20 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   const keysToInitialize = {
     enabled: false,
     priority: 0,
+    isPlaying: false,
+    useColor: true,
+    useSize: true,
+    useVelocity: true,
+    useRotation: true,
+    useRandomColor: true,
+    beatColor: { _r: 255, _g: 0, _b: 0, _alpha: 1 },
     audioContext: null,
     analyser: null,
     frequencyData: null,
     amplitudeFactor: 1,
     frequencyFactor: 1,
     beatSensitivity: 1,
+    rotationFactor: 0.05,
     name: "SoundReactiveBehaviour",
   };
   Object.keys(keysToInitialize).forEach((key) => {
@@ -59,6 +70,14 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   };
 
   useEffect(() => {
+    if (
+      lastParticlePredefinedEffect &&
+      defaultConfig.particlePredefinedEffect !== lastParticlePredefinedEffect
+    ) {
+      updateContext({ defaultConfig, behaviour, index });
+    }
+    lastParticlePredefinedEffect = defaultConfig.particlePredefinedEffect;
+
     if (isPlaying) {
       if (defaultConfig.particlePredefinedEffect === "reactiveSound") {
         const spawnBehaviour = getConfigByName("SpawnBehaviour", defaultConfig);
@@ -98,7 +117,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
 
         <Checkbox
           label="Enabled"
-          id="angular-enabled"
+          id="enabled"
           onChange={(value) => {
             behaviour.enabled = value;
             updateBehaviours();
@@ -107,7 +126,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
         />
         <InputNumber
           label="Priority"
-          id="color-priority"
+          id="priority"
           value={behaviour.priority ?? keysToInitialize.priority}
           step="10"
           min="0"
@@ -117,16 +136,68 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
-        <InputNumber
-          label="Amplitude Factor"
-          id="amplitudeFactor"
-          value={behaviour.amplitudeFactor ?? keysToInitialize.amplitudeFactor}
-          step="0.1"
+        <Checkbox
+          label="Use Color"
+          id="useColor"
           onChange={(value) => {
-            behaviour.amplitudeFactor = value;
+            behaviour.useColor = value;
             updateBehaviours();
           }}
+          checked={behaviour.useColor ?? keysToInitialize.useColor}
         />
+        <Checkbox
+          label="Use Size"
+          id="useSize"
+          onChange={(value) => {
+            behaviour.useSize = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useSize ?? keysToInitialize.useSize}
+        />
+        <Checkbox
+          label="Use Velocity"
+          id="useVelocity"
+          onChange={(value) => {
+            behaviour.useVelocity = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useVelocity ?? keysToInitialize.useVelocity}
+        />
+        <Checkbox
+          label="Use Rotation"
+          id="useRotation"
+          onChange={(value) => {
+            behaviour.useRotation = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useRotation ?? keysToInitialize.useRotation}
+        />
+        <Checkbox
+          label="Use Random Color"
+          id="useRandomColor"
+          onChange={(value) => {
+            behaviour.useRandomColor = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useRandomColor ?? keysToInitialize.useRandomColor}
+        />
+        {behaviour.useSize && (
+          <>
+            <InputNumber
+              label="Amplitude Factor"
+              id="amplitudeFactor"
+              value={
+                behaviour.amplitudeFactor ?? keysToInitialize.amplitudeFactor
+              }
+              step="0.1"
+              onChange={(value) => {
+                behaviour.amplitudeFactor = value;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
+
         <InputNumber
           label="Frequency Factor"
           id="frequencyFactor"
@@ -147,6 +218,45 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
+        {behaviour.useRotation && (
+          <>
+            <InputNumber
+              label="Rotation Factor"
+              id="rotationFactor"
+              value={
+                behaviour.rotationFactor ?? keysToInitialize.rotationFactor
+              }
+              step="0.01"
+              onChange={(value) => {
+                behaviour.rotationFactor = value;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
+
+        {!behaviour.useRandomColor && (
+          <>
+            <ColorPicker
+              label="Beat Color"
+              color={{
+                r: behaviour.beatColor._r ?? keysToInitialize.beatColor._r,
+                g: behaviour.beatColor._g ?? keysToInitialize.beatColor._g,
+                b: behaviour.beatColor._b ?? keysToInitialize.beatColor._b,
+                a:
+                  behaviour.beatColor._alpha ??
+                  keysToInitialize.beatColor.alpha,
+              }}
+              colorChanged={(color) => {
+                behaviour.beatColor._r = color.rgb.r;
+                behaviour.beatColor._g = color.rgb.g;
+                behaviour.beatColor._b = color.rgb.b;
+                behaviour.beatColor._alpha = color.rgb.a;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
       </div>
     </>
   );

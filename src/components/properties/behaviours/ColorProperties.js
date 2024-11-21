@@ -17,7 +17,7 @@ export default function ColorProperties({ defaultConfig, index }) {
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
   const keysToInitialize = {
-    enabled: true,
+    enabled: false,
     priority: 0,
     start: { _r: 0, _g: 255, _b: 255, _alpha: 1 },
     end: { _r: 255, _g: 0, _b: 0, _alpha: 1 },

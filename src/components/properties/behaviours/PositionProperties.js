@@ -18,7 +18,6 @@ export default function PositionProperties({ defaultConfig, index }) {
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
   const keysToInitialize = {
     priority: 100,
-    enabled: true,
     spawnType: "Rectangle",
     radius: 200,
     warp: false,
@@ -565,15 +564,6 @@ export default function PositionProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Position Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <PositionDescription />
-        <Checkbox
-          label="Enabled"
-          id="position-enabled"
-          onChange={(value) => {
-            behaviour.enabled = value;
-            updateBehaviours();
-          }}
-          checked={behaviour.enabled ?? keysToInitialize.enabled}
-        />
         <InputNumber
           label="Priority"
           id="position-priority"

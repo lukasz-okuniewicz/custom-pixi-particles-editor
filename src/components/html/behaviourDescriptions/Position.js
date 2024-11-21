@@ -16,58 +16,102 @@ const PositionDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
-        <span>
-          <b>Position Behaviour</b> provides a powerful framework for
-          controlling particle movement through velocity, acceleration,
-          sinusoidal motion, and advanced warp effects. It allows particles to
-          traverse between points, follow sinusoidal paths, or simulate
-          depth-based warp effects for dynamic and visually rich animations.
-        </span>
-        Key Properties:
+      <div className="explanation" ref={contentRef}>
+        <p>
+          <b>Position Behaviour</b> enables precise control over particle
+          movement, offering a wide range of motion patterns such as velocity
+          and acceleration-based movement, sinusoidal motion, and point-to-point
+          traversal. It also supports advanced effects like depth-based warp for
+          realistic animations.
+        </p>
+
+        <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Enabled</b>: Toggle the behavior on or off.
+            <b>Priority:</b> Define the execution order when multiple behaviors
+            are applied.
           </li>
           <li>
-            <b>Priority</b>: Set execution order if multiple behaviors are
-            applied.
-          </li>
-          <li>
-            <b>Warp Settings</b>: Control warp speed, FOV, stretch, and distance
-            scaling.
-          </li>
-          <li>
-            <b>Motion Settings</b>: Configure velocity, acceleration, and their
-            variances.
-          </li>
-          <li>
-            <b>Sinusoidal Motion</b>: Enable and configure sinusoidal movement
-            along the X and/or Y axes.
-          </li>
-          <li>
-            <b>Point-to-Point Motion:</b>:
+            <b>Warp Motion:</b>
             <ul>
               <li>
-                <b>Point A & B</b>: Define the start and end points.
+                Configure warp effects with speed, field of view (FOV), and
+                stretch.
               </li>
               <li>
-                <b>Durations & Amplitudes</b>: Set durations and amplitudes for
-                the &quot;there&quot; and &quot;back&quot; motions.
+                Simulate depth with distance scaling and center-based warps.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <b>Velocity and Acceleration:</b>
+            <ul>
+              <li>Set linear motion parameters with adjustable variances.</li>
+              <li>Add dynamic motion effects through acceleration settings.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Sinusoidal Motion:</b>
+            <ul>
+              <li>Enable oscillation along X and/or Y axes.</li>
+              <li>Customize oscillation amplitude and frequency.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Point-to-Point Motion:</b>
+            <ul>
+              <li>Define start and end points (A to B).</li>
+              <li>
+                Support bidirectional traversal with configurable durations and
+                amplitudes.
               </li>
               <li>
-                <b>Easing Curves</b>: Choose custom easing functions for smooth
+                Apply custom easing curves (e.g., bounce, elastic) for smooth
                 transitions.
               </li>
             </ul>
           </li>
         </ul>
-        <span>
-          The Position Behaviour is ideal for users seeking comprehensive
-          control over particle motion, offering versatile features to create
-          intricate and dynamic animations with ease.
-        </span>
-      </span>
+
+        <h4>How It Works:</h4>
+        <p>
+          Particles are initialized with position, velocity, and optional warp
+          or sinusoidal settings. During each frame, the position is updated
+          based on velocity, acceleration, and any applied effects. For
+          point-to-point motion, particles interpolate between defined points
+          using easing curves, enabling smooth and natural transitions.
+        </p>
+
+        <h4>Use Cases:</h4>
+        <ul>
+          <li>Simulating warp effects in space or depth-based animations.</li>
+          <li>
+            Creating oscillating motion for particles like waves or fluttering
+            objects.
+          </li>
+          <li>Defining trajectories for particles in structured systems.</li>
+          <li>Animating particles traveling back and forth between points.</li>
+        </ul>
+
+        <h4>Live Examples:</h4>
+        <ul>
+          <li>
+            <a href="/?effect=warpTrail" target="_blank">
+              Warp Trail Effect
+            </a>
+          </li>
+          <li>
+            <a href="/?effect=sinusoidalMotion" target="_blank">
+              Sinusoidal Motion
+            </a>
+          </li>
+          <li>
+            <a href="/?effect=pointToPoint" target="_blank">
+              Point-to-Point Animation
+            </a>
+          </li>
+        </ul>
+      </div>
     </>
   );
 };

@@ -18,79 +18,101 @@ const GroupingDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Grouping Behaviour</b> is designed to manage and organize particles
-          within a defined area, allowing them to interact dynamically through
-          attraction, repulsion, and orbital movement. This behavior provides a
-          cohesive and visually appealing particle group effect, with
-          customizable parameters for creative flexibility.
+          <b>Grouping Behaviour</b> organizes particles into dynamic groups that
+          interact with each other and external forces. This behaviour enables
+          creating cohesive particle formations with customizable attraction,
+          repulsion, and orbital dynamics.
         </span>
-        Key Properties:
+        <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Enabled</b>: Toggle the behavior on or off.
+            <b>Enabled</b>: Turns the grouping behaviour on or off.
           </li>
           <li>
-            <b>Priority</b>: Set execution order if multiple behaviors are
-            applied.
+            <b>Priority</b>: Defines the order in which the behaviour is applied
+            relative to others.
           </li>
           <li>
-            <b>Group Center</b>: Defines the central point of attraction for
-            particles.
+            <b>Group Center</b>: The central point where particles are attracted
+            or interact around.
           </li>
           <li>
-            <b>Group Radius</b>: Sets the interaction boundary for the group.
+            <b>Group Radius</b>: Specifies the maximum interaction boundary for
+            the particle group.
           </li>
           <li>
-            <b>Attraction Strength</b>: Controls how strongly particles are
-            pulled toward the center or cluster points.
+            <b>Attraction Strength</b>: Determines the force pulling particles
+            toward the group center or additional cluster points.
           </li>
           <li>
-            <b>Repulsion Strength</b>: Adjusts the force that keeps particles
-            spaced apart.
+            <b>Repulsion Strength</b>: Adds a repelling force to keep particles
+            spaced apart, avoiding overcrowding.
           </li>
           <li>
             <b>Orbit Speed</b>: Adds rotational movement to particles within the
-            group.
+            group for orbiting effects.
           </li>
           <li>
-            <b>Randomness</b>: Introduces variations in particle paths for
-            organic movement.
+            <b>Randomness</b>: Introduces random variations in particle motion
+            for more organic, natural movement.
           </li>
           <li>
-            <b>Boundary Enforcement</b>: Restricts particles from moving outside
-            the group radius.
+            <b>Boundary Enforcement</b>: Restricts particles to stay within the
+            defined group radius.
           </li>
           <li>
-            <b>Dynamic Radius Speed</b>: Controls the speed of radius changes
-            for expanding or contracting effects.
+            <b>Dynamic Radius Speed</b>: Enables radius expansion or contraction
+            over time, creating breathing or pulsating effects.
           </li>
           <li>
-            <b>Cluster Points</b>: Allows additional attraction points for
-            complex group dynamics.
+            <b>Cluster Points</b>: Allows additional attraction points within
+            the group for complex dynamic formations.
           </li>
         </ul>
-        <span>
-          This feature is ideal for users who want to create organized yet
-          dynamic particle groups, with rich customization options for a wide
-          range of applications.
-        </span>
-        <span>
-          <a href="/?effect=dynamicOrbitWithRepulsion" target="_blank">
-            Dynamic Orbit With Repulsion
-          </a>
-          <br />
-          <a href="/?effect=expandingAndCollapsingSwarm" target="_blank">
-            Expanding And Collapsing Swarm
-          </a>
-          <br />
-          <a href="/?effect=orbitingCluster" target="_blank">
-            Orbiting Cluster
-          </a>
-          <br />
-          <a href="/?effect=multiClusterSwarm" target="_blank">
-            Multi Cluster Swarm
-          </a>
-        </span>
+        <h4>Advanced Features:</h4>
+        <ul>
+          <li>
+            <b>Dynamic Radius Adjustment</b>: The group radius can expand and
+            contract smoothly, adding a pulsating group effect.
+          </li>
+          <li>
+            <b>Multiple Cluster Points</b>: Particles can be attracted to
+            several points simultaneously, enabling intricate motion dynamics.
+          </li>
+          <li>
+            <b>Orbiting Particles</b>: Particles can rotate around the group
+            center or cluster points at customizable speeds.
+          </li>
+        </ul>
+        <br />
+        <p>
+          With these settings, you can create particle systems ranging from
+          stable clusters to dynamic, expanding, and collapsing swarms.
+        </p>
+        <h4>Live Examples:</h4>
+        <p>Explore these examples to see the behaviour in action:</p>
+        <ul>
+          <li>
+            <a href="/?effect=dynamicOrbitWithRepulsion" target="_blank">
+              Dynamic Orbit With Repulsion
+            </a>
+          </li>
+          <li>
+            <a href="/?effect=expandingAndCollapsingSwarm" target="_blank">
+              Expanding And Collapsing Swarm
+            </a>
+          </li>
+          <li>
+            <a href="/?effect=orbitingCluster" target="_blank">
+              Orbiting Cluster
+            </a>
+          </li>
+          <li>
+            <a href="/?effect=multiClusterSwarm" target="_blank">
+              Multi Cluster Swarm
+            </a>
+          </li>
+        </ul>
       </span>
     </>
   );

@@ -18,53 +18,86 @@ const ForceFieldsDescription = () => {
       </div>
       <span className="explanation" ref={contentRef}>
         <span>
-          <b>Force Fields Behaviour</b>: feature allows particles to interact
-          with region-based forces such as wind, gravity, and turbulence. This
-          behavior provides highly customizable and dynamic movement patterns by
-          simulating environmental effects, enabling users to create immersive
-          and realistic particle systems.
+          <b>Force Fields Behaviour</b> enables particles to respond to
+          region-based forces like wind, gravity, and turbulence. These
+          simulated environmental effects add depth, motion dynamics, and
+          realism to particle systems, allowing for creative and complex
+          animations.
         </span>
-        Key Properties:
+        <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Enabled</b>: Toggle the behavior on or off.
+            <b>Enabled</b>: Activates or deactivates the force field behavior.
           </li>
           <li>
-            <b>Priority</b>: Set execution order if multiple behaviors are
-            applied.
+            <b>Priority</b>: Determines the order in which this behavior
+            executes relative to others.
           </li>
           <li>
-            <b>Fields</b>: Define an array of force fields with the following
-            properties:
+            <b>Fields</b>: Defines an array of force fields, each with specific
+            attributes:
             <ul>
               <li>
-                <b>Position</b>: The center of the force field.
+                <b>Position</b>: Sets the central point of the force field.
               </li>
               <li>
-                <b>Radius</b>: The area of influence for the field.
+                <b>Radius</b>: Defines the field&apos;s area of influence.
+                Particles outside this radius are unaffected.
               </li>
               <li>
-                <b>Strength</b>: The intensity of the force applied.
+                <b>Strength</b>: Determines how strongly the force affects
+                nearby particles.
               </li>
               <li>
-                <b>Type</b>: The type of force (wind, gravity, turbulence).
+                <b>Type</b>: Specifies the type of force:
+                <ul>
+                  <li>
+                    <b>Wind</b>: Applies a directional force to particles.
+                  </li>
+                  <li>
+                    <b>Gravity</b>: Pulls particles toward the field&apos;s
+                    center.
+                  </li>
+                  <li>
+                    <b>Turbulence</b>: Adds random motion for chaotic effects.
+                  </li>
+                </ul>
               </li>
               <li>
-                <b>Direction</b>: Specify the direction for wind forces.
+                <b>Direction</b>: (For wind fields) Sets the direction of the
+                wind force using x and y vectors.
               </li>
             </ul>
           </li>
         </ul>
-        <span>
-          The Force Fields Behaviour is ideal for users who want to add
-          environmental interactions to their particle systems, creating
-          lifelike and immersive animations with minimal effort.
-        </span>
-        <span>
-          <a href="/?effect=forceFields" target="_blank">
-            Example
-          </a>
-        </span>
+        <h4>Practical Applications:</h4>
+        <ul>
+          <li>
+            <b>Wind Simulation</b>: Use directional wind fields to push
+            particles along a specified path, simulating breezy or stormy
+            environments.
+          </li>
+          <li>
+            <b>Gravity Wells</b>: Create fields that attract particles to a
+            central point, mimicking black holes or magnetic forces.
+          </li>
+          <li>
+            <b>Dynamic Turbulence</b>: Add random chaotic motion to particles
+            for effects like smoke, fire, or swirling debris.
+          </li>
+        </ul>
+        <h4>Advanced Features:</h4>
+        <ul>
+          <li>
+            <b>Combining Forces</b>: Overlay multiple fields for complex
+            interactions, such as wind pushing particles into a gravity well.
+          </li>
+          <li>
+            <b>Distance-Based Influence</b>: Particles closer to the
+            field&apos;s center experience stronger effects, providing smooth
+            transitions.
+          </li>
+        </ul>
       </span>
     </>
   );

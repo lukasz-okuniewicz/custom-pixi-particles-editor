@@ -82,3 +82,16 @@ export const playMusic = ({
 
   return nextIndex;
 };
+
+export const updateContext = ({ behaviour, defaultConfig, index }) => {
+  behaviour.audioContext = audioContext;
+  behaviour.analyser = analyser;
+  behaviour.frequencyData = frequencyData;
+  behaviour.isPlaying = true;
+  // defaultConfig.emitterConfig.behaviours[index] = behaviour;
+
+  updateProps(
+    "emitterConfig.behaviours",
+    defaultConfig.emitterConfig.behaviours,
+  );
+};
