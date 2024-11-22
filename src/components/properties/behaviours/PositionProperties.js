@@ -109,7 +109,6 @@ export default function PositionProperties({ defaultConfig, index }) {
   };
 
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return <></>;
-  console.log(behaviour);
   const renderSinX = () => {
     return (
       <>

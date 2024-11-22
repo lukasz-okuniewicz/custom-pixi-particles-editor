@@ -111,7 +111,6 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
   };
 
   const updateType = (index, updatedValue) => {
-    console.log(updatedValue);
     behaviour.fields[index].type = updatedValue;
     updateBehaviours();
   };
