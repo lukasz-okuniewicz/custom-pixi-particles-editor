@@ -80,10 +80,7 @@ export const updateBehaviour = (name, key, props, config) => {
 
 export const getBehaviourByIndex = (index, name, config) => {
   if (index === -1) {
-    console.warn(
-      `Behaviour with name "${name}" not found. Creating new behaviour.`,
-    );
-    return pixiRefs.particles.emitter.createBehaviourProps(name);
+    return;
   }
 
   if (config.behaviours) {
@@ -101,6 +98,12 @@ export const getBehaviourByIndex = (index, name, config) => {
   }
 
   return config.emitterConfig.behaviours[index];
+};
+
+export const getBehaviourByName = (name, config) => {
+  if (!name || !Array.isArray(config?.emitterConfig?.behaviours)) return;
+
+  return config.emitterConfig.behaviours.find((b) => b.name === name);
 };
 
 export const updateBehaviourByIndex = (index, behaviour, config) => {

@@ -18,102 +18,115 @@ const SpawnDescription = () => {
       </div>
       <div className="explanation" ref={contentRef}>
         <p>
-          <b>Spawn Behaviour</b> provides a powerful and flexible framework for
-          creating and initializing particles in diverse patterns and shapes. It
-          supports dynamic configurations, allowing developers to craft visually
-          stunning particle systems for interactive and immersive experiences.
+          <b>Spawn Behaviour</b> is a comprehensive framework for creating
+          dynamic and interactive particle systems. It allows developers to
+          generate particles in diverse patterns with fine-tuned control over
+          position, density, movement, and visual effects.
         </p>
 
         <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Customizable Spawn Types:</b> Choose from multiple predefined
-            spawning patterns, including:
+            <b>Versatile Spawn Types:</b> Supports various spawning methods,
+            including:
             <ul>
               <li>
-                <b>Rectangle:</b> Uniform distribution within a rectangle.
+                <b>Rectangle:</b> Particles distributed uniformly in a
+                rectangular area.
               </li>
               <li>
-                <b>Ring:</b> Circular arrangement of particles.
+                <b>Ring:</b> Circular patterns with adjustable radii.
               </li>
               <li>
-                <b>Star:</b> Particles arranged in a star pattern.
+                <b>Star:</b> Configurable star-shaped distributions.
               </li>
               <li>
-                <b>Grid:</b> Organized particle grids.
+                <b>Grid:</b> Organized grids of particles with adjustable rows
+                and columns.
               </li>
               <li>
-                <b>Word:</b> Align particles to form text-based patterns.
+                <b>Word:</b> Particles aligned to form text shapes.
               </li>
               <li>
-                <b>Spherical:</b> 3D sphere-shaped spawning.
+                <b>Spherical:</b> 3D sphere-shaped spawning with depth control.
               </li>
               <li>
-                <b>Cone:</b> Conical particle distribution.
+                <b>Cone:</b> Conical particle distributions with customizable
+                angles.
               </li>
               <li>
-                <b>Frame:</b> Particles along the edges of a shape.
+                <b>Frame:</b> Particles along the edges of rectangular or
+                circular frames.
+              </li>
+              <li>
+                <b>Bezier:</b> Particles moving along Bezier curves.
+              </li>
+              <li>
+                <b>Helix:</b> Spiral helix particle patterns.
+              </li>
+              <li>
+                <b>Heart:</b> Particles forming a heart-shaped curve.
+              </li>
+              <li>
+                <b>Lissajous:</b> Mathematical figure-eight-like paths.
               </li>
             </ul>
           </li>
           <li>
-            <b>Dynamic Positioning:</b> Customize initial positions and apply
-            variances for natural randomness in effects.
+            <b>Perspective Effects:</b> Simulates 3D visuals by scaling
+            particles based on depth, adding realism with opacity and size
+            adjustments.
           </li>
           <li>
-            <b>Perspective Scaling:</b> Simulate 3D effects by scaling particle
-            size and opacity based on depth (z-coordinate).
-          </li>
-          <li>
-            <b>Shape Parameters:</b> Fine-tune geometric attributes, such as:
+            <b>Shape Parameters:</b> Configure shapes with options such as:
             <ul>
               <li>
-                <b>Radius:</b> Size of circular patterns.
+                <b>Radius:</b> Define circle and sphere sizes.
               </li>
               <li>
-                <b>Star Points:</b> Define the number of points in a star.
+                <b>Star Points:</b> Customize the number of points in a star.
               </li>
               <li>
-                <b>Rows & Columns:</b> Dimensions for grid-based layouts.
+                <b>Cone Angle:</b> Adjust spread for conical patterns.
               </li>
               <li>
-                <b>Cone Angle:</b> Spread angle for cone distributions.
+                <b>Grid Rows/Columns:</b> Set grid dimensions for organized
+                layouts.
               </li>
             </ul>
           </li>
           <li>
-            <b>Text Configurations:</b> Tailor text-based particle patterns
-            with:
+            <b>Text-Based Spawning:</b> Generate particles aligned with text:
             <ul>
               <li>
-                <b>Word:</b> Specify the text to render.
+                <b>Word:</b> Specify the text to render as particle shapes.
               </li>
               <li>
-                <b>Font Size:</b> Adjust text size for particles.
+                <b>Font Size:</b> Adjust text size for clarity.
               </li>
               <li>
-                <b>Font Spacing:</b> Define spacing between particles in text.
+                <b>Font Spacing:</b> Control spacing between particles in text.
               </li>
               <li>
-                <b>Text Alignment:</b> Control alignment (e.g., left, center,
-                right).
+                <b>Text Alignment:</b> Manage horizontal and vertical alignment.
               </li>
             </ul>
+          </li>
+          <li>
+            <b>Advanced Movement Patterns:</b> Includes support for paths like
+            Bezier curves, figure-eight motions, and spiral helixes.
           </li>
         </ul>
 
-        <h4>Practical Applications:</h4>
+        <h4>Applications:</h4>
         <ul>
-          <li>Craft dynamic text-based animations using particles.</li>
-          <li>Generate stunning visual effects like stars, rings, or grids.</li>
-          <li>Simulate 3D visuals with depth and perspective scaling.</li>
-          <li>
-            Create interactive animations with precise control over positioning
-            and density.
-          </li>
+          <li>Craft visually engaging animations for text or shapes.</li>
+          <li>Create 3D-like particle systems with realistic depth effects.</li>
+          <li>Generate interactive particle effects for UI or games.</li>
+          <li>Simulate complex motion paths with ease.</li>
         </ul>
 
-        <h4>Examples:</h4>
+        <h4>Live Examples:</h4>
         <span>
           <a href="/?effect=allSpawnsInOneEmitter" target="_blank">
             All Spawn Types in One Emitter

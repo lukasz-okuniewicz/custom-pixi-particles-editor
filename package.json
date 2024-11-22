@@ -7,13 +7,13 @@
   "description": "custom pixi particles editor",
   "version": "3.3.0",
   "scripts": {
-    "dev": "next dev",
+    "dev": "rimraf .next && next dev",
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "custom-pixi-particles": "^4.12.0",
+    "custom-pixi-particles": "^4.13.0",
     "file-saver": "^2.0.5",
     "gsap": "^3.12.5",
     "mitt": "^3.0.1",
@@ -21,7 +21,8 @@
     "pixi.js-legacy": "^6.5.10",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-color": "^2.19.3",
-    "react-dom": "19.0.0-rc-66855b96-20241106"
+    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "rimraf": "^6.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

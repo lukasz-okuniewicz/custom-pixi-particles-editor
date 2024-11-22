@@ -98,51 +98,69 @@ export default function Content() {
       "SpawnBehaviour",
       downloadableObj,
     );
-    if (behaviour.spawnType && behaviour.spawnType !== "Word") {
-      delete behaviour.word;
-      delete behaviour.fontSize;
-      delete behaviour.fontSpacing;
-      delete behaviour.particleDensity;
-      delete behaviour.fontMaxWidth;
-      delete behaviour.fontMaxHeight;
-      delete behaviour.textAlign;
-      delete behaviour.textBaseline;
-    }
-    if (
-      (behaviour.spawnType && behaviour.spawnType === "Word") ||
-      behaviour.spawnType === "Rectangle" ||
-      behaviour.spawnType === "Cone" ||
-      behaviour.spawnType === "Grid" ||
-      behaviour.spawnType === "FrameRectangle"
-    ) {
-      delete behaviour.radius;
-    }
-    if (behaviour.spawnType && behaviour.spawnType !== "FrameRectangle") {
-      delete behaviour.radiusX;
-      delete behaviour.radiusY;
-    }
-    if (behaviour.spawnType && behaviour.spawnType !== "Cone") {
-      delete behaviour.baseRadius;
-      delete behaviour.coneAngle;
-      delete behaviour.coneDirection;
-      delete behaviour.height;
-      delete behaviour.apex;
-    }
-    if (behaviour.spawnType && behaviour.spawnType !== "Grid") {
-      delete behaviour.rows;
-      delete behaviour.columns;
-      delete behaviour.cellSize;
-    }
-    if (behaviour.spawnType && behaviour.spawnType !== "Sphere") {
-      delete behaviour.spread;
-      delete behaviour.center;
-    }
-    if (behaviour.spawnType && behaviour.spawnType !== "Star") {
-      delete behaviour.starPoints;
-    }
-    if (!behaviour.perspective && !behaviour.maxZ) {
-      delete behaviour.perspective;
-      delete behaviour.maxZ;
+
+    if (behaviour && behaviour.customPoints && behaviour.customPoints.length) {
+      behaviour.customPoints.forEach((customPoint) => {
+        if (customPoint.spawnType && customPoint.spawnType !== "Word") {
+          delete customPoint.word;
+          delete customPoint.fontSize;
+          delete customPoint.fontSpacing;
+          delete customPoint.particleDensity;
+          delete customPoint.fontMaxWidth;
+          delete customPoint.fontMaxHeight;
+          delete customPoint.textAlign;
+          delete customPoint.textBaseline;
+        }
+        if (customPoint.spawnType && customPoint.spawnType !== "Bezier") {
+          delete customPoint.control1;
+          delete customPoint.control2;
+          delete customPoint.start;
+          delete customPoint.end;
+        }
+        if (customPoint.spawnType && customPoint.spawnType !== "Lissajous") {
+          delete customPoint.frequency;
+          delete customPoint.delta;
+        }
+        if (
+          (customPoint.spawnType && customPoint.spawnType === "Word") ||
+          customPoint.spawnType === "Rectangle" ||
+          customPoint.spawnType === "Cone" ||
+          customPoint.spawnType === "Grid" ||
+          customPoint.spawnType === "FrameRectangle"
+        ) {
+          delete customPoint.radius;
+        }
+        if (
+          customPoint.spawnType &&
+          customPoint.spawnType !== "FrameRectangle"
+        ) {
+          delete customPoint.radiusX;
+          delete customPoint.radiusY;
+        }
+        if (customPoint.spawnType && customPoint.spawnType !== "Cone") {
+          delete customPoint.baseRadius;
+          delete customPoint.coneAngle;
+          delete customPoint.coneDirection;
+          delete customPoint.height;
+          delete customPoint.apex;
+        }
+        if (customPoint.spawnType && customPoint.spawnType !== "Grid") {
+          delete customPoint.rows;
+          delete customPoint.columns;
+          delete customPoint.cellSize;
+        }
+        if (customPoint.spawnType && customPoint.spawnType !== "Sphere") {
+          delete customPoint.spread;
+          delete customPoint.center;
+        }
+        if (customPoint.spawnType && customPoint.spawnType !== "Star") {
+          delete customPoint.starPoints;
+        }
+        if (!customPoint.perspective && !customPoint.maxZ) {
+          delete customPoint.perspective;
+          delete customPoint.maxZ;
+        }
+      });
     }
 
     downloadableObj.behaviours[behaviourIndex] = behaviour;
@@ -176,7 +194,7 @@ export default function Content() {
       downloadableObj,
     );
 
-    if (behaviour.timeline && behaviour.timeline.length === 0) {
+    if (behaviour && behaviour.timeline && behaviour.timeline.length === 0) {
       delete downloadableObj.behaviours[behaviourIndex];
     }
   };
@@ -192,47 +210,49 @@ export default function Content() {
       downloadableObj,
     );
 
-    if (!behaviour.pulsate) {
-      delete behaviour.pulsate;
-      delete behaviour.pulsationSpeed;
-      delete behaviour.pulsationAmplitude;
-    }
-    if (!behaviour.useNoise) {
-      delete behaviour.useNoise;
-      delete behaviour.noiseScale;
-    }
-    if (!behaviour.uniformScaling) {
-      delete behaviour.uniformScaling;
-    }
-    if (!behaviour.invertAtMidpoint) {
-      delete behaviour.invertAtMidpoint;
-    }
-    if (!behaviour.timeOffset) {
-      delete behaviour.timeOffset;
-    }
-    if (!behaviour.sizeAlphaDependency) {
-      delete behaviour.sizeAlphaDependency;
-    }
-    if (behaviour.sizeSteps && behaviour.sizeSteps.length === 0) {
-      delete behaviour.sizeSteps;
-    }
-    if (behaviour.sizeSteps && behaviour.sizeSteps.length) {
-      delete behaviour.sizeAlphaDependency;
-      delete behaviour.timeOffset;
-      delete behaviour.invertAtMidpoint;
-      delete behaviour.uniformScaling;
-      delete behaviour.noiseScale;
-      delete behaviour.pulsate;
-      delete behaviour.pulsationSpeed;
-      delete behaviour.pulsationAmplitude;
-      delete behaviour.sizeStart;
-      delete behaviour.sizeEnd;
-      delete behaviour.startVariance;
-      delete behaviour.endVariance;
-      delete behaviour.maxSize;
-      delete behaviour.useNoise;
-      delete behaviour.xScalingFunction;
-      delete behaviour.yScalingFunction;
+    if (behaviour) {
+      if (!behaviour.pulsate) {
+        delete behaviour.pulsate;
+        delete behaviour.pulsationSpeed;
+        delete behaviour.pulsationAmplitude;
+      }
+      if (!behaviour.useNoise) {
+        delete behaviour.useNoise;
+        delete behaviour.noiseScale;
+      }
+      if (!behaviour.uniformScaling) {
+        delete behaviour.uniformScaling;
+      }
+      if (!behaviour.invertAtMidpoint) {
+        delete behaviour.invertAtMidpoint;
+      }
+      if (!behaviour.timeOffset) {
+        delete behaviour.timeOffset;
+      }
+      if (!behaviour.sizeAlphaDependency) {
+        delete behaviour.sizeAlphaDependency;
+      }
+      if (behaviour.sizeSteps && behaviour.sizeSteps.length === 0) {
+        delete behaviour.sizeSteps;
+      }
+      if (behaviour.sizeSteps && behaviour.sizeSteps.length) {
+        delete behaviour.sizeAlphaDependency;
+        delete behaviour.timeOffset;
+        delete behaviour.invertAtMidpoint;
+        delete behaviour.uniformScaling;
+        delete behaviour.noiseScale;
+        delete behaviour.pulsate;
+        delete behaviour.pulsationSpeed;
+        delete behaviour.pulsationAmplitude;
+        delete behaviour.sizeStart;
+        delete behaviour.sizeEnd;
+        delete behaviour.startVariance;
+        delete behaviour.endVariance;
+        delete behaviour.maxSize;
+        delete behaviour.useNoise;
+        delete behaviour.xScalingFunction;
+        delete behaviour.yScalingFunction;
+      }
     }
 
     downloadableObj.behaviours[behaviourIndex] = behaviour;
@@ -249,18 +269,20 @@ export default function Content() {
       downloadableObj,
     );
 
-    if (!behaviour.oscillate) {
-      delete behaviour.oscillate;
-      delete behaviour.oscillationSpeed;
-      delete behaviour.oscillationAmplitude;
-    }
-    if (!behaviour.useNoise) {
-      delete behaviour.useNoise;
-      delete behaviour.noiseScale;
-      delete behaviour.acceleration;
-    }
-    if (!behaviour.clockwise) {
-      delete behaviour.clockwise;
+    if (behaviour) {
+      if (!behaviour.oscillate) {
+        delete behaviour.oscillate;
+        delete behaviour.oscillationSpeed;
+        delete behaviour.oscillationAmplitude;
+      }
+      if (!behaviour.useNoise) {
+        delete behaviour.useNoise;
+        delete behaviour.noiseScale;
+        delete behaviour.acceleration;
+      }
+      if (!behaviour.clockwise) {
+        delete behaviour.clockwise;
+      }
     }
 
     downloadableObj.behaviours[behaviourIndex] = behaviour;
@@ -277,7 +299,11 @@ export default function Content() {
       downloadableObj,
     );
 
-    if (behaviour.influencePoints && behaviour.influencePoints.length === 0) {
+    if (
+      behaviour &&
+      behaviour.influencePoints &&
+      behaviour.influencePoints.length === 0
+    ) {
       delete downloadableObj.behaviours[behaviourIndex];
     }
   };
@@ -293,30 +319,32 @@ export default function Content() {
       downloadableObj,
     );
 
-    if (behaviour.lines && behaviour.lines.length === 0) {
-      delete downloadableObj.behaviours[behaviourIndex];
-    } else {
-      delete behaviour.showLines;
+    if (behaviour) {
+      if (behaviour.lines && behaviour.lines.length === 0) {
+        delete downloadableObj.behaviours[behaviourIndex];
+      } else {
+        delete behaviour.showLines;
 
-      if (!behaviour.skipPositionBehaviourOnCollision) {
-        delete behaviour.skipPositionBehaviourOnCollision;
+        if (!behaviour.skipPositionBehaviourOnCollision) {
+          delete behaviour.skipPositionBehaviourOnCollision;
+        }
+        if (!behaviour.skipAngularVelocityBehaviourOnCollision) {
+          delete behaviour.skipAngularVelocityBehaviourOnCollision;
+        }
+        if (!behaviour.skipColorBehaviourOnCollision) {
+          delete behaviour.skipColorBehaviourOnCollision;
+        }
+        if (!behaviour.skipEmitDirectionBehaviourOnCollision) {
+          delete behaviour.skipEmitDirectionBehaviourOnCollision;
+        }
+        if (!behaviour.skipRotationBehaviourOnCollision) {
+          delete behaviour.skipRotationBehaviourOnCollision;
+        }
+        if (!behaviour.skipSizeBehaviourOnCollision) {
+          delete behaviour.skipSizeBehaviourOnCollision;
+        }
+        downloadableObj.behaviours[behaviourIndex] = behaviour;
       }
-      if (!behaviour.skipAngularVelocityBehaviourOnCollision) {
-        delete behaviour.skipAngularVelocityBehaviourOnCollision;
-      }
-      if (!behaviour.skipColorBehaviourOnCollision) {
-        delete behaviour.skipColorBehaviourOnCollision;
-      }
-      if (!behaviour.skipEmitDirectionBehaviourOnCollision) {
-        delete behaviour.skipEmitDirectionBehaviourOnCollision;
-      }
-      if (!behaviour.skipRotationBehaviourOnCollision) {
-        delete behaviour.skipRotationBehaviourOnCollision;
-      }
-      if (!behaviour.skipSizeBehaviourOnCollision) {
-        delete behaviour.skipSizeBehaviourOnCollision;
-      }
-      downloadableObj.behaviours[behaviourIndex] = behaviour;
     }
   };
 
@@ -331,7 +359,7 @@ export default function Content() {
       downloadableObj,
     );
 
-    if (behaviour.fields && behaviour.fields.length === 0) {
+    if (behaviour && behaviour.fields && behaviour.fields.length === 0) {
       delete downloadableObj.behaviours[behaviourIndex];
     }
   };
@@ -347,46 +375,48 @@ export default function Content() {
       downloadableObj,
     );
 
-    if (behaviour.colorStops && behaviour.colorStops.length === 0) {
-      delete behaviour.colorStops;
+    if (behaviour) {
+      if (behaviour.colorStops && behaviour.colorStops.length === 0) {
+        delete behaviour.colorStops;
 
-      if (!behaviour.sinus) {
+        if (!behaviour.sinus) {
+          delete behaviour.sinus;
+        }
+        if (!behaviour.usePerlin) {
+          delete behaviour.usePerlin;
+        }
+        if (!behaviour.mirrorTransition) {
+          delete behaviour.mirrorTransition;
+        }
+        if (!behaviour.fadeToGray) {
+          delete behaviour.fadeToGray;
+        }
+        if (!behaviour.fadeToTransparent) {
+          delete behaviour.fadeToTransparent;
+        }
+        if (!behaviour.flickerIntensity) {
+          delete behaviour.flickerIntensity;
+        }
+        if (!behaviour.pulseIntensity) {
+          delete behaviour.pulseIntensity;
+        }
+        if (!behaviour.pulseSpeed) {
+          delete behaviour.pulseSpeed;
+        }
+      } else {
+        delete behaviour.start;
+        delete behaviour.end;
+        delete behaviour.startVariance;
+        delete behaviour.endVariance;
         delete behaviour.sinus;
-      }
-      if (!behaviour.usePerlin) {
         delete behaviour.usePerlin;
-      }
-      if (!behaviour.mirrorTransition) {
         delete behaviour.mirrorTransition;
-      }
-      if (!behaviour.fadeToGray) {
         delete behaviour.fadeToGray;
-      }
-      if (!behaviour.fadeToTransparent) {
         delete behaviour.fadeToTransparent;
-      }
-      if (!behaviour.flickerIntensity) {
         delete behaviour.flickerIntensity;
-      }
-      if (!behaviour.pulseIntensity) {
         delete behaviour.pulseIntensity;
-      }
-      if (!behaviour.pulseSpeed) {
         delete behaviour.pulseSpeed;
       }
-    } else {
-      delete behaviour.start;
-      delete behaviour.end;
-      delete behaviour.startVariance;
-      delete behaviour.endVariance;
-      delete behaviour.sinus;
-      delete behaviour.usePerlin;
-      delete behaviour.mirrorTransition;
-      delete behaviour.fadeToGray;
-      delete behaviour.fadeToTransparent;
-      delete behaviour.flickerIntensity;
-      delete behaviour.pulseIntensity;
-      delete behaviour.pulseSpeed;
     }
 
     downloadableObj.behaviours[behaviourIndex] = behaviour;
@@ -403,16 +433,18 @@ export default function Content() {
       downloadableObj,
     );
 
-    if (!behaviour.oscillate) {
-      delete behaviour.oscillate;
-      delete behaviour.oscillationSpeed;
-      delete behaviour.oscillationAmplitude;
-    }
-    if (!behaviour.linearRadiusReduction) {
-      delete behaviour.linearRadiusReduction;
-    }
-    if (!behaviour.dynamicRadius) {
-      delete behaviour.dynamicRadius;
+    if (behaviour) {
+      if (!behaviour.oscillate) {
+        delete behaviour.oscillate;
+        delete behaviour.oscillationSpeed;
+        delete behaviour.oscillationAmplitude;
+      }
+      if (!behaviour.linearRadiusReduction) {
+        delete behaviour.linearRadiusReduction;
+      }
+      if (!behaviour.dynamicRadius) {
+        delete behaviour.dynamicRadius;
+      }
     }
 
     downloadableObj.behaviours[behaviourIndex] = behaviour;
@@ -429,17 +461,19 @@ export default function Content() {
       downloadableObj,
     );
 
-    if (!behaviour.oscillate) {
-      delete behaviour.oscillate;
-      delete behaviour.oscillationSpeed;
-      delete behaviour.oscillationAmplitude;
-    }
-    if (!behaviour.useNoise) {
-      delete behaviour.useNoise;
-      delete behaviour.noiseScale;
-    }
-    if (!behaviour.velocityScaling) {
-      delete behaviour.velocityScaling;
+    if (behaviour) {
+      if (!behaviour.oscillate) {
+        delete behaviour.oscillate;
+        delete behaviour.oscillationSpeed;
+        delete behaviour.oscillationAmplitude;
+      }
+      if (!behaviour.useNoise) {
+        delete behaviour.useNoise;
+        delete behaviour.noiseScale;
+      }
+      if (!behaviour.velocityScaling) {
+        delete behaviour.velocityScaling;
+      }
     }
 
     downloadableObj.behaviours[behaviourIndex] = behaviour;

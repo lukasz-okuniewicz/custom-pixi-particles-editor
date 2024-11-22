@@ -60,6 +60,14 @@ export default function SpawnProperties({ defaultConfig, index }) {
         positionVariance: { x: 0, y: 0 },
         perspective: 0, // Distance for perspective
         maxZ: 0, // Maximum z distance for effects
+        frequency: { x: 3, y: 2 },
+        start: { x: 10, y: 10 },
+        end: { x: 20, y: 20 },
+        control1: { x: 0, y: 0 },
+        control2: { x: 0, y: 0 },
+        delta: 1,
+        pitch: 50,
+        turns: 5,
       },
     ],
     name: "PositionBehaviour",
@@ -77,6 +85,10 @@ export default function SpawnProperties({ defaultConfig, index }) {
       Sphere: true,
       Cone: true,
       Grid: true,
+      Lissajous: true,
+      Bezier: true,
+      Heart: true,
+      Helix: true,
     };
     return Object.keys(names)
       .sort()
@@ -303,6 +315,10 @@ export default function SpawnProperties({ defaultConfig, index }) {
 
               {(customPoint.spawnType === "Star" ||
                 customPoint.spawnType === "Sphere" ||
+                customPoint.spawnType === "Helix" ||
+                customPoint.spawnType === "Spiral" ||
+                customPoint.spawnType === "Heart" ||
+                customPoint.spawnType === "Lissajous" ||
                 customPoint.spawnType === "Ring") && (
                 <InputNumber
                   label="Radius"
@@ -333,31 +349,163 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   }}
                 />
               )}
-              {customPoint.spawnType === "FrameRectangle" && (
+              {customPoint.spawnType === "Lissajous" && (
                 <>
                   <InputNumber
-                    label="Width"
-                    id="radiusx"
-                    value={
-                      customPoint.radiusX ??
-                      keysToInitialize.customPoints[0].radiusX
-                    }
+                    label="Frequency"
+                    id="frequency"
+                    params={["x", "y"]}
+                    value={[
+                      customPoint.frequency.x ??
+                        keysToInitialize.customPoints[0].frequency.x,
+                      customPoint.frequency.y ??
+                        keysToInitialize.customPoints[0].frequency.y,
+                    ]}
                     step="1"
-                    onChange={(value) => {
-                      customPoint.radiusX = value;
+                    onChange={(value, id) => {
+                      customPoint.frequency[id] = value;
                       updateBehaviours();
                     }}
                   />
                   <InputNumber
-                    label="Height"
-                    id="radiusy"
+                    label="Delta"
+                    id="delta"
                     value={
-                      customPoint.radiusY ??
-                      keysToInitialize.customPoints[0].radiusY
+                      customPoint.delta ??
+                      keysToInitialize.customPoints[0].delta
                     }
                     step="1"
                     onChange={(value) => {
-                      customPoint.radiusY = value;
+                      customPoint.delta = value;
+                      updateBehaviours();
+                    }}
+                  />
+                </>
+              )}
+              {customPoint.spawnType === "Bezier" && (
+                <>
+                  <InputNumber
+                    label="Start"
+                    id="start"
+                    params={["x", "y"]}
+                    value={[
+                      customPoint.start.x ??
+                        keysToInitialize.customPoints[0].start.x,
+                      customPoint.start.y ??
+                        keysToInitialize.customPoints[0].start.y,
+                    ]}
+                    step="1"
+                    onChange={(value, id) => {
+                      customPoint.start[id] = value;
+                      updateBehaviours();
+                    }}
+                  />
+                  <InputNumber
+                    label="End"
+                    id="end"
+                    params={["x", "y"]}
+                    value={[
+                      customPoint.end.x ??
+                        keysToInitialize.customPoints[0].end.x,
+                      customPoint.end.y ??
+                        keysToInitialize.customPoints[0].end.y,
+                    ]}
+                    step="1"
+                    onChange={(value, id) => {
+                      customPoint.end[id] = value;
+                      updateBehaviours();
+                    }}
+                  />
+                  <InputNumber
+                    label="Control 1"
+                    id="control1"
+                    params={["x", "y"]}
+                    value={[
+                      customPoint.control1.x ??
+                        keysToInitialize.customPoints[0].control1.x,
+                      customPoint.control1.y ??
+                        keysToInitialize.customPoints[0].control1.y,
+                    ]}
+                    step="1"
+                    onChange={(value, id) => {
+                      customPoint.control1[id] = value;
+                      updateBehaviours();
+                    }}
+                  />
+                  <InputNumber
+                    label="Control 2"
+                    id="control2"
+                    params={["x", "y"]}
+                    value={[
+                      customPoint.control2.x ??
+                        keysToInitialize.customPoints[0].control2.x,
+                      customPoint.control2.y ??
+                        keysToInitialize.customPoints[0].control2.y,
+                    ]}
+                    step="1"
+                    onChange={(value, id) => {
+                      customPoint.control2[id] = value;
+                      updateBehaviours();
+                    }}
+                  />
+                </>
+              )}
+              {customPoint.spawnType === "FrameRectangle" && (
+                <InputNumber
+                  label="Width"
+                  id="radiusx"
+                  value={
+                    customPoint.radiusX ??
+                    keysToInitialize.customPoints[0].radiusX
+                  }
+                  step="1"
+                  onChange={(value) => {
+                    customPoint.radiusX = value;
+                    updateBehaviours();
+                  }}
+                />
+              )}
+              {(customPoint.spawnType === "FrameRectangle" ||
+                customPoint.spawnType === "Helix") && (
+                <InputNumber
+                  label="Height"
+                  id="radiusy"
+                  value={
+                    customPoint.radiusY ??
+                    keysToInitialize.customPoints[0].radiusY
+                  }
+                  step="1"
+                  onChange={(value) => {
+                    customPoint.radiusY = value;
+                    updateBehaviours();
+                  }}
+                />
+              )}
+              {customPoint.spawnType === "Helix" && (
+                <>
+                  <InputNumber
+                    label="Pitch"
+                    id="pitch"
+                    value={
+                      customPoint.pitch ??
+                      keysToInitialize.customPoints[0].pitch
+                    }
+                    step="1"
+                    onChange={(value) => {
+                      customPoint.pitch = value;
+                      updateBehaviours();
+                    }}
+                  />
+                  <InputNumber
+                    label="Turns"
+                    id="turns"
+                    value={
+                      customPoint.turns ??
+                      keysToInitialize.customPoints[0].turns
+                    }
+                    step="1"
+                    onChange={(value) => {
+                      customPoint.turns = value;
                       updateBehaviours();
                     }}
                   />

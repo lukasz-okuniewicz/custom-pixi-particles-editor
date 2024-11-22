@@ -16,7 +16,14 @@ export default class Loader {
       loader.add("office2", "backgrounds/office2.png");
       loader.add("house", "backgrounds/house.jpg");
       loader.add("earth", "backgrounds/earth.jpg");
-      loader.add("music_base13", "audio/music_base13.mp3");
+      loader.add("mainTheme", "audio/mainTheme.mp3");
+      loader.add("instrumentalPiano", "audio/instrumentalPiano.mp3");
+      loader.add("elDestino", "audio/elDestino.mp3");
+      loader.add("honorAndSwords", "audio/honorAndSwords.mp3");
+      loader.add("jingleBells", "audio/jingleBells.mp3");
+      loader.add("relaxingInstrumental", "audio/relaxingInstrumental.mp3");
+      loader.add("relaxingMusic", "audio/relaxingMusic.mp3");
+      loader.add("instrumentalMusic", "audio/instrumentalMusic.mp3");
       loader.load();
       loader.onComplete.once(() => resolve(true));
     });

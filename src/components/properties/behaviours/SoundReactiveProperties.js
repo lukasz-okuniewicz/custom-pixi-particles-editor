@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { getConfigByName, mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
@@ -6,14 +6,16 @@ import SoundReactiveDescription from "@components/html/behaviourDescriptions/Sou
 import { Loader as PixiLoader } from "pixi.js-legacy";
 import { playMusic, updateContext } from "@utils/audio";
 import ColorPicker from "@components/html/ColorPicker";
+import Select from "@components/html/Select";
 
 let lastParticlePredefinedEffect = null;
 
 export default function SoundReactiveProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+  const [predefinedMusic, setPredefinedMusic] = useState("mainTheme");
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const audioSources = [PixiLoader.shared.resources.music_base13.data];
+  const audioSources = [PixiLoader.shared.resources.mainTheme.data];
 
   const saveLastPlayedIndex = (index) => {
     localStorage.setItem("lastPlayedAudioIndex", index);
@@ -45,6 +47,25 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     name: "SoundReactiveBehaviour",
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
+
+  const predefinedType = useMemo(() => {
+    const names = {
+      mainTheme: "Main Theme",
+      instrumentalPiano: "Instrumental Piano",
+      elDestino: "El Destino",
+      honorAndSwords: "Honor And Swords",
+      jingleBells: "Jingle Bells",
+      relaxingInstrumental: "Relaxing Instrumental",
+      relaxingMusic: "Relaxing Music",
+      instrumentalMusic: "Instrumental Music",
+    };
+    return Object.keys(names)
+      .sort()
+      .map((key) => ({
+        key: key,
+        displayName: names[key],
+      }));
+  }, []);
 
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {
@@ -132,6 +153,22 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
             behaviour.priority = value;
             updateBehaviours();
           }}
+        />
+        <Select
+          label="Sample"
+          defaultValue={predefinedMusic}
+          onChange={(value) => {
+            setIsPlaying(true);
+            const nextIndex = playMusic({
+              audioSources: [],
+              behaviour,
+              defaultConfig,
+              index,
+              mainSource: PixiLoader.shared.resources[value].data,
+            });
+            setPredefinedMusic(value);
+          }}
+          elements={predefinedType}
         />
         <hr />
         <Checkbox

@@ -17,6 +17,7 @@ export const playMusic = ({
   behaviour,
   defaultConfig,
   index,
+  mainSource,
 }) => {
   const lastPlayedIndex = getLastPlayedIndex();
   const nextIndex = (lastPlayedIndex + 1) % audioSources.length;
@@ -36,7 +37,12 @@ export const playMusic = ({
     }
   }
 
-  let currentAudio = audioSources[nextIndex];
+  let currentAudio;
+  if (mainSource) {
+    currentAudio = mainSource;
+  } else {
+    currentAudio = audioSources[nextIndex];
+  }
 
   // Clone the audio element to reset its connection state
   currentAudio = currentAudio.cloneNode(true);

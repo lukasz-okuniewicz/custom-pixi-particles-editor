@@ -1,5 +1,6 @@
 import { gsap, Linear } from "gsap";
 import pixiRefs from "@pixi/pixiRefs";
+import { getBehaviourByName } from "@utils";
 
 let tween = null;
 
@@ -22,19 +23,19 @@ export const animateTween = (defaultConfig, fullConfig) => {
 };
 
 export const animateWarp = ({ defaultConfig }) => {
-  defaultConfig.emitterConfig.behaviours[3].warpSpeed = 0.001;
+  const behaviour = getBehaviourByName("PositionBehaviour", defaultConfig);
+
+  behaviour.warpSpeed = 0.001;
   pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
   const obj = {
-    warpSpeed: defaultConfig.emitterConfig.behaviours[3].warpSpeed,
+    warpSpeed: behaviour.warpSpeed,
   };
   tween = gsap.to(obj, 4, {
-    warpSpeed: defaultConfig.emitterConfig.behaviours[3].warpSpeed * 20,
+    warpSpeed: behaviour.warpSpeed * 20,
     delay: 4,
     repeat: 0,
     onUpdate: () => {
-      defaultConfig.emitterConfig.behaviours[3].warpSpeed = parseFloat(
-        obj.warpSpeed,
-      );
+      behaviour.warpSpeed = parseFloat(obj.warpSpeed);
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
     onComplete: () => animateWarpStop({ defaultConfig }),
@@ -42,18 +43,18 @@ export const animateWarp = ({ defaultConfig }) => {
 };
 
 const animateWarpStop = ({ defaultConfig }) => {
+  const behaviour = getBehaviourByName("PositionBehaviour", defaultConfig);
+
   killTween();
   const obj = {
-    warpSpeed: defaultConfig.emitterConfig.behaviours[2].warpSpeed,
+    warpSpeed: behaviour.warpSpeed,
   };
   tween = gsap.to(obj, 2, {
     warpSpeed: 0.001,
     delay: 2,
     repeat: 0,
     onUpdate: () => {
-      defaultConfig.emitterConfig.behaviours[2].warpSpeed = parseFloat(
-        obj.warpSpeed,
-      );
+      behaviour.warpSpeed = parseFloat(obj.warpSpeed);
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
     onComplete: () => animateWarp({ defaultConfig }),
@@ -66,7 +67,10 @@ export const killTween = () => {
 };
 
 const animateFlyingFire = (defaultConfig, fullConfig, speed) => {
-  tween = gsap.to(defaultConfig.emitterConfig.behaviours[1].position, speed, {
+  const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
+    .customPoints[0];
+
+  tween = gsap.to(behaviour.position, speed, {
     x: -300,
     y: 300,
     ease: Linear.easeNone,
@@ -74,57 +78,46 @@ const animateFlyingFire = (defaultConfig, fullConfig, speed) => {
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
     onComplete: () => {
-      tween = gsap.to(
-        defaultConfig.emitterConfig.behaviours[1].position,
-        speed,
-        {
-          x: 300,
-          y: 300,
-          ease: Linear.easeNone,
-          onUpdate: () => {
-            pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
-          },
-          onComplete: () => {
-            tween = gsap.to(
-              defaultConfig.emitterConfig.behaviours[1].position,
-              speed,
-              {
-                x: 300,
+      tween = gsap.to(behaviour.position, speed, {
+        x: 300,
+        y: 300,
+        ease: Linear.easeNone,
+        onUpdate: () => {
+          pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
+        },
+        onComplete: () => {
+          tween = gsap.to(behaviour.position, speed, {
+            x: 300,
+            y: -300,
+            ease: Linear.easeNone,
+            onUpdate: () => {
+              pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
+            },
+            onComplete: () => {
+              tween = gsap.to(behaviour.position, speed, {
+                x: -300,
                 y: -300,
                 ease: Linear.easeNone,
                 onUpdate: () => {
                   pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
                 },
                 onComplete: () => {
-                  tween = gsap.to(
-                    defaultConfig.emitterConfig.behaviours[1].position,
-                    speed,
-                    {
-                      x: -300,
-                      y: -300,
-                      ease: Linear.easeNone,
-                      onUpdate: () => {
-                        pixiRefs.particles.updateConfig(
-                          defaultConfig.emitterConfig,
-                        );
-                      },
-                      onComplete: () => {
-                        animateTween(defaultConfig, fullConfig);
-                      },
-                    },
-                  );
+                  animateTween(defaultConfig, fullConfig);
                 },
-              },
-            );
-          },
+              });
+            },
+          });
         },
-      );
+      });
     },
   });
 };
 
 const animateFlyingFountain = (defaultConfig, fullConfig, speed) => {
-  tween = gsap.to(defaultConfig.emitterConfig.behaviours[1].position, speed, {
+  const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
+    .customPoints[0];
+
+  tween = gsap.to(behaviour.position, speed, {
     x: -300,
     y: 300,
     ease: Linear.easeNone,
@@ -132,57 +125,46 @@ const animateFlyingFountain = (defaultConfig, fullConfig, speed) => {
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
     onComplete: () => {
-      tween = gsap.to(
-        defaultConfig.emitterConfig.behaviours[1].position,
-        speed,
-        {
-          x: 300,
-          y: 300,
-          ease: Linear.easeNone,
-          onUpdate: () => {
-            pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
-          },
-          onComplete: () => {
-            tween = gsap.to(
-              defaultConfig.emitterConfig.behaviours[1].position,
-              speed,
-              {
-                x: 300,
+      tween = gsap.to(behaviour.position, speed, {
+        x: 300,
+        y: 300,
+        ease: Linear.easeNone,
+        onUpdate: () => {
+          pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
+        },
+        onComplete: () => {
+          tween = gsap.to(behaviour.position, speed, {
+            x: 300,
+            y: -300,
+            ease: Linear.easeNone,
+            onUpdate: () => {
+              pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
+            },
+            onComplete: () => {
+              tween = gsap.to(behaviour.position, speed, {
+                x: -300,
                 y: -300,
                 ease: Linear.easeNone,
                 onUpdate: () => {
                   pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
                 },
                 onComplete: () => {
-                  tween = gsap.to(
-                    defaultConfig.emitterConfig.behaviours[1].position,
-                    speed,
-                    {
-                      x: -300,
-                      y: -300,
-                      ease: Linear.easeNone,
-                      onUpdate: () => {
-                        pixiRefs.particles.updateConfig(
-                          defaultConfig.emitterConfig,
-                        );
-                      },
-                      onComplete: () => {
-                        animateTween(defaultConfig, fullConfig);
-                      },
-                    },
-                  );
+                  animateTween(defaultConfig, fullConfig);
                 },
-              },
-            );
-          },
+              });
+            },
+          });
         },
-      );
+      });
     },
   });
 };
 
 const animateFlyingBubbles = (defaultConfig, fullConfig, speed) => {
-  tween = gsap.to(defaultConfig.emitterConfig.behaviours[1].position, speed, {
+  const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
+    .customPoints[0];
+
+  tween = gsap.to(behaviour.position, speed, {
     x: -300,
     y: 300,
     ease: Linear.easeNone,
@@ -190,57 +172,46 @@ const animateFlyingBubbles = (defaultConfig, fullConfig, speed) => {
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
     onComplete: () => {
-      tween = gsap.to(
-        defaultConfig.emitterConfig.behaviours[1].position,
-        speed,
-        {
-          x: 300,
-          y: 300,
-          ease: Linear.easeNone,
-          onUpdate: () => {
-            pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
-          },
-          onComplete: () => {
-            tween = gsap.to(
-              defaultConfig.emitterConfig.behaviours[1].position,
-              speed,
-              {
-                x: 300,
+      tween = gsap.to(behaviour.position, speed, {
+        x: 300,
+        y: 300,
+        ease: Linear.easeNone,
+        onUpdate: () => {
+          pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
+        },
+        onComplete: () => {
+          tween = gsap.to(behaviour.position, speed, {
+            x: 300,
+            y: -300,
+            ease: Linear.easeNone,
+            onUpdate: () => {
+              pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
+            },
+            onComplete: () => {
+              tween = gsap.to(behaviour.position, speed, {
+                x: -300,
                 y: -300,
                 ease: Linear.easeNone,
                 onUpdate: () => {
                   pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
                 },
                 onComplete: () => {
-                  tween = gsap.to(
-                    defaultConfig.emitterConfig.behaviours[1].position,
-                    speed,
-                    {
-                      x: -300,
-                      y: -300,
-                      ease: Linear.easeNone,
-                      onUpdate: () => {
-                        pixiRefs.particles.updateConfig(
-                          defaultConfig.emitterConfig,
-                        );
-                      },
-                      onComplete: () => {
-                        animateTween(defaultConfig, fullConfig);
-                      },
-                    },
-                  );
+                  animateTween(defaultConfig, fullConfig);
                 },
-              },
-            );
-          },
+              });
+            },
+          });
         },
-      );
+      });
     },
   });
 };
 
 const animateMeteor = (defaultConfig, fullConfig) => {
-  tween = gsap.to(defaultConfig.emitterConfig.behaviours[0].position, 1, {
+  const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
+    .customPoints[0];
+
+  tween = gsap.to(behaviour.position, 1, {
     x: -200,
     y: 200,
     ease: Linear.easeNone,
@@ -301,6 +272,8 @@ const animateHelloWord = async (defaultConfig) => {
 
   // Helper function for tween animations
   const animateVelocityVariance = (x, y, duration = 2) => {
+    const behaviour = getBehaviourByName("PositionBehaviour", defaultConfig);
+
     return new Promise((resolve) => {
       const obj = { x, y };
       tween = gsap.to(obj, {
@@ -308,7 +281,7 @@ const animateHelloWord = async (defaultConfig) => {
         y,
         duration,
         onUpdate: () => {
-          defaultConfig.emitterConfig.behaviours[2].velocityVariance = {
+          behaviour.velocityVariance = {
             x: obj.x,
             y: obj.y,
           };
@@ -327,6 +300,9 @@ const animateHelloWord = async (defaultConfig) => {
   };
 
   const animate = async () => {
+    const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
+      .customPoints[0];
+
     for (const word of words) {
       await delay(1); // Delay before animation
       await animateVelocityVariance(0, 0); // Animate to zero velocity
@@ -334,7 +310,7 @@ const animateHelloWord = async (defaultConfig) => {
       await animateVelocityVariance(200, 200); // Animate to target velocity
 
       // Update the word and refresh the particles
-      defaultConfig.emitterConfig.behaviours[0].word = word;
+      behaviour.word = word;
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     }
   };
@@ -349,6 +325,9 @@ const animateHelloWord = async (defaultConfig) => {
 };
 
 const animateStarAnimations = async (defaultConfig) => {
+  const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
+    .customPoints[0];
+
   if (tween) {
     killTween();
   }
@@ -363,26 +342,27 @@ const animateStarAnimations = async (defaultConfig) => {
   // Main animation loop
   for (let i = 3; i < 20; i++) {
     await delay(2); // Delay before animation
-    defaultConfig.emitterConfig.behaviours[1].starPoints = i;
+    behaviour.starPoints = i;
     pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
   }
 };
 
 const animateCone = async (defaultConfig) => {
+  const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
+    .customPoints[0];
+
   if (tween) {
     killTween();
   }
   const obj = {
-    coneDirection: defaultConfig.emitterConfig.behaviours[1].coneDirection,
+    coneDirection: behaviour.coneDirection,
   };
   tween = gsap.to(obj, 10, {
     coneDirection: 360,
     repeat: -1,
     ease: "linear",
     onUpdate: () => {
-      defaultConfig.emitterConfig.behaviours[1].coneDirection = parseFloat(
-        obj.coneDirection,
-      );
+      behaviour.coneDirection = parseFloat(obj.coneDirection);
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
   });
