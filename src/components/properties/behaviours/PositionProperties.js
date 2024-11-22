@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { initializeProperty, updateProps } from "@utils";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import Select from "@components/html/Select";
 import InputNumber from "@components/html/InputNumber";
@@ -53,9 +53,7 @@ export default function PositionProperties({ defaultConfig, index }) {
     fromAtoBOneWay: false,
     name: "PositionBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   const predefinedThereBack = useMemo(() => {
     const names = {

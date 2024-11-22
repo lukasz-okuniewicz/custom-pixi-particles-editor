@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useCallback, useState } from "react";
-import { initializeProperty, updateProps } from "@utils";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import NoiseBasedMotionDescription from "@components/html/behaviourDescriptions/NoiseBasedMotion";
@@ -24,9 +24,7 @@ export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
     noiseDirection: { x: 1, y: 1 },
     name: "NoiseBasedMotionBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {

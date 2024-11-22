@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { initializeProperty, updateProps } from "@utils";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import AngularVelocityDescription from "@components/html/behaviourDescriptions/AngularVelocity";
@@ -31,9 +31,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
     dynamicRadius: true,
     name: "AngularVelocityBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {

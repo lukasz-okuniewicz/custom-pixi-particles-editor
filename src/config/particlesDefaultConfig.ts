@@ -4,18 +4,22 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 200,
-            y: 200,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 200,
+                y: 200,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -111,12 +115,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 100, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -192,12 +200,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 100, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -273,12 +285,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 100, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -354,12 +370,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 100, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -435,12 +455,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 100, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -516,12 +540,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 100, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -597,12 +625,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          perspective: 0,
-          maxZ: 0,
-          spawnType: "Rectangle",
-          radius: 200,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
+          customPoints: [
+            {
+              perspective: 0,
+              maxZ: 0,
+              spawnType: "Rectangle",
+              radius: 200,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 100, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -678,12 +710,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 100, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -759,18 +795,22 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 300,
-          perspective: 0,
-          maxZ: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 50,
-            y: 50,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 300,
+              perspective: 0,
+              maxZ: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 50,
+                y: 50,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -888,18 +928,22 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 70,
-          perspective: 0,
-          maxZ: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 70,
-            y: 70,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 70,
+              perspective: 0,
+              maxZ: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 70,
+                y: 70,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -978,18 +1022,22 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 70,
-          perspective: 0,
-          maxZ: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 270,
-            y: 270,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 70,
+              perspective: 0,
+              maxZ: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 270,
+                y: 270,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1068,18 +1116,22 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 10,
-          perspective: 0,
-          maxZ: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 70,
-            y: 70,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 10,
+              perspective: 0,
+              maxZ: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 70,
+                y: 70,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1157,18 +1209,22 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: {
-            x: 0,
-            y: 150,
-          },
-          positionVariance: {
-            x: 20,
-            y: 20,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: {
+                x: 0,
+                y: 150,
+              },
+              positionVariance: {
+                x: 20,
+                y: 20,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1271,18 +1327,22 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 1,
-          perspective: 0,
-          maxZ: 0,
-          position: {
-            x: 1104,
-            y: 522,
-          },
-          positionVariance: {
-            x: 5,
-            y: 0,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 1,
+              perspective: 0,
+              maxZ: 0,
+              position: {
+                x: 1104,
+                y: 522,
+              },
+              positionVariance: {
+                x: 5,
+                y: 0,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1386,18 +1446,22 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 1,
-          perspective: 0,
-          maxZ: 0,
-          position: {
-            x: 674,
-            y: 412,
-          },
-          positionVariance: {
-            x: 2,
-            y: 0,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 1,
+              perspective: 0,
+              maxZ: 0,
+              position: {
+                x: 674,
+                y: 412,
+              },
+              positionVariance: {
+                x: 2,
+                y: 0,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1501,12 +1565,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 400,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 50, y: 50 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 400,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 50, y: 50 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1564,12 +1632,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 400,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: -200, y: 0 },
-          positionVariance: { x: 350, y: 350 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 400,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: -200, y: 0 },
+              positionVariance: { x: 350, y: 350 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1627,12 +1699,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: -630, y: -270 },
-          positionVariance: { x: 50, y: 50 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: -630, y: -270 },
+              positionVariance: { x: 50, y: 50 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1691,12 +1767,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 100, y: 100 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 100, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1761,12 +1841,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 15,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 20, y: 65 },
-          positionVariance: { x: 10, y: 10 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 15,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 20, y: 65 },
+              positionVariance: { x: 10, y: 10 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1831,12 +1915,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: -500, y: -330 },
-          positionVariance: { x: 200, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: -500, y: -330 },
+              positionVariance: { x: 200, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1884,12 +1972,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: -400, y: 30 },
-          positionVariance: { x: 300, y: 100 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: -400, y: 30 },
+              positionVariance: { x: 300, y: 100 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -1962,12 +2054,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 200 },
-          positionVariance: { x: 20, y: 20 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 200 },
+              positionVariance: { x: 20, y: 20 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2037,12 +2133,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 220,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: -30 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 220,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: -30 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2135,12 +2235,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 220,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: -30 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 220,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: -30 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2233,12 +2337,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: -60, y: 110 },
-          positionVariance: { x: 60, y: 20 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: -60, y: 110 },
+              positionVariance: { x: 60, y: 20 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2315,12 +2423,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 310, y: 100 },
-          positionVariance: { x: 20, y: 10 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 310, y: 100 },
+              positionVariance: { x: 20, y: 10 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2391,12 +2503,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: -67, y: 99 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: -67, y: 99 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2471,12 +2587,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: -100, y: 100 },
-          positionVariance: { x: 60, y: 10 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: -100, y: 100 },
+              positionVariance: { x: 60, y: 10 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2533,12 +2653,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 310, y: 110 },
-          positionVariance: { x: 30, y: 10 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 310, y: 110 },
+              positionVariance: { x: 30, y: 10 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2596,12 +2720,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          perspective: 0,
-          maxZ: 0,
-          radius: 0,
-          position: { x: -60, y: 110 },
-          positionVariance: { x: 60, y: 20 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              perspective: 0,
+              maxZ: 0,
+              radius: 0,
+              position: { x: -60, y: 110 },
+              positionVariance: { x: 60, y: 20 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2701,12 +2829,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: -300, y: -300 },
-          positionVariance: { x: 20, y: 20 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: -300, y: -300 },
+              positionVariance: { x: 20, y: 20 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2776,12 +2908,16 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 1000, y: -1000 },
-          positionVariance: { x: 20, y: 20 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 1000, y: -1000 },
+              positionVariance: { x: 20, y: 20 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2851,10 +2987,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: { x: 0, y: 200 },
-          positionVariance: { x: 20, y: 20 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: { x: 0, y: 200 },
+              positionVariance: { x: 20, y: 20 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -2946,16 +3086,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 50,
-            y: 20,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 50,
+                y: 20,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3060,10 +3204,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 50, y: 20 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 50, y: 20 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3150,16 +3298,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 0,
+                y: 0,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3252,16 +3404,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 0,
+                y: 0,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3354,16 +3510,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 160,
-            y: 0,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 160,
+                y: 0,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3469,16 +3629,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 11,
-            y: 11,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 11,
+                y: 11,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3571,16 +3735,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: -1000,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 500,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: -1000,
+                y: 0,
+              },
+              positionVariance: {
+                x: 0,
+                y: 500,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3651,16 +3819,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: -500,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 500,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: -500,
+                y: 0,
+              },
+              positionVariance: {
+                x: 0,
+                y: 500,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3731,16 +3903,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 17,
-            y: 0,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 17,
+                y: 0,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3858,16 +4034,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 1000,
-            y: 500,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 1000,
+                y: 500,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -3960,16 +4140,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 0,
-          position: {
-            x: 650,
-            y: 350,
-          },
-          positionVariance: {
-            x: 600,
-            y: 300,
-          },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: {
+                x: 650,
+                y: 350,
+              },
+              positionVariance: {
+                x: 600,
+                y: 300,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4065,10 +4249,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: -800 },
-          positionVariance: { x: 1000, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: -800 },
+              positionVariance: { x: 1000, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4131,10 +4319,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: -420 },
-          positionVariance: { x: 281, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: -420 },
+              positionVariance: { x: 281, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4222,10 +4414,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 34, y: 65 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 34, y: 65 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4296,10 +4492,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: -200, y: 200 },
-          positionVariance: { x: 30, y: 30 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: -200, y: 200 },
+              positionVariance: { x: 30, y: 30 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4369,16 +4569,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 34,
-            y: 28,
-          },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 34,
+                y: 28,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4471,16 +4675,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 800,
-            y: 0,
-          },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 800,
+                y: 0,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4584,13 +4792,17 @@ const particlesDefaultConfig = {
     emitterConfig: {
       behaviours: [
         {
-          perspective: 0,
-          maxZ: 0,
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 450, y: 0 },
-          positionVariance: { x: 0, y: 800 },
+          customPoints: [
+            {
+              perspective: 0,
+              maxZ: 0,
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 450, y: 0 },
+              positionVariance: { x: 0, y: 800 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4642,10 +4854,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 100, y: 60 },
-          positionVariance: { x: 5, y: 5 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 100, y: 60 },
+              positionVariance: { x: 5, y: 5 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4732,10 +4948,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Frame",
-          radius: 200,
-          position: { x: -100, y: -100 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Frame",
+              radius: 200,
+              position: { x: -100, y: -100 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4804,16 +5024,20 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: {
-            x: 100,
-            y: 300,
-          },
-          positionVariance: {
-            x: 500,
-            y: 0,
-          },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: {
+                x: 100,
+                y: 300,
+              },
+              positionVariance: {
+                x: 500,
+                y: 0,
+              },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4894,10 +5118,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 100, y: 300 },
-          positionVariance: { x: 500, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 100, y: 300 },
+              positionVariance: { x: 500, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -4983,10 +5211,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 20, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 20, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5055,10 +5287,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 20, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 20, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5127,10 +5363,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 10,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: -600, y: -600 },
-          positionVariance: { x: 50, y: 50 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: -600, y: -600 },
+              positionVariance: { x: 50, y: 50 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5195,10 +5435,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 80,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 80,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5284,10 +5528,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 500, y: 500 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 500, y: 500 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5365,10 +5613,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 800, y: 800 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 800, y: 800 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5446,10 +5698,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 800, y: 800 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 800, y: 800 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5527,10 +5783,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 800, y: 800 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 800, y: 800 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5608,10 +5868,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 200 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 200 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5676,10 +5940,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5744,10 +6012,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 300 },
-          positionVariance: { x: 500, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 300 },
+              positionVariance: { x: 500, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5808,10 +6080,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Ring",
-          radius: 300,
-          perspective: 500,
-          maxZ: 1000,
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 300,
+              perspective: 500,
+              maxZ: 1000,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5878,10 +6154,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: -100 },
-          positionVariance: { x: 100, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: -100 },
+              positionVariance: { x: 100, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -5940,10 +6220,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 20, y: 20 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 20, y: 20 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6027,10 +6311,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          position: { x: 0, y: -100 },
-          positionVariance: { x: 100, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              position: { x: 0, y: -100 },
+              positionVariance: { x: 100, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6097,10 +6385,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          position: { x: 0, y: -100 },
-          positionVariance: { x: 100, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              position: { x: 0, y: -100 },
+              positionVariance: { x: 100, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6182,10 +6474,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: -100 },
-          positionVariance: { x: 20, y: 20 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: -100 },
+              positionVariance: { x: 20, y: 20 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6259,10 +6555,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 200,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 1, y: 1 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 1, y: 1 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6321,10 +6621,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6381,10 +6685,14 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Rectangle",
-          radius: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6462,20 +6770,24 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Word",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          textAlign: "center",
-          textBaseline: "middle",
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          perspective: 500,
-          maxZ: 0,
-          starPoints: 10,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Word",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              textAlign: "center",
+              textBaseline: "middle",
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              perspective: 500,
+              maxZ: 0,
+              starPoints: 10,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6540,20 +6852,24 @@ const particlesDefaultConfig = {
       behaviours: [
         {
           priority: 100,
-          spawnType: "Word",
-          word: "Hello",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          textAlign: "center",
-          textBaseline: "middle",
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          perspective: 500,
-          maxZ: 0,
-          starPoints: 10,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Word",
+              word: "Hello",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              textAlign: "center",
+              textBaseline: "middle",
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              perspective: 500,
+              maxZ: 0,
+              starPoints: 10,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6632,22 +6948,27 @@ const particlesDefaultConfig = {
           name: "LifeBehaviour",
         },
         {
-          enabled: true,
-          spawnType: "Star",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          starPoints: 10,
-          perspective: 500,
-          maxZ: 1000,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          priority: 0,
+          customPoints: [
+            {
+              enabled: true,
+              spawnType: "Star",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              starPoints: 10,
+              perspective: 500,
+              maxZ: 1000,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6705,32 +7026,36 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
-          spawnType: "Star",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          radiusX: 0,
-          radiusY: 0,
-          starPoints: 2,
-          rows: 10,
-          columns: 10,
-          cellSize: 20,
-          center: { x: 0, y: 0, z: 0 },
-          apex: { x: 0, y: 0, z: 0 },
-          spread: 360,
-          baseRadius: 500,
-          height: 50,
-          coneAngle: 45,
-          perspective: 0,
-          maxZ: 0,
+          customPoints: [
+            {
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+              spawnType: "Star",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              radiusX: 0,
+              radiusY: 0,
+              starPoints: 2,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 500,
+              height: 50,
+              coneAngle: 45,
+              perspective: 0,
+              maxZ: 0,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6798,12 +7123,16 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: -100, y: -100 },
-          positionVariance: { x: 0, y: 0 },
-          spawnType: "Grid",
-          rows: 10,
-          columns: 10,
-          cellSize: 30,
+          customPoints: [
+            {
+              position: { x: -100, y: -100 },
+              positionVariance: { x: 0, y: 0 },
+              spawnType: "Grid",
+              rows: 10,
+              columns: 10,
+              cellSize: 30,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6866,32 +7195,36 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: -100, y: -100 },
-          positionVariance: { x: 0, y: 0 },
-          spawnType: "Sphere",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          radiusX: 0,
-          radiusY: 0,
-          starPoints: 10,
-          rows: 10,
-          columns: 10,
-          cellSize: 30,
-          center: { x: 0, y: 0, z: 0 },
-          apex: { x: 0, y: 0, z: 0 },
-          spread: 360,
-          baseRadius: 500,
-          height: 50,
-          coneAngle: 45,
-          perspective: 0,
-          maxZ: 0,
+          customPoints: [
+            {
+              position: { x: -100, y: -100 },
+              positionVariance: { x: 0, y: 0 },
+              spawnType: "Sphere",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              radiusX: 0,
+              radiusY: 0,
+              starPoints: 10,
+              rows: 10,
+              columns: 10,
+              cellSize: 30,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 500,
+              height: 50,
+              coneAngle: 45,
+              perspective: 0,
+              maxZ: 0,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -6949,33 +7282,37 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: -100, y: -100 },
-          positionVariance: { x: 0, y: 0 },
-          spawnType: "Cone",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          radiusX: 0,
-          radiusY: 0,
-          starPoints: 10,
-          rows: 10,
-          columns: 10,
-          cellSize: 30,
-          center: { x: 0, y: 0, z: 0 },
-          apex: { x: 0, y: 0, z: 0 },
-          spread: 360,
-          baseRadius: 300,
-          coneDirection: 0,
-          height: 50,
-          coneAngle: 45,
-          perspective: 0,
-          maxZ: 0,
+          customPoints: [
+            {
+              position: { x: -100, y: -100 },
+              positionVariance: { x: 0, y: 0 },
+              spawnType: "Cone",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              radiusX: 0,
+              radiusY: 0,
+              starPoints: 10,
+              rows: 10,
+              columns: 10,
+              cellSize: 30,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 300,
+              coneDirection: 0,
+              height: 50,
+              coneAngle: 45,
+              perspective: 0,
+              maxZ: 0,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7033,33 +7370,37 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: -100, y: -100 },
-          positionVariance: { x: 0, y: 0 },
-          spawnType: "Cone",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          radiusX: 0,
-          radiusY: 0,
-          starPoints: 10,
-          rows: 10,
-          columns: 10,
-          cellSize: 30,
-          center: { x: 0, y: 0, z: 0 },
-          apex: { x: 0, y: 0, z: 0 },
-          spread: 360,
-          baseRadius: 300,
-          coneDirection: 0,
-          height: 50,
-          coneAngle: 45,
-          perspective: 0,
-          maxZ: 0,
+          customPoints: [
+            {
+              position: { x: -100, y: -100 },
+              positionVariance: { x: 0, y: 0 },
+              spawnType: "Cone",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              radiusX: 0,
+              radiusY: 0,
+              starPoints: 10,
+              rows: 10,
+              columns: 10,
+              cellSize: 30,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 300,
+              coneDirection: 0,
+              height: 50,
+              coneAngle: 45,
+              perspective: 0,
+              maxZ: 0,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7172,33 +7513,37 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: -100, y: -100 },
-          positionVariance: { x: 0, y: 0 },
-          spawnType: "Ring",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          radiusX: 0,
-          radiusY: 0,
-          starPoints: 10,
-          rows: 10,
-          columns: 10,
-          cellSize: 30,
-          center: { x: 0, y: 0, z: 0 },
-          apex: { x: 0, y: 0, z: 0 },
-          spread: 360,
-          baseRadius: 300,
-          coneDirection: 0,
-          height: 50,
-          coneAngle: 45,
-          perspective: 0,
-          maxZ: 0,
+          customPoints: [
+            {
+              position: { x: -100, y: -100 },
+              positionVariance: { x: 0, y: 0 },
+              spawnType: "Ring",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              radiusX: 0,
+              radiusY: 0,
+              starPoints: 10,
+              rows: 10,
+              columns: 10,
+              cellSize: 30,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 300,
+              coneDirection: 0,
+              height: 50,
+              coneAngle: 45,
+              perspective: 0,
+              maxZ: 0,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7252,21 +7597,25 @@ const particlesDefaultConfig = {
         },
         {
           enabled: true,
-          spawnType: "Ring",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          starPoints: 10,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              starPoints: 10,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7337,21 +7686,25 @@ const particlesDefaultConfig = {
         },
         {
           enabled: true,
-          spawnType: "Ring",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          starPoints: 10,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              starPoints: 10,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7422,21 +7775,25 @@ const particlesDefaultConfig = {
         },
         {
           enabled: true,
-          spawnType: "Ring",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          starPoints: 10,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              starPoints: 10,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7506,21 +7863,25 @@ const particlesDefaultConfig = {
         },
         {
           enabled: true,
-          spawnType: "Ring",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          starPoints: 10,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              starPoints: 10,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7595,21 +7956,25 @@ const particlesDefaultConfig = {
         },
         {
           enabled: true,
-          spawnType: "Ring",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          starPoints: 10,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              starPoints: 10,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7680,21 +8045,25 @@ const particlesDefaultConfig = {
         },
         {
           enabled: true,
-          spawnType: "Ring",
-          word: "HELLO",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 200,
-          starPoints: 10,
-          perspective: 0,
-          maxZ: 0,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
+          customPoints: [
+            {
+              spawnType: "Ring",
+              word: "HELLO",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 200,
+              starPoints: 10,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7750,19 +8119,23 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
-          spawnType: "Word",
-          word: "SOUND!",
-          fontSize: 200,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          perspective: 500,
-          maxZ: 0,
+          customPoints: [
+            {
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+              spawnType: "Word",
+              word: "SOUND!",
+              fontSize: 200,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              perspective: 500,
+              maxZ: 0,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -7866,47 +8239,51 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: -300,
-          },
-          positionVariance: {
-            x: 500,
-            y: 0,
-          },
-          spawnType: "Rectangle",
-          word: "SOUND!",
-          fontSize: 50,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 0,
-          radiusX: 0,
-          radiusY: 0,
-          starPoints: 5,
-          rows: 10,
-          columns: 10,
-          cellSize: 20,
-          center: {
-            x: 0,
-            y: 0,
-            z: 0,
-          },
-          apex: {
-            x: 0,
-            y: 0,
-            z: 0,
-          },
-          spread: 360,
-          baseRadius: 500,
-          coneDirection: 0,
-          height: 50,
-          coneAngle: 45,
-          perspective: 0,
-          maxZ: 0,
+          customPoints: [
+            {
+              position: {
+                x: 0,
+                y: -300,
+              },
+              positionVariance: {
+                x: 500,
+                y: 0,
+              },
+              spawnType: "Rectangle",
+              word: "SOUND!",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 0,
+              radiusX: 0,
+              radiusY: 0,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: {
+                x: 0,
+                y: 0,
+                z: 0,
+              },
+              apex: {
+                x: 0,
+                y: 0,
+                z: 0,
+              },
+              spread: 360,
+              baseRadius: 500,
+              coneDirection: 0,
+              height: 50,
+              coneAngle: 45,
+              perspective: 0,
+              maxZ: 0,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -8014,47 +8391,51 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: {
-            x: 0,
-            y: 0,
-          },
-          positionVariance: {
-            x: 0,
-            y: 0,
-          },
-          spawnType: "Rectangle",
-          word: "SOUND!",
-          fontSize: 50,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 0,
-          radiusX: 0,
-          radiusY: 0,
-          starPoints: 5,
-          rows: 10,
-          columns: 10,
-          cellSize: 20,
-          center: {
-            x: 0,
-            y: 0,
-            z: 0,
-          },
-          apex: {
-            x: 0,
-            y: 0,
-            z: 0,
-          },
-          spread: 360,
-          baseRadius: 500,
-          coneDirection: 0,
-          height: 50,
-          coneAngle: 45,
-          perspective: 0,
-          maxZ: 0,
+          customPoints: [
+            {
+              position: {
+                x: 0,
+                y: 0,
+              },
+              positionVariance: {
+                x: 0,
+                y: 0,
+              },
+              spawnType: "Rectangle",
+              word: "SOUND!",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 0,
+              radiusX: 0,
+              radiusY: 0,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: {
+                x: 0,
+                y: 0,
+                z: 0,
+              },
+              apex: {
+                x: 0,
+                y: 0,
+                z: 0,
+              },
+              spread: 360,
+              baseRadius: 500,
+              coneDirection: 0,
+              height: 50,
+              coneAngle: 45,
+              perspective: 0,
+              maxZ: 0,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -8126,33 +8507,37 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 100,
-          position: { x: 0, y: 0 },
-          positionVariance: { x: 0, y: 0 },
-          spawnType: "Rectangle",
-          word: "SOUND!",
-          fontSize: 50,
-          fontSpacing: 5,
-          particleDensity: 1,
-          fontMaxWidth: 1334,
-          fontMaxHeight: 750,
-          textAlign: "center",
-          textBaseline: "middle",
-          radius: 0,
-          radiusX: 0,
-          radiusY: 0,
-          starPoints: 5,
-          rows: 10,
-          columns: 10,
-          cellSize: 20,
-          center: { x: 0, y: 0, z: 0 },
-          apex: { x: 0, y: 0, z: 0 },
-          spread: 360,
-          baseRadius: 500,
-          coneDirection: 0,
-          height: 50,
-          coneAngle: 45,
-          perspective: 0,
-          maxZ: 0,
+          customPoints: [
+            {
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+              spawnType: "Rectangle",
+              word: "SOUND!",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 0,
+              radiusX: 0,
+              radiusY: 0,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 500,
+              coneDirection: 0,
+              height: 50,
+              coneAngle: 45,
+              perspective: 0,
+              maxZ: 0,
+            },
+          ],
           name: "SpawnBehaviour",
         },
         {
@@ -8211,6 +8596,324 @@ const particlesDefaultConfig = {
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
       blendMode: 3,
+    },
+    textures: ["flare.png"],
+  },
+  allSpawnsInOneEmitter: {
+    emitterConfig: {
+      behaviours: [
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1.4,
+          timeVariance: 0.4,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 50,
+              position: { x: -385, y: 6 },
+              positionVariance: { x: 0, y: 0 },
+              word: "Hello",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radiusX: 100,
+              radiusY: 100,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 200,
+              coneDirection: 1,
+              height: 200,
+              coneAngle: 45,
+              perspective: 0,
+              maxZ: 0,
+            },
+            {
+              spawnType: "Cone",
+              word: "Hello",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 50,
+              radiusX: 100,
+              radiusY: 100,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 200,
+              coneDirection: 1,
+              height: 200,
+              coneAngle: 45,
+              position: { x: 302, y: -11 },
+              positionVariance: { x: 0, y: 0 },
+              perspective: 0,
+              maxZ: 0,
+            },
+            {
+              spawnType: "Grid",
+              word: "Hello",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 50,
+              radiusX: 100,
+              radiusY: 100,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 200,
+              coneDirection: 1,
+              height: 200,
+              coneAngle: 45,
+              position: { x: -34, y: 108 },
+              positionVariance: { x: 0, y: 0 },
+              perspective: 0,
+              maxZ: 0,
+            },
+            {
+              spawnType: "Word",
+              word: "Hello",
+              fontSize: 150,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 50,
+              radiusX: 100,
+              radiusY: 100,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 200,
+              coneDirection: 1,
+              height: 200,
+              coneAngle: 45,
+              position: { x: 49, y: -21 },
+              positionVariance: { x: 0, y: 0 },
+              perspective: 0,
+              maxZ: 0,
+            },
+            {
+              spawnType: "Star",
+              word: "Hello",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 50,
+              radiusX: 100,
+              radiusY: 100,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 200,
+              coneDirection: 1,
+              height: 200,
+              coneAngle: 45,
+              position: { x: -302, y: -241 },
+              positionVariance: { x: 0, y: 0 },
+              perspective: 0,
+              maxZ: 0,
+            },
+            {
+              spawnType: "Sphere",
+              word: "Hello",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 50,
+              radiusX: 100,
+              radiusY: 100,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 1 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 200,
+              coneDirection: 1,
+              height: 200,
+              coneAngle: 45,
+              position: { x: -275, y: 246 },
+              positionVariance: { x: 0, y: 0 },
+              perspective: 0,
+              maxZ: 0,
+            },
+            {
+              spawnType: "Frame",
+              word: "Hello",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 50,
+              radiusX: 100,
+              radiusY: 100,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 200,
+              coneDirection: 1,
+              height: 200,
+              coneAngle: 45,
+              position: { x: 331, y: -283 },
+              positionVariance: { x: 0, y: 0 },
+              perspective: 0,
+              maxZ: 0,
+            },
+            {
+              spawnType: "FrameRectangle",
+              word: "Hello",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 50,
+              radiusX: 200,
+              radiusY: 100,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 200,
+              coneDirection: 1,
+              height: 200,
+              coneAngle: 45,
+              position: { x: 259, y: 206 },
+              positionVariance: { x: 0, y: 0 },
+              perspective: 0,
+              maxZ: 0,
+            },
+            {
+              spawnType: "Rectangle",
+              word: "Hello",
+              fontSize: 50,
+              fontSpacing: 5,
+              particleDensity: 1,
+              fontMaxWidth: 1334,
+              fontMaxHeight: 750,
+              textAlign: "center",
+              textBaseline: "middle",
+              radius: 50,
+              radiusX: 100,
+              radiusY: 100,
+              starPoints: 5,
+              rows: 10,
+              columns: 10,
+              cellSize: 20,
+              center: { x: 0, y: 0, z: 0 },
+              apex: { x: 0, y: 0, z: 0 },
+              spread: 360,
+              baseRadius: 200,
+              coneDirection: 1,
+              height: 200,
+              coneAngle: 45,
+              position: { x: 3, y: -282 },
+              positionVariance: { x: 40, y: 40 },
+              perspective: 0,
+              maxZ: 0,
+            },
+          ],
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: 0 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          sizeStart: { x: 1, y: 1 },
+          sizeEnd: { x: 1, y: 1 },
+          startVariance: 0.1,
+          endVariance: 0.5,
+          maxSize: { x: 5, y: 5 },
+          uniformScaling: true,
+          xScalingFunction: "linear",
+          yScalingFunction: "linear",
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: { _r: 0, _g: 255, _b: 255, _alpha: 1 },
+          end: { _r: 255, _g: 212, _b: 169, _alpha: 0 },
+          startVariance: { _r: 255, _g: 255, _b: 255, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          name: "ColorBehaviour",
+        },
+      ],
+      emitController: { _emitPerSecond: 1000, name: "UniformEmission" },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: 0,
     },
     textures: ["flare.png"],
   },

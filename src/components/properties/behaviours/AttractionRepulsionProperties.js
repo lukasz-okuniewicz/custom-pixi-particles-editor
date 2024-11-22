@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { initializeProperty, updateProps } from "@utils";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import { Point } from "pixi.js-legacy";
@@ -28,9 +28,7 @@ export default function AttractionRepulsionProperties({
     influencePoints: [],
     name: "AttractionRepulsionBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   useEffect(() => {
     const handleWindowClick = (event) => {
@@ -160,6 +158,16 @@ export default function AttractionRepulsionProperties({
                 step="1"
                 onChange={(value, id) => updatePoint(index, value, id)}
               />
+              <button
+                className={
+                  selectedPointIndex === index
+                    ? "btn btn-default btn-block active"
+                    : "btn btn-default btn-block"
+                }
+                onClick={(e) => selectPoint(index, e)}
+              >
+                Select Position
+              </button>
               <InputNumber
                 label="Strength"
                 id={`point-${index + 1}-strength`}
@@ -174,16 +182,6 @@ export default function AttractionRepulsionProperties({
                 step="1"
                 onChange={(value) => updateRange(index, value)}
               />
-              <button
-                className={
-                  selectedPointIndex === index
-                    ? "btn btn-default btn-block active"
-                    : "btn btn-default btn-block"
-                }
-                onClick={(e) => selectPoint(index, e)}
-              >
-                Select Point
-              </button>
               <br />
               <button
                 className="btn btn-default btn-block"

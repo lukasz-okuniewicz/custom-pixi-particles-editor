@@ -1,13 +1,17 @@
 "use client";
 
-import { Fragment, useCallback, useState } from "react";
-import { initializeProperty, updateProps } from "@utils";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import GroupingDescription from "@components/html/behaviourDescriptions/Grouping";
+import { Point } from "pixi.js-legacy";
+import pixiRefs from "@pixi/pixiRefs";
 
 export default function GroupingProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+  const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
+  const selectedPositionIndexRef = useRef(null);
 
   if (index === -1) {
     const x = JSON.parse(JSON.stringify(defaultConfig));
@@ -31,14 +35,45 @@ export default function GroupingProperties({ defaultConfig, index }) {
     clusterPoints: [],
     name: "GroupingBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {
     setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
   }, []);
+
+  useEffect(() => {
+    const handleWindowClick = (event) => {
+      if (selectedPositionIndexRef.current !== null) {
+        const localPosition = new Point(0, 0);
+        pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+          localPosition,
+          event.clientX,
+          event.clientY,
+        );
+
+        const newX = localPosition.x - pixiRefs.app.screen.width / 2;
+        const newY = localPosition.y - pixiRefs.app.screen.height / 2;
+
+        behaviour.groupCenter = {
+          x: parseInt(newX),
+          y: parseInt(newY),
+        }; // Update the specific point
+
+        setSelectedPositionIndex(null);
+        selectedPositionIndexRef.current = null;
+
+        updateBehaviours();
+      }
+    };
+
+    window.addEventListener("click", handleWindowClick);
+
+    // Cleanup event handlers
+    return () => {
+      window.removeEventListener("click", handleWindowClick);
+    };
+  }, [defaultConfig]);
 
   const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
@@ -46,6 +81,12 @@ export default function GroupingProperties({ defaultConfig, index }) {
       "emitterConfig.behaviours",
       defaultConfig.emitterConfig.behaviours,
     );
+  };
+
+  const selectPosition = (index, event) => {
+    event.stopPropagation();
+    setSelectedPositionIndex(index);
+    selectedPositionIndexRef.current = index;
   };
 
   const addClusterPoint = (e) => {
@@ -112,6 +153,16 @@ export default function GroupingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
+        <button
+          className={
+            selectedPositionIndex === index
+              ? "btn btn-default btn-block active"
+              : "btn btn-default btn-block"
+          }
+          onClick={(e) => selectPosition(index, e)}
+        >
+          Select Position
+        </button>
         <InputNumber
           label="Group Radius"
           id="groupRadius"

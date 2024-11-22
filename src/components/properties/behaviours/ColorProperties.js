@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useCallback, useState } from "react";
-import { initializeProperty, updateProps } from "@utils";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import ColorPicker from "@components/html/ColorPicker";
 import ColorDescription from "@components/html/behaviourDescriptions/Color";
@@ -34,9 +34,7 @@ export default function ColorProperties({ defaultConfig, index }) {
     colorStops: [],
     name: "ColorBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {

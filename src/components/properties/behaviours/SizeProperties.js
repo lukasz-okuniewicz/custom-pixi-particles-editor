@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useCallback, useMemo, useState } from "react";
-import { initializeProperty, updateProps } from "@utils";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import SizeDescription from "@components/html/behaviourDescriptions/Size";
@@ -39,9 +39,7 @@ export default function SizeProperties({ defaultConfig, index }) {
     sizeAlphaDependency: false,
     name: "SizeBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   const predefinedEasingFunctions = useMemo(() => {
     const names = {

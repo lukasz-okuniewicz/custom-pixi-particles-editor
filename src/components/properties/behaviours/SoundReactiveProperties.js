@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { getConfigByName, initializeProperty, updateProps } from "@utils";
+import { getConfigByName, mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import SoundReactiveDescription from "@components/html/behaviourDescriptions/SoundReactive";
@@ -44,9 +44,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     rotationFactor: 0.05,
     name: "SoundReactiveBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {

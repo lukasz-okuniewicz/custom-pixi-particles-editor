@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { initializeProperty, updateProps } from "@utils";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import Checkbox from "@components/html/Checkbox";
 import Select from "@components/html/Select";
@@ -33,9 +33,7 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
     fields: [],
     name: "ForceFieldsBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {

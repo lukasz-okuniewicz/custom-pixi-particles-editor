@@ -1,14 +1,18 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
-import { initializeProperty, updateProps } from "@utils";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
 import TurbulenceDescription from "@components/html/behaviourDescriptions/Turbulence";
+import { Point } from "pixi.js-legacy";
+import pixiRefs from "@pixi/pixiRefs";
 
 export default function TurbulenceProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+  const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
+  const selectedPositionIndexRef = useRef(null);
 
   if (index === -1) {
     const x = JSON.parse(JSON.stringify(defaultConfig));
@@ -37,9 +41,40 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
     vortileSize: 500,
     name: "TurbulenceBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
+
+  useEffect(() => {
+    const handleWindowClick = (event) => {
+      if (selectedPositionIndexRef.current !== null) {
+        const localPosition = new Point(0, 0);
+        pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+          localPosition,
+          event.clientX,
+          event.clientY,
+        );
+
+        const newX = localPosition.x - pixiRefs.app.screen.width / 2;
+        const newY = localPosition.y - pixiRefs.app.screen.height / 2;
+
+        behaviour.position = {
+          x: parseInt(newX),
+          y: parseInt(newY),
+        }; // Update the specific point
+
+        setSelectedPositionIndex(null);
+        selectedPositionIndexRef.current = null;
+
+        updateBehaviours();
+      }
+    };
+
+    window.addEventListener("click", handleWindowClick);
+
+    // Cleanup event handlers
+    return () => {
+      window.removeEventListener("click", handleWindowClick);
+    };
+  }, [defaultConfig]);
 
   const predefinedVersion = useMemo(() => {
     const names = {
@@ -69,6 +104,12 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
       "emitterConfig.behaviours",
       defaultConfig.emitterConfig.behaviours,
     );
+  };
+
+  const selectPosition = (index, event) => {
+    event.stopPropagation();
+    setSelectedPositionIndex(index);
+    selectedPositionIndexRef.current = index;
   };
 
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return <></>;
@@ -130,6 +171,16 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
+        <button
+          className={
+            selectedPositionIndex === index
+              ? "btn btn-default btn-block active"
+              : "btn btn-default btn-block"
+          }
+          onClick={(e) => selectPosition(index, e)}
+        >
+          Select Position
+        </button>
         <InputNumber
           label="Position Variance"
           id="turbulence-position-variance"

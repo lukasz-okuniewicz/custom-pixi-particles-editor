@@ -282,6 +282,30 @@ export const initializeProperty = (obj, key, defaultValue = {}) => {
   }
 };
 
+export const mergeObjectsWithDefaults = (defaults, target) => {
+  if (Array.isArray(defaults)) {
+    return target.map((targetItem, index) => {
+      const defaultItem = defaults[index] || {};
+      return mergeObjectsWithDefaults(defaultItem, targetItem);
+    });
+  }
+
+  if (typeof defaults === "object" && defaults !== null) {
+    return Object.keys(defaults).reduce(
+      (acc, key) => {
+        acc[key] =
+          key in target
+            ? mergeObjectsWithDefaults(defaults[key], target[key])
+            : defaults[key];
+        return acc;
+      },
+      { ...target },
+    );
+  }
+
+  return target !== undefined ? target : defaults;
+};
+
 const updateQueryParameter = (key, value) => {
   const url = new URL(window.location.href);
 

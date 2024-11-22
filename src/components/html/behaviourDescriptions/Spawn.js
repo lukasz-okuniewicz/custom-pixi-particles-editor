@@ -18,108 +18,102 @@ const SpawnDescription = () => {
       </div>
       <div className="explanation" ref={contentRef}>
         <p>
-          <b>Spawn Behaviour</b> offers a powerful and flexible system for
-          initializing particles in various shapes, patterns, and arrangements.
-          It supports advanced configurations for dynamic effects, making it
-          ideal for creating visually compelling particle systems.
+          <b>Spawn Behaviour</b> provides a powerful and flexible framework for
+          creating and initializing particles in diverse patterns and shapes. It
+          supports dynamic configurations, allowing developers to craft visually
+          stunning particle systems for interactive and immersive experiences.
         </p>
 
-        <h4>Key Properties:</h4>
+        <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Enabled</b>: Toggle the behavior on or off.
-          </li>
-          <li>
-            <b>Priority</b>: Determines the execution order relative to other
-            behaviors.
-          </li>
-          <li>
-            <b>Spawn Type</b>: Choose from predefined spawning patterns,
-            including:
+            <b>Customizable Spawn Types:</b> Choose from multiple predefined
+            spawning patterns, including:
             <ul>
               <li>
-                <b>Rectangle</b>: Uniform distribution within a rectangular
-                area.
+                <b>Rectangle:</b> Uniform distribution within a rectangle.
               </li>
               <li>
-                <b>Ring</b>: Particles spawn in a circular pattern.
+                <b>Ring:</b> Circular arrangement of particles.
               </li>
               <li>
-                <b>Star</b>: Creates a star-shaped particle distribution.
+                <b>Star:</b> Particles arranged in a star pattern.
               </li>
               <li>
-                <b>Grid</b>: Organizes particles in a grid layout.
+                <b>Grid:</b> Organized particle grids.
               </li>
               <li>
-                <b>Word</b>: Particles form text or word-based patterns.
+                <b>Word:</b> Align particles to form text-based patterns.
               </li>
               <li>
-                <b>Spherical</b>: 3D sphere-based spawning.
+                <b>Spherical:</b> 3D sphere-shaped spawning.
               </li>
               <li>
-                <b>Cone</b>: Generates particles within a conical shape.
+                <b>Cone:</b> Conical particle distribution.
               </li>
               <li>
-                <b>Frame</b>: Particles spawn along the borders of a frame.
+                <b>Frame:</b> Particles along the edges of a shape.
               </li>
             </ul>
           </li>
           <li>
-            <b>Position & Variance</b>: Define the starting position and apply
-            randomness for natural-looking effects.
+            <b>Dynamic Positioning:</b> Customize initial positions and apply
+            variances for natural randomness in effects.
           </li>
           <li>
-            <b>Perspective</b>: Enables depth-based scaling for 3D-like effects,
-            with customizable maximum z-distance.
+            <b>Perspective Scaling:</b> Simulate 3D effects by scaling particle
+            size and opacity based on depth (z-coordinate).
           </li>
           <li>
-            <b>Shape Parameters</b>: Customize properties like:
+            <b>Shape Parameters:</b> Fine-tune geometric attributes, such as:
             <ul>
               <li>
-                <b>Radius</b>: Defines the size of circular shapes.
+                <b>Radius:</b> Size of circular patterns.
               </li>
               <li>
-                <b>Star Points</b>: Number of points in star-shaped patterns.
+                <b>Star Points:</b> Define the number of points in a star.
               </li>
               <li>
-                <b>Rows & Columns</b>: Control grid layout dimensions.
+                <b>Rows & Columns:</b> Dimensions for grid-based layouts.
               </li>
               <li>
-                <b>Cone Angle</b>: Adjust the spread of conical spawning.
+                <b>Cone Angle:</b> Spread angle for cone distributions.
               </li>
             </ul>
           </li>
           <li>
-            <b>Text Parameters</b>: Fine-tune text-based patterns with:
+            <b>Text Configurations:</b> Tailor text-based particle patterns
+            with:
             <ul>
               <li>
-                <b>Word</b>: Specify the text to render.
+                <b>Word:</b> Specify the text to render.
               </li>
               <li>
-                <b>Font Size</b>: Set the size of the text.
+                <b>Font Size:</b> Adjust text size for particles.
               </li>
               <li>
-                <b>Font Spacing</b>: Adjust spacing between particles forming
-                the text.
+                <b>Font Spacing:</b> Define spacing between particles in text.
               </li>
               <li>
-                <b>Text Alignment</b>: Control alignment (e.g., left, center).
+                <b>Text Alignment:</b> Control alignment (e.g., left, center,
+                right).
               </li>
             </ul>
           </li>
         </ul>
 
-        <h4>Use Cases:</h4>
+        <h4>Practical Applications:</h4>
         <ul>
-          <li>Create dynamic text-based particle animations.</li>
-          <li>Generate visually rich patterns like stars, rings, or grids.</li>
-          <li>Simulate 3D effects with perspective scaling.</li>
+          <li>Craft dynamic text-based animations using particles.</li>
+          <li>Generate stunning visual effects like stars, rings, or grids.</li>
+          <li>Simulate 3D visuals with depth and perspective scaling.</li>
           <li>
-            Develop interactive effects with precise positioning and density.
+            Create interactive animations with precise control over positioning
+            and density.
           </li>
         </ul>
 
-        <h4>Live Examples:</h4>
+        <h4>Examples:</h4>
         <span>
           <a href="/?effect=animatedHelloWord" target="_blank">
             Animated: Hello How Are You?

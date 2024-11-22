@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import InputNumber from "@components/html/InputNumber";
-import { initializeProperty, updateProps } from "@utils";
+import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import LifeDescription from "@components/html/behaviourDescriptions/Life";
 
 export default function LifeProperties({ defaultConfig, index }) {
@@ -21,9 +21,7 @@ export default function LifeProperties({ defaultConfig, index }) {
     timeVariance: 0.4,
     name: "LifeBehaviour",
   };
-  Object.keys(keysToInitialize).forEach((key) => {
-    initializeProperty(behaviour, key, keysToInitialize[key]);
-  });
+  behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {
