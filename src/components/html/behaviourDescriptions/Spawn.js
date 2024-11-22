@@ -115,6 +115,10 @@ const SpawnDescription = () => {
 
         <h4>Examples:</h4>
         <span>
+          <a href="/?effect=allSpawnsInOneEmitter" target="_blank">
+            All Spawn Types in One Emitter
+          </a>
+          <br />
           <a href="/?effect=animatedHelloWord" target="_blank">
             Animated: Hello How Are You?
           </a>
