@@ -4,19 +4,30 @@ import {
   createAndAddParticles,
   createParticles,
   stopAllParticlesArr,
+  updateParticles,
 } from "./particles";
 import { getConfigIndexByName, resize } from "@utils";
 import { _customPixiParticlesEditorOnly } from "custom-pixi-particles";
 import { animateTween, animateWarp, killTween } from "@animations";
 
+let lastPredefinedEffect = null;
+
 export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
   if (!defaultConfig || !fullConfig) return;
 
-  killTween();
-  resetPixiContainers();
-  stopAllParticlesArr();
-  reloadEverything(defaultConfig, fullConfig);
-  createParticles(defaultConfig);
+  if (
+    defaultConfig.particlePredefinedEffect === lastPredefinedEffect &&
+    !defaultConfig.refresh
+  ) {
+    updateParticles(defaultConfig);
+  } else {
+    killTween();
+    resetPixiContainers();
+    stopAllParticlesArr();
+    reloadEverything(defaultConfig, fullConfig);
+    createParticles(defaultConfig);
+    lastPredefinedEffect = defaultConfig.particlePredefinedEffect;
+  }
 
   const effectMapping = {
     coffeeShop: () => createCoffeeShop({ fullConfig }),

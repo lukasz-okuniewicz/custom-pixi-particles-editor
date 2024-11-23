@@ -10,6 +10,11 @@ export const createParticles = (defaultConfig) => {
   pixiRefs.particlesContainer.addChild(particles);
 };
 
+export const updateParticles = (defaultConfig) => {
+  if (!defaultConfig) return;
+  pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
+};
+
 export const createAndAddParticles = (config, parent, options = {}) => {
   const particleConfig = JSON.parse(JSON.stringify(config));
   const particles = _customPixiParticlesEditorOnly.create(particleConfig);

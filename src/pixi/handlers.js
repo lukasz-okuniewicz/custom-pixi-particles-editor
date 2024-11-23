@@ -8,6 +8,7 @@ export const predefinedImageHandler = ({
 }) => {
   defaultConfig.particlePredefinedImage = value;
   defaultConfig.textures = [value];
+  defaultConfig.refresh = true;
   setDefaultConfig(() => ({
     ...defaultConfig,
   }));
@@ -18,6 +19,7 @@ export const refreshHandler = ({ setDefaultConfig, defaultConfig }) => {
   pixiRefs.app.stage.interactive = false;
   setDefaultConfig(() => ({
     ...defaultConfig,
+    refresh: true,
   }));
 };
 

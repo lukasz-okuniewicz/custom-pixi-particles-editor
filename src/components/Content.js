@@ -493,10 +493,12 @@ export default function Content() {
 
   useEffect(() => {
     const eventHandlers = {
-      updateConfig: ({ value, id, arrayName }) =>
-        setDefaultConfig((prevConfig) =>
-          updateNestedConfig(prevConfig, arrayName, value, id),
-        ),
+      updateConfig: ({ value, id, arrayName }) => {
+        setDefaultConfig((prevConfig) => ({
+          ...updateNestedConfig(prevConfig, arrayName, value, id),
+          refresh: false,
+        }));
+      },
       followMouse: (value) => followMouseHandler({ value, setDefaultConfig }),
       refresh: () => refreshHandler({ setDefaultConfig, defaultConfig }),
       predefinedImage: (value) =>
@@ -509,12 +511,14 @@ export default function Content() {
       resize: handleResize,
       newImages: (value) => {
         defaultConfig.textures = value;
+        defaultConfig.refresh = true;
         setDefaultConfig(() => ({
           ...defaultConfig,
         }));
       },
       finishingImages: (value) => {
         defaultConfig.finishingTextures = value;
+        defaultConfig.refresh = true;
         setDefaultConfig(() => ({
           ...defaultConfig,
         }));
@@ -530,6 +534,7 @@ export default function Content() {
       loadConfig: (value) => {
         defaultConfig.emitterConfig = value;
         defaultConfig.particlePredefinedEffect = undefined;
+        defaultConfig.refresh = true;
         setDefaultConfig(() => ({
           ...defaultConfig,
         }));
