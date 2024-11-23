@@ -36,6 +36,7 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
     ringFire: () => createRingFire({ defaultConfig }),
     helloWord: () => createHelloWord({ defaultConfig }),
     leaves: () => createLeaves({ defaultConfig }),
+    spiralAnimation: () => createSpiral({ defaultConfig }),
     starAnimations: () => createStarAnimations({ defaultConfig }),
     coneAnimations: () => createConeAnimations({ defaultConfig }),
     leavesWithTurbulence: () => createLeaves({ defaultConfig }),
@@ -143,6 +144,10 @@ const createLeaves = ({ defaultConfig }) => {
     const particles = createAndAddParticles(config, particlesContainer);
     particles.angle = index * 18 + 18;
   });
+};
+
+const createSpiral = ({ defaultConfig }) => {
+  animateTween(defaultConfig);
 };
 
 const createSprite = (textureName) => {

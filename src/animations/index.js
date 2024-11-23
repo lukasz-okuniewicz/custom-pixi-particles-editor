@@ -1,4 +1,4 @@
-import { gsap, Linear } from "gsap";
+import { gsap, Linear, Power2 } from "gsap";
 import pixiRefs from "@pixi/pixiRefs";
 import { getBehaviourByName } from "@utils";
 
@@ -19,6 +19,8 @@ export const animateTween = (defaultConfig, fullConfig) => {
     animateStarAnimations(defaultConfig);
   } else if (defaultConfig.particlePredefinedEffect === "coneAnimations") {
     animateCone(defaultConfig);
+  } else if (defaultConfig.particlePredefinedEffect === "spiralAnimation") {
+    animateSpiral(defaultConfig);
   }
 };
 
@@ -363,6 +365,56 @@ const animateCone = async (defaultConfig) => {
     ease: "linear",
     onUpdate: () => {
       behaviour.coneDirection = parseFloat(obj.coneDirection);
+      pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
+    },
+  });
+};
+
+const animateSpiral = async (defaultConfig) => {
+  const spawnBehaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
+    .customPoints[0];
+  const noiseBasedMotionBehaviour = getBehaviourByName(
+    "NoiseBasedMotionBehaviour",
+    defaultConfig,
+  );
+
+  if (tween) {
+    killTween();
+  }
+  const obj = {
+    x: 0,
+    y: 0,
+  };
+
+  const centerX = 0; // Center of the spiral (X-axis)
+  const centerY = 0; // Center of the spiral (Y-axis)
+  const startRadius = 350; // Starting radius
+  const endRadius = 10; // Ending radius
+  const totalTime = 9; // Total animation time (in seconds)
+  const totalLoops = 10; // Number of full rotations
+
+  // Animate the sprite along a spiral
+  gsap.to(obj, {
+    duration: totalTime,
+    ease: Power2.easeIn, // Ease that starts slow and speeds up
+    onUpdate: function () {
+      // Calculate the current progress
+      const easedProgress = gsap.parseEase("power2.inOut")(this.progress());
+
+      // Use eased progress for angular velocity
+      const angle = easedProgress * totalLoops * 2 * Math.PI; // Current angle in radians
+      const radius = startRadius - easedProgress * (startRadius - endRadius); // Interpolated radius
+
+      // Update the sprite's position
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+
+      // Update position using your custom function
+      pixiRefs.particles.updatePosition({ x, y });
+    },
+    onComplete: function () {
+      defaultConfig.emitterConfig.duration = 0.1;
+      noiseBasedMotionBehaviour.noiseIntensity = 4000;
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
   });
