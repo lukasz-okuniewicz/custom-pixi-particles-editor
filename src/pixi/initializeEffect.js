@@ -4,16 +4,17 @@ import { updateProps } from "@utils";
 export const initializeEffect = ({ setDefaultConfig }) => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const effect = urlParams.get("effect") || "coffeeShop";
+  let effect = urlParams.get("effect") || "coffeeShop";
 
   const config = JSON.parse(JSON.stringify(particlesDefaultConfig));
-  const effectConfig = config[effect]
+  let effectConfig = config[effect]
     ? JSON.parse(JSON.stringify(config[effect]))
     : null;
 
   if (!effectConfig) {
-    console.error(`Effect "${effect}" not found in configuration.`);
-    return;
+    console.warn(`Effect "${effect}" not found in configuration.`);
+    effect = "coffeeShop";
+    effectConfig = JSON.parse(JSON.stringify(config[effect]));
   }
 
   const updatedEffectConfig = {

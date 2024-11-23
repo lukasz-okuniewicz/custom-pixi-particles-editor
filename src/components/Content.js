@@ -121,11 +121,23 @@ export default function Content() {
           delete customPoint.frequency;
           delete customPoint.delta;
         }
+        if (customPoint.spawnType && customPoint.spawnType !== "Path") {
+          delete customPoint.pathPoints;
+        }
+        if (
+          customPoint.spawnType &&
+          customPoint.spawnType !== "Helix" &&
+          customPoint.spawnType !== "Spring"
+        ) {
+          delete customPoint.pitch;
+          delete customPoint.turns;
+        }
         if (
           (customPoint.spawnType && customPoint.spawnType === "Word") ||
           customPoint.spawnType === "Rectangle" ||
           customPoint.spawnType === "Cone" ||
           customPoint.spawnType === "Grid" ||
+          customPoint.spawnType === "Path" ||
           customPoint.spawnType === "FrameRectangle"
         ) {
           delete customPoint.radius;

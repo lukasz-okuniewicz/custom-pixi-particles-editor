@@ -20,7 +20,10 @@ import pixiRefs from "@pixi/pixiRefs";
 export default function SpawnProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
   const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
+  const [selectedPathPositionIndex, setSelectedPathPositionIndex] =
+    useState(null);
   const selectedPositionIndexRef = useRef(null);
+  const selectedPathPositionIndexRef = useRef(null);
 
   if (index === -1) {
     const x = JSON.parse(JSON.stringify(defaultConfig));
@@ -68,6 +71,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
         delta: 1,
         pitch: 50,
         turns: 5,
+        pathPoints: [{ x: 0, y: 0, z: 0 }],
       },
     ],
     name: "PositionBehaviour",
@@ -89,6 +93,8 @@ export default function SpawnProperties({ defaultConfig, index }) {
       Bezier: true,
       Heart: true,
       Helix: true,
+      Spring: true,
+      Path: true,
     };
     return Object.keys(names)
       .sort()
@@ -149,13 +155,25 @@ export default function SpawnProperties({ defaultConfig, index }) {
         const newX = localPosition.x - pixiRefs.app.screen.width / 2;
         const newY = localPosition.y - pixiRefs.app.screen.height / 2;
 
-        behaviour.customPoints[selectedPositionIndexRef.current].position = {
-          x: parseInt(newX),
-          y: parseInt(newY),
-        }; // Update the specific point
+        if (selectedPathPositionIndexRef.current !== null) {
+          behaviour.customPoints[selectedPositionIndexRef.current].pathPoints[
+            selectedPathPositionIndexRef.current
+          ] = {
+            x: parseInt(newX),
+            y: parseInt(newY),
+            z: 0,
+          }; // Update the specific point
+        } else {
+          behaviour.customPoints[selectedPositionIndexRef.current].position = {
+            x: parseInt(newX),
+            y: parseInt(newY),
+          }; // Update the specific point
+        }
 
         setSelectedPositionIndex(null);
         selectedPositionIndexRef.current = null;
+        setSelectedPathPositionIndex(null);
+        selectedPathPositionIndexRef.current = null;
 
         updateBehaviours();
       }
@@ -195,10 +213,35 @@ export default function SpawnProperties({ defaultConfig, index }) {
     updateBehaviours();
   };
 
+  const addPathPoint = (e, index) => {
+    e.stopPropagation();
+    const newPath = { x: 0, y: 0, z: 0 }; // Default values for new line
+    behaviour.customPoints[index].pathPoints = [
+      ...behaviour.customPoints[index].pathPoints,
+      newPath,
+    ];
+    updateBehaviours();
+  };
+
+  const removePathPoint = (e, index, pathIndex) => {
+    e.stopPropagation();
+    behaviour.customPoints[index].pathPoints = behaviour.customPoints[
+      index
+    ].pathPoints.filter((_, i) => i !== pathIndex);
+    updateBehaviours();
+  };
+
   const selectPosition = (index, event) => {
     event.stopPropagation();
     setSelectedPositionIndex(index);
     selectedPositionIndexRef.current = index;
+  };
+
+  const selectPathPoint = (event, index, pathIndex) => {
+    event.stopPropagation();
+    setSelectedPathPositionIndex(pathIndex);
+    selectedPathPositionIndexRef.current = pathIndex;
+    selectPosition(index, event);
   };
 
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return <></>;
@@ -276,7 +319,8 @@ export default function SpawnProperties({ defaultConfig, index }) {
               />
               <button
                 className={
-                  selectedPositionIndex === index
+                  selectedPositionIndex === index &&
+                  selectedPathPositionIndex === null
                     ? "btn btn-default btn-block active"
                     : "btn btn-default btn-block"
                 }
@@ -300,6 +344,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   updateBehaviours();
                 }}
               />
+              <hr />
               <Select
                 label="Spawn Type"
                 defaultValue={
@@ -318,6 +363,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 customPoint.spawnType === "Helix" ||
                 customPoint.spawnType === "Spiral" ||
                 customPoint.spawnType === "Heart" ||
+                customPoint.spawnType === "Spring" ||
                 customPoint.spawnType === "Lissajous" ||
                 customPoint.spawnType === "Ring") && (
                 <InputNumber
@@ -348,6 +394,59 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
+              )}
+              {customPoint.spawnType === "Path" &&
+                customPoint.pathPoints &&
+                customPoint.pathPoints.map((pathPoint, pathIndex) => (
+                  <Fragment key={"pathPoint" + pathIndex}>
+                    <InputNumber
+                      label="Path Point"
+                      id="point"
+                      params={["x", "y", "z"]}
+                      value={[
+                        pathPoint.x ?? 0,
+                        pathPoint.y ?? 0,
+                        pathPoint.z ?? 0,
+                      ]}
+                      step="1"
+                      onChange={(value, id) => {
+                        pathPoint[id] = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <div className="form-group">
+                      <div className="col-xs-8">
+                        <button
+                          className={
+                            selectedPathPositionIndex === pathIndex
+                              ? "btn btn-default btn-block active"
+                              : "btn btn-default btn-block"
+                          }
+                          onClick={(e) => selectPathPoint(e, index, pathIndex)}
+                        >
+                          Select Path Point
+                        </button>
+                      </div>
+                      <div className="col-xs-8">
+                        <button
+                          className="btn btn-default btn-block btn-remove"
+                          onClick={(e) => removePathPoint(e, index, pathIndex)}
+                        >
+                          Remove Path Point
+                        </button>
+                      </div>
+                    </div>
+                  </Fragment>
+                ))}
+              {customPoint.spawnType === "Path" && (
+                <>
+                  <button
+                    className="btn btn-default btn-block"
+                    onClick={(e) => addPathPoint(e, index)}
+                  >
+                    Add Another Path Point
+                  </button>
+                </>
               )}
               {customPoint.spawnType === "Lissajous" && (
                 <>
@@ -481,7 +580,8 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   }}
                 />
               )}
-              {customPoint.spawnType === "Helix" && (
+              {(customPoint.spawnType === "Helix" ||
+                customPoint.spawnType === "Spring") && (
                 <>
                   <InputNumber
                     label="Pitch"
@@ -783,13 +883,10 @@ export default function SpawnProperties({ defaultConfig, index }) {
               )}
               {index > 0 && (
                 <>
+                  <br />
                   <button
-                    className="btn btn-default btn-block"
+                    className="btn btn-default btn-block btn-remove"
                     onClick={(e) => removeCustomSpawnPoint(index, e)}
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(rgb(71 11 11) 0px, rgb(136 13 13) 100%)",
-                    }}
                   >
                     Remove Custom Spawn Point
                   </button>
@@ -797,6 +894,8 @@ export default function SpawnProperties({ defaultConfig, index }) {
               )}
             </Fragment>
           ))}
+        <br />
+        <hr />
         <br />
         <button
           className="btn btn-default btn-block"

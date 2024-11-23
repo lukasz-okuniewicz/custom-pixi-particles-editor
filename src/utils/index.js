@@ -148,56 +148,70 @@ export const updateNestedConfig = (config, keys, value, id) => {
 };
 
 export const resize = (contentRef) => {
-  const {
-    app,
-    particlesContainer,
-    graphics,
-    bgContainer,
-    bgContainer2,
-    bgSprite,
-    bgSprite2,
-    bgSpriteSize,
-  } = pixiRefs;
+  const { app, bgSprite, particlesContainer, graphics, bgSprite2 } = pixiRefs;
 
-  if (!contentRef) return;
-  if (!contentRef.current) return;
+  if (!contentRef || !contentRef.current) return;
 
   const content = contentRef.current;
   const finalInnerWidth = content.clientWidth;
   const finalInnerHeight = content.clientHeight;
 
+  // Original game dimensions
+  const GAME_WIDTH = 1334;
+  const GAME_HEIGHT = 750;
+
+  // Resize renderer
   app.renderer.view.style.width = `${finalInnerWidth}px`;
   app.renderer.view.style.height = `${finalInnerHeight}px`;
   app.renderer.resize(finalInnerWidth, finalInnerHeight);
 
-  particlesContainer.position.x = content.clientWidth / 2;
-  particlesContainer.position.y = content.clientHeight / 2;
-  graphics.position.set(content.clientWidth / 2, content.clientHeight / 2);
+  particlesContainer.position.x = GAME_WIDTH / 2;
+  particlesContainer.position.y = GAME_HEIGHT / 2;
+  graphics.position.set(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 
+  // Scale the stage
+  const stageScale = Math.min(
+    finalInnerWidth / GAME_WIDTH,
+    finalInnerHeight / GAME_HEIGHT,
+  );
+  app.stage.scale.set(stageScale);
+  app.stage.position.set(
+    (finalInnerWidth - GAME_WIDTH * stageScale) / 2, // Center horizontally
+    (finalInnerHeight - GAME_HEIGHT * stageScale) / 2, // Center vertically
+  );
+
+  // Adjust background sprite to 100% width while maintaining aspect ratio
   if (bgSprite) {
-    let scale;
-    if (finalInnerWidth - 400 < bgSpriteSize.w) {
-      scale = finalInnerWidth / bgSpriteSize.w;
-      bgContainer.position.x = 0;
-      bgContainer.position.y = (finalInnerHeight - bgSpriteSize.h * scale) / 2;
-      bgContainer2.position.x = 0;
-      bgContainer2.position.y = (finalInnerHeight - bgSpriteSize.h * scale) / 2;
+    const isPortrait = bgSprite.height > bgSprite.width;
+    if (!isPortrait) {
+      const scale = GAME_WIDTH / bgSprite.width;
+      bgSprite.width = GAME_WIDTH;
+      bgSprite.height = bgSprite.height * scale;
+
+      bgSprite.position.set(0, (GAME_HEIGHT - bgSprite.height) / 2);
     } else {
-      scale = finalInnerHeight / bgSpriteSize.h;
-      bgContainer.position.x = (finalInnerWidth - bgSpriteSize.w * scale) / 2;
-      bgContainer.position.y = 0;
-      bgContainer2.position.x = (finalInnerWidth - bgSpriteSize.w * scale) / 2;
-      bgContainer2.position.y = 0;
+      const scale = GAME_HEIGHT / bgSprite.height;
+      bgSprite.height = GAME_HEIGHT;
+      bgSprite.width = bgSprite.width * scale;
+
+      bgSprite.position.set((GAME_WIDTH - bgSprite.width) / 2, 0);
     }
-    if (bgSprite) {
-      bgSprite.scale.set(scale);
+  }
+  if (bgSprite2) {
+    const isPortrait = bgSprite2.height > bgSprite2.width;
+    if (!isPortrait) {
+      const scale = GAME_WIDTH / bgSprite2.width;
+      bgSprite2.width = GAME_WIDTH;
+      bgSprite2.height = bgSprite2.height * scale;
+
+      bgSprite2.position.set(0, (GAME_HEIGHT - bgSprite2.height) / 2);
+    } else {
+      const scale = GAME_HEIGHT / bgSprite2.height;
+      bgSprite2.height = GAME_HEIGHT;
+      bgSprite2.width = bgSprite2.width * scale;
+
+      bgSprite2.position.set((GAME_WIDTH - bgSprite2.width) / 2, 0);
     }
-    if (bgSprite2) {
-      bgSprite2.scale.set(scale);
-    }
-    particlesContainer.scale.set(scale);
-  } else {
-    particlesContainer.scale.set(1);
   }
 };
 

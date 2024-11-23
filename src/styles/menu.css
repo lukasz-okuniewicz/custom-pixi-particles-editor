@@ -306,3 +306,7 @@ a {
 a:hover {
   color: #00ffb9;
 }
+
+.btn-remove {
+  background-image: linear-gradient(rgb(71, 11, 11) 0px, rgb(136, 13, 13) 100%);
+}

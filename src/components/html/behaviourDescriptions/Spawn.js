@@ -70,6 +70,16 @@ const SpawnDescription = () => {
               <li>
                 <b>Lissajous:</b> Mathematical figure-eight-like paths.
               </li>
+              <li>
+                <b>Spring:</b> Particles distributed along a 3D spring-like
+                spiral with adjustable radius, pitch, and number of turns,
+                creating a dynamic, coiled effect.
+              </li>
+              <li>
+                <b>Path:</b> Particles are distributed along a user-defined
+                series of connected points. The path can consist of
+                straight-line segments, with optional 3D depth variations.
+              </li>
             </ul>
           </li>
           <li>
@@ -136,6 +146,10 @@ const SpawnDescription = () => {
             Animated: Hello How Are You?
           </a>
           <br />
+          <a href="/?effect=house" target="_blank">
+            Animated: House
+          </a>
+          <br />
           <a href="/?effect=helloWord" target="_blank">
             Static: Hello Word
           </a>
@@ -146,6 +160,10 @@ const SpawnDescription = () => {
           <br />
           <a href="/?effect=starAnimations" target="_blank">
             Star Animation
+          </a>
+          <br />
+          <a href="/?effect=path" target="_blank">
+            Path
           </a>
         </span>
       </div>

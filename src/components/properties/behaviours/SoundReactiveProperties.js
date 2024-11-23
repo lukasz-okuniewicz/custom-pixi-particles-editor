@@ -89,6 +89,15 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   };
 
   useEffect(() => {
+    if (isPlaying && !behaviour.audioContext) {
+      playMusic({
+        audioSources,
+        behaviour,
+        defaultConfig,
+        index,
+      });
+    }
+
     if (
       lastParticlePredefinedEffect &&
       defaultConfig.particlePredefinedEffect !== lastParticlePredefinedEffect
@@ -159,7 +168,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           defaultValue={predefinedMusic}
           onChange={(value) => {
             setIsPlaying(true);
-            const nextIndex = playMusic({
+            playMusic({
               audioSources: [],
               behaviour,
               defaultConfig,
