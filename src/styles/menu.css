@@ -335,3 +335,7 @@ h3 {
 h3:hover {
   color: #00ffe9;
 }
+
+.alert {
+  border: 1px solid #ff0000;
+}

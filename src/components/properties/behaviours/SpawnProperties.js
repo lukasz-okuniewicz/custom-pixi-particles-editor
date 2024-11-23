@@ -216,7 +216,6 @@ export default function SpawnProperties({ defaultConfig, index }) {
     e.stopPropagation();
     const newLine = {
       ...keysToInitialize.customPoints[0],
-      ...JSON.parse(JSON.stringify(behaviour.customPoints[0])),
     }; // Default values for new line
     behaviour.customPoints = [...behaviour.customPoints, newLine];
     updateBehaviours();
@@ -316,6 +315,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 />
                 <InputNumber
                   label="Position"
+                  className={customPoint.spawnType === "Path" ? "alert" : ""}
                   id="position"
                   params={["x", "y"]}
                   value={[

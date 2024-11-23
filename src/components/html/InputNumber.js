@@ -3,7 +3,18 @@ import PropTypes from "prop-types";
 
 const InputNumber = forwardRef(
   (
-    { label, onChange, value, id, step, tooltipText, params, max, min },
+    {
+      label,
+      onChange,
+      value,
+      id,
+      step,
+      tooltipText,
+      params,
+      max,
+      min,
+      className,
+    },
     ref,
   ) => {
     const handleInputChange = (value, newValue) => {
@@ -15,7 +26,7 @@ const InputNumber = forwardRef(
     const renderInput = (inputValue, index, value) => (
       <div className="col-xs-4" key={index}>
         <input
-          className="form-control"
+          className={"form-control " + (inputValue !== 0 ? className : "")}
           type="number"
           id={`${id}-${index}`}
           step={step}
@@ -52,7 +63,9 @@ const InputNumber = forwardRef(
             <input
               ref={ref}
               id={id}
-              className="form-control"
+              className={
+                "form-control " + (parseFloat(value) !== 0 ? className : "")
+              }
               type="number"
               step={step}
               min={min}
