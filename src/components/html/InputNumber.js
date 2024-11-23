@@ -57,10 +57,16 @@ const InputNumber = forwardRef(
               step={step}
               min={min}
               max={max}
-              value={value || 0}
-              onChange={(e) =>
-                handleInputChange(null, parseFloat(e.target.value) || 0)
-              }
+              value={value}
+              onChange={(e) => {
+                const val = parseFloat(e.target.value);
+                if (!Number.isNaN(val)) {
+                  handleInputChange(null, val);
+                } else {
+                  console.log(2);
+                  handleInputChange(null, e.target.value);
+                }
+              }}
               aria-describedby={tooltipText ? `${id}-tooltip` : undefined}
             />
             {tooltipText && (

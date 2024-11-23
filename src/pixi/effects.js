@@ -20,6 +20,7 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
     !defaultConfig.refresh
   ) {
     updateParticles(defaultConfig);
+    reloadEverything(defaultConfig, fullConfig);
   } else {
     killTween();
     resetPixiContainers();
@@ -52,15 +53,11 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
     },
     snowWithCollision: () => {
       createSprite("house");
-      pixiRefs.graphics.visible = false;
     },
     campFire: () => createSprite("campFire"),
     campFireTurbulence: () => createSprite("campFire"),
     birds: () => createSprite("birds"),
     cigarette: () => createSprite("cigarette"),
-    coinShowerWithCollision: () => {
-      pixiRefs.graphics.visible = false;
-    },
   };
 
   const effectHandler = effectMapping[defaultConfig.particlePredefinedEffect];
