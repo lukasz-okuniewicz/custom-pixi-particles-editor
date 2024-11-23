@@ -19,6 +19,8 @@ import pixiRefs from "@pixi/pixiRefs";
 
 export default function SpawnProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+  const [isCustomPointSubmenuVisible, setIsCustomPointSubmenuVisible] =
+    useState({});
   const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
   const [selectedPathPositionIndex, setSelectedPathPositionIndex] =
     useState(null);
@@ -140,6 +142,13 @@ export default function SpawnProperties({ defaultConfig, index }) {
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {
     setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
+  }, []);
+
+  const toggleCustomPointSubmenuVisibility = useCallback((customPointIndex) => {
+    setIsCustomPointSubmenuVisible((prev) => ({
+      ...prev,
+      [customPointIndex]: !prev[customPointIndex],
+    }));
   }, []);
 
   useEffect(() => {
@@ -274,628 +283,637 @@ export default function SpawnProperties({ defaultConfig, index }) {
         {behaviour.customPoints &&
           behaviour.customPoints.map((customPoint, index) => (
             <Fragment key={index}>
-              <br />
-              <hr />
-              <InputNumber
-                label="Perspective"
-                id="perspective"
-                value={
-                  customPoint.perspective ??
-                  keysToInitialize.customPoints[0].perspective
-                }
-                step="100"
-                onChange={(value) => {
-                  customPoint.perspective = value;
-                  updateBehaviours();
-                }}
-              />
-              <InputNumber
-                label="Max Z"
-                id="maxZ"
-                value={
-                  customPoint.maxZ ?? keysToInitialize.customPoints[0].maxZ
-                }
-                step="100"
-                onChange={(value) => {
-                  customPoint.maxZ = value;
-                  updateBehaviours();
-                }}
-              />
-              <InputNumber
-                label="Position"
-                id="position"
-                params={["x", "y"]}
-                value={[
-                  customPoint.position.x ??
-                    keysToInitialize.customPoints[0].position.x,
-                  customPoint.position.y ??
-                    keysToInitialize.customPoints[0].position.y,
-                ]}
-                step="1"
-                onChange={(value, id) => {
-                  customPoint.position[id] = value;
-                  updateBehaviours();
-                }}
-              />
-              <button
-                className={
-                  selectedPositionIndex === index &&
-                  selectedPathPositionIndex === null
-                    ? "btn btn-default btn-block active"
-                    : "btn btn-default btn-block"
-                }
-                onClick={(e) => selectPosition(index, e)}
+              <h3 onClick={() => toggleCustomPointSubmenuVisibility(index)}>
+                Custom Point {index} - {customPoint.spawnType}
+              </h3>
+              <div
+                className={isCustomPointSubmenuVisible[index] ? "" : "collapse"}
               >
-                Select Position
-              </button>
-              <InputNumber
-                label="Position Variance"
-                id="position-variance"
-                params={["x", "y"]}
-                value={[
-                  customPoint.positionVariance.x ??
-                    keysToInitialize.customPoints[0].positionVariance.x,
-                  customPoint.positionVariance.y ??
-                    keysToInitialize.customPoints[0].positionVariance.y,
-                ]}
-                step="1"
-                onChange={(value, id) => {
-                  customPoint.positionVariance[id] = value;
-                  updateBehaviours();
-                }}
-              />
-              <hr />
-              <Select
-                label="Spawn Type"
-                defaultValue={
-                  customPoint.spawnType ||
-                  keysToInitialize.customPoints[0].spawnType
-                }
-                onChange={(value) => {
-                  customPoint.spawnType = value;
-                  updateBehaviours();
-                }}
-                elements={predefinedSpawnType}
-              />
-
-              {(customPoint.spawnType === "Star" ||
-                customPoint.spawnType === "Sphere" ||
-                customPoint.spawnType === "Helix" ||
-                customPoint.spawnType === "Spiral" ||
-                customPoint.spawnType === "Heart" ||
-                customPoint.spawnType === "Spring" ||
-                customPoint.spawnType === "Lissajous" ||
-                customPoint.spawnType === "Ring") && (
                 <InputNumber
-                  label="Radius"
-                  id="radius"
+                  label="Perspective"
+                  id="perspective"
                   value={
-                    customPoint.radius ??
-                    keysToInitialize.customPoints[0].radius
+                    customPoint.perspective ??
+                    keysToInitialize.customPoints[0].perspective
                   }
-                  step="1"
+                  step="100"
                   onChange={(value) => {
-                    customPoint.radius = value;
+                    customPoint.perspective = value;
                     updateBehaviours();
                   }}
                 />
-              )}
-              {customPoint.spawnType === "Frame" && (
                 <InputNumber
-                  label="Area"
-                  id="radius"
+                  label="Max Z"
+                  id="maxZ"
                   value={
-                    customPoint.radius ??
-                    keysToInitialize.customPoints[0].radius
+                    customPoint.maxZ ?? keysToInitialize.customPoints[0].maxZ
                   }
-                  step="1"
+                  step="100"
                   onChange={(value) => {
-                    customPoint.radius = value;
+                    customPoint.maxZ = value;
                     updateBehaviours();
                   }}
                 />
-              )}
-              {customPoint.spawnType === "Path" &&
-                customPoint.pathPoints &&
-                customPoint.pathPoints.map((pathPoint, pathIndex) => (
-                  <Fragment key={"pathPoint" + pathIndex}>
+                <InputNumber
+                  label="Position"
+                  id="position"
+                  params={["x", "y"]}
+                  value={[
+                    customPoint.position.x ??
+                      keysToInitialize.customPoints[0].position.x,
+                    customPoint.position.y ??
+                      keysToInitialize.customPoints[0].position.y,
+                  ]}
+                  step="1"
+                  onChange={(value, id) => {
+                    customPoint.position[id] = value;
+                    updateBehaviours();
+                  }}
+                />
+                <button
+                  className={
+                    selectedPositionIndex === index &&
+                    selectedPathPositionIndex === null
+                      ? "btn btn-default btn-block active"
+                      : "btn btn-default btn-block"
+                  }
+                  onClick={(e) => selectPosition(index, e)}
+                >
+                  Select Position
+                </button>
+                <InputNumber
+                  label="Position Variance"
+                  id="position-variance"
+                  params={["x", "y"]}
+                  value={[
+                    customPoint.positionVariance.x ??
+                      keysToInitialize.customPoints[0].positionVariance.x,
+                    customPoint.positionVariance.y ??
+                      keysToInitialize.customPoints[0].positionVariance.y,
+                  ]}
+                  step="1"
+                  onChange={(value, id) => {
+                    customPoint.positionVariance[id] = value;
+                    updateBehaviours();
+                  }}
+                />
+                <hr />
+                <Select
+                  label="Spawn Type"
+                  defaultValue={
+                    customPoint.spawnType ||
+                    keysToInitialize.customPoints[0].spawnType
+                  }
+                  onChange={(value) => {
+                    customPoint.spawnType = value;
+                    updateBehaviours();
+                  }}
+                  elements={predefinedSpawnType}
+                />
+                {(customPoint.spawnType === "Star" ||
+                  customPoint.spawnType === "Sphere" ||
+                  customPoint.spawnType === "Helix" ||
+                  customPoint.spawnType === "Spiral" ||
+                  customPoint.spawnType === "Heart" ||
+                  customPoint.spawnType === "Spring" ||
+                  customPoint.spawnType === "Lissajous" ||
+                  customPoint.spawnType === "Ring") && (
+                  <InputNumber
+                    label="Radius"
+                    id="radius"
+                    value={
+                      customPoint.radius ??
+                      keysToInitialize.customPoints[0].radius
+                    }
+                    step="1"
+                    onChange={(value) => {
+                      customPoint.radius = value;
+                      updateBehaviours();
+                    }}
+                  />
+                )}
+                {customPoint.spawnType === "Frame" && (
+                  <InputNumber
+                    label="Area"
+                    id="radius"
+                    value={
+                      customPoint.radius ??
+                      keysToInitialize.customPoints[0].radius
+                    }
+                    step="1"
+                    onChange={(value) => {
+                      customPoint.radius = value;
+                      updateBehaviours();
+                    }}
+                  />
+                )}
+                {customPoint.spawnType === "Path" &&
+                  customPoint.pathPoints &&
+                  customPoint.pathPoints.map((pathPoint, pathIndex) => (
+                    <Fragment key={"pathPoint" + pathIndex}>
+                      <InputNumber
+                        label="Path Point"
+                        id="point"
+                        params={["x", "y", "z"]}
+                        value={[
+                          pathPoint.x ?? 0,
+                          pathPoint.y ?? 0,
+                          pathPoint.z ?? 0,
+                        ]}
+                        step="1"
+                        onChange={(value, id) => {
+                          pathPoint[id] = value;
+                          updateBehaviours();
+                        }}
+                      />
+                      <div className="form-group">
+                        <div className="col-xs-8">
+                          <button
+                            className={
+                              selectedPathPositionIndex === pathIndex
+                                ? "btn btn-default btn-block active"
+                                : "btn btn-default btn-block"
+                            }
+                            onClick={(e) =>
+                              selectPathPoint(e, index, pathIndex)
+                            }
+                          >
+                            Select Path Point
+                          </button>
+                        </div>
+                        <div className="col-xs-8">
+                          <button
+                            className="btn btn-default btn-block btn-remove"
+                            onClick={(e) =>
+                              removePathPoint(e, index, pathIndex)
+                            }
+                          >
+                            Remove Path Point
+                          </button>
+                        </div>
+                      </div>
+                    </Fragment>
+                  ))}
+                {customPoint.spawnType === "Path" && (
+                  <>
+                    <button
+                      className="btn btn-default btn-block"
+                      onClick={(e) => addPathPoint(e, index)}
+                    >
+                      Add Another Path Point
+                    </button>
+                  </>
+                )}
+                {customPoint.spawnType === "Lissajous" && (
+                  <>
                     <InputNumber
-                      label="Path Point"
-                      id="point"
-                      params={["x", "y", "z"]}
+                      label="Frequency"
+                      id="frequency"
+                      params={["x", "y"]}
                       value={[
-                        pathPoint.x ?? 0,
-                        pathPoint.y ?? 0,
-                        pathPoint.z ?? 0,
+                        customPoint.frequency.x ??
+                          keysToInitialize.customPoints[0].frequency.x,
+                        customPoint.frequency.y ??
+                          keysToInitialize.customPoints[0].frequency.y,
                       ]}
                       step="1"
                       onChange={(value, id) => {
-                        pathPoint[id] = value;
+                        customPoint.frequency[id] = value;
                         updateBehaviours();
                       }}
                     />
-                    <div className="form-group">
-                      <div className="col-xs-8">
-                        <button
-                          className={
-                            selectedPathPositionIndex === pathIndex
-                              ? "btn btn-default btn-block active"
-                              : "btn btn-default btn-block"
-                          }
-                          onClick={(e) => selectPathPoint(e, index, pathIndex)}
-                        >
-                          Select Path Point
-                        </button>
-                      </div>
-                      <div className="col-xs-8">
-                        <button
-                          className="btn btn-default btn-block btn-remove"
-                          onClick={(e) => removePathPoint(e, index, pathIndex)}
-                        >
-                          Remove Path Point
-                        </button>
-                      </div>
-                    </div>
-                  </Fragment>
-                ))}
-              {customPoint.spawnType === "Path" && (
-                <>
-                  <button
-                    className="btn btn-default btn-block"
-                    onClick={(e) => addPathPoint(e, index)}
-                  >
-                    Add Another Path Point
-                  </button>
-                </>
-              )}
-              {customPoint.spawnType === "Lissajous" && (
-                <>
+                    <InputNumber
+                      label="Delta"
+                      id="delta"
+                      value={
+                        customPoint.delta ??
+                        keysToInitialize.customPoints[0].delta
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.delta = value;
+                        updateBehaviours();
+                      }}
+                    />
+                  </>
+                )}
+                {customPoint.spawnType === "Bezier" && (
+                  <>
+                    <InputNumber
+                      label="Start"
+                      id="start"
+                      params={["x", "y"]}
+                      value={[
+                        customPoint.start.x ??
+                          keysToInitialize.customPoints[0].start.x,
+                        customPoint.start.y ??
+                          keysToInitialize.customPoints[0].start.y,
+                      ]}
+                      step="1"
+                      onChange={(value, id) => {
+                        customPoint.start[id] = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="End"
+                      id="end"
+                      params={["x", "y"]}
+                      value={[
+                        customPoint.end.x ??
+                          keysToInitialize.customPoints[0].end.x,
+                        customPoint.end.y ??
+                          keysToInitialize.customPoints[0].end.y,
+                      ]}
+                      step="1"
+                      onChange={(value, id) => {
+                        customPoint.end[id] = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Control 1"
+                      id="control1"
+                      params={["x", "y"]}
+                      value={[
+                        customPoint.control1.x ??
+                          keysToInitialize.customPoints[0].control1.x,
+                        customPoint.control1.y ??
+                          keysToInitialize.customPoints[0].control1.y,
+                      ]}
+                      step="1"
+                      onChange={(value, id) => {
+                        customPoint.control1[id] = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Control 2"
+                      id="control2"
+                      params={["x", "y"]}
+                      value={[
+                        customPoint.control2.x ??
+                          keysToInitialize.customPoints[0].control2.x,
+                        customPoint.control2.y ??
+                          keysToInitialize.customPoints[0].control2.y,
+                      ]}
+                      step="1"
+                      onChange={(value, id) => {
+                        customPoint.control2[id] = value;
+                        updateBehaviours();
+                      }}
+                    />
+                  </>
+                )}
+                {customPoint.spawnType === "FrameRectangle" && (
                   <InputNumber
-                    label="Frequency"
-                    id="frequency"
-                    params={["x", "y"]}
-                    value={[
-                      customPoint.frequency.x ??
-                        keysToInitialize.customPoints[0].frequency.x,
-                      customPoint.frequency.y ??
-                        keysToInitialize.customPoints[0].frequency.y,
-                    ]}
-                    step="1"
-                    onChange={(value, id) => {
-                      customPoint.frequency[id] = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Delta"
-                    id="delta"
+                    label="Width"
+                    id="radiusx"
                     value={
-                      customPoint.delta ??
-                      keysToInitialize.customPoints[0].delta
+                      customPoint.radiusX ??
+                      keysToInitialize.customPoints[0].radiusX
                     }
                     step="1"
                     onChange={(value) => {
-                      customPoint.delta = value;
+                      customPoint.radiusX = value;
                       updateBehaviours();
                     }}
                   />
-                </>
-              )}
-              {customPoint.spawnType === "Bezier" && (
-                <>
-                  <InputNumber
-                    label="Start"
-                    id="start"
-                    params={["x", "y"]}
-                    value={[
-                      customPoint.start.x ??
-                        keysToInitialize.customPoints[0].start.x,
-                      customPoint.start.y ??
-                        keysToInitialize.customPoints[0].start.y,
-                    ]}
-                    step="1"
-                    onChange={(value, id) => {
-                      customPoint.start[id] = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="End"
-                    id="end"
-                    params={["x", "y"]}
-                    value={[
-                      customPoint.end.x ??
-                        keysToInitialize.customPoints[0].end.x,
-                      customPoint.end.y ??
-                        keysToInitialize.customPoints[0].end.y,
-                    ]}
-                    step="1"
-                    onChange={(value, id) => {
-                      customPoint.end[id] = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Control 1"
-                    id="control1"
-                    params={["x", "y"]}
-                    value={[
-                      customPoint.control1.x ??
-                        keysToInitialize.customPoints[0].control1.x,
-                      customPoint.control1.y ??
-                        keysToInitialize.customPoints[0].control1.y,
-                    ]}
-                    step="1"
-                    onChange={(value, id) => {
-                      customPoint.control1[id] = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Control 2"
-                    id="control2"
-                    params={["x", "y"]}
-                    value={[
-                      customPoint.control2.x ??
-                        keysToInitialize.customPoints[0].control2.x,
-                      customPoint.control2.y ??
-                        keysToInitialize.customPoints[0].control2.y,
-                    ]}
-                    step="1"
-                    onChange={(value, id) => {
-                      customPoint.control2[id] = value;
-                      updateBehaviours();
-                    }}
-                  />
-                </>
-              )}
-              {customPoint.spawnType === "FrameRectangle" && (
-                <InputNumber
-                  label="Width"
-                  id="radiusx"
-                  value={
-                    customPoint.radiusX ??
-                    keysToInitialize.customPoints[0].radiusX
-                  }
-                  step="1"
-                  onChange={(value) => {
-                    customPoint.radiusX = value;
-                    updateBehaviours();
-                  }}
-                />
-              )}
-              {(customPoint.spawnType === "FrameRectangle" ||
-                customPoint.spawnType === "Helix") && (
-                <InputNumber
-                  label="Height"
-                  id="radiusy"
-                  value={
-                    customPoint.radiusY ??
-                    keysToInitialize.customPoints[0].radiusY
-                  }
-                  step="1"
-                  onChange={(value) => {
-                    customPoint.radiusY = value;
-                    updateBehaviours();
-                  }}
-                />
-              )}
-              {(customPoint.spawnType === "Helix" ||
-                customPoint.spawnType === "Spring") && (
-                <>
-                  <InputNumber
-                    label="Pitch"
-                    id="pitch"
-                    value={
-                      customPoint.pitch ??
-                      keysToInitialize.customPoints[0].pitch
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.pitch = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Turns"
-                    id="turns"
-                    value={
-                      customPoint.turns ??
-                      keysToInitialize.customPoints[0].turns
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.turns = value;
-                      updateBehaviours();
-                    }}
-                  />
-                </>
-              )}
-              {customPoint.spawnType === "Cone" && (
-                <>
-                  <InputNumber
-                    label="Base Radius"
-                    id="baseRadius"
-                    value={
-                      customPoint.baseRadius ??
-                      keysToInitialize.customPoints[0].baseRadius
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.baseRadius = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Angle"
-                    id="coneAngle"
-                    value={
-                      customPoint.coneAngle ??
-                      keysToInitialize.customPoints[0].coneAngle
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.coneAngle = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Direction"
-                    id="coneDirection"
-                    value={
-                      customPoint.coneDirection ??
-                      keysToInitialize.customPoints[0].coneDirection
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.coneDirection = value;
-                      updateBehaviours();
-                    }}
-                  />
+                )}
+                {(customPoint.spawnType === "FrameRectangle" ||
+                  customPoint.spawnType === "Helix") && (
                   <InputNumber
                     label="Height"
-                    id="height"
+                    id="radiusy"
                     value={
-                      customPoint.height ??
-                      keysToInitialize.customPoints[0].height
+                      customPoint.radiusY ??
+                      keysToInitialize.customPoints[0].radiusY
                     }
                     step="1"
                     onChange={(value) => {
-                      customPoint.height = value;
+                      customPoint.radiusY = value;
                       updateBehaviours();
                     }}
                   />
+                )}
+                {(customPoint.spawnType === "Helix" ||
+                  customPoint.spawnType === "Spring") && (
+                  <>
+                    <InputNumber
+                      label="Pitch"
+                      id="pitch"
+                      value={
+                        customPoint.pitch ??
+                        keysToInitialize.customPoints[0].pitch
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.pitch = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Turns"
+                      id="turns"
+                      value={
+                        customPoint.turns ??
+                        keysToInitialize.customPoints[0].turns
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.turns = value;
+                        updateBehaviours();
+                      }}
+                    />
+                  </>
+                )}
+                {customPoint.spawnType === "Cone" && (
+                  <>
+                    <InputNumber
+                      label="Base Radius"
+                      id="baseRadius"
+                      value={
+                        customPoint.baseRadius ??
+                        keysToInitialize.customPoints[0].baseRadius
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.baseRadius = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Angle"
+                      id="coneAngle"
+                      value={
+                        customPoint.coneAngle ??
+                        keysToInitialize.customPoints[0].coneAngle
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.coneAngle = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Direction"
+                      id="coneDirection"
+                      value={
+                        customPoint.coneDirection ??
+                        keysToInitialize.customPoints[0].coneDirection
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.coneDirection = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Height"
+                      id="height"
+                      value={
+                        customPoint.height ??
+                        keysToInitialize.customPoints[0].height
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.height = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Apex"
+                      id="apex"
+                      params={["x", "y", "z"]}
+                      value={[
+                        customPoint.apex.x ??
+                          keysToInitialize.customPoints[0].apex.x,
+                        customPoint.apex.y ??
+                          keysToInitialize.customPoints[0].apex.y,
+                        customPoint.apex.z ??
+                          keysToInitialize.customPoints[0].apex.z,
+                      ]}
+                      step="1"
+                      onChange={(value, id) => {
+                        customPoint.apex[id] = value;
+                        updateBehaviours();
+                      }}
+                    />
+                  </>
+                )}
+                {customPoint.spawnType === "Grid" && (
+                  <>
+                    <InputNumber
+                      label="Rows"
+                      id="rows"
+                      value={
+                        customPoint.rows ??
+                        keysToInitialize.customPoints[0].rows
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.rows = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Columns"
+                      id="columns"
+                      value={
+                        customPoint.columns ??
+                        keysToInitialize.customPoints[0].columns
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.columns = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Cell Size"
+                      id="cellSize"
+                      value={
+                        customPoint.cellSize ??
+                        keysToInitialize.customPoints[0].cellSize
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.cellSize = value;
+                        updateBehaviours();
+                      }}
+                    />
+                  </>
+                )}
+                {customPoint.spawnType === "Sphere" && (
+                  <>
+                    <InputNumber
+                      label="Spread"
+                      id="spread"
+                      value={
+                        customPoint.spread ??
+                        keysToInitialize.customPoints[0].spread
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.spread = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Center"
+                      id="center"
+                      params={["x", "y", "z"]}
+                      value={[
+                        customPoint.center.x ??
+                          keysToInitialize.customPoints[0].center.x,
+                        customPoint.center.y ??
+                          keysToInitialize.customPoints[0].center.y,
+                        customPoint.center.z ??
+                          keysToInitialize.customPoints[0].center.z,
+                      ]}
+                      step="1"
+                      onChange={(value, id) => {
+                        customPoint.center[id] = value;
+                        updateBehaviours();
+                      }}
+                    />
+                  </>
+                )}
+                {customPoint.spawnType === "Star" && (
                   <InputNumber
-                    label="Apex"
-                    id="apex"
-                    params={["x", "y", "z"]}
-                    value={[
-                      customPoint.apex.x ??
-                        keysToInitialize.customPoints[0].apex.x,
-                      customPoint.apex.y ??
-                        keysToInitialize.customPoints[0].apex.y,
-                      customPoint.apex.z ??
-                        keysToInitialize.customPoints[0].apex.z,
-                    ]}
-                    step="1"
-                    onChange={(value, id) => {
-                      customPoint.apex[id] = value;
-                      updateBehaviours();
-                    }}
-                  />
-                </>
-              )}
-              {customPoint.spawnType === "Grid" && (
-                <>
-                  <InputNumber
-                    label="Rows"
-                    id="rows"
+                    label="Points"
+                    id="starPoints"
                     value={
-                      customPoint.rows ?? keysToInitialize.customPoints[0].rows
+                      customPoint.starPoints ??
+                      keysToInitialize.customPoints[0].starPoints
                     }
                     step="1"
                     onChange={(value) => {
-                      customPoint.rows = value;
+                      customPoint.starPoints = value;
                       updateBehaviours();
                     }}
                   />
-                  <InputNumber
-                    label="Columns"
-                    id="columns"
-                    value={
-                      customPoint.columns ??
-                      keysToInitialize.customPoints[0].columns
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.columns = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Cell Size"
-                    id="cellSize"
-                    value={
-                      customPoint.cellSize ??
-                      keysToInitialize.customPoints[0].cellSize
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.cellSize = value;
-                      updateBehaviours();
-                    }}
-                  />
-                </>
-              )}
-              {customPoint.spawnType === "Sphere" && (
-                <>
-                  <InputNumber
-                    label="Spread"
-                    id="spread"
-                    value={
-                      customPoint.spread ??
-                      keysToInitialize.customPoints[0].spread
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.spread = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Center"
-                    id="center"
-                    params={["x", "y", "z"]}
-                    value={[
-                      customPoint.center.x ??
-                        keysToInitialize.customPoints[0].center.x,
-                      customPoint.center.y ??
-                        keysToInitialize.customPoints[0].center.y,
-                      customPoint.center.z ??
-                        keysToInitialize.customPoints[0].center.z,
-                    ]}
-                    step="1"
-                    onChange={(value, id) => {
-                      customPoint.center[id] = value;
-                      updateBehaviours();
-                    }}
-                  />
-                </>
-              )}
-              {customPoint.spawnType === "Star" && (
-                <InputNumber
-                  label="Points"
-                  id="starPoints"
-                  value={
-                    customPoint.starPoints ??
-                    keysToInitialize.customPoints[0].starPoints
-                  }
-                  step="1"
-                  onChange={(value) => {
-                    customPoint.starPoints = value;
-                    updateBehaviours();
-                  }}
-                />
-              )}
-              {customPoint.spawnType === "Word" && (
-                <>
-                  <InputString
-                    label="Word"
-                    id="word"
-                    value={
-                      customPoint.word ?? keysToInitialize.customPoints[0].word
-                    }
-                    onChange={(value) => {
-                      customPoint.word = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Font Size"
-                    id="fontSize"
-                    value={
-                      customPoint.fontSize ??
-                      keysToInitialize.customPoints[0].fontSize
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.fontSize = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Font Spacing"
-                    id="fontSpacing"
-                    value={
-                      customPoint.fontSpacing ??
-                      keysToInitialize.customPoints[0].fontSpacing
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.fontSpacing = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Particle Density"
-                    id="particleDensity"
-                    value={
-                      customPoint.particleDensity ??
-                      keysToInitialize.customPoints[0].particleDensity
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.particleDensity = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Font Max Width"
-                    id="fontMaxWidth"
-                    value={
-                      customPoint.fontMaxWidth ??
-                      keysToInitialize.customPoints[0].fontMaxWidth
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.fontMaxWidth = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <InputNumber
-                    label="Font Max Height"
-                    id="fontMaxHeight"
-                    value={
-                      customPoint.fontMaxHeight ??
-                      keysToInitialize.customPoints[0].fontMaxHeight
-                    }
-                    step="1"
-                    onChange={(value) => {
-                      customPoint.fontMaxHeight = value;
-                      updateBehaviours();
-                    }}
-                  />
-                  <Select
-                    label="Text Align"
-                    defaultValue={
-                      customPoint.textAlign ||
-                      keysToInitialize.customPoints[0].textAlign
-                    }
-                    onChange={(value) => {
-                      customPoint.textAlign = value;
-                      updateBehaviours();
-                    }}
-                    elements={predefinedTextAlign}
-                  />
-                  <Select
-                    label="Text Baseline"
-                    defaultValue={
-                      customPoint.textBaseline ||
-                      keysToInitialize.customPoints[0].textBaseline
-                    }
-                    onChange={(value) => {
-                      customPoint.textBaseline = value;
-                      updateBehaviours();
-                    }}
-                    elements={predefinedTextBaseline}
-                  />
-                </>
-              )}
-              {index > 0 && (
-                <>
-                  <br />
-                  <button
-                    className="btn btn-default btn-block btn-remove"
-                    onClick={(e) => removeCustomSpawnPoint(index, e)}
-                  >
-                    Remove Custom Spawn Point
-                  </button>
-                </>
-              )}
+                )}
+                {customPoint.spawnType === "Word" && (
+                  <>
+                    <InputString
+                      label="Word"
+                      id="word"
+                      value={
+                        customPoint.word ??
+                        keysToInitialize.customPoints[0].word
+                      }
+                      onChange={(value) => {
+                        customPoint.word = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Font Size"
+                      id="fontSize"
+                      value={
+                        customPoint.fontSize ??
+                        keysToInitialize.customPoints[0].fontSize
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.fontSize = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Font Spacing"
+                      id="fontSpacing"
+                      value={
+                        customPoint.fontSpacing ??
+                        keysToInitialize.customPoints[0].fontSpacing
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.fontSpacing = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Particle Density"
+                      id="particleDensity"
+                      value={
+                        customPoint.particleDensity ??
+                        keysToInitialize.customPoints[0].particleDensity
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.particleDensity = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Font Max Width"
+                      id="fontMaxWidth"
+                      value={
+                        customPoint.fontMaxWidth ??
+                        keysToInitialize.customPoints[0].fontMaxWidth
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.fontMaxWidth = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Font Max Height"
+                      id="fontMaxHeight"
+                      value={
+                        customPoint.fontMaxHeight ??
+                        keysToInitialize.customPoints[0].fontMaxHeight
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.fontMaxHeight = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <Select
+                      label="Text Align"
+                      defaultValue={
+                        customPoint.textAlign ||
+                        keysToInitialize.customPoints[0].textAlign
+                      }
+                      onChange={(value) => {
+                        customPoint.textAlign = value;
+                        updateBehaviours();
+                      }}
+                      elements={predefinedTextAlign}
+                    />
+                    <Select
+                      label="Text Baseline"
+                      defaultValue={
+                        customPoint.textBaseline ||
+                        keysToInitialize.customPoints[0].textBaseline
+                      }
+                      onChange={(value) => {
+                        customPoint.textBaseline = value;
+                        updateBehaviours();
+                      }}
+                      elements={predefinedTextBaseline}
+                    />
+                  </>
+                )}
+                {index > 0 && (
+                  <>
+                    <br />
+                    <button
+                      className="btn btn-default btn-block btn-remove"
+                      onClick={(e) => removeCustomSpawnPoint(index, e)}
+                    >
+                      Remove Custom Spawn Point
+                    </button>
+                    <br />
+                  </>
+                )}
+              </div>
             </Fragment>
           ))}
-        <br />
-        <hr />
         <br />
         <button
           className="btn btn-default btn-block"

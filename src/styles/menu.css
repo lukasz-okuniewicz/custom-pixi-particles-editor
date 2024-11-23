@@ -25,12 +25,12 @@ legend {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  cursor: default;
   max-width: 100%;
   color: rgb(200, 195, 188);
   border-top-color: initial;
   border-right-color: initial;
   border-left-color: initial;
+  cursor: pointer;
   border-bottom-color: rgb(55, 60, 62);
 }
 
@@ -309,4 +309,29 @@ a:hover {
 
 .btn-remove {
   background-image: linear-gradient(rgb(71, 11, 11) 0px, rgb(136, 13, 13) 100%);
+}
+
+h3 {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: inherit;
+  border-bottom: 1px solid #e5e5e5;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  max-width: 100%;
+  border-top-color: initial;
+  border-right-color: initial;
+  border-left-color: initial;
+  border-bottom-color: rgb(55, 60, 62);
+  cursor: pointer;
+  color: #2fff00;
+}
+
+h3:hover {
+  color: #00ffe9;
 }

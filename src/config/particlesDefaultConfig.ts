@@ -8212,8 +8212,6 @@ const particlesDefaultConfig = {
               radius: 50,
               position: { x: -385, y: 6 },
               positionVariance: { x: 0, y: 0 },
-              pitch: 50,
-              turns: 5,
             },
             {
               spawnType: "Cone",
@@ -8222,7 +8220,7 @@ const particlesDefaultConfig = {
               coneDirection: 1,
               height: 200,
               coneAngle: 45,
-              position: { x: 302, y: -11 },
+              position: { x: -461, y: -268 },
               positionVariance: { x: 0, y: 0 },
             },
             {
@@ -8250,7 +8248,7 @@ const particlesDefaultConfig = {
               spawnType: "Star",
               radius: 50,
               starPoints: 5,
-              position: { x: -302, y: -241 },
+              position: { x: -205, y: 102 },
               positionVariance: { x: 0, y: 0 },
             },
             {
@@ -8294,6 +8292,16 @@ const particlesDefaultConfig = {
               end: { x: 100, y: 0 },
               control1: { x: 100, y: 100 },
               control2: { x: 0, y: -100 },
+            },
+            {
+              spawnType: "Spring",
+              radius: 50,
+              position: { x: 574, y: -35 },
+              positionVariance: { x: 0, y: 0 },
+              perspective: 800,
+              maxZ: 500,
+              pitch: 50,
+              turns: 5,
             },
           ],
           name: "SpawnBehaviour",
