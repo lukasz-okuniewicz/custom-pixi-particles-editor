@@ -184,20 +184,6 @@ export default function PositionProperties({ defaultConfig, index }) {
     return (
       <>
         <InputNumber
-          label="Position"
-          id="position"
-          params={["x", "y"]}
-          value={[
-            behaviour.position.x ?? keysToInitialize.position.x,
-            behaviour.position.y ?? keysToInitialize.position.y,
-          ]}
-          step="1"
-          onChange={(value, id) => {
-            behaviour.position[id] = value;
-            updateBehaviours();
-          }}
-        />
-        <InputNumber
           label="Position Variance"
           id="position-variance"
           params={["x", "y"]}

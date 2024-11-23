@@ -76,7 +76,6 @@ const InputNumber = forwardRef(
                 if (!Number.isNaN(val)) {
                   handleInputChange(null, val);
                 } else {
-                  console.log(2);
                   handleInputChange(null, e.target.value);
                 }
               }}

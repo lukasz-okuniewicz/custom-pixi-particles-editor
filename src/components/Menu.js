@@ -22,6 +22,8 @@ import SpawnProperties from "@components/properties/behaviours/SpawnProperties";
 import TimelineProperties from "@components/properties/behaviours/TimelineProperties";
 import GroupingProperties from "@components/properties/behaviours/GroupingProperties";
 import SoundReactiveProperties from "@components/properties/behaviours/SoundReactiveProperties";
+import LightEffectProperties from "@components/properties/behaviours/LightEffectProperties";
+import StretchProperties from "@components/properties/behaviours/StretchProperties";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
   return (
@@ -46,10 +48,6 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("LifeBehaviour", defaultConfig)}
       />
-      <TimelineProperties
-        defaultConfig={defaultConfig}
-        index={getConfigIndexByName("TimelineBehaviour", defaultConfig)}
-      />
       <SizeProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("SizeBehaviour", defaultConfig)}
@@ -61,6 +59,18 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
       <PositionProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("PositionBehaviour", defaultConfig)}
+      />
+      <LightEffectProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("LightEffectBehaviour", defaultConfig)}
+      />
+      <StretchProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("StretchBehaviour", defaultConfig)}
+      />
+      <NoiseBasedMotionProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("NoiseBasedMotionBehaviour", defaultConfig)}
       />
       <GroupingProperties
         defaultConfig={defaultConfig}
@@ -76,10 +86,6 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
           "AttractionRepulsionBehaviour",
           defaultConfig,
         )}
-      />
-      <NoiseBasedMotionProperties
-        defaultConfig={defaultConfig}
-        index={getConfigIndexByName("NoiseBasedMotionBehaviour", defaultConfig)}
       />
       <CollisionProperties
         defaultConfig={defaultConfig}
@@ -100,6 +106,10 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
       <EmitDirectionProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("EmitDirectionBehaviour", defaultConfig)}
+      />
+      <TimelineProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("TimelineBehaviour", defaultConfig)}
       />
       <TurbulenceProperties
         defaultConfig={defaultConfig}
