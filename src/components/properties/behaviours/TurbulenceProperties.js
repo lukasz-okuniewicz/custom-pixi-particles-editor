@@ -98,11 +98,13 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
     setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
   }, []);
 
-  const updateBehaviours = () => {
+  const updateBehaviours = (refresh) => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
     updateProps(
       "emitterConfig.behaviours",
       defaultConfig.emitterConfig.behaviours,
+      null,
+      refresh,
     );
   };
 
@@ -318,7 +320,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
           step="1"
           onChange={(value) => {
             behaviour.duration = value;
-            updateBehaviours();
+            updateBehaviours(true);
           }}
         />
         <InputNumber
