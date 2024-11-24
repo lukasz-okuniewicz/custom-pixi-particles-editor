@@ -283,7 +283,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
           behaviour.customPoints.map((customPoint, index) => (
             <Fragment key={index}>
               <h3 onClick={() => toggleCustomPointSubmenuVisibility(index)}>
-                Custom Point {index} - {customPoint.spawnType}
+                Spawn Point {index + 1} - {customPoint.spawnType}
               </h3>
               <div
                 className={isCustomPointSubmenuVisible[index] ? "" : "collapse"}
