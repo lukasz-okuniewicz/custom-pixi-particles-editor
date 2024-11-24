@@ -6582,7 +6582,7 @@ const particlesDefaultConfig = {
     },
     textures: ["flare/flare_11.png"],
   },
-  helloWord: {
+  helloWordWithLight: {
     emitterConfig: {
       behaviours: [
         {
