@@ -224,7 +224,7 @@ export const detectMouseMove = (contentRef, e) => {
   pixiRefs.particles.updatePosition({ x, y });
 };
 
-export const updateProps = (name, value, id) => {
+export const updateProps = (name, value, id, refresh) => {
   if (!name) return;
   const arrayName = name.split(".");
   if (!arrayName.length) return;
@@ -269,7 +269,7 @@ export const updateProps = (name, value, id) => {
         break;
     }
   } else {
-    eventBus.emit("updateConfig", { value, id, arrayName });
+    eventBus.emit("updateConfig", { value, id, arrayName, refresh });
   }
 };
 

@@ -58,17 +58,17 @@ export default function TimelineProperties({ defaultConfig, index }) {
   };
 
   const updateSize = (index, value) => {
-    behaviour.timeline[index].properties.size = parseFloat(value);
+    behaviour.timeline[index].properties.size = value;
     updateBehaviours();
   };
 
   const updateTime = (index, value) => {
-    behaviour.timeline[index].time = parseFloat(value);
+    behaviour.timeline[index].time = value;
     updateBehaviours();
   };
 
   const updateRotation = (index, value) => {
-    behaviour.timeline[index].properties.rotation = parseFloat(value);
+    behaviour.timeline[index].properties.rotation = value;
     updateBehaviours();
   };
 

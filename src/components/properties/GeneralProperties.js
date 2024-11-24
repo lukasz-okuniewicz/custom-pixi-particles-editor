@@ -299,7 +299,9 @@ const GeneralProperties = ({
               id="alpha"
               value={defaultConfig.emitterConfig.alpha ?? 1}
               step="0.1"
-              onChange={(value) => updateProps("emitterConfig.alpha", value)}
+              onChange={(value) =>
+                updateProps("emitterConfig.alpha", value, undefined, true)
+              }
             />
             <InputNumber
               label="Anchor"
@@ -311,14 +313,14 @@ const GeneralProperties = ({
               ]}
               step="0.1"
               onChange={(value, id) =>
-                updateProps("emitterConfig.anchor", value, id)
+                updateProps("emitterConfig.anchor", value, id, true)
               }
             />
             <Select
               label="Blend Mode"
               defaultValue={defaultConfig.emitterConfig.blendMode ?? "NORMAL"}
               onChange={(value) => {
-                updateProps("emitterConfig.blendMode", value);
+                updateProps("emitterConfig.blendMode", value, undefined, true);
               }}
               elements={blendModes}
             />

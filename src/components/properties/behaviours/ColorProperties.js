@@ -237,7 +237,7 @@ export default function ColorProperties({ defaultConfig, index }) {
               value={behaviour.flickerIntensity}
               step="0.1"
               onChange={(value) => {
-                behaviour.flickerIntensity = parseFloat(value);
+                behaviour.flickerIntensity = value;
                 updateBehaviours();
               }}
             />
@@ -247,7 +247,7 @@ export default function ColorProperties({ defaultConfig, index }) {
               value={behaviour.pulseIntensity}
               step="0.1"
               onChange={(value) => {
-                behaviour.pulseIntensity = parseFloat(value);
+                behaviour.pulseIntensity = value;
                 updateBehaviours();
               }}
             />
@@ -257,7 +257,7 @@ export default function ColorProperties({ defaultConfig, index }) {
               value={behaviour.pulseSpeed}
               step="0.1"
               onChange={(value) => {
-                behaviour.pulseSpeed = parseFloat(value);
+                behaviour.pulseSpeed = value;
                 updateBehaviours();
               }}
             />

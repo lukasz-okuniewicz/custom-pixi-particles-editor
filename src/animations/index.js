@@ -72,35 +72,44 @@ const animateFlyingFire = (defaultConfig, fullConfig, speed) => {
   const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
     .customPoints[0];
 
-  tween = gsap.to(behaviour.position, speed, {
+  const obj = { x: behaviour.position.x, y: behaviour.position.y };
+  tween = gsap.to(obj, speed, {
     x: -300,
     y: 300,
     ease: Linear.easeNone,
     onUpdate: () => {
+      behaviour.position.x = obj.x;
+      behaviour.position.y = obj.y;
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
     onComplete: () => {
-      tween = gsap.to(behaviour.position, speed, {
+      tween = gsap.to(obj, speed, {
         x: 300,
         y: 300,
         ease: Linear.easeNone,
         onUpdate: () => {
+          behaviour.position.x = obj.x;
+          behaviour.position.y = obj.y;
           pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
         },
         onComplete: () => {
-          tween = gsap.to(behaviour.position, speed, {
+          tween = gsap.to(obj, speed, {
             x: 300,
             y: -300,
             ease: Linear.easeNone,
             onUpdate: () => {
+              behaviour.position.x = obj.x;
+              behaviour.position.y = obj.y;
               pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
             },
             onComplete: () => {
-              tween = gsap.to(behaviour.position, speed, {
+              tween = gsap.to(obj, speed, {
                 x: -300,
                 y: -300,
                 ease: Linear.easeNone,
                 onUpdate: () => {
+                  behaviour.position.x = obj.x;
+                  behaviour.position.y = obj.y;
                   pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
                 },
                 onComplete: () => {
@@ -119,35 +128,44 @@ const animateFlyingFountain = (defaultConfig, fullConfig, speed) => {
   const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
     .customPoints[0];
 
-  tween = gsap.to(behaviour.position, speed, {
+  const obj = { x: behaviour.position.x, y: behaviour.position.y };
+  tween = gsap.to(obj, speed, {
     x: -300,
     y: 300,
     ease: Linear.easeNone,
     onUpdate: () => {
+      behaviour.position.x = obj.x;
+      behaviour.position.y = obj.y;
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
     onComplete: () => {
-      tween = gsap.to(behaviour.position, speed, {
+      tween = gsap.to(obj, speed, {
         x: 300,
         y: 300,
         ease: Linear.easeNone,
         onUpdate: () => {
+          behaviour.position.x = obj.x;
+          behaviour.position.y = obj.y;
           pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
         },
         onComplete: () => {
-          tween = gsap.to(behaviour.position, speed, {
+          tween = gsap.to(obj, speed, {
             x: 300,
             y: -300,
             ease: Linear.easeNone,
             onUpdate: () => {
+              behaviour.position.x = obj.x;
+              behaviour.position.y = obj.y;
               pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
             },
             onComplete: () => {
-              tween = gsap.to(behaviour.position, speed, {
+              tween = gsap.to(obj, speed, {
                 x: -300,
                 y: -300,
                 ease: Linear.easeNone,
                 onUpdate: () => {
+                  behaviour.position.x = obj.x;
+                  behaviour.position.y = obj.y;
                   pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
                 },
                 onComplete: () => {
@@ -166,35 +184,44 @@ const animateFlyingBubbles = (defaultConfig, fullConfig, speed) => {
   const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
     .customPoints[0];
 
-  tween = gsap.to(behaviour.position, speed, {
+  const obj = { x: behaviour.position.x, y: behaviour.position.y };
+  tween = gsap.to(obj, speed, {
     x: -300,
     y: 300,
     ease: Linear.easeNone,
     onUpdate: () => {
+      behaviour.position.x = obj.x;
+      behaviour.position.y = obj.y;
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
     onComplete: () => {
-      tween = gsap.to(behaviour.position, speed, {
+      tween = gsap.to(obj, speed, {
         x: 300,
         y: 300,
         ease: Linear.easeNone,
         onUpdate: () => {
+          behaviour.position.x = obj.x;
+          behaviour.position.y = obj.y;
           pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
         },
         onComplete: () => {
-          tween = gsap.to(behaviour.position, speed, {
+          tween = gsap.to(obj, speed, {
             x: 300,
             y: -300,
             ease: Linear.easeNone,
             onUpdate: () => {
+              behaviour.position.x = obj.x;
+              behaviour.position.y = obj.y;
               pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
             },
             onComplete: () => {
-              tween = gsap.to(behaviour.position, speed, {
+              tween = gsap.to(obj, speed, {
                 x: -300,
                 y: -300,
                 ease: Linear.easeNone,
                 onUpdate: () => {
+                  behaviour.position.x = obj.x;
+                  behaviour.position.y = obj.y;
                   pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
                 },
                 onComplete: () => {
@@ -213,11 +240,17 @@ const animateMeteor = (defaultConfig, fullConfig) => {
   const behaviour = getBehaviourByName("SpawnBehaviour", defaultConfig)
     .customPoints[0];
 
-  tween = gsap.to(behaviour.position, 1, {
+  const obj = {
+    x: behaviour.position.x,
+    y: behaviour.position.y,
+  };
+  tween = gsap.to(obj, 1, {
     x: -200,
     y: 200,
     ease: Linear.easeNone,
     onUpdate: () => {
+      behaviour.position.x = obj.x;
+      behaviour.position.y = obj.y;
       pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
     },
     onComplete: () => {

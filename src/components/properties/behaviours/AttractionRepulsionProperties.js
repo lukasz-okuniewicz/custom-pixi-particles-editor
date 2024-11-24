@@ -86,17 +86,17 @@ export default function AttractionRepulsionProperties({
   };
 
   const updatePoint = (index, updatedValue, id) => {
-    behaviour.influencePoints[index].point[id] = parseInt(updatedValue);
+    behaviour.influencePoints[index].point[id] = updatedValue;
     updateBehaviours();
   };
 
   const updateStrength = (index, updatedValue) => {
-    behaviour.influencePoints[index].strength = parseFloat(updatedValue);
+    behaviour.influencePoints[index].strength = updatedValue;
     updateBehaviours();
   };
 
   const updateRange = (index, updatedValue) => {
-    behaviour.influencePoints[index].range = parseFloat(updatedValue);
+    behaviour.influencePoints[index].range = updatedValue;
     updateBehaviours();
   };
 

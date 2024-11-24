@@ -105,12 +105,12 @@ export default function GroupingProperties({ defaultConfig, index }) {
   };
 
   const updateSize = (index, value) => {
-    behaviour.lines[index].properties.size = parseFloat(value);
+    behaviour.lines[index].properties.size = value;
     updateBehaviours();
   };
 
   const updateClusterPoint = (index, value, id) => {
-    behaviour.clusterPoints[index][id] = parseInt(value);
+    behaviour.clusterPoints[index][id] = value;
     updateBehaviours();
   };
 
@@ -149,7 +149,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           value={[behaviour.groupCenter.x, behaviour.groupCenter.y]}
           step="1"
           onChange={(value, id) => {
-            behaviour.groupCenter[id] = parseInt(value);
+            behaviour.groupCenter[id] = value;
             updateBehaviours();
           }}
         />
@@ -169,7 +169,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           value={behaviour.groupRadius}
           step="10"
           onChange={(value) => {
-            behaviour.groupRadius = parseInt(value);
+            behaviour.groupRadius = value;
             updateBehaviours();
           }}
         />
@@ -179,7 +179,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           value={behaviour.attractionStrength}
           step="0.1"
           onChange={(value) => {
-            behaviour.attractionStrength = parseFloat(value);
+            behaviour.attractionStrength = value;
             updateBehaviours();
           }}
         />
@@ -189,7 +189,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           value={behaviour.repulsionStrength}
           step="0.1"
           onChange={(value) => {
-            behaviour.repulsionStrength = parseFloat(value);
+            behaviour.repulsionStrength = value;
             updateBehaviours();
           }}
         />
@@ -199,7 +199,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           value={behaviour.orbitSpeed}
           step="0.1"
           onChange={(value) => {
-            behaviour.orbitSpeed = parseFloat(value);
+            behaviour.orbitSpeed = value;
             updateBehaviours();
           }}
         />
@@ -209,7 +209,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           value={behaviour.randomness}
           step="0.1"
           onChange={(value) => {
-            behaviour.randomness = parseFloat(value);
+            behaviour.randomness = value;
             updateBehaviours();
           }}
         />
@@ -219,7 +219,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           value={behaviour.dynamicRadiusSpeed}
           step="0.1"
           onChange={(value) => {
-            behaviour.dynamicRadiusSpeed = parseFloat(value);
+            behaviour.dynamicRadiusSpeed = value;
             updateBehaviours();
           }}
         />
@@ -229,7 +229,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           value={behaviour.maxRadius}
           step="10"
           onChange={(value) => {
-            behaviour.maxRadius = parseFloat(value);
+            behaviour.maxRadius = value;
             updateBehaviours();
           }}
         />
@@ -239,7 +239,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           value={behaviour.minRadius}
           step="10"
           onChange={(value) => {
-            behaviour.minRadius = parseFloat(value);
+            behaviour.minRadius = value;
             updateBehaviours();
           }}
         />

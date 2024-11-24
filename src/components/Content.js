@@ -493,10 +493,10 @@ export default function Content() {
 
   useEffect(() => {
     const eventHandlers = {
-      updateConfig: ({ value, id, arrayName }) => {
+      updateConfig: ({ value, id, arrayName, refresh }) => {
         setDefaultConfig((prevConfig) => ({
           ...updateNestedConfig(prevConfig, arrayName, value, id),
-          refresh: false,
+          refresh: refresh ?? false,
         }));
       },
       followMouse: (value) => followMouseHandler({ value, setDefaultConfig }),

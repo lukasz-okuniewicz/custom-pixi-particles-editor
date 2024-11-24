@@ -96,17 +96,17 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
   };
 
   const updatePosition = (index, updatedValue, id) => {
-    behaviour.fields[index].position[id] = parseInt(updatedValue);
+    behaviour.fields[index].position[id] = updatedValue;
     updateBehaviours();
   };
 
   const updateStrength = (index, updatedValue) => {
-    behaviour.fields[index].strength = parseFloat(updatedValue);
+    behaviour.fields[index].strength = updatedValue;
     updateBehaviours();
   };
 
   const updateRadius = (index, updatedValue) => {
-    behaviour.fields[index].radius = parseFloat(updatedValue);
+    behaviour.fields[index].radius = updatedValue;
     updateBehaviours();
   };
 
@@ -116,7 +116,7 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
   };
 
   const updateDirection = (index, updatedValue, id) => {
-    behaviour.fields[index].direction[id] = parseInt(updatedValue);
+    behaviour.fields[index].direction[id] = updatedValue;
     updateBehaviours();
   };
 

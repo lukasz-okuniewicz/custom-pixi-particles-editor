@@ -98,7 +98,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
   };
 
   const updateLinePoint = (index, pointKey, updatedValue, id) => {
-    behaviour.lines[index][pointKey][id] = parseInt(updatedValue);
+    behaviour.lines[index][pointKey][id] = updatedValue;
     updateBehaviours();
   };
 
