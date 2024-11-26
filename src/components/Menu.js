@@ -24,6 +24,7 @@ import GroupingProperties from "@components/properties/behaviours/GroupingProper
 import SoundReactiveProperties from "@components/properties/behaviours/SoundReactiveProperties";
 import LightEffectProperties from "@components/properties/behaviours/LightEffectProperties";
 import StretchProperties from "@components/properties/behaviours/StretchProperties";
+import TemperatureProperties from "@components/properties/behaviours/TemperatureProperties";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
   return (
@@ -79,6 +80,10 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
       <SoundReactiveProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("SoundReactiveBehaviour", defaultConfig)}
+      />
+      <TemperatureProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("TemperatureBehaviour", defaultConfig)}
       />
       <AttractionRepulsionProperties
         defaultConfig={defaultConfig}

@@ -25,57 +25,61 @@ const SoundReactiveDescription = () => {
         <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Enabled</b>: Toggle the behavior on or off.
+            <b>Enabled:</b> Toggle the behavior on or off.
           </li>
           <li>
-            <b>Priority</b>: Determines the execution order when multiple
+            <b>Priority:</b> Determines the execution order when multiple
             behaviors are applied.
           </li>
           <li>
-            <b>Amplitude Factor</b>: Adjusts the influence of sound amplitude on
+            <b>Amplitude Factor:</b> Adjusts the influence of sound amplitude on
             particle size.
           </li>
           <li>
-            <b>Frequency Factor</b>: Controls how dominant sound frequencies
+            <b>Frequency Factor:</b> Controls how dominant sound frequencies
             affect particle velocity.
           </li>
           <li>
-            <b>Rotation Factor</b>: Links dominant frequencies to particle
+            <b>Rotation Factor:</b> Links dominant frequencies to particle
             rotation speed.
           </li>
           <li>
-            <b>Beat Sensitivity</b>: Fine-tunes the sensitivity of beat
+            <b>Beat Sensitivity:</b> Fine-tunes the sensitivity of beat
             detection for precise synchronization with music.
           </li>
           <li>
-            <b>Use Color</b>: Enables particles to change color in response to
+            <b>Use Color:</b> Enables particles to change color in response to
             beats.
           </li>
           <li>
-            <b>Beat Color</b>: Specifies the default color applied to particles
+            <b>Beat Color:</b> Specifies the default color applied to particles
             on detected beats.
           </li>
           <li>
-            <b>Use Random Color</b>: Allows particles to adopt random colors
+            <b>Use Random Color:</b> Allows particles to adopt random colors
             instead of a fixed beat color.
+          </li>
+          <li>
+            <b>Velocity Factor:</b> Adjusts how much sound frequencies influence
+            particle movement in the X and Y directions.
           </li>
         </ul>
         <h4>Advanced Features:</h4>
         <ul>
           <li>
-            <b>Use Size</b>: Dynamically scales particle size based on sound
+            <b>Use Size:</b> Dynamically scales particle size based on sound
             amplitude.
           </li>
           <li>
-            <b>Use Velocity</b>: Modifies particle velocity based on dominant
+            <b>Use Velocity:</b> Modifies particle velocity based on dominant
             sound frequencies for dynamic motion effects.
           </li>
           <li>
-            <b>Use Rotation</b>: Adds rotational effects to particles, scaling
+            <b>Use Rotation:</b> Adds rotational effects to particles, scaling
             with dominant frequencies.
           </li>
           <li>
-            <b>Beat Sensitivity</b>: Adjusts how easily beats are detected in
+            <b>Beat Sensitivity:</b> Adjusts how easily beats are detected in
             the audio input.
           </li>
         </ul>
@@ -100,6 +104,9 @@ const SoundReactiveDescription = () => {
           behaviour.frequencyData = frequencyData;
           <br />
           behaviour.isPlaying = true;
+          <br />
+          behaviour.velocityFactor = new Point(1.5, 2); // Custom velocity
+          factor
         </code>
         <br />
         <h4>Live Examples:</h4>

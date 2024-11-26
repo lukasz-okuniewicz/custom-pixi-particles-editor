@@ -44,6 +44,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     frequencyFactor: 1,
     beatSensitivity: 1,
     rotationFactor: 0.05,
+    velocityFactor: { x: 1, y: 1 },
     name: "SoundReactiveBehaviour",
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
@@ -180,68 +181,6 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           elements={predefinedType}
         />
         <hr />
-        <Checkbox
-          label="Use Color"
-          id="useColor"
-          onChange={(value) => {
-            behaviour.useColor = value;
-            updateBehaviours();
-          }}
-          checked={behaviour.useColor ?? keysToInitialize.useColor}
-        />
-        <Checkbox
-          label="Use Size"
-          id="useSize"
-          onChange={(value) => {
-            behaviour.useSize = value;
-            updateBehaviours();
-          }}
-          checked={behaviour.useSize ?? keysToInitialize.useSize}
-        />
-        <Checkbox
-          label="Use Velocity"
-          id="useVelocity"
-          onChange={(value) => {
-            behaviour.useVelocity = value;
-            updateBehaviours();
-          }}
-          checked={behaviour.useVelocity ?? keysToInitialize.useVelocity}
-        />
-        <Checkbox
-          label="Use Rotation"
-          id="useRotation"
-          onChange={(value) => {
-            behaviour.useRotation = value;
-            updateBehaviours();
-          }}
-          checked={behaviour.useRotation ?? keysToInitialize.useRotation}
-        />
-        <Checkbox
-          label="Use Random Color"
-          id="useRandomColor"
-          onChange={(value) => {
-            behaviour.useRandomColor = value;
-            updateBehaviours();
-          }}
-          checked={behaviour.useRandomColor ?? keysToInitialize.useRandomColor}
-        />
-        {behaviour.useSize && (
-          <>
-            <InputNumber
-              label="Amplitude Factor"
-              id="amplitudeFactor"
-              value={
-                behaviour.amplitudeFactor ?? keysToInitialize.amplitudeFactor
-              }
-              step="0.1"
-              onChange={(value) => {
-                behaviour.amplitudeFactor = value;
-                updateBehaviours();
-              }}
-            />
-          </>
-        )}
-
         <InputNumber
           label="Frequency Factor"
           id="frequencyFactor"
@@ -262,24 +201,18 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        {behaviour.useRotation && (
-          <>
-            <InputNumber
-              label="Rotation Factor"
-              id="rotationFactor"
-              value={
-                behaviour.rotationFactor ?? keysToInitialize.rotationFactor
-              }
-              step="0.01"
-              onChange={(value) => {
-                behaviour.rotationFactor = value;
-                updateBehaviours();
-              }}
-            />
-          </>
-        )}
 
-        {!behaviour.useRandomColor && (
+        <Checkbox
+          label="Use Color"
+          id="useColor"
+          onChange={(value) => {
+            behaviour.useColor = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useColor ?? keysToInitialize.useColor}
+        />
+
+        {!behaviour.useRandomColor && behaviour.useColor && (
           <>
             <ColorPicker
               label="Beat Color"
@@ -296,6 +229,95 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
                 behaviour.beatColor._g = color.rgb.g;
                 behaviour.beatColor._b = color.rgb.b;
                 behaviour.beatColor._alpha = color.rgb.a;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
+
+        <Checkbox
+          label="Use Random Color"
+          id="useRandomColor"
+          onChange={(value) => {
+            behaviour.useRandomColor = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useRandomColor ?? keysToInitialize.useRandomColor}
+        />
+        <Checkbox
+          label="Use Size"
+          id="useSize"
+          onChange={(value) => {
+            behaviour.useSize = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useSize ?? keysToInitialize.useSize}
+        />
+
+        {behaviour.useSize && (
+          <>
+            <InputNumber
+              label="Amplitude Factor"
+              id="amplitudeFactor"
+              value={
+                behaviour.amplitudeFactor ?? keysToInitialize.amplitudeFactor
+              }
+              step="0.1"
+              onChange={(value) => {
+                behaviour.amplitudeFactor = value;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
+
+        <Checkbox
+          label="Use Velocity"
+          id="useVelocity"
+          onChange={(value) => {
+            behaviour.useVelocity = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useVelocity ?? keysToInitialize.useVelocity}
+        />
+        {behaviour.useVelocity && (
+          <>
+            <InputNumber
+              label="Velocity Factor"
+              id="velocityFactor"
+              params={["x", "y"]}
+              value={[
+                behaviour.velocityFactor.x ?? keysToInitialize.velocityFactor.x,
+                behaviour.velocityFactor.y ?? keysToInitialize.velocityFactor.y,
+              ]}
+              step="0.1"
+              onChange={(value, id) => {
+                behaviour.velocityFactor[id] = value;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
+        <Checkbox
+          label="Use Rotation"
+          id="useRotation"
+          onChange={(value) => {
+            behaviour.useRotation = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.useRotation ?? keysToInitialize.useRotation}
+        />
+        {behaviour.useRotation && (
+          <>
+            <InputNumber
+              label="Rotation Factor"
+              id="rotationFactor"
+              value={
+                behaviour.rotationFactor ?? keysToInitialize.rotationFactor
+              }
+              step="0.01"
+              onChange={(value) => {
+                behaviour.rotationFactor = value;
                 updateBehaviours();
               }}
             />
