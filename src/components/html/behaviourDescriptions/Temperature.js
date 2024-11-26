@@ -20,9 +20,9 @@ const TemperatureDescription = () => {
         <p>
           <b>Temperature Behaviour</b> dynamically adjusts particle properties
           such as velocity and color based on their position relative to defined
-          "hot" or "cold" zones. This behavior is ideal for simulating
-          temperature effects or environmental interactions within a particle
-          system.
+          &quot;hot&quot; or &quot;cold&quot; zones. This behavior is ideal for
+          simulating temperature effects or environmental interactions within a
+          particle system.
         </p>
 
         <h4>Key Features:</h4>
@@ -36,7 +36,8 @@ const TemperatureDescription = () => {
             such as:
             <ul>
               <li>
-                <b>Center Position:</b> The coordinates of the zone's center.
+                <b>Center Position:</b> The coordinates of the zone&apos;s
+                center.
               </li>
               <li>
                 <b>Radius:</b> The size of the zone affecting how far its
