@@ -107,12 +107,32 @@ export default function EmissionTypeProperties({ defaultConfig }) {
             defaultConfig.emitterConfig.emitController.name || "UniformEmission"
           }
           onChange={(value) => {
-            updateProps("emitterConfig.emitController.name", value);
+            updateProps(
+              "emitterConfig.emitController.name",
+              value,
+              undefined,
+              true,
+            );
             if (value === "UniformEmission") {
-              updateProps("emitterConfig.emitController._emitPerSecond", 10);
+              updateProps(
+                "emitterConfig.emitController._emitPerSecond",
+                10,
+                undefined,
+                true,
+              );
             } else {
-              updateProps("emitterConfig.emitController._maxParticles", 100);
-              updateProps("emitterConfig.emitController._emissionRate", 100);
+              updateProps(
+                "emitterConfig.emitController._maxParticles",
+                100,
+                undefined,
+                true,
+              );
+              updateProps(
+                "emitterConfig.emitController._emissionRate",
+                100,
+                undefined,
+                true,
+              );
             }
           }}
           elements={predefinedEmitControllerNames}
