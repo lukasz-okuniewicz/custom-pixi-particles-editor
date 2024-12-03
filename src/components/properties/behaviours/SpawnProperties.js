@@ -36,6 +36,11 @@ export default function SpawnProperties({ defaultConfig, index }) {
   const keysToInitialize = {
     priority: 100,
     enabled: true,
+    trailingEnabled: false, // Enable trailing
+    spawnAlongTrail: false, // Spawn particles along the entire trail
+    trailSpeed: 1, // Speed of the trail
+    trailRepeat: false, // Loop the trail
+    trailStart: 0, // Start the trail at 20% of its path
     customPoints: [
       {
         spawnType: "Rectangle",
@@ -97,6 +102,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
       Helix: true,
       Spring: true,
       Path: true,
+      Oval: true,
     };
     return Object.keys(names)
       .sort()
@@ -279,6 +285,63 @@ export default function SpawnProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
+        <hr />
+        <Checkbox
+          label="Trailing Enabled"
+          id="trailingEnabled"
+          onChange={(value) => {
+            behaviour.trailingEnabled = value;
+            updateBehaviours();
+          }}
+          checked={
+            behaviour.trailingEnabled ?? keysToInitialize.trailingEnabled
+          }
+        />
+        {behaviour.trailingEnabled && (
+          <>
+            <Checkbox
+              label="Trailing Repeat"
+              id="trailRepeat"
+              onChange={(value) => {
+                behaviour.trailRepeat = value;
+                updateBehaviours();
+              }}
+              checked={behaviour.trailRepeat ?? keysToInitialize.trailRepeat}
+            />
+            <Checkbox
+              label="Spawn Along Trail"
+              id="spawnAlongTrail"
+              onChange={(value) => {
+                behaviour.spawnAlongTrail = value;
+                updateBehaviours();
+              }}
+              checked={
+                behaviour.spawnAlongTrail ?? keysToInitialize.spawnAlongTrail
+              }
+            />
+            <InputNumber
+              label="Trail Speed"
+              id="trailSpeed"
+              value={behaviour.trailSpeed ?? keysToInitialize.trailSpeed}
+              step="0.01"
+              onChange={(value) => {
+                behaviour.trailSpeed = value;
+                updateBehaviours();
+              }}
+            />
+            <InputNumber
+              label="Trail Start 0-1"
+              id="trailStart"
+              value={behaviour.trailStart ?? keysToInitialize.trailStart}
+              step="0.01"
+              onChange={(value) => {
+                behaviour.trailStart = value;
+                updateBehaviours();
+              }}
+            />
+          </>
+        )}
+        <hr />
         {behaviour.customPoints &&
           behaviour.customPoints.map((customPoint, index) => (
             <Fragment key={index}>
@@ -370,6 +433,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   }}
                   elements={predefinedSpawnType}
                 />
+
                 {(customPoint.spawnType === "Star" ||
                   customPoint.spawnType === "Sphere" ||
                   customPoint.spawnType === "Helix" ||
@@ -576,6 +640,36 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     step="1"
                     onChange={(value) => {
                       customPoint.radiusX = value;
+                      updateBehaviours();
+                    }}
+                  />
+                )}
+                {customPoint.spawnType === "Oval" && (
+                  <InputNumber
+                    label="Radius X"
+                    id="radiusx"
+                    value={
+                      customPoint.radiusX ??
+                      keysToInitialize.customPoints[0].radiusX
+                    }
+                    step="1"
+                    onChange={(value) => {
+                      customPoint.radiusX = value;
+                      updateBehaviours();
+                    }}
+                  />
+                )}
+                {customPoint.spawnType === "Oval" && (
+                  <InputNumber
+                    label="Radius Y"
+                    id="radiusy"
+                    value={
+                      customPoint.radiusY ??
+                      keysToInitialize.customPoints[0].radiusY
+                    }
+                    step="1"
+                    onChange={(value) => {
+                      customPoint.radiusY = value;
                       updateBehaviours();
                     }}
                   />

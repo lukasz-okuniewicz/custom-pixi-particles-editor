@@ -144,7 +144,8 @@ export default function Content() {
         }
         if (
           customPoint.spawnType &&
-          customPoint.spawnType !== "FrameRectangle"
+          customPoint.spawnType !== "FrameRectangle" &&
+          customPoint.spawnType !== "Oval"
         ) {
           delete customPoint.radiusX;
           delete customPoint.radiusY;
