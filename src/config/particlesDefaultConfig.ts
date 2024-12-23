@@ -1952,6 +1952,15 @@ const particlesDefaultConfig = {
           name: "SpawnBehaviour",
         },
         {
+          enabled: true,
+          priority: 50,
+          noiseScale: 0.1,
+          noiseIntensity: 50,
+          noiseSpeed: 1,
+          noiseDirection: { x: 1, y: 1 },
+          name: "NoiseBasedMotionBehaviour",
+        },
+        {
           priority: 10000,
           enabled: true,
           maxLifeTime: 4.5,
@@ -1961,10 +1970,10 @@ const particlesDefaultConfig = {
         {
           priority: 100,
           enabled: true,
-          velocity: { x: 0, y: 50 },
-          velocityVariance: { x: 50, y: 30 },
-          acceleration: { x: 0, y: 20 },
-          accelerationVariance: { x: 0, y: 10 },
+          velocity: { x: 0, y: 40 },
+          velocityVariance: { x: 0, y: 0 },
+          acceleration: { x: 0, y: 10 },
+          accelerationVariance: { x: 0, y: 5 },
           name: "PositionBehaviour",
         },
         {
@@ -2033,6 +2042,10 @@ const particlesDefaultConfig = {
           startVariance: 0,
           endVariance: 0,
           name: "SizeBehaviour",
+          maxSize: { x: 6, y: 6 },
+          uniformScaling: true,
+          xScalingFunction: "linear",
+          yScalingFunction: "linear",
         },
         {
           enabled: true,
@@ -4099,8 +4112,8 @@ const particlesDefaultConfig = {
         {
           enabled: true,
           priority: 10000,
-          maxLifeTime: 7,
-          timeVariance: 3,
+          maxLifeTime: 20,
+          timeVariance: 0,
           name: "LifeBehaviour",
         },
         {
@@ -4142,6 +4155,15 @@ const particlesDefaultConfig = {
         },
         {
           enabled: true,
+          priority: 50,
+          noiseScale: 0.1,
+          noiseIntensity: 20,
+          noiseSpeed: 2,
+          noiseDirection: { x: 1, y: 1 },
+          name: "NoiseBasedMotionBehaviour",
+        },
+        {
+          enabled: true,
           priority: 0,
           start: {
             _r: 120,
@@ -4172,11 +4194,9 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
-        _maxLife: 1,
-        _emitPerSecond: 10,
-        _frames: 0,
-        name: "UniformEmission",
+        _maxParticles: 20,
+        _emissionRate: 2,
+        name: "StandardEmission",
       },
       duration: -1,
       blendMode: 3,
