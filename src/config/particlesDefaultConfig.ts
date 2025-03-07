@@ -842,9 +842,8 @@ const particlesDefaultConfig = {
           name: "PositionBehaviour",
         },
         {
-          priority: 0,
           enabled: true,
-          allowNegativeValues: false,
+          priority: 0,
           sizeStart: {
             x: 15,
             y: 15,
@@ -855,6 +854,13 @@ const particlesDefaultConfig = {
           },
           startVariance: 5,
           endVariance: 5,
+          maxSize: {
+            x: 55,
+            y: 55,
+          },
+          uniformScaling: true,
+          xScalingFunction: "linear",
+          yScalingFunction: "linear",
           name: "SizeBehaviour",
         },
         {
@@ -904,14 +910,13 @@ const particlesDefaultConfig = {
         name: "RandomEmission",
       },
       duration: -1,
-      alpha: 0.4,
+      alpha: 1,
       anchor: {
         x: 0.5,
         y: 0.5,
       },
       blendMode: 3,
     },
-    hide: true,
     textures: [
       "gdevelop/Water.png",
       "magic particles/magic_particles_1.png",
