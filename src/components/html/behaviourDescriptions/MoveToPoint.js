@@ -27,8 +27,8 @@ const MoveToPointDescription = () => {
         <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Enabled</b>: Toggle the behavior on or off. If disabled, it won't
-            affect particles even if active.
+            <b>Enabled</b>: Toggle the behavior on or off. If disabled, it
+            won&apos;t affect particles even if active.
           </li>
           <li>
             <b>Active</b>: A boolean flag that, when true, activates the
@@ -55,12 +55,12 @@ const MoveToPointDescription = () => {
         <h4>How It Works:</h4>
         <p>
           When the <b>Move To Point Behaviour</b> is <code>enabled</code> and
-          <code>active</code>, it calculates the vector from each particle's
-          current position to the <code>targetPoint</code>. It then moves the
-          particle along this vector at the specified
+          <code>active</code>, it calculates the vector from each
+          particle&apos;s current position to the <code>targetPoint</code>. It
+          then moves the particle along this vector at the specified
           <code>speed</code>, adjusting for the <code>deltaTime</code> (time
           since the last frame). This behavior can effectively take control of a
-          particle's position, potentially nullifying the effects of other
+          particle&apos;s position, potentially nullifying the effects of other
           behaviors like <code>PositionBehaviour</code> or
           <code>EmitDirectionBehaviour</code> for that frame, depending on its
           priority.
@@ -70,7 +70,7 @@ const MoveToPointDescription = () => {
         <ul>
           <li>
             Creating effects where particles gather at a specific location, like
-            a "black hole" or an attraction point.
+            a &apos;black hole&apos; or an attraction point.
           </li>
           <li>
             Guiding particles along a path by dynamically updating the
