@@ -25,6 +25,7 @@ import SoundReactiveProperties from "@components/properties/behaviours/SoundReac
 import LightEffectProperties from "@components/properties/behaviours/LightEffectProperties";
 import StretchProperties from "@components/properties/behaviours/StretchProperties";
 import TemperatureProperties from "@components/properties/behaviours/TemperatureProperties";
+import MoveToPointProperties from "@components/properties/behaviours/MoveToPointProperties";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
   return (
@@ -60,6 +61,10 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
       <PositionProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("PositionBehaviour", defaultConfig)}
+      />
+      <MoveToPointProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("MoveToPointBehaviour", defaultConfig)}
       />
       <LightEffectProperties
         defaultConfig={defaultConfig}

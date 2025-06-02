@@ -8455,6 +8455,14 @@ const particlesDefaultConfig = {
           sinus: true,
           name: "ColorBehaviour",
         },
+        {
+          name: "MoveToPointBehaviour",
+          enabled: true, // Behaviour is enabled
+          active: false, // Initially not active (particles move normally)
+          targetPoint: { x: 0, y: 0 }, // Default target, can be updated later
+          speed: 200, // Speed of movement towards the target
+          priority: -10, // Ensures it runs after other position behaviours
+        },
       ],
       emitController: { _emitPerSecond: 500, name: "UniformEmission" },
       duration: -1,
