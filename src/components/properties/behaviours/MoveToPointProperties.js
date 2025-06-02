@@ -22,6 +22,9 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
     targetPoint: { x: 0, y: 0 }, // Default target, can be updated later
     speed: 200, // Speed of movement towards the target
     priority: -10, // Ensures it runs after other position behaviours
+    killOnArrival: true, // Set this to true
+    resetMaxLifeTime: false, // Set this to true
+    arrivalThreshold: 1.0, // Optional: Adjust if needed
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
@@ -65,6 +68,26 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.active ?? keysToInitialize.active}
         />
+        <Checkbox
+          label="Kill On Arrival"
+          id="move-to-point-killOnArrival"
+          onChange={(value) => {
+            behaviour.killOnArrival = value;
+            updateBehaviours();
+          }}
+          checked={behaviour.killOnArrival ?? keysToInitialize.killOnArrival}
+        />
+        <Checkbox
+          label="Reset Max Life Time on Kill"
+          id="move-to-point-resetMaxLifeTime"
+          onChange={(value) => {
+            behaviour.resetMaxLifeTime = value;
+            updateBehaviours();
+          }}
+          checked={
+            behaviour.resetMaxLifeTime ?? keysToInitialize.resetMaxLifeTime
+          }
+        />
         <InputNumber
           label="Priority"
           id="color-priority"
@@ -84,6 +107,18 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           step="1"
           onChange={(value) => {
             behaviour.speed = value;
+            updateBehaviours();
+          }}
+        />
+        <InputNumber
+          label="Arrival Threshold"
+          id="arrivalThreshold"
+          value={
+            behaviour.arrivalThreshold ?? keysToInitialize.arrivalThreshold
+          }
+          step="1"
+          onChange={(value) => {
+            behaviour.arrivalThreshold = value;
             updateBehaviours();
           }}
         />
