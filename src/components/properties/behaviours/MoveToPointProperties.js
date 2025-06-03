@@ -1,12 +1,14 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import MoveToPointDescription from "@components/html/behaviourDescriptions/MoveToPoint";
+import Select from "@components/html/Select";
 
 export default function MoveToPointProperties({ defaultConfig, index }) {
+  const [predefinedMusic, setPredefinedMusic] = useState("Linear");
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
 
   if (index === -1) {
@@ -25,8 +27,24 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
     killOnArrival: true, // Set this to true
     resetMaxLifeTime: false, // Set this to true
     arrivalThreshold: 1.0, // Optional: Adjust if needed
+    pathType: "CircularArc",
+    sinusoidalAmplitude: 60, // Height of bounce
+    sinusoidalFrequency: 5, // Number of bounces
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
+
+  const predefinedType = useMemo(() => {
+    const names = {
+      linear: "linear",
+      sinusoidal: "sinusoidal",
+    };
+    return Object.keys(names)
+      .sort()
+      .map((key) => ({
+        key: key,
+        displayName: names[key],
+      }));
+  }, []);
 
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {
@@ -59,6 +77,18 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
+        <InputNumber
+          label="Priority"
+          id="color-priority"
+          value={behaviour.priority ?? keysToInitialize.priority}
+          step="10"
+          min="0"
+          onChange={(value) => {
+            behaviour.priority = value;
+            updateBehaviours();
+          }}
+        />
+        <hr />
         <Checkbox
           label="Active"
           id="move-to-point-active"
@@ -88,18 +118,45 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
             behaviour.resetMaxLifeTime ?? keysToInitialize.resetMaxLifeTime
           }
         />
+
+        <Select
+          label="Sample"
+          defaultValue={predefinedMusic}
+          onChange={(value) => {
+            setPredefinedMusic(value);
+            behaviour.pathType = value;
+            updateBehaviours();
+          }}
+          elements={predefinedType}
+        />
         <InputNumber
-          label="Priority"
-          id="color-priority"
-          value={behaviour.priority ?? keysToInitialize.priority}
+          label="Sinusoidal Amplitude"
+          id="color-sinusoidalAmplitude"
+          value={
+            behaviour.sinusoidalAmplitude ??
+            keysToInitialize.pathAmplitudesinusoidalAmplitude
+          }
           step="10"
           min="0"
           onChange={(value) => {
-            behaviour.priority = value;
+            behaviour.sinusoidalAmplitude = value;
             updateBehaviours();
           }}
         />
-        <hr />
+        <InputNumber
+          label="Sinusoidal Frequency"
+          id="color-sinusoidalFrequency"
+          value={
+            behaviour.sinusoidalFrequency ??
+            keysToInitialize.sinusoidalFrequency
+          }
+          step="10"
+          min="0"
+          onChange={(value) => {
+            behaviour.sinusoidalFrequency = value;
+            updateBehaviours();
+          }}
+        />
         <InputNumber
           label="Speed"
           id="speed"
