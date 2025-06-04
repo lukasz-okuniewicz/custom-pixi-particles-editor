@@ -33,6 +33,31 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
+  const predefinedEase = useMemo(() => {
+    const names = {
+      None: true,
+      "back.in": true,
+      "back.out": true,
+      "back.inOut": true,
+      "power1.in": true,
+      "power1.out": true,
+      "power1.inOut": true,
+      "bounce.in": true,
+      "bounce.out": true,
+      "bounce.inOut": true,
+      "elastic.in": true,
+      "elastic.out": true,
+      "elastic.inOut": true,
+      steps: true,
+    };
+    return Object.keys(names)
+      .sort()
+      .map((key) => ({
+        key,
+        displayName: key,
+      }));
+  }, []);
+
   const predefinedType = useMemo(() => {
     const names = {
       linear: "linear",
@@ -156,6 +181,15 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
             behaviour.sinusoidalFrequency = value;
             updateBehaviours();
           }}
+        />
+        <Select
+          label="Ease"
+          defaultValue={behaviour.pathEasing || keysToInitialize.pathEasing}
+          onChange={(value) => {
+            behaviour.pathEasing = value;
+            updateBehaviours();
+          }}
+          elements={predefinedEase}
         />
         <InputNumber
           label="Speed"

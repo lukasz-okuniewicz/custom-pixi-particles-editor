@@ -19,9 +19,10 @@ const MoveToPointDescription = () => {
       <div className="explanation" ref={contentRef}>
         <p>
           <b>Move To Point Behaviour</b> directs particles in a system towards a
-          specified (x, y) coordinate along a defined path. When activated, this
-          behavior can override other positional behaviors, causing all affected
-          particles to converge at or move towards the defined target.
+          specified (x, y) coordinate along a defined path, potentially with
+          custom easing. When activated, this behavior can override other
+          positional behaviors, causing all affected particles to converge at or
+          move towards the defined target.
         </p>
 
         <h4>Key Properties:</h4>
@@ -47,11 +48,11 @@ const MoveToPointDescription = () => {
           <li>
             <b>Priority</b>: Determines the execution order relative to other
             behaviors. A lower value typically means it runs later, allowing it
-            to override earlier positional changes. (e.g., -10 to run after
+            to override earlier positional changes (e.g., -10 to run after
             standard position and emit direction behaviors).
           </li>
           <li>
-            <b>Path Type</b>: Defines the trajectory particles follow.
+            <b>Path Type</b>: Defines the trajectory particles follow:
             <ul>
               <li>
                 <code>linear</code>: Particles move in a straight line to the
@@ -59,21 +60,34 @@ const MoveToPointDescription = () => {
               </li>
               <li>
                 <code>sinusoidal</code>: Particles move towards the target with
-                a wave-like motion perpendicular to the direct path.
+                a wave-like motion perpendicular to the direct path. The wave
+                amplitude diminishes as the particle approaches the target.
               </li>
             </ul>
           </li>
           <li>
+            <b>Path Easing</b>: (Used when <code>Path Type</code> is
+            <code>linear</code> or <code>sinusoidal</code>) Specifies an easing
+            function for the particle&apos;s progress along the main path to the
+            target. Options include: <code>linear</code>,<code>back.in</code>,
+            <code>back.out</code>,<code>back.inOut</code>,<code>power1.in</code>
+            ,<code>power1.out</code>,<code>power1.inOut</code>,
+            <code>bounce.in</code>,<code>bounce.out</code>,
+            <code>bounce.inOut</code>,<code>elastic.in</code>,
+            <code>elastic.out</code>,<code>elastic.inOut</code>, and
+            <code>steps</code>.
+          </li>
+          <li>
             <b>Sinusoidal Amplitude</b>: (Used when <code>Path Type</code> is
-            <code>sinusoidal</code>) Controls the maximum displacement of the
-            sine wave from the direct path to the target. A larger value creates
-            wider waves.
+            <code>sinusoidal</code>) Controls the initial maximum displacement
+            of the sine wave from the direct path to the target. A larger value
+            creates wider waves.
           </li>
           <li>
             <b>Sinusoidal Frequency</b>: (Used when <code>Path Type</code> is
             <code>sinusoidal</code>) Determines how many cycles the sine wave
-            completes as the particle travels. A higher value results in more,
-            tighter waves.
+            completes over its pathTime. A higher value results in more, tighter
+            waves.
           </li>
           <li>
             <b>Kill On Arrival</b>: If true, particles are marked as
@@ -96,19 +110,29 @@ const MoveToPointDescription = () => {
         <h4>How It Works:</h4>
         <p>
           When the <b>Move To Point Behaviour</b> is <code>enabled</code> and
-          <code>active</code>, it calculates the vector from each
-          particle&apos;s current position to the <code>targetPoint</code>. It
-          then moves the particle along this vector (or a modified path based on
-          <code>Path Type</code>) at the specified <code>speed</code>, adjusting
-          for the <code>deltaTime</code> (time since the last frame). If
-          <code>Path Type</code> is <code>sinusoidal</code>, the particle&apos;s
-          movement will also include a perpendicular oscillation based on the
-          <code>Sinusoidal Amplitude</code> and <code>Frequency</code>, creating
-          a wave-like motion. This behavior can effectively take control of a
-          particle&apos;s position, potentially nullifying the effects of other
-          behaviors like <code>PositionBehaviour</code> or
-          <code>EmitDirectionBehaviour</code> for that frame, depending on its
-          priority. Upon reaching the <code>Arrival Threshold</code>, the
+          <code>active</code>, it first determines the particle&apos;s initial
+          position and the total distance to the <code>targetPoint</code>. Each
+          frame, it calculates the particle&apos;s linear progress towards the
+          target based on <code>speed</code> and <code>deltaTime</code>. This
+          linear progress is then modified by the selected
+          <code>Path Easing</code> function.
+        </p>
+        <p>
+          If <code>Path Type</code> is <code>linear</code>, the particle is
+          positioned directly along the eased path. If <code>Path Type</code> is
+          <code>sinusoidal</code>, a perpendicular wave-like offset is added.
+          This offset&apos;s amplitude is based on
+          <code>Sinusoidal Amplitude</code> and <code>Frequency</code>, and the
+          amplitude of this wave diminishes as the particle gets closer to the
+          target, ensuring it arrives precisely at the
+          <code>targetPoint</code>.
+        </p>
+        <p>
+          This behavior can effectively take control of a particle&apos;s
+          position, potentially nullifying the effects of other behaviors like
+          <code>PositionBehaviour</code> or <code>EmitDirectionBehaviour</code>
+          for that frame, depending on its priority. Upon reaching the
+          <code>Arrival Threshold</code> or completing its eased journey, the
           <code>Kill On Arrival</code> logic may be triggered.
         </p>
 
@@ -116,32 +140,31 @@ const MoveToPointDescription = () => {
         <ul>
           <li>
             Creating effects where particles gather at a specific location, like
-            a &apos;black hole&apos; or an attraction point, potentially with an
-            interesting approach path (e.g., spiraling in if combined with
-            rotation or sinusoidal path).
+            a &apos;black hole&apos; or an attraction point, with various
+            approach styles (e.g., easing in, bouncing, or wavy).
           </li>
           <li>
-            Guiding particles along a defined trajectory (straight or wavy) by
-            dynamically updating the <code>targetPoint</code>.
+            Guiding particles along a defined trajectory (straight or wavy with
+            easing) by dynamically updating the <code>targetPoint</code>.
           </li>
           <li>
             Simulating entities moving with a slight wobble or serpentine motion
-            towards a goal.
+            towards a goal, with controlled acceleration/deceleration.
           </li>
           <li>
             Temporarily overriding particle movement for special events or
-            interactions.
+            interactions with non-linear motion.
           </li>
           <li>
             Forming shapes or patterns by directing particles to multiple
-            strategic points.
+            strategic points with sophisticated movement.
           </li>
         </ul>
 
         <h4>Live Examples:</h4>
         <span>
           <a href="/?effect=moveToPoint" target="_blank">
-            Fading Particles
+            Move To Point Examples
           </a>
         </span>
       </div>
