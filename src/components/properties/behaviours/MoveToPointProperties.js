@@ -8,7 +8,6 @@ import MoveToPointDescription from "@components/html/behaviourDescriptions/MoveT
 import Select from "@components/html/Select";
 
 export default function MoveToPointProperties({ defaultConfig, index }) {
-  const [predefinedMusic, setPredefinedMusic] = useState("Linear");
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
 
   if (index === -1) {
@@ -27,7 +26,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
     killOnArrival: true, // Set this to true
     resetMaxLifeTime: false, // Set this to true
     arrivalThreshold: 1.0, // Optional: Adjust if needed
-    pathType: "CircularArc",
+    pathType: "linear",
     sinusoidalAmplitude: 60, // Height of bounce
     sinusoidalFrequency: 5, // Number of bounces
   };
@@ -58,16 +57,16 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
       }));
   }, []);
 
-  const predefinedType = useMemo(() => {
+  const predefinedPathType = useMemo(() => {
     const names = {
-      linear: "linear",
-      sinusoidal: "sinusoidal",
+      linear: true,
+      sinusoidal: true,
     };
     return Object.keys(names)
       .sort()
       .map((key) => ({
-        key: key,
-        displayName: names[key],
+        key,
+        displayName: key,
       }));
   }, []);
 
@@ -145,14 +144,13 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
         />
 
         <Select
-          label="Sample"
-          defaultValue={predefinedMusic}
+          label="Path Type"
+          defaultValue={behaviour.pathType || keysToInitialize.pathType}
           onChange={(value) => {
-            setPredefinedMusic(value);
             behaviour.pathType = value;
             updateBehaviours();
           }}
-          elements={predefinedType}
+          elements={predefinedPathType}
         />
         <InputNumber
           label="Sinusoidal Amplitude"
