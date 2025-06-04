@@ -70,11 +70,12 @@ const MoveToPointDescription = () => {
             <code>linear</code> or <code>sinusoidal</code>) Specifies an easing
             function for the particle&apos;s progress along the main path to the
             target. Options include: <code>linear</code>,<code>back.in</code>,
-            <code>back.out</code>,<code>back.inOut</code>,<code>power1.in</code>
-            ,<code>power1.out</code>,<code>power1.inOut</code>,
-            <code>bounce.in</code>,<code>bounce.out</code>,
-            <code>bounce.inOut</code>,<code>elastic.in</code>,
-            <code>elastic.out</code>,<code>elastic.inOut</code>, and
+            <code>back.out</code>, <code>back.inOut</code>,{" "}
+            <code>power1.in</code>,<code>power1.out</code>,{" "}
+            <code>power1.inOut</code>,<code>bounce.in</code>,{" "}
+            <code>bounce.out</code>,<code>bounce.inOut</code>,{" "}
+            <code>elastic.in</code>,<code>elastic.out</code>,{" "}
+            <code>elastic.inOut</code>, and
             <code>steps</code>.
           </li>
           <li>
