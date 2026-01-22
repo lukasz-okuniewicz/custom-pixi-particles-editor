@@ -13,7 +13,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "custom-pixi-particles": "^4.23.0",
+    "custom-pixi-particles": "^4.27.0",
     "file-saver": "^2.0.5",
     "gsap": "^3.12.5",
     "mitt": "^3.0.1",

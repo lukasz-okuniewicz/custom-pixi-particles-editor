@@ -46,6 +46,15 @@ export default function EmissionTypeProperties({ defaultConfig }) {
           }
         />
         <InputNumber
+          label="Max Particles"
+          id="max-particles"
+          value={defaultConfig.emitterConfig.emitController._maxParticles ?? 10}
+          step="1"
+          onChange={(value) =>
+            updateProps("emitterConfig.emitController._maxParticles", value)
+          }
+        />
+        <InputNumber
           label="Duration"
           id="duration"
           value={defaultConfig.emitterConfig.duration ?? 1}

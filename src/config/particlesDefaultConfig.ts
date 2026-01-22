@@ -98,7 +98,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 10,
         _frames: 0.9060000002384185,
@@ -183,7 +183,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 400,
         name: "UniformEmission",
@@ -268,7 +268,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 400,
         name: "UniformEmission",
@@ -353,7 +353,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 400,
         name: "UniformEmission",
@@ -438,7 +438,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 400,
         name: "UniformEmission",
@@ -523,7 +523,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 400,
         name: "UniformEmission",
@@ -608,7 +608,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 400,
         name: "UniformEmission",
@@ -693,7 +693,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 400,
         name: "UniformEmission",
@@ -778,7 +778,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 400,
         name: "UniformEmission",
@@ -902,7 +902,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 10,
+        _maxParticles: 10000,
         _emissionRate: 2,
         _maxLife: 1,
         _emitPerSecond: 1,
@@ -1013,7 +1013,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 5000,
+        _maxParticles: 10000,
         _emissionRate: 250000,
         _maxLife: 1,
         _emitPerSecond: 100,
@@ -1115,7 +1115,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 5000,
+        _maxParticles: 10000,
         _emissionRate: 250000,
         _maxLife: 1,
         _emitPerSecond: 100,
@@ -1216,7 +1216,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 1000,
+        _maxParticles: 10000,
         _emissionRate: "1011111",
         _maxLife: 1,
         _emitPerSecond: 100,
@@ -1339,7 +1339,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 1150,
         _frames: 0,
@@ -1457,7 +1457,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 20,
         _frames: 0,
@@ -1576,7 +1576,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 10,
         _frames: 0,
@@ -1644,7 +1644,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0.5499999999999999,
@@ -1711,7 +1711,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 10,
         _frames: 0,
@@ -1778,7 +1778,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 0.5,
         _frames: 0,
@@ -1853,7 +1853,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0,
@@ -1927,7 +1927,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 150,
         _frames: 0,
@@ -1993,7 +1993,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0,
@@ -2071,7 +2071,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 7,
         _frames: 0,
@@ -2153,7 +2153,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         _frames: 0,
@@ -2255,7 +2255,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 1000,
         _frames: 0,
@@ -2357,7 +2357,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 1000,
         _frames: 0,
@@ -2443,7 +2443,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 300,
         _frames: 0,
@@ -2522,7 +2522,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 100,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 200,
         _frames: 0,
@@ -2606,7 +2606,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 100,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0,
@@ -2679,7 +2679,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 15,
         _frames: 0.8493499999167398,
@@ -2745,7 +2745,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 5,
         _frames: 0,
@@ -2849,7 +2849,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 300,
         _frames: 0,
@@ -2928,7 +2928,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 2000,
         _frames: 0,
@@ -3007,7 +3007,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 1000,
         _frames: 0,
@@ -3106,7 +3106,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         _frames: 0,
@@ -3226,7 +3226,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 3,
         _emitPerSecond: 250,
         _frames: 0,
@@ -3317,7 +3317,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 3,
         _emitPerSecond: 250,
         name: "UniformEmission",
@@ -3431,7 +3431,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 300,
         _frames: 0,
@@ -3537,7 +3537,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 300,
         _frames: 0,
@@ -3657,7 +3657,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 300,
+        _maxParticles: 10000,
         _emissionRate: 30,
         _emitPerSecond: 0,
         name: "RandomEmission",
@@ -3762,7 +3762,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 1000,
+        _maxParticles: 10000,
         _emissionRate: 200,
         _emitCounter: 0.0003099999999584468,
         _emitPerSecond: 0,
@@ -3846,7 +3846,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 30,
         _frames: 0.17854999999981372,
@@ -3977,7 +3977,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 10,
         _frames: 0.16724999999976717,
@@ -4083,7 +4083,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 1,
         _frames: 0.948262999999994,
@@ -4199,7 +4199,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 20,
+        _maxParticles: 10000,
         _emissionRate: 2,
         name: "StandardEmission",
       },
@@ -4269,7 +4269,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 250,
         _frames: 0,
@@ -4359,7 +4359,11 @@ const particlesDefaultConfig = {
           name: "RotationBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 1000, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 1000,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -4427,7 +4431,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 5000,
         _frames: 0,
@@ -4505,7 +4509,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 5000,
         _frames: 0,
@@ -4618,7 +4622,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0,
@@ -4673,7 +4677,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 30,
         _frames: 0.2971499995328486,
@@ -4772,7 +4776,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 300,
         _frames: 0,
@@ -4843,7 +4847,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         _frames: 0,
@@ -4943,7 +4947,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0.99,
@@ -5036,7 +5040,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 30,
         _frames: 0.6096000003162771,
@@ -5111,7 +5115,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0.9935999999998602,
@@ -5187,7 +5191,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         _frames: 0.9935999999998602,
@@ -5260,7 +5264,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 150,
         _frames: 0,
@@ -5353,7 +5357,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         _frames: 0,
@@ -5438,7 +5442,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 150,
         _frames: 0,
@@ -5523,7 +5527,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 150,
         _frames: 0,
@@ -5608,7 +5612,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 150,
         _frames: 0,
@@ -5693,7 +5697,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 150,
         _frames: 0,
@@ -5763,7 +5767,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 30,
+        _maxParticles: 10000,
         _emissionRate: "200",
         _emitCounter: 0.007854999986011498,
         _maxLife: 1,
@@ -5835,7 +5839,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 50,
+        _maxParticles: 10000,
         _emissionRate: "1001",
         _emitCounter: 0.0008899500607440726,
         _maxLife: 1,
@@ -5904,7 +5908,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 30,
         _frames: 0.5949000001419336,
@@ -5975,7 +5979,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 0,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 150,
         _frames: 0,
@@ -6045,7 +6049,7 @@ const particlesDefaultConfig = {
       ],
       emitController: {
         _emitCounter: 0.030069999999455477,
-        _maxParticles: 10,
+        _maxParticles: 10000,
         _emissionRate: "20",
         _emitPerSecond: 0,
         name: "StandardEmission",
@@ -6136,7 +6140,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -6208,7 +6212,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 10,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 10,
         _emitCounter: 0.030069999999455477,
@@ -6302,6 +6306,7 @@ const particlesDefaultConfig = {
       ],
       emitController: {
         _emitPerSecond: 10,
+        _maxParticles: 10000,
         name: "UniformEmission",
       },
       duration: -1,
@@ -6380,7 +6385,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         name: "UniformEmission",
@@ -6446,7 +6451,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 250,
         name: "UniformEmission",
@@ -6510,7 +6515,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 50,
         name: "UniformEmission",
@@ -6595,7 +6600,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 50,
         name: "UniformEmission",
@@ -6682,7 +6687,11 @@ const particlesDefaultConfig = {
           name: "RotationBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 350, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 350,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -6760,7 +6769,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -6828,7 +6837,11 @@ const particlesDefaultConfig = {
           name: "RotationBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -6906,7 +6919,11 @@ const particlesDefaultConfig = {
           name: "ColorBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -6978,7 +6995,11 @@ const particlesDefaultConfig = {
           name: "SoundReactiveBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -7062,7 +7083,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -7150,7 +7171,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -7274,7 +7295,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 100,
         name: "UniformEmission",
@@ -7363,7 +7384,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -7452,7 +7473,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -7541,7 +7562,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -7629,7 +7650,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -7722,7 +7743,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -7811,7 +7832,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 500,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 500,
         name: "UniformEmission",
@@ -7920,7 +7941,11 @@ const particlesDefaultConfig = {
           name: "SoundReactiveBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -8080,7 +8105,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 50,
         name: "UniformEmission",
@@ -8188,7 +8213,7 @@ const particlesDefaultConfig = {
         },
       ],
       emitController: {
-        _maxParticles: 200,
+        _maxParticles: 10000,
         _maxLife: 1,
         _emitPerSecond: 10,
         name: "UniformEmission",
@@ -8346,7 +8371,11 @@ const particlesDefaultConfig = {
           name: "SizeBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 4000, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 4000,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -8464,7 +8493,11 @@ const particlesDefaultConfig = {
           priority: -10, // Ensures it runs after other position behaviours
         },
       ],
-      emitController: { _emitPerSecond: 500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -8567,7 +8600,11 @@ const particlesDefaultConfig = {
           name: "MoveToPointBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 300, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 300,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -8677,7 +8714,11 @@ const particlesDefaultConfig = {
           name: "ColorBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -8778,7 +8819,11 @@ const particlesDefaultConfig = {
           name: "SoundReactiveBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 200, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 200,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -8855,7 +8900,11 @@ const particlesDefaultConfig = {
           name: "SizeBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 1000, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 1000,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -8933,7 +8982,11 @@ const particlesDefaultConfig = {
           name: "ColorBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 1000, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 1000,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -9038,7 +9091,11 @@ const particlesDefaultConfig = {
           name: "GroupingBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -9449,6 +9506,7 @@ const particlesDefaultConfig = {
       ],
       emitController: {
         _emitPerSecond: 1000,
+        _maxParticles: 10000,
         name: "UniformEmission",
       },
       duration: -1,
@@ -9648,7 +9706,11 @@ const particlesDefaultConfig = {
           name: "SoundReactiveBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 2500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 2500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -9736,7 +9798,11 @@ const particlesDefaultConfig = {
           name: "SizeBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 2500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 2500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -9824,7 +9890,11 @@ const particlesDefaultConfig = {
           name: "SizeBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 2500, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 2500,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -9893,7 +9963,11 @@ const particlesDefaultConfig = {
           name: "ColorBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 3, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 3,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -10031,7 +10105,11 @@ const particlesDefaultConfig = {
           name: "SizeBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 2000, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 2000,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -10113,7 +10191,11 @@ const particlesDefaultConfig = {
           name: "TemperatureBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 100, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 100,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -10191,7 +10273,11 @@ const particlesDefaultConfig = {
           name: "RotationBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 1000, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 1000,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
@@ -10302,7 +10388,11 @@ const particlesDefaultConfig = {
           name: "SoundReactiveBehaviour",
         },
       ],
-      emitController: { _emitPerSecond: 200, name: "UniformEmission" },
+      emitController: {
+        _emitPerSecond: 200,
+        _maxParticles: 10000,
+        name: "UniformEmission",
+      },
       duration: -1,
       alpha: 1,
       anchor: { x: 0.5, y: 0.5 },
