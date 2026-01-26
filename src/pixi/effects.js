@@ -15,6 +15,16 @@ let lastPredefinedEffect = null;
 export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
   if (!defaultConfig || !fullConfig) return;
 
+  // Skip particle creation for shatterEffect
+  if (defaultConfig.particlePredefinedEffect === "shatterEffect") {
+    killTween();
+    resetPixiContainers();
+    stopAllParticlesArr();
+    lastPredefinedEffect = defaultConfig.particlePredefinedEffect;
+    resize(contentRef, pixiRefs);
+    return;
+  }
+
   if (
     defaultConfig.particlePredefinedEffect === lastPredefinedEffect &&
     !defaultConfig.refresh

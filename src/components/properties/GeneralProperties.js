@@ -187,6 +187,22 @@ const GeneralProperties = ({
     );
   };
 
+  if (defaultConfig.particlePredefinedEffect === "shatterEffect") return (
+    <>
+      <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
+      <div className={`${isSubmenuVisible}`}>
+        <GeneralDescription />
+        {/* Follow Mouse Toggle */}
+        <Select
+          label="Particle Effects"
+          defaultValue={defaultConfig.particlePredefinedEffect || "coffeeShop"}
+          onChange={handleEffectChange}
+          elements={particleEffects}
+        />
+      </div>
+    </>
+  )
+
   return (
     <>
       {/* General Properties Section */}

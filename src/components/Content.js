@@ -533,33 +533,73 @@ export default function Content() {
         });
       },
       loadConfig: (value) => {
-        defaultConfig.emitterConfig = value;
-        defaultConfig.particlePredefinedEffect = undefined;
-        defaultConfig.refresh = true;
-        setDefaultConfig(() => ({
-          ...defaultConfig,
-        }));
+        // Check if this is a shatter effect config file
+        // Pure shatter effect config: { shatterEffect: {...} }
+        if (value.shatterEffect !== undefined && !value.emitterConfig) {
+          defaultConfig.shatterEffect = value.shatterEffect;
+          defaultConfig.particlePredefinedEffect = "shatterEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({
+            ...defaultConfig,
+          }));
+        } else {
+          // Regular particle config (has emitterConfig or is particle config format)
+          if (value.emitterConfig) {
+            defaultConfig.emitterConfig = value.emitterConfig;
+          } else {
+            // Assume it's a particle config in the old format
+            defaultConfig.emitterConfig = value;
+          }
+          // Preserve shatterEffect if it exists in the loaded config
+          if (value.shatterEffect) {
+            defaultConfig.shatterEffect = value.shatterEffect;
+          }
+          defaultConfig.particlePredefinedEffect = undefined;
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({
+            ...defaultConfig,
+          }));
+        }
       },
       downloadConfig: () => {
-        const downloadableObj = pixiRefs.particles.emitter.getParser().write();
+        // Check if shatter effect is selected
+        if (defaultConfig.particlePredefinedEffect === "shatterEffect") {
+          // Download only shatter effect config
+          const shatterConfig = defaultConfig.shatterEffect || {};
+          const downloadableObj = {
+            shatterEffect: shatterConfig,
+          };
 
-        removeFromPosition(downloadableObj);
-        removeFromSpawn(downloadableObj);
-        removeFromEmission(downloadableObj);
-        removeFromTimeline(downloadableObj);
-        removeFromSize(downloadableObj);
-        removeFromRotation(downloadableObj);
-        removeFromAttraction(downloadableObj);
-        removeFromCollision(downloadableObj);
-        removeFromForce(downloadableObj);
-        removeFromColor(downloadableObj);
-        removeFromAngular(downloadableObj);
-        removeFromEmitDirectional(downloadableObj);
+          const blob = new Blob([JSON.stringify(downloadableObj, null, 2)], {
+            type: "application/json",
+          });
+          saveAs(blob, "shatter_effect_config.json");
+        } else {
+          // Download particle config as usual
+          if (!pixiRefs.particles || !pixiRefs.particles.emitter) {
+            console.warn("Particles not initialized, cannot download config");
+            return;
+          }
+          const downloadableObj = pixiRefs.particles.emitter.getParser().write();
 
-        const blob = new Blob([JSON.stringify(downloadableObj)], {
-          type: "application/json",
-        });
-        saveAs(blob, "particle_config");
+          removeFromPosition(downloadableObj);
+          removeFromSpawn(downloadableObj);
+          removeFromEmission(downloadableObj);
+          removeFromTimeline(downloadableObj);
+          removeFromSize(downloadableObj);
+          removeFromRotation(downloadableObj);
+          removeFromAttraction(downloadableObj);
+          removeFromCollision(downloadableObj);
+          removeFromForce(downloadableObj);
+          removeFromColor(downloadableObj);
+          removeFromAngular(downloadableObj);
+          removeFromEmitDirectional(downloadableObj);
+
+          const blob = new Blob([JSON.stringify(downloadableObj)], {
+            type: "application/json",
+          });
+          saveAs(blob, "particle_config");
+        }
       },
     };
 
@@ -616,7 +656,7 @@ export default function Content() {
     const { emitterConfig, textures } = defaultConfig;
 
     if (
-      !emitterConfig.animatedSprite &&
+      !emitterConfig?.animatedSprite &&
       Array.isArray(textures) &&
       textures.length > 0 &&
       textures[0] === "coin_"
@@ -631,8 +671,8 @@ export default function Content() {
     }
 
     if (
-      defaultConfig.emitterConfig.animatedSprite &&
-      defaultConfig.emitterConfig.animatedSprite.animatedSpriteName
+      defaultConfig.emitterConfig?.animatedSprite &&
+      defaultConfig.emitterConfig?.animatedSprite.animatedSpriteName
     ) {
       defaultConfig.textures[0] =
         defaultConfig.emitterConfig.animatedSprite.animatedSpriteName;

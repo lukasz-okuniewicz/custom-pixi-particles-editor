@@ -26,8 +26,26 @@ import LightEffectProperties from "@components/properties/behaviours/LightEffect
 import StretchProperties from "@components/properties/behaviours/StretchProperties";
 import TemperatureProperties from "@components/properties/behaviours/TemperatureProperties";
 import MoveToPointProperties from "@components/properties/behaviours/MoveToPointProperties";
+import ShatterEffectProperties from "@components/properties/behaviours/ShatterEffectProperties";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
+  if (defaultConfig.particlePredefinedEffect === "shatterEffect") return (
+    <div
+      className="w-[400px] fixed right-0 top-0 bottom-0 overflow-y-scroll overflow-x-hidden block p-5 z-20 bg-[#181a1b] border-l border-l-[rgba(140,130,115,0.5)]"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <LoadAndSaveProperties defaultConfig={defaultConfig} />
+      <GeneralProperties
+        defaultConfig={defaultConfig}
+        fullConfig={fullConfig}
+        handlePredefinedEffectChange={handlePredefinedEffectChange}
+      />
+      <ShatterEffectProperties defaultConfig={defaultConfig} />
+    </div>
+  )
+
   return (
     <div
       className="w-[400px] fixed right-0 top-0 bottom-0 overflow-y-scroll overflow-x-hidden block p-5 z-20 bg-[#181a1b] border-l border-l-[rgba(140,130,115,0.5)]"

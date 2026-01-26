@@ -10400,6 +10400,24 @@ const particlesDefaultConfig = {
     },
     textures: ["gdevelop/Blood3.png"],
   },
+  shatterEffect: {
+    shatterEffect: {
+      gridCols: 50,
+      gridRows: 50,
+      explosionPower: 300,
+      friction: 0.96,
+      gravity: 800,
+      turbulence: 0.2,
+      lifetime: 1.0,
+      fadeOutDuration: 0.5,
+      mode: "radial",
+      explosionOrigin: { x: 0.5, y: 0.5 },
+      blastDirection: 0,
+      swirlStrength: 0,
+      randomizeScale: false,
+      endTint: 0xffffff,
+    },
+  },
 };
 
 export default particlesDefaultConfig;
