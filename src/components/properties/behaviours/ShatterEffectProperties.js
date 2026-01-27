@@ -84,7 +84,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     if (!bgContainer || !app) return;
 
     let texture;
-    const textureNames = ["autumn", "face", "blackHole", "earth", "campFire"];
+    const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of textureNames) {
       try {
         texture = Texture.from(name);
@@ -96,7 +96,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     sprite.anchor.set(0.5, 0.5);
     sprite.x = app.screen.width / 2;
     sprite.y = app.screen.height / 2 - 100;
-    sprite.scale.set(0.7);
+    sprite.scale.set(1.5);
 
     bgContainer.addChild(sprite);
     shatterSpriteRef.current = sprite;

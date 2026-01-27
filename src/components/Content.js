@@ -542,6 +542,51 @@ export default function Content() {
           setDefaultConfig(() => ({
             ...defaultConfig,
           }));
+        } else if (value.dissolveEffect !== undefined && !value.emitterConfig) {
+          // Check if this is a dissolve effect config file
+          // Pure dissolve effect config: { dissolveEffect: {...} }
+          defaultConfig.dissolveEffect = value.dissolveEffect;
+          defaultConfig.particlePredefinedEffect = "dissolveEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({
+            ...defaultConfig,
+          }));
+        } else if (value.magneticAssemblyEffect !== undefined && !value.emitterConfig) {
+          // Check if this is a magnetic assembly effect config file
+          // Pure magnetic assembly effect config: { magneticAssemblyEffect: {...} }
+          defaultConfig.magneticAssemblyEffect = value.magneticAssemblyEffect;
+          defaultConfig.particlePredefinedEffect = "magneticAssemblyEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({
+            ...defaultConfig,
+          }));
+        } else if (value.ghostEffect !== undefined && !value.emitterConfig) {
+          // Check if this is a ghost effect config file
+          // Pure ghost effect config: { ghostEffect: {...} }
+          defaultConfig.ghostEffect = value.ghostEffect;
+          defaultConfig.particlePredefinedEffect = "ghostEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({
+            ...defaultConfig,
+          }));
+        } else if (value.glitchEffect !== undefined && !value.emitterConfig) {
+          // Check if this is a glitch effect config file
+          // Pure glitch effect config: { glitchEffect: {...} }
+          defaultConfig.glitchEffect = value.glitchEffect;
+          defaultConfig.particlePredefinedEffect = "glitchEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({
+            ...defaultConfig,
+          }));
+        } else if (value.meltEffect !== undefined && !value.emitterConfig) {
+          // Check if this is a melt effect config file
+          // Pure melt effect config: { meltEffect: {...} }
+          defaultConfig.meltEffect = value.meltEffect;
+          defaultConfig.particlePredefinedEffect = "meltEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({
+            ...defaultConfig,
+          }));
         } else {
           // Regular particle config (has emitterConfig or is particle config format)
           if (value.emitterConfig) {
@@ -553,6 +598,26 @@ export default function Content() {
           // Preserve shatterEffect if it exists in the loaded config
           if (value.shatterEffect) {
             defaultConfig.shatterEffect = value.shatterEffect;
+          }
+          // Preserve dissolveEffect if it exists in the loaded config
+          if (value.dissolveEffect) {
+            defaultConfig.dissolveEffect = value.dissolveEffect;
+          }
+          // Preserve magneticAssemblyEffect if it exists in the loaded config
+          if (value.magneticAssemblyEffect) {
+            defaultConfig.magneticAssemblyEffect = value.magneticAssemblyEffect;
+          }
+          // Preserve ghostEffect if it exists in the loaded config
+          if (value.ghostEffect) {
+            defaultConfig.ghostEffect = value.ghostEffect;
+          }
+          // Preserve glitchEffect if it exists in the loaded config
+          if (value.glitchEffect) {
+            defaultConfig.glitchEffect = value.glitchEffect;
+          }
+          // Preserve meltEffect if it exists in the loaded config
+          if (value.meltEffect) {
+            defaultConfig.meltEffect = value.meltEffect;
           }
           defaultConfig.particlePredefinedEffect = undefined;
           defaultConfig.refresh = true;
@@ -574,6 +639,61 @@ export default function Content() {
             type: "application/json",
           });
           saveAs(blob, "shatter_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "dissolveEffect") {
+          // Download only dissolve effect config
+          const dissolveConfig = defaultConfig.dissolveEffect || {};
+          const downloadableObj = {
+            dissolveEffect: dissolveConfig,
+          };
+
+          const blob = new Blob([JSON.stringify(downloadableObj, null, 2)], {
+            type: "application/json",
+          });
+          saveAs(blob, "dissolve_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect") {
+          // Download only magnetic assembly effect config
+          const magneticAssemblyConfig = defaultConfig.magneticAssemblyEffect || {};
+          const downloadableObj = {
+            magneticAssemblyEffect: magneticAssemblyConfig,
+          };
+
+          const blob = new Blob([JSON.stringify(downloadableObj, null, 2)], {
+            type: "application/json",
+          });
+          saveAs(blob, "magnetic_assembly_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "ghostEffect") {
+          // Download only ghost effect config
+          const ghostConfig = defaultConfig.ghostEffect || {};
+          const downloadableObj = {
+            ghostEffect: ghostConfig,
+          };
+
+          const blob = new Blob([JSON.stringify(downloadableObj, null, 2)], {
+            type: "application/json",
+          });
+          saveAs(blob, "ghost_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "glitchEffect") {
+          // Download only glitch effect config
+          const glitchConfig = defaultConfig.glitchEffect || {};
+          const downloadableObj = {
+            glitchEffect: glitchConfig,
+          };
+
+          const blob = new Blob([JSON.stringify(downloadableObj, null, 2)], {
+            type: "application/json",
+          });
+          saveAs(blob, "glitch_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "meltEffect") {
+          // Download only melt effect config
+          const meltConfig = defaultConfig.meltEffect || {};
+          const downloadableObj = {
+            meltEffect: meltConfig,
+          };
+
+          const blob = new Blob([JSON.stringify(downloadableObj, null, 2)], {
+            type: "application/json",
+          });
+          saveAs(blob, "melt_effect_config.json");
         } else {
           // Download particle config as usual
           if (!pixiRefs.particles || !pixiRefs.particles.emitter) {

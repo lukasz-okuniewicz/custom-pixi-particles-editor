@@ -15,8 +15,8 @@ let lastPredefinedEffect = null;
 export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
   if (!defaultConfig || !fullConfig) return;
 
-  // Skip particle creation for shatterEffect
-  if (defaultConfig.particlePredefinedEffect === "shatterEffect") {
+  // Skip particle creation for shatterEffect, dissolveEffect, magneticAssemblyEffect, ghostEffect, glitchEffect, and meltEffect
+  if (defaultConfig.particlePredefinedEffect === "shatterEffect" || defaultConfig.particlePredefinedEffect === "dissolveEffect" || defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect" || defaultConfig.particlePredefinedEffect === "ghostEffect" || defaultConfig.particlePredefinedEffect === "glitchEffect" || defaultConfig.particlePredefinedEffect === "meltEffect") {
     killTween();
     resetPixiContainers();
     stopAllParticlesArr();

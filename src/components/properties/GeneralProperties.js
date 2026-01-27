@@ -187,7 +187,7 @@ const GeneralProperties = ({
     );
   };
 
-  if (defaultConfig.particlePredefinedEffect === "shatterEffect") return (
+  if (defaultConfig.particlePredefinedEffect === "shatterEffect" || defaultConfig.particlePredefinedEffect === "dissolveEffect" || defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect" || defaultConfig.particlePredefinedEffect === "ghostEffect" || defaultConfig.particlePredefinedEffect === "glitchEffect" || defaultConfig.particlePredefinedEffect === "meltEffect") return (
     <>
       <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
       <div className={`${isSubmenuVisible}`}>

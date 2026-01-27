@@ -27,6 +27,11 @@ import StretchProperties from "@components/properties/behaviours/StretchProperti
 import TemperatureProperties from "@components/properties/behaviours/TemperatureProperties";
 import MoveToPointProperties from "@components/properties/behaviours/MoveToPointProperties";
 import ShatterEffectProperties from "@components/properties/behaviours/ShatterEffectProperties";
+import DissolveEffectProperties from "@components/properties/behaviours/DissolveEffectProperties";
+import MagneticAssemblyEffectProperties from "@components/properties/behaviours/MagneticAssemblyEffectProperties";
+import GhostEffectProperties from "@components/properties/behaviours/GhostEffectProperties";
+import GlitchEffectProperties from "@components/properties/behaviours/GlitchEffectProperties";
+import MeltEffectProperties from "@components/properties/behaviours/MeltEffectProperties";
 
 const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
   if (defaultConfig.particlePredefinedEffect === "shatterEffect") return (
@@ -43,6 +48,91 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
         handlePredefinedEffectChange={handlePredefinedEffectChange}
       />
       <ShatterEffectProperties defaultConfig={defaultConfig} />
+    </div>
+  )
+
+  if (defaultConfig.particlePredefinedEffect === "dissolveEffect") return (
+    <div
+      className="w-[400px] fixed right-0 top-0 bottom-0 overflow-y-scroll overflow-x-hidden block p-5 z-20 bg-[#181a1b] border-l border-l-[rgba(140,130,115,0.5)]"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <LoadAndSaveProperties defaultConfig={defaultConfig} />
+      <GeneralProperties
+        defaultConfig={defaultConfig}
+        fullConfig={fullConfig}
+        handlePredefinedEffectChange={handlePredefinedEffectChange}
+      />
+      <DissolveEffectProperties defaultConfig={defaultConfig} />
+    </div>
+  )
+
+  if (defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect") return (
+    <div
+      className="w-[400px] fixed right-0 top-0 bottom-0 overflow-y-scroll overflow-x-hidden block p-5 z-20 bg-[#181a1b] border-l border-l-[rgba(140,130,115,0.5)]"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <LoadAndSaveProperties defaultConfig={defaultConfig} />
+      <GeneralProperties
+        defaultConfig={defaultConfig}
+        fullConfig={fullConfig}
+        handlePredefinedEffectChange={handlePredefinedEffectChange}
+      />
+      <MagneticAssemblyEffectProperties defaultConfig={defaultConfig} />
+    </div>
+  )
+
+  if (defaultConfig.particlePredefinedEffect === "ghostEffect") return (
+    <div
+      className="w-[400px] fixed right-0 top-0 bottom-0 overflow-y-scroll overflow-x-hidden block p-5 z-20 bg-[#181a1b] border-l border-l-[rgba(140,130,115,0.5)]"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <LoadAndSaveProperties defaultConfig={defaultConfig} />
+      <GeneralProperties
+        defaultConfig={defaultConfig}
+        fullConfig={fullConfig}
+        handlePredefinedEffectChange={handlePredefinedEffectChange}
+      />
+      <GhostEffectProperties defaultConfig={defaultConfig} />
+    </div>
+  )
+
+  if (defaultConfig.particlePredefinedEffect === "glitchEffect") return (
+    <div
+      className="w-[400px] fixed right-0 top-0 bottom-0 overflow-y-scroll overflow-x-hidden block p-5 z-20 bg-[#181a1b] border-l border-l-[rgba(140,130,115,0.5)]"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <LoadAndSaveProperties defaultConfig={defaultConfig} />
+      <GeneralProperties
+        defaultConfig={defaultConfig}
+        fullConfig={fullConfig}
+        handlePredefinedEffectChange={handlePredefinedEffectChange}
+      />
+      <GlitchEffectProperties defaultConfig={defaultConfig} />
+    </div>
+  )
+
+  if (defaultConfig.particlePredefinedEffect === "meltEffect") return (
+    <div
+      className="w-[400px] fixed right-0 top-0 bottom-0 overflow-y-scroll overflow-x-hidden block p-5 z-20 bg-[#181a1b] border-l border-l-[rgba(140,130,115,0.5)]"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <LoadAndSaveProperties defaultConfig={defaultConfig} />
+      <GeneralProperties
+        defaultConfig={defaultConfig}
+        fullConfig={fullConfig}
+        handlePredefinedEffectChange={handlePredefinedEffectChange}
+      />
+      <MeltEffectProperties defaultConfig={defaultConfig} />
     </div>
   )
 
