@@ -17,11 +17,9 @@ export default function ShatterEffectProperties({ defaultConfig }) {
 
   const triggerTimeoutRef = useRef(null);
   const isExplodingRef = useRef(false);
-
-  // Use a Ref to keep track of the sprite object synchronously
   const shatterSpriteRef = useRef(null);
 
-  // Initialize and merge defaults
+  // 1. Updated keysToInitialize with new properties
   const keysToInitialize = {
     gridCols: 50,
     gridRows: 50,
@@ -37,6 +35,8 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     swirlStrength: 0,
     randomizeScale: false,
     endTint: 0xffffff,
+    enableRotation: true,    // NEW
+    rotationStrength: 1.0,   // NEW
   };
 
   const shatterConfig = useMemo(() => {
@@ -53,31 +53,20 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     updateProps("shatterEffect", newConfig);
   };
 
-  /**
-   * RE-ATTACHMENT LOGIC
-   * This ensures the sprite stays on stage even if updateProps()
-   * triggers a global Pixi stage clear.
-   */
   useEffect(() => {
     const checkAndReattach = () => {
       const { bgContainer } = pixiRefs;
       const sprite = shatterSpriteRef.current;
-      // If we have a sprite state but it lost its parent and we aren't currently exploding
       if (sprite && bgContainer && !sprite.parent && !isExplodingRef.current) {
         bgContainer.addChild(sprite);
       }
     };
-
-    // Run immediately on every render of this component
     checkAndReattach();
-
-    // Also check on a slight delay to catch late stage clears
     const timeout = setTimeout(checkAndReattach, 50);
     return () => clearTimeout(timeout);
   });
 
   const createShatterSprite = useCallback(() => {
-    // 1. Clean up existing Ref (synchronous)
     if (shatterSpriteRef.current) {
       if (shatterSpriteRef.current.parent) {
         shatterSpriteRef.current.parent.removeChild(shatterSpriteRef.current);
@@ -86,7 +75,6 @@ export default function ShatterEffectProperties({ defaultConfig }) {
       shatterSpriteRef.current = null;
     }
 
-    // 2. Clean up effect
     if (shatterEffectInstance) {
       shatterEffectInstance.destroy();
       setShatterEffectInstance(null);
@@ -111,8 +99,6 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     sprite.scale.set(0.7);
 
     bgContainer.addChild(sprite);
-
-    // Update Ref and State
     shatterSpriteRef.current = sprite;
     setShatterSprite(sprite);
   }, [shatterEffectInstance]);
@@ -129,8 +115,6 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     }
 
     sprite.visible = true;
-
-    // Use current shatterConfig values
     const options = { ...shatterConfig };
 
     const effect = new ShatterEffect(sprite, options);
@@ -144,8 +128,6 @@ export default function ShatterEffectProperties({ defaultConfig }) {
       setShatterEffectInstance(null);
       isExplodingRef.current = false;
 
-      // ShatterEffect typically hides the original sprite,
-      // so we create a fresh one in its place.
       if (sprite && sprite.parent) {
         const newSprite = new Sprite(sprite.texture);
         newSprite.anchor.set(0.5, 0.5);
@@ -170,7 +152,6 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     }
   }, [createShatterSprite, performExplosion]);
 
-  // Clean up on unmount
   useEffect(() => {
     return () => {
       if (shatterSpriteRef.current) shatterSpriteRef.current.destroy();
@@ -194,18 +175,17 @@ export default function ShatterEffectProperties({ defaultConfig }) {
       <legend onClick={toggleSubmenuVisibility}>Shatter Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         {!shatterSprite ?
-        <div className="form-group">
-          <div className="col-xs-12">
-            <button
-              className="btn btn-default btn-block"
-              onClick={createShatterSprite}
-              // Button disabled only if sprite is valid AND has a parent (visible on stage)
-              disabled={!!(shatterSprite && shatterSprite.parent)}
-            >
-              {shatterSprite && shatterSprite.parent ? "Sprite Active" : "Create Sprite"}
-            </button>
+          <div className="form-group">
+            <div className="col-xs-12">
+              <button
+                className="btn btn-default btn-block"
+                onClick={createShatterSprite}
+                disabled={!!(shatterSprite && shatterSprite.parent)}
+              >
+                {shatterSprite && shatterSprite.parent ? "Sprite Active" : "Create Sprite"}
+              </button>
+            </div>
           </div>
-        </div>
           : <></> }
         <div className="form-group">
           <div className="col-xs-12">
@@ -219,6 +199,27 @@ export default function ShatterEffectProperties({ defaultConfig }) {
           </div>
         </div>
         <hr />
+
+        {/* Rotation Controls */}
+        <Checkbox
+          label="Enable Rotation"
+          id="enableRotation"
+          onChange={(v) => updateShatterConfig({ enableRotation: v })}
+          checked={shatterConfig.enableRotation}
+        />
+
+        {shatterConfig.enableRotation && (
+          <InputNumber
+            label="Rotation Strength"
+            id="rotationStrength"
+            value={shatterConfig.rotationStrength}
+            step="0.1" min="0" max="10"
+            onChange={(v) => updateShatterConfig({ rotationStrength: v })}
+          />
+        )}
+
+        <hr />
+
         <InputNumber
           label="Grid Columns"
           id="gridCols"
