@@ -3,9 +3,12 @@
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
+import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { MeltEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js-legacy";
+import { Loader as PixiLoader } from "@pixi/loaders";
+import MeltEffectDescription from "@components/html/behaviourDescriptions/MeltEffect";
 
 export default function MeltEffectProperties({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -15,6 +18,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
   const triggerTimeoutRef = useRef(null);
   const isMeltingRef = useRef(false);
   const meltSpriteRef = useRef(null);
+  const fileSpriteInputRef = useRef(null);
 
   const keysToInitialize = {
     gridCols: 15,
@@ -54,7 +58,14 @@ export default function MeltEffectProperties({ defaultConfig }) {
     return () => clearTimeout(timeout);
   });
 
-  const createMeltSprite = useCallback(() => {
+  // Load custom sprite from config on mount
+  useEffect(() => {
+    if (meltConfig.customSprite && !meltSprite && meltConfig.customSprite.result) {
+      createMeltSprite(meltConfig.customSprite.result);
+    }
+  }, [meltConfig.customSprite]);
+
+  const createMeltSprite = useCallback((customDataUrl = null) => {
     if (meltSpriteRef.current) {
       if (meltSpriteRef.current.parent) {
         meltSpriteRef.current.parent.removeChild(meltSpriteRef.current);
@@ -72,6 +83,36 @@ export default function MeltEffectProperties({ defaultConfig }) {
     if (!bgContainer || !app) return;
 
     let texture;
+    
+    // Use custom uploaded sprite if available - create texture directly from data URL
+    if (customDataUrl) {
+      try {
+        // Create an image element from the data URL
+        const img = new Image();
+        img.onload = () => {
+          texture = Texture.from(img);
+          const sprite = new Sprite(texture);
+          sprite.anchor.set(0.5, 0.5);
+          sprite.x = app.screen.width / 2;
+          sprite.y = app.screen.height / 2 - 100;
+          sprite.scale.set(1);
+
+          bgContainer.addChild(sprite);
+          meltSpriteRef.current = sprite;
+          setMeltSprite(sprite);
+        };
+        img.onerror = (e) => {
+          console.error("Failed to load image from data URL:", e);
+          // Fall through to default textures
+        };
+        img.src = customDataUrl;
+        return; // Return early, sprite will be created in onload
+      } catch (e) {
+        console.error("Failed to create texture from data URL:", e);
+      }
+    }
+    
+    // Fallback to default textures if custom texture not available
     const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of textureNames) {
       try {
@@ -89,7 +130,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
     bgContainer.addChild(sprite);
     meltSpriteRef.current = sprite;
     setMeltSprite(sprite);
-  }, [meltEffectInstance]);
+  }, [meltEffectInstance, meltConfig]);
 
   const performMelt = useCallback(() => {
     const sprite = meltSpriteRef.current;
@@ -147,18 +188,58 @@ export default function MeltEffectProperties({ defaultConfig }) {
     };
   }, []);
 
+  const handleSpriteUpload = useCallback((e) => {
+    const file = fileSpriteInputRef.current?.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileName = `melt-sprite-${Date.now()}-${file.name}`;
+      const imageData = {
+        fileName: fileName,
+        result: reader.result,
+      };
+
+      // Store in config
+      const newConfig = { ...meltConfig, customSprite: imageData };
+      defaultConfig.meltEffect = newConfig;
+      updateProps("meltEffect", newConfig);
+
+      // Create texture directly from data URL
+      createMeltSprite(reader.result);
+    };
+    reader.onerror = () => {
+      console.error("Failed to read sprite file");
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }, [meltConfig, createMeltSprite]);
+
+  const handleSpriteUploadClick = useCallback(() => {
+    fileSpriteInputRef.current?.click();
+  }, []);
+
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
     <>
       <legend onClick={toggleSubmenuVisibility}>Melt Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
+        <MeltEffectDescription />
+        <File
+          label="Custom Sprite"
+          buttonText={meltConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          id="melt-sprite-upload"
+          onChange={handleSpriteUpload}
+          onClick={handleSpriteUploadClick}
+          ref={fileSpriteInputRef}
+        />
         {!meltSprite ? (
           <div className="form-group">
             <div className="col-xs-12">
               <button
                 className="btn btn-default btn-block"
-                onClick={createMeltSprite}
+                onClick={() => createMeltSprite()}
                 disabled={!!(meltSprite && meltSprite.parent)}
               >
                 {meltSprite && meltSprite.parent ? "Sprite Active" : "Create Sprite"}

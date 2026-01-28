@@ -6,9 +6,12 @@ import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import ColorPicker from "@components/html/ColorPicker";
 import Select from "@components/html/Select";
+import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { ShatterEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js-legacy";
+import { Loader as PixiLoader } from "@pixi/loaders";
+import ShatterEffectDescription from "@components/html/behaviourDescriptions/ShatterEffect";
 
 export default function ShatterEffectProperties({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -18,6 +21,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
   const triggerTimeoutRef = useRef(null);
   const isExplodingRef = useRef(false);
   const shatterSpriteRef = useRef(null);
+  const fileSpriteInputRef = useRef(null);
 
   // 1. Updated keysToInitialize with new properties
   const keysToInitialize = {
@@ -66,7 +70,14 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     return () => clearTimeout(timeout);
   });
 
-  const createShatterSprite = useCallback(() => {
+  // Load custom sprite from config on mount
+  useEffect(() => {
+    if (shatterConfig.customSprite && !shatterSprite && shatterConfig.customSprite.result) {
+      createShatterSprite(shatterConfig.customSprite.result);
+    }
+  }, [shatterConfig.customSprite]);
+
+  const createShatterSprite = useCallback((customDataUrl = null) => {
     if (shatterSpriteRef.current) {
       if (shatterSpriteRef.current.parent) {
         shatterSpriteRef.current.parent.removeChild(shatterSpriteRef.current);
@@ -84,6 +95,36 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     if (!bgContainer || !app) return;
 
     let texture;
+    
+    // Use custom uploaded sprite if available - create texture directly from data URL
+    if (customDataUrl) {
+      try {
+        // Create an image element from the data URL
+        const img = new Image();
+        img.onload = () => {
+          texture = Texture.from(img);
+          const sprite = new Sprite(texture);
+          sprite.anchor.set(0.5, 0.5);
+          sprite.x = app.screen.width / 2;
+          sprite.y = app.screen.height / 2 - 100;
+          sprite.scale.set(1.5);
+
+          bgContainer.addChild(sprite);
+          shatterSpriteRef.current = sprite;
+          setShatterSprite(sprite);
+        };
+        img.onerror = (e) => {
+          console.error("Failed to load image from data URL:", e);
+          // Fall through to default textures
+        };
+        img.src = customDataUrl;
+        return; // Return early, sprite will be created in onload
+      } catch (e) {
+        console.error("Failed to create texture from data URL:", e);
+      }
+    }
+    
+    // Fallback to default textures if custom texture not available
     const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of textureNames) {
       try {
@@ -101,7 +142,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     bgContainer.addChild(sprite);
     shatterSpriteRef.current = sprite;
     setShatterSprite(sprite);
-  }, [shatterEffectInstance]);
+  }, [shatterEffectInstance, shatterConfig]);
 
   const performExplosion = useCallback(() => {
     const sprite = shatterSpriteRef.current;
@@ -165,6 +206,37 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     { key: "swirl", displayName: "Swirl" },
   ];
 
+  const handleSpriteUpload = useCallback((e) => {
+    const file = fileSpriteInputRef.current?.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileName = `shatter-sprite-${Date.now()}-${file.name}`;
+      const imageData = {
+        fileName: fileName,
+        result: reader.result,
+      };
+
+      // Store in config
+      const newConfig = { ...shatterConfig, customSprite: imageData };
+      defaultConfig.shatterEffect = newConfig;
+      updateProps("shatterEffect", newConfig);
+
+      // Create texture directly from data URL
+      createShatterSprite(reader.result);
+    };
+    reader.onerror = () => {
+      console.error("Failed to read sprite file");
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }, [shatterConfig, createShatterSprite]);
+
+  const handleSpriteUploadClick = useCallback(() => {
+    fileSpriteInputRef.current?.click();
+  }, []);
+
   const hexToRgb = (hex) => ({ r: (hex >> 16) & 0xff, g: (hex >> 8) & 0xff, b: hex & 0xff, a: 1 });
   const rgbToHex = (r, g, b) => (r << 16) | (g << 8) | b;
 
@@ -174,12 +246,21 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Shatter Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
+        <ShatterEffectDescription />
+        <File
+          label="Custom Sprite"
+          buttonText={shatterConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          id="shatter-sprite-upload"
+          onChange={handleSpriteUpload}
+          onClick={handleSpriteUploadClick}
+          ref={fileSpriteInputRef}
+        />
         {!shatterSprite ?
           <div className="form-group">
             <div className="col-xs-12">
               <button
                 className="btn btn-default btn-block"
-                onClick={createShatterSprite}
+                onClick={() => createShatterSprite()}
                 disabled={!!(shatterSprite && shatterSprite.parent)}
               >
                 {shatterSprite && shatterSprite.parent ? "Sprite Active" : "Create Sprite"}

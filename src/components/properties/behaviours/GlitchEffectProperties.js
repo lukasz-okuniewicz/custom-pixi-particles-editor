@@ -4,9 +4,12 @@ import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
+import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { GlitchEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js-legacy";
+import { Loader as PixiLoader } from "@pixi/loaders";
+import GlitchEffectDescription from "@components/html/behaviourDescriptions/GlitchEffect";
 
 export default function GlitchEffectProperties({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -16,6 +19,7 @@ export default function GlitchEffectProperties({ defaultConfig }) {
   const triggerTimeoutRef = useRef(null);
   const isGlitchingRef = useRef(false);
   const glitchSpriteRef = useRef(null);
+  const fileSpriteInputRef = useRef(null);
 
   const keysToInitialize = {
     slices: 15,
@@ -54,7 +58,14 @@ export default function GlitchEffectProperties({ defaultConfig }) {
     return () => clearTimeout(timeout);
   });
 
-  const createGlitchSprite = useCallback(() => {
+  // Load custom sprite from config on mount
+  useEffect(() => {
+    if (glitchConfig.customSprite && !glitchSprite && glitchConfig.customSprite.result) {
+      createGlitchSprite(glitchConfig.customSprite.result);
+    }
+  }, [glitchConfig.customSprite]);
+
+  const createGlitchSprite = useCallback((customDataUrl = null) => {
     if (glitchSpriteRef.current) {
       if (glitchSpriteRef.current.parent) {
         glitchSpriteRef.current.parent.removeChild(glitchSpriteRef.current);
@@ -72,6 +83,36 @@ export default function GlitchEffectProperties({ defaultConfig }) {
     if (!bgContainer || !app) return;
 
     let texture;
+    
+    // Use custom uploaded sprite if available - create texture directly from data URL
+    if (customDataUrl) {
+      try {
+        // Create an image element from the data URL
+        const img = new Image();
+        img.onload = () => {
+          texture = Texture.from(img);
+          const sprite = new Sprite(texture);
+          sprite.anchor.set(0.5, 0.5);
+          sprite.x = app.screen.width / 2;
+          sprite.y = app.screen.height / 2 - 100;
+          sprite.scale.set(1);
+
+          bgContainer.addChild(sprite);
+          glitchSpriteRef.current = sprite;
+          setGlitchSprite(sprite);
+        };
+        img.onerror = (e) => {
+          console.error("Failed to load image from data URL:", e);
+          // Fall through to default textures
+        };
+        img.src = customDataUrl;
+        return; // Return early, sprite will be created in onload
+      } catch (e) {
+        console.error("Failed to create texture from data URL:", e);
+      }
+    }
+    
+    // Fallback to default textures if custom texture not available
     const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of textureNames) {
       try {
@@ -89,7 +130,7 @@ export default function GlitchEffectProperties({ defaultConfig }) {
     bgContainer.addChild(sprite);
     glitchSpriteRef.current = sprite;
     setGlitchSprite(sprite);
-  }, [glitchEffectInstance]);
+  }, [glitchEffectInstance, glitchConfig]);
 
   const performGlitch = useCallback(() => {
     const sprite = glitchSpriteRef.current;
@@ -147,18 +188,58 @@ export default function GlitchEffectProperties({ defaultConfig }) {
     };
   }, []);
 
+  const handleSpriteUpload = useCallback((e) => {
+    const file = fileSpriteInputRef.current?.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileName = `glitch-sprite-${Date.now()}-${file.name}`;
+      const imageData = {
+        fileName: fileName,
+        result: reader.result,
+      };
+
+      // Store in config
+      const newConfig = { ...glitchConfig, customSprite: imageData };
+      defaultConfig.glitchEffect = newConfig;
+      updateProps("glitchEffect", newConfig);
+
+      // Create texture directly from data URL
+      createGlitchSprite(reader.result);
+    };
+    reader.onerror = () => {
+      console.error("Failed to read sprite file");
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }, [glitchConfig, createGlitchSprite]);
+
+  const handleSpriteUploadClick = useCallback(() => {
+    fileSpriteInputRef.current?.click();
+  }, []);
+
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
     <>
       <legend onClick={toggleSubmenuVisibility}>Glitch Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
+        <GlitchEffectDescription />
+        <File
+          label="Custom Sprite"
+          buttonText={glitchConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          id="glitch-sprite-upload"
+          onChange={handleSpriteUpload}
+          onClick={handleSpriteUploadClick}
+          ref={fileSpriteInputRef}
+        />
         {!glitchSprite ? (
           <div className="form-group">
             <div className="col-xs-12">
               <button
                 className="btn btn-default btn-block"
-                onClick={createGlitchSprite}
+                onClick={() => createGlitchSprite()}
                 disabled={!!(glitchSprite && glitchSprite.parent)}
               >
                 {glitchSprite && glitchSprite.parent ? "Sprite Active" : "Create Sprite"}

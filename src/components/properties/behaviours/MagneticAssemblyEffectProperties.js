@@ -4,9 +4,12 @@ import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
+import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { MagneticAssemblyEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js-legacy";
+import { Loader as PixiLoader } from "@pixi/loaders";
+import MagneticAssemblyEffectDescription from "@components/html/behaviourDescriptions/MagneticAssemblyEffect";
 
 export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -16,6 +19,7 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
   const triggerTimeoutRef = useRef(null);
   const isAssemblingRef = useRef(false);
   const magneticAssemblySpriteRef = useRef(null);
+  const fileSpriteInputRef = useRef(null);
 
   const keysToInitialize = {
     gridCols: 100,
@@ -55,7 +59,14 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
     return () => clearTimeout(timeout);
   });
 
-  const createMagneticAssemblySprite = useCallback(() => {
+  // Load custom sprite from config on mount
+  useEffect(() => {
+    if (magneticAssemblyConfig.customSprite && !magneticAssemblySprite && magneticAssemblyConfig.customSprite.result) {
+      createMagneticAssemblySprite(magneticAssemblyConfig.customSprite.result);
+    }
+  }, [magneticAssemblyConfig.customSprite]);
+
+  const createMagneticAssemblySprite = useCallback((customDataUrl = null) => {
     if (magneticAssemblySpriteRef.current) {
       if (magneticAssemblySpriteRef.current.parent) {
         magneticAssemblySpriteRef.current.parent.removeChild(magneticAssemblySpriteRef.current);
@@ -73,6 +84,36 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
     if (!bgContainer || !app) return;
 
     let texture;
+    
+    // Use custom uploaded sprite if available - create texture directly from data URL
+    if (customDataUrl) {
+      try {
+        // Create an image element from the data URL
+        const img = new Image();
+        img.onload = () => {
+          texture = Texture.from(img);
+          const sprite = new Sprite(texture);
+          sprite.anchor.set(0.5, 0.5);
+          sprite.x = app.screen.width / 2;
+          sprite.y = app.screen.height / 2 - 100;
+          sprite.scale.set(1);
+
+          bgContainer.addChild(sprite);
+          magneticAssemblySpriteRef.current = sprite;
+          setMagneticAssemblySprite(sprite);
+        };
+        img.onerror = (e) => {
+          console.error("Failed to load image from data URL:", e);
+          // Fall through to default textures
+        };
+        img.src = customDataUrl;
+        return; // Return early, sprite will be created in onload
+      } catch (e) {
+        console.error("Failed to create texture from data URL:", e);
+      }
+    }
+    
+    // Fallback to default textures if custom texture not available
     const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of textureNames) {
       try {
@@ -90,7 +131,7 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
     bgContainer.addChild(sprite);
     magneticAssemblySpriteRef.current = sprite;
     setMagneticAssemblySprite(sprite);
-  }, [magneticAssemblyEffectInstance]);
+  }, [magneticAssemblyEffectInstance, magneticAssemblyConfig]);
 
   const performAssembly = useCallback(() => {
     const sprite = magneticAssemblySpriteRef.current;
@@ -155,6 +196,37 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
     { key: "vortex", displayName: "Vortex" },
   ];
 
+  const handleSpriteUpload = useCallback((e) => {
+    const file = fileSpriteInputRef.current?.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileName = `magnetic-assembly-sprite-${Date.now()}-${file.name}`;
+      const imageData = {
+        fileName: fileName,
+        result: reader.result,
+      };
+
+      // Store in config
+      const newConfig = { ...magneticAssemblyConfig, customSprite: imageData };
+      defaultConfig.magneticAssemblyEffect = newConfig;
+      updateProps("magneticAssemblyEffect", newConfig);
+
+      // Create texture directly from data URL
+      createMagneticAssemblySprite(reader.result);
+    };
+    reader.onerror = () => {
+      console.error("Failed to read sprite file");
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }, [magneticAssemblyConfig, createMagneticAssemblySprite]);
+
+  const handleSpriteUploadClick = useCallback(() => {
+    fileSpriteInputRef.current?.click();
+  }, []);
+
   const easingOptions = [
     { key: "back.out", displayName: "Back Out" },
     { key: "power1.inOut", displayName: "Power In Out" },
@@ -168,12 +240,21 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Magnetic Assembly Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
+        <MagneticAssemblyEffectDescription />
+        <File
+          label="Custom Sprite"
+          buttonText={magneticAssemblyConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          id="magnetic-assembly-sprite-upload"
+          onChange={handleSpriteUpload}
+          onClick={handleSpriteUploadClick}
+          ref={fileSpriteInputRef}
+        />
         {!magneticAssemblySprite ? (
           <div className="form-group">
             <div className="col-xs-12">
               <button
                 className="btn btn-default btn-block"
-                onClick={createMagneticAssemblySprite}
+                onClick={() => createMagneticAssemblySprite()}
                 disabled={!!(magneticAssemblySprite && magneticAssemblySprite.parent)}
               >
                 {magneticAssemblySprite && magneticAssemblySprite.parent ? "Sprite Active" : "Create Sprite"}

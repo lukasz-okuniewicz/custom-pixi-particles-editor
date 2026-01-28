@@ -5,9 +5,12 @@ import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import ColorPicker from "@components/html/ColorPicker";
 import Select from "@components/html/Select";
+import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { GhostEffect } from "custom-pixi-particles";
 import { Sprite, Texture, BLEND_MODES } from "pixi.js-legacy";
+import { Loader as PixiLoader } from "@pixi/loaders";
+import GhostEffectDescription from "@components/html/behaviourDescriptions/GhostEffect";
 
 export default function GhostEffectProperties({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -16,6 +19,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
   const [isTracking, setIsTracking] = useState(false);
 
   const ghostSpriteRef = useRef(null);
+  const fileSpriteInputRef = useRef(null);
 
   const keysToInitialize = {
     spawnInterval: 0.05,
@@ -63,7 +67,14 @@ export default function GhostEffectProperties({ defaultConfig }) {
     return () => clearTimeout(timeout);
   });
 
-  const createGhostSprite = useCallback(() => {
+  // Load custom sprite from config on mount
+  useEffect(() => {
+    if (ghostConfig.customSprite && !ghostSprite && ghostConfig.customSprite.result) {
+      createGhostSprite(ghostConfig.customSprite.result);
+    }
+  }, [ghostConfig.customSprite]);
+
+  const createGhostSprite = useCallback((customDataUrl = null) => {
     if (ghostSpriteRef.current) {
       if (ghostSpriteRef.current.parent) {
         ghostSpriteRef.current.parent.removeChild(ghostSpriteRef.current);
@@ -81,6 +92,36 @@ export default function GhostEffectProperties({ defaultConfig }) {
     if (!bgContainer || !app) return;
 
     let texture;
+    
+    // Use custom uploaded sprite if available - create texture directly from data URL
+    if (customDataUrl) {
+      try {
+        // Create an image element from the data URL
+        const img = new Image();
+        img.onload = () => {
+          texture = Texture.from(img);
+          const sprite = new Sprite(texture);
+          sprite.anchor.set(0.5, 0.5);
+          sprite.x = app.screen.width / 2;
+          sprite.y = app.screen.height / 2 - 100;
+          sprite.scale.set(1);
+
+          bgContainer.addChild(sprite);
+          ghostSpriteRef.current = sprite;
+          setGhostSprite(sprite);
+        };
+        img.onerror = (e) => {
+          console.error("Failed to load image from data URL:", e);
+          // Fall through to default textures
+        };
+        img.src = customDataUrl;
+        return; // Return early, sprite will be created in onload
+      } catch (e) {
+        console.error("Failed to create texture from data URL:", e);
+      }
+    }
+    
+    // Fallback to default textures if custom texture not available
     const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of textureNames) {
       try {
@@ -98,7 +139,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
     bgContainer.addChild(sprite);
     ghostSpriteRef.current = sprite;
     setGhostSprite(sprite);
-  }, [ghostEffectInstance]);
+  }, [ghostEffectInstance, ghostConfig]);
 
   const startTracking = useCallback(() => {
     const sprite = ghostSpriteRef.current;
@@ -198,6 +239,37 @@ export default function GhostEffectProperties({ defaultConfig }) {
       .sort((a, b) => a.displayName.localeCompare(b.displayName));
   }, []);
 
+  const handleSpriteUpload = useCallback((e) => {
+    const file = fileSpriteInputRef.current?.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileName = `ghost-sprite-${Date.now()}-${file.name}`;
+      const imageData = {
+        fileName: fileName,
+        result: reader.result,
+      };
+
+      // Store in config
+      const newConfig = { ...ghostConfig, customSprite: imageData };
+      defaultConfig.ghostEffect = newConfig;
+      updateProps("ghostEffect", newConfig);
+
+      // Create texture directly from data URL
+      createGhostSprite(reader.result);
+    };
+    reader.onerror = () => {
+      console.error("Failed to read sprite file");
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }, [ghostConfig, createGhostSprite]);
+
+  const handleSpriteUploadClick = useCallback(() => {
+    fileSpriteInputRef.current?.click();
+  }, []);
+
   const hexToRgb = (hex) => ({ r: (hex >> 16) & 0xff, g: (hex >> 8) & 0xff, b: hex & 0xff, a: 1 });
   const rgbToHex = (r, g, b) => (r << 16) | (g << 8) | b;
 
@@ -207,12 +279,21 @@ export default function GhostEffectProperties({ defaultConfig }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Ghost Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
+        <GhostEffectDescription />
+        <File
+          label="Custom Sprite"
+          buttonText={ghostConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          id="ghost-sprite-upload"
+          onChange={handleSpriteUpload}
+          onClick={handleSpriteUploadClick}
+          ref={fileSpriteInputRef}
+        />
         {!ghostSprite ? (
           <div className="form-group">
             <div className="col-xs-12">
               <button
                 className="btn btn-default btn-block"
-                onClick={createGhostSprite}
+                onClick={() => createGhostSprite()}
                 disabled={!!(ghostSprite && ghostSprite.parent)}
               >
                 {ghostSprite && ghostSprite.parent ? "Sprite Active" : "Create Sprite"}

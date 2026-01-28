@@ -4,9 +4,12 @@ import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
+import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { DissolveEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js-legacy";
+import { Loader as PixiLoader } from "@pixi/loaders";
+import DissolveEffectDescription from "@components/html/behaviourDescriptions/DissolveEffect";
 
 export default function DissolveEffectProperties({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -16,6 +19,8 @@ export default function DissolveEffectProperties({ defaultConfig }) {
   const triggerTimeoutRef = useRef(null);
   const isDissolvingRef = useRef(false);
   const dissolveSpriteRef = useRef(null);
+  const fileSpriteInputRef = useRef(null);
+  const isCreatingSpriteRef = useRef(false);
 
   const keysToInitialize = {
     pixelSize: 4,
@@ -55,7 +60,12 @@ export default function DissolveEffectProperties({ defaultConfig }) {
     return () => clearTimeout(timeout);
   });
 
-  const createDissolveSprite = useCallback(() => {
+  const createDissolveSprite = useCallback((customDataUrl = null) => {
+    // Prevent duplicate creation
+    if (isCreatingSpriteRef.current) return;
+    isCreatingSpriteRef.current = true;
+
+    // Clean up existing sprite
     if (dissolveSpriteRef.current) {
       if (dissolveSpriteRef.current.parent) {
         dissolveSpriteRef.current.parent.removeChild(dissolveSpriteRef.current);
@@ -70,9 +80,54 @@ export default function DissolveEffectProperties({ defaultConfig }) {
     }
 
     const { bgContainer, app } = pixiRefs;
-    if (!bgContainer || !app) return;
+    if (!bgContainer || !app) {
+      isCreatingSpriteRef.current = false;
+      return;
+    }
 
     let texture;
+    
+    // Use custom uploaded sprite if available - create texture directly from data URL
+    if (customDataUrl) {
+      try {
+        // Create an image element from the data URL
+        const img = new Image();
+        img.onload = () => {
+          // Double-check we don't already have a sprite before creating a new one
+          if (dissolveSpriteRef.current) {
+            if (dissolveSpriteRef.current.parent) {
+              dissolveSpriteRef.current.parent.removeChild(dissolveSpriteRef.current);
+            }
+            dissolveSpriteRef.current.destroy();
+            dissolveSpriteRef.current = null;
+          }
+
+          texture = Texture.from(img);
+          const sprite = new Sprite(texture);
+          sprite.anchor.set(0.5, 0.5);
+          sprite.x = app.screen.width / 2;
+          sprite.y = app.screen.height / 2 - 100;
+          sprite.scale.set(1);
+
+          bgContainer.addChild(sprite);
+          dissolveSpriteRef.current = sprite;
+          setDissolveSprite(sprite);
+          isCreatingSpriteRef.current = false;
+        };
+        img.onerror = (e) => {
+          console.error("Failed to load image from data URL:", e);
+          isCreatingSpriteRef.current = false;
+          // Fall through to default textures
+        };
+        img.src = customDataUrl;
+        return; // Return early, sprite will be created in onload
+      } catch (e) {
+        console.error("Failed to create texture from data URL:", e);
+        isCreatingSpriteRef.current = false;
+      }
+    }
+    
+    // Fallback to default textures if custom texture not available
     const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of textureNames) {
       try {
@@ -90,7 +145,15 @@ export default function DissolveEffectProperties({ defaultConfig }) {
     bgContainer.addChild(sprite);
     dissolveSpriteRef.current = sprite;
     setDissolveSprite(sprite);
-  }, [dissolveEffectInstance]);
+    isCreatingSpriteRef.current = false;
+  }, [dissolveEffectInstance, dissolveConfig]);
+
+  // Load custom sprite from config on mount (must be after createDissolveSprite definition)
+  useEffect(() => {
+    if (dissolveConfig.customSprite && !dissolveSprite && dissolveConfig.customSprite.result && !dissolveSpriteRef.current && !isCreatingSpriteRef.current) {
+      createDissolveSprite(dissolveConfig.customSprite.result);
+    }
+  }, [dissolveConfig.customSprite, dissolveSprite, createDissolveSprite]);
 
   const performDissolve = useCallback(() => {
     const sprite = dissolveSpriteRef.current;
@@ -103,7 +166,7 @@ export default function DissolveEffectProperties({ defaultConfig }) {
       setDissolveEffectInstance(null);
     }
 
-    sprite.visible = true;
+    sprite.visible = false; // Hide the sprite so only particles are visible
     const options = { ...dissolveConfig };
 
     const effect = new DissolveEffect(sprite, options);
@@ -148,6 +211,37 @@ export default function DissolveEffectProperties({ defaultConfig }) {
     };
   }, []);
 
+  const handleSpriteUpload = useCallback((e) => {
+    const file = fileSpriteInputRef.current?.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileName = `dissolve-sprite-${Date.now()}-${file.name}`;
+      const imageData = {
+        fileName: fileName,
+        result: reader.result,
+      };
+
+      // Store in config
+      const newConfig = { ...dissolveConfig, customSprite: imageData };
+      defaultConfig.dissolveEffect = newConfig;
+      updateProps("dissolveEffect", newConfig);
+
+      // Create texture directly from data URL (this will clean up any existing sprites)
+      createDissolveSprite(reader.result);
+    };
+    reader.onerror = () => {
+      console.error("Failed to read sprite file");
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }, [dissolveConfig, createDissolveSprite]);
+
+  const handleSpriteUploadClick = useCallback(() => {
+    fileSpriteInputRef.current?.click();
+  }, []);
+
   const directionOptions = [
     { key: "left-to-right", displayName: "Left to Right" },
     { key: "right-to-left", displayName: "Right to Left" },
@@ -162,12 +256,21 @@ export default function DissolveEffectProperties({ defaultConfig }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Dissolve Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
+        <DissolveEffectDescription />
+        <File
+          label="Custom Sprite"
+          buttonText={dissolveConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          id="dissolve-sprite-upload"
+          onChange={handleSpriteUpload}
+          onClick={handleSpriteUploadClick}
+          ref={fileSpriteInputRef}
+        />
         {!dissolveSprite ? (
           <div className="form-group">
             <div className="col-xs-12">
               <button
                 className="btn btn-default btn-block"
-                onClick={createDissolveSprite}
+                onClick={() => createDissolveSprite()}
                 disabled={!!(dissolveSprite && dissolveSprite.parent)}
               >
                 {dissolveSprite && dissolveSprite.parent ? "Sprite Active" : "Create Sprite"}
