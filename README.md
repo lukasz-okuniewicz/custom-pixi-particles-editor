@@ -1,6 +1,6 @@
-# CustomPIXIParticlesEditor by [@lukasz-okuniewicz](http://github.com/lukasz-okuniewicz)
+# custom-pixi-particles-editor by [@lukasz-okuniewicz](http://github.com/lukasz-okuniewicz)
 
-**CustomPIXIParticlesEditor** is a powerful, web-based visual editor for creating and customizing particle effects using the [custom-pixi-particles](https://github.com/lukasz-okuniewicz/custom-pixi-particles) library. Built with **Next.js** and **React**, it provides an intuitive interface for designing particle systems without writing code.
+**custom-pixi-particles-editor** is a powerful, web-based visual editor for creating and customizing particle effects using the [custom-pixi-particles](https://github.com/lukasz-okuniewicz/custom-pixi-particles) library. Built with **Next.js** and **React**, it provides an intuitive interface for designing particle systems without writing code.
 
 ---
 
@@ -106,4 +106,4 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-With CustomPIXIParticlesEditor, you can create stunning particle effects visually without writing a single line of code! 🌟
+With custom-pixi-particles-editor, you can create stunning particle effects visually without writing a single line of code! 🌟
