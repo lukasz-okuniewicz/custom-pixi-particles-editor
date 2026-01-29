@@ -159,6 +159,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
       "Helix",
       "Grid",
       "Cone",
+      "Spring",
     ];
     return customPoints.some(
       (point) =>
@@ -470,6 +471,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         "Helix",
                         "Grid",
                         "Cone",
+                        "Spring",
                       ];
                       if (restrictedSpawnTypes.includes(value)) {
                         // Disable trailing for restricted types
