@@ -182,7 +182,6 @@ export default function Content() {
   const removeFromEmission = (downloadableObj) => {
     const emitController = downloadableObj.emitController;
     if (emitController && emitController.name === "UniformEmission") {
-      delete emitController._maxParticles;
       delete emitController._maxLife;
       delete emitController._emissionRate;
     } else if (emitController && emitController.name === "StandardEmission") {
@@ -551,7 +550,10 @@ export default function Content() {
           setDefaultConfig(() => ({
             ...defaultConfig,
           }));
-        } else if (value.magneticAssemblyEffect !== undefined && !value.emitterConfig) {
+        } else if (
+          value.magneticAssemblyEffect !== undefined &&
+          !value.emitterConfig
+        ) {
           // Check if this is a magnetic assembly effect config file
           // Pure magnetic assembly effect config: { magneticAssemblyEffect: {...} }
           defaultConfig.magneticAssemblyEffect = value.magneticAssemblyEffect;
@@ -639,7 +641,9 @@ export default function Content() {
             type: "application/json",
           });
           saveAs(blob, "shatter_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "dissolveEffect") {
+        } else if (
+          defaultConfig.particlePredefinedEffect === "dissolveEffect"
+        ) {
           // Download only dissolve effect config
           const dissolveConfig = defaultConfig.dissolveEffect || {};
           const downloadableObj = {
@@ -650,9 +654,12 @@ export default function Content() {
             type: "application/json",
           });
           saveAs(blob, "dissolve_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect") {
+        } else if (
+          defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect"
+        ) {
           // Download only magnetic assembly effect config
-          const magneticAssemblyConfig = defaultConfig.magneticAssemblyEffect || {};
+          const magneticAssemblyConfig =
+            defaultConfig.magneticAssemblyEffect || {};
           const downloadableObj = {
             magneticAssemblyEffect: magneticAssemblyConfig,
           };
@@ -700,7 +707,9 @@ export default function Content() {
             console.warn("Particles not initialized, cannot download config");
             return;
           }
-          const downloadableObj = pixiRefs.particles.emitter.getParser().write();
+          const downloadableObj = pixiRefs.particles.emitter
+            .getParser()
+            .write();
 
           removeFromPosition(downloadableObj);
           removeFromSpawn(downloadableObj);
