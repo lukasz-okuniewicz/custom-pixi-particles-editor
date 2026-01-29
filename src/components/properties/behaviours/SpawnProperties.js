@@ -145,6 +145,27 @@ export default function SpawnProperties({ defaultConfig, index }) {
       }));
   }, []);
 
+  // Check if trailing should be disabled for any spawn type
+  const shouldHideTrailing = useMemo(() => {
+    const customPoints =
+      defaultConfig.emitterConfig.behaviours[index]?.customPoints;
+    if (!customPoints || customPoints.length === 0) {
+      return false;
+    }
+    const restrictedSpawnTypes = [
+      "Word",
+      "Sphere",
+      "Rectangle",
+      "Helix",
+      "Grid",
+      "Cone",
+    ];
+    return customPoints.some(
+      (point) =>
+        point.spawnType && restrictedSpawnTypes.includes(point.spawnType),
+    );
+  }, [defaultConfig, index]);
+
   // Toggle submenu visibility
   const toggleSubmenuVisibility = useCallback(() => {
     setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
@@ -286,59 +307,66 @@ export default function SpawnProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
-        <Checkbox
-          label="Trailing Enabled"
-          id="trailingEnabled"
-          onChange={(value) => {
-            behaviour.trailingEnabled = value;
-            updateBehaviours();
-          }}
-          checked={
-            behaviour.trailingEnabled ?? keysToInitialize.trailingEnabled
-          }
-        />
-        {behaviour.trailingEnabled && (
+        {!shouldHideTrailing && (
           <>
             <Checkbox
-              label="Trailing Repeat"
-              id="trailRepeat"
+              label="Trailing Enabled"
+              id="trailingEnabled"
               onChange={(value) => {
-                behaviour.trailRepeat = value;
-                updateBehaviours();
-              }}
-              checked={behaviour.trailRepeat ?? keysToInitialize.trailRepeat}
-            />
-            <Checkbox
-              label="Spawn Along Trail"
-              id="spawnAlongTrail"
-              onChange={(value) => {
-                behaviour.spawnAlongTrail = value;
+                behaviour.trailingEnabled = value;
                 updateBehaviours();
               }}
               checked={
-                behaviour.spawnAlongTrail ?? keysToInitialize.spawnAlongTrail
+                behaviour.trailingEnabled ?? keysToInitialize.trailingEnabled
               }
             />
-            <InputNumber
-              label="Trail Speed"
-              id="trailSpeed"
-              value={behaviour.trailSpeed ?? keysToInitialize.trailSpeed}
-              step="0.01"
-              onChange={(value) => {
-                behaviour.trailSpeed = value;
-                updateBehaviours();
-              }}
-            />
-            <InputNumber
-              label="Trail Start 0-1"
-              id="trailStart"
-              value={behaviour.trailStart ?? keysToInitialize.trailStart}
-              step="0.01"
-              onChange={(value) => {
-                behaviour.trailStart = value;
-                updateBehaviours();
-              }}
-            />
+            {behaviour.trailingEnabled && (
+              <>
+                <Checkbox
+                  label="Trailing Repeat"
+                  id="trailRepeat"
+                  onChange={(value) => {
+                    behaviour.trailRepeat = value;
+                    updateBehaviours();
+                  }}
+                  checked={
+                    behaviour.trailRepeat ?? keysToInitialize.trailRepeat
+                  }
+                />
+                <Checkbox
+                  label="Spawn Along Trail"
+                  id="spawnAlongTrail"
+                  onChange={(value) => {
+                    behaviour.spawnAlongTrail = value;
+                    updateBehaviours();
+                  }}
+                  checked={
+                    behaviour.spawnAlongTrail ??
+                    keysToInitialize.spawnAlongTrail
+                  }
+                />
+                <InputNumber
+                  label="Trail Speed"
+                  id="trailSpeed"
+                  value={behaviour.trailSpeed ?? keysToInitialize.trailSpeed}
+                  step="0.01"
+                  onChange={(value) => {
+                    behaviour.trailSpeed = value;
+                    updateBehaviours();
+                  }}
+                />
+                <InputNumber
+                  label="Trail Start 0-1"
+                  id="trailStart"
+                  value={behaviour.trailStart ?? keysToInitialize.trailStart}
+                  step="0.01"
+                  onChange={(value) => {
+                    behaviour.trailStart = value;
+                    updateBehaviours();
+                  }}
+                />
+              </>
+            )}
           </>
         )}
         <hr />
@@ -428,7 +456,35 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     keysToInitialize.customPoints[0].spawnType
                   }
                   onChange={(value) => {
+                    const oldSpawnType = customPoint.spawnType;
                     customPoint.spawnType = value;
+
+                    // Reset trail state when spawn type changes
+                    // This prevents issues when switching between spawn types with trailing enabled
+                    if (behaviour.trailingEnabled) {
+                      // Check if new spawn type is restricted (doesn't support trailing)
+                      const restrictedSpawnTypes = [
+                        "Word",
+                        "Sphere",
+                        "Rectangle",
+                        "Helix",
+                        "Grid",
+                        "Cone",
+                      ];
+                      if (restrictedSpawnTypes.includes(value)) {
+                        // Disable trailing for restricted types
+                        behaviour.trailingEnabled = false;
+                        behaviour.trailProgress = 0;
+                        behaviour.currentProgress = 0;
+                        behaviour.overOne = false;
+                      } else if (oldSpawnType !== value) {
+                        // Reset trail state when switching between non-restricted types
+                        behaviour.trailProgress = 0;
+                        behaviour.currentProgress = 0;
+                        behaviour.overOne = false;
+                      }
+                    }
+
                     updateBehaviours();
                   }}
                   elements={predefinedSpawnType}
