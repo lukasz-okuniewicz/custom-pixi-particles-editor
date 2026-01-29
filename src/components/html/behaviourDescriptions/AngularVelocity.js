@@ -16,7 +16,7 @@ const AngularVelocityDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>Angular Velocity Behaviour</b> adds rotational dynamics to
           particles, enabling them to orbit smoothly around a center point with
@@ -134,7 +134,7 @@ const AngularVelocityDescription = () => {
             Example: Angular Velocity
           </a>
         </span>
-      </span>
+      </div>
     </>
   );
 };

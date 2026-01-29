@@ -27,8 +27,15 @@ const LightEffectDescription = () => {
         <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Light Source:</b> Configurable position of the light source to
-            influence particle illumination.
+            <b>Enabled</b>: Toggle the behavior on or off.
+          </li>
+          <li>
+            <b>Priority</b>: Determines the execution order relative to other
+            behaviors.
+          </li>
+          <li>
+            <b>Light Position</b>: Configurable position of the light source
+            to influence particle illumination.
           </li>
           <li>
             <b>Distance-Based Intensity:</b> Implements the inverse square law

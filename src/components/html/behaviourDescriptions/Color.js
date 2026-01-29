@@ -16,7 +16,7 @@ const ColorDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>Color Behaviour</b> is a highly customizable feature for managing
           dynamic color transitions in particle systems. It supports advanced
@@ -103,7 +103,7 @@ const ColorDescription = () => {
             Dynamic Color Behaviour Demo
           </a>
         </span>
-      </span>
+      </div>
     </>
   );
 };

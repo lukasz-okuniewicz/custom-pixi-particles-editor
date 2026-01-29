@@ -26,7 +26,11 @@ const MeltEffectDescription = () => {
         <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Grid-Based Deformation:</b> Divides the sprite into a grid that
+            <b>Custom Sprite</b>: Use a custom sprite/image for the melt effect
+            (upload or select a different texture).
+          </li>
+          <li>
+            <b>Grid-Based Deformation</b>: Divides the sprite into a grid that
             deforms to simulate melting.
           </li>
           <li>

@@ -16,7 +16,7 @@ const NoiseBasedMotionDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>Noise-Based Motion Behaviour</b> generates smooth, natural, and
           flowing movement patterns for particles using Perlin noise. This
@@ -73,7 +73,7 @@ const NoiseBasedMotionDescription = () => {
         <a href="/?effect=background" target="_blank">
           Example
         </a>
-      </span>
+      </div>
     </>
   );
 };

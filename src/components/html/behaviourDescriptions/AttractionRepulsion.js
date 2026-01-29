@@ -16,7 +16,7 @@ const AttractionRepulsionDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>Attraction/Repulsion Behaviour</b> enables dynamic forces that
           attract or repel particles based on their proximity to defined
@@ -85,7 +85,7 @@ const AttractionRepulsionDescription = () => {
             Attraction and Repulsion Example
           </a>
         </span>
-      </span>
+      </div>
     </>
   );
 };

@@ -16,7 +16,7 @@ const EmissionTypeDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>Emission type properties</b> in a particle system control how
           particles are emitted over time. There are three types:
@@ -72,7 +72,7 @@ const EmissionTypeDescription = () => {
           allow for precise control of particle flow, from steady streams to
           bursts and randomized patterns.
         </span>
-      </span>
+      </div>
     </>
   );
 };

@@ -16,7 +16,7 @@ const GroupingDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>Grouping Behaviour</b> organizes particles into dynamic groups that
           interact with each other and external forces. This behaviour enables
@@ -65,8 +65,18 @@ const GroupingDescription = () => {
             over time, creating breathing or pulsating effects.
           </li>
           <li>
-            <b>Cluster Points</b>: Allows additional attraction points within
-            the group for complex dynamic formations.
+            <b>Max Radius</b>: Upper limit for the group radius when using
+            dynamic radius (breathing effect).
+          </li>
+          <li>
+            <b>Min Radius</b>: Lower limit for the group radius when using
+            dynamic radius (breathing effect).
+          </li>
+          <li>
+            <b>Cluster Points</b>: Additional attraction points (Point x/y per
+            cluster). Use &quot;Select Position&quot; to set the group center
+            by clicking on the canvas; add or remove cluster points for complex
+            formations.
           </li>
         </ul>
         <h4>Advanced Features:</h4>
@@ -113,7 +123,7 @@ const GroupingDescription = () => {
             </a>
           </li>
         </ul>
-      </span>
+      </div>
     </>
   );
 };

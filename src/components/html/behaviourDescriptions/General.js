@@ -16,7 +16,7 @@ const GeneralDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>General Properties</b> provide a centralized interface for managing
           particle system configurations. This section enables users to
@@ -90,7 +90,7 @@ const GeneralDescription = () => {
           allowing users to experiment with settings to create visually
           compelling effects.
         </span>
-      </span>
+      </div>
     </>
   );
 };

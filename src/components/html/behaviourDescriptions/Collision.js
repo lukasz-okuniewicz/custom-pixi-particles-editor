@@ -16,7 +16,7 @@ const CollisionDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>Collision Behaviour</b> is designed to manage particle interactions
           with defined line segments, enabling realistic and customizable
@@ -36,25 +36,45 @@ const CollisionDescription = () => {
             behaviors are applied simultaneously.
           </li>
           <li>
-            <b>Collision Threshold (Distance)</b>: Sets the proximity at which a
-            particle is considered to collide with a line segment.
+            <b>Show Line</b>: Toggle visibility of collision line segments in
+            the canvas for easier editing and debugging.
           </li>
           <li>
-            <b>Velocity Reflection</b>: Simulates bouncing by reversing the
-            velocity vector relative to the line&apos;s normal.
+            <b>Distance</b>: Sets the proximity (collision threshold) at which
+            a particle is considered to collide with a line segment.
           </li>
           <li>
-            <b>Behavior Skipping</b>: Optionally disable specific behaviors
-            post-collision for tailored particle interactions, such as stopping
-            rotation or changing direction.
+            <b>Lines</b>: Define multiple line segments (Point 1, Point 2 per
+            line). Use &quot;Select Point&quot; to set a line endpoint by
+            clicking on the canvas, &quot;Add New Line&quot; to add a segment,
+            and &quot;Remove Line&quot; to delete one.
           </li>
           <li>
-            <b>Custom Lines</b>: Define multiple line segments in the
-            environment that particles will interact with.
-          </li>
-          <li>
-            <b>Dynamic Lines</b>: Supports updating or animating the line
-            positions to create dynamic environments.
+            <b>Behavior skipping (post-collision)</b>: Optionally disable
+            specific behaviours after a particle collides:
+            <ul>
+              <li>
+                <b>Skip Position On Collision</b>: Stops position updates after
+                collision.
+              </li>
+              <li>
+                <b>Skip Angular Velocity On Collision</b>: Stops angular
+                velocity behaviour.
+              </li>
+              <li>
+                <b>Skip Color On Collision</b>: Stops color behaviour.
+              </li>
+              <li>
+                <b>Skip Emit Direction On Collision</b>: Stops emit direction
+                behaviour.
+              </li>
+              <li>
+                <b>Skip Rotation On Collision</b>: Stops rotation behaviour.
+              </li>
+              <li>
+                <b>Skip Size On Collision</b>: Stops size behaviour.
+              </li>
+            </ul>
           </li>
         </ul>
         <h4>Practical Applications:</h4>
@@ -86,7 +106,7 @@ const CollisionDescription = () => {
             Coin Shower With Collision
           </a>
         </span>
-      </span>
+      </div>
     </>
   );
 };

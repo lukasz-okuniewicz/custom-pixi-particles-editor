@@ -16,7 +16,7 @@ const SoundReactiveDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>Sound Reactive Behaviour</b> synchronizes particle animations with
           audio input, creating dynamic and interactive visual effects based on
@@ -25,62 +25,51 @@ const SoundReactiveDescription = () => {
         <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Enabled:</b> Toggle the behavior on or off.
+            <b>Enabled</b>: Toggle the behavior on or off.
           </li>
           <li>
-            <b>Priority:</b> Determines the execution order when multiple
+            <b>Priority</b>: Determines the execution order when multiple
             behaviors are applied.
           </li>
           <li>
-            <b>Amplitude Factor:</b> Adjusts the influence of sound amplitude on
-            particle size.
+            <b>Sample</b>: Select or configure the audio input/sample used for
+            reactivity (e.g. microphone or audio stream).
           </li>
           <li>
-            <b>Frequency Factor:</b> Controls how dominant sound frequencies
+            <b>Frequency Factor</b>: Controls how dominant sound frequencies
             affect particle velocity.
           </li>
           <li>
-            <b>Rotation Factor:</b> Links dominant frequencies to particle
-            rotation speed.
-          </li>
-          <li>
-            <b>Beat Sensitivity:</b> Fine-tunes the sensitivity of beat
+            <b>Beat Sensitivity</b>: Fine-tunes the sensitivity of beat
             detection for precise synchronization with music.
           </li>
           <li>
-            <b>Use Color:</b> Enables particles to change color in response to
+            <b>Amplitude Factor</b>: (When Use Size is on) Adjusts the influence
+            of sound amplitude on particle size.
+          </li>
+          <li>
+            <b>Use Color</b>: Enables particles to change color in response to
             beats.
           </li>
           <li>
-            <b>Beat Color:</b> Specifies the default color applied to particles
-            on detected beats.
+            <b>Beat Color</b>: (When Use Color is on) Color applied to
+            particles on detected beats.
           </li>
           <li>
-            <b>Use Random Color:</b> Allows particles to adopt random colors
+            <b>Use Random Color</b>: (When Use Color is on) Use random colors
             instead of a fixed beat color.
           </li>
           <li>
-            <b>Velocity Factor:</b> Adjusts how much sound frequencies influence
-            particle movement in the X and Y directions.
-          </li>
-        </ul>
-        <h4>Advanced Features:</h4>
-        <ul>
-          <li>
-            <b>Use Size:</b> Dynamically scales particle size based on sound
-            amplitude.
+            <b>Use Size</b>: Dynamically scale particle size based on sound
+            amplitude; <b>Amplitude Factor</b> controls the strength.
           </li>
           <li>
-            <b>Use Velocity:</b> Modifies particle velocity based on dominant
-            sound frequencies for dynamic motion effects.
+            <b>Use Velocity</b>: Modifies particle velocity from dominant
+            frequencies; <b>Velocity Factor</b> (X/Y) controls the strength.
           </li>
           <li>
-            <b>Use Rotation:</b> Adds rotational effects to particles, scaling
-            with dominant frequencies.
-          </li>
-          <li>
-            <b>Beat Sensitivity:</b> Adjusts how easily beats are detected in
-            the audio input.
+            <b>Use Rotation</b>: Adds rotation from dominant frequencies;
+            <b>Rotation Factor</b> controls the strength.
           </li>
         </ul>
         <h4>Usage Tips:</h4>
@@ -113,7 +102,7 @@ const SoundReactiveDescription = () => {
         <a href="/?effect=reactiveSound" target="_blank">
           Reactive Sound
         </a>
-      </span>
+      </div>
     </>
   );
 };

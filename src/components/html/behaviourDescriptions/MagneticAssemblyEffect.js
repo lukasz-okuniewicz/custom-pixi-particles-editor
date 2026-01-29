@@ -27,7 +27,11 @@ const MagneticAssemblyEffectDescription = () => {
         <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Reverse Animation:</b> Particles start scattered and assemble
+            <b>Custom Sprite</b>: Use a custom sprite/image for the assembly
+            effect (upload or select a different texture).
+          </li>
+          <li>
+            <b>Reverse Animation</b>: Particles start scattered and assemble
             into the final sprite shape.
           </li>
           <li>

@@ -16,7 +16,7 @@ const ForceFieldsDescription = () => {
       <div className="showContent" onClick={toggleContent} ref={buttonRef}>
         Show Description
       </div>
-      <span className="explanation" ref={contentRef}>
+      <div className="explanation" ref={contentRef}>
         <span>
           <b>Force Fields Behaviour</b> enables particles to respond to
           region-based forces like wind, gravity, and turbulence. These
@@ -98,7 +98,7 @@ const ForceFieldsDescription = () => {
             transitions.
           </li>
         </ul>
-      </span>
+      </div>
     </>
   );
 };

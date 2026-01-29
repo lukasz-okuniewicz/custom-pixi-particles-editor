@@ -27,7 +27,11 @@ const GhostEffectDescription = () => {
         <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Continuous Tracking:</b> Automatically tracks sprite movement and
+            <b>Custom Sprite</b>: Use a custom sprite/image for the ghost trail
+            instead of the default (e.g. upload or select a different texture).
+          </li>
+          <li>
+            <b>Continuous Tracking</b>: Automatically tracks sprite movement and
             spawns ghost copies at regular intervals.
           </li>
           <li>

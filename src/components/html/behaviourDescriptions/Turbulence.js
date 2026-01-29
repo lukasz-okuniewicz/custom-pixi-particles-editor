@@ -27,41 +27,49 @@ const TurbulenceDescription = () => {
         <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Enabled:</b> Toggle the behavior on or off.
+            <b>Enabled</b>: Toggle the behavior on or off.
           </li>
           <li>
-            <b>Priority:</b> Determine the order in which this behavior is
+            <b>Priority</b>: Determines the order in which this behavior is
             applied relative to others.
           </li>
           <li>
-            <b>Effect:</b> Define the type of turbulence effect, such as:
-            <ul>
-              <li>
-                <b>Swirling:</b> Circular motion around vortices.
-              </li>
-              <li>
-                <b>Pulling:</b> Particles are drawn toward vortex centers.
-              </li>
-              <li>
-                <b>Repelling:</b> Particles are pushed away from vortex centers.
-              </li>
-            </ul>
+            <b>Show Vertices</b>: Toggle visibility of vortex positions in the
+            canvas for editing and debugging.
           </li>
           <li>
-            <b>Position & Variance:</b> Specify vortex positions and add
-            randomness for natural and diverse effects.
+            <b>Turbulence Version</b>: Select the type of vortex effect (e.g.
+            ClockWise rotation, Non ClockWise rotation, Pushing V1/V2, Sucking
+            V1/V2).
           </li>
           <li>
-            <b>Velocity & Acceleration:</b> Configure movement and acceleration
-            for vortices, creating dynamic turbulence.
+            <b>Position & Position Variance</b>: Vortex center position and
+            randomness. Use &quot;Select Position&quot; to set the vortex by
+            clicking on the canvas.
           </li>
           <li>
-            <b>Size Start & End:</b> Define vortex size changes over time,
-            allowing turbulence patterns to evolve.
+            <b>Velocity & Velocity Variance</b>: Vortex movement and
+            randomness.
           </li>
           <li>
-            <b>Turbulence Pool:</b> Manage a collection of vortices that
-            particles interact with during their lifetime.
+            <b>Acceleration & Acceleration Variance</b>: Vortex acceleration
+            over time.
+          </li>
+          <li>
+            <b>Size Start, Size Start Variance, Size End, Size End Variance</b>:
+            Vortex size at start and end of its life, with optional randomness.
+          </li>
+          <li>
+            <b>Emit/sec</b>: Number of vortices emitted per second.
+          </li>
+          <li>
+            <b>Duration</b>: How long vortices are emitted (-1 = indefinitely).
+          </li>
+          <li>
+            <b>Max Life Time</b>: Maximum lifetime of each vortex.
+          </li>
+          <li>
+            <b>Vortile Size</b>: Size/influence radius of each vortex.
           </li>
         </ul>
 

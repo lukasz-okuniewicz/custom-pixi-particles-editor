@@ -27,7 +27,11 @@ const ShatterEffectDescription = () => {
         <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Grid-Based Fragmentation:</b> Divides the sprite into a grid of
+            <b>Custom Sprite</b>: Use a custom sprite/image for the shatter
+            effect (upload or select a different texture).
+          </li>
+          <li>
+            <b>Grid-Based Fragmentation</b>: Divides the sprite into a grid of
             fragments (columns and rows) that can be customized for different
             levels of detail.
           </li>

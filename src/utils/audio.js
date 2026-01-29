@@ -89,6 +89,37 @@ export const playMusic = ({
   return nextIndex;
 };
 
+export const stopMusic = ({ behaviour, defaultConfig, index }) => {
+  if (currentPlayingAudio) {
+    currentPlayingAudio.pause();
+    currentPlayingAudio.currentTime = 0;
+    if (currentPlayingAudio.parentNode) {
+      currentPlayingAudio.parentNode.removeChild(currentPlayingAudio);
+    }
+    currentPlayingAudio = null;
+  }
+
+  if (source) {
+    source.disconnect();
+    source = null;
+  }
+  if (analyser) {
+    analyser.disconnect();
+    analyser = null;
+  }
+
+  behaviour.audioContext = null;
+  behaviour.analyser = null;
+  behaviour.frequencyData = null;
+  behaviour.isPlaying = false;
+  defaultConfig.emitterConfig.behaviours[index] = behaviour;
+
+  updateProps(
+    "emitterConfig.behaviours",
+    defaultConfig.emitterConfig.behaviours,
+  );
+};
+
 export const updateContext = ({ behaviour, defaultConfig, index }) => {
   behaviour.audioContext = audioContext;
   behaviour.analyser = analyser;

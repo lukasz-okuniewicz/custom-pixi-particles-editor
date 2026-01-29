@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { updateProps } from "@utils";
+import LoadAndSaveDescription from "@components/html/behaviourDescriptions/LoadAndSave";
 
 const LoadAndSaveProperties = ({ defaultConfig }) => {
   const fileInputRef = useRef(null);
@@ -31,6 +32,7 @@ const LoadAndSaveProperties = ({ defaultConfig }) => {
 
   return (
     <>
+      <LoadAndSaveDescription />
       <div className="form-group">
         <div className="col-xs-5">
           <button className="btn btn-default btn-block" onClick={loadConfig}>

@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getConfigByName, mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import SoundReactiveDescription from "@components/html/behaviourDescriptions/SoundReactive";
 import { Loader as PixiLoader } from "pixi.js-legacy";
-import { playMusic, updateContext } from "@utils/audio";
+import { playMusic, stopMusic, updateContext } from "@utils/audio";
 import ColorPicker from "@components/html/ColorPicker";
 import Select from "@components/html/Select";
 
@@ -14,6 +14,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
   const [predefinedMusic, setPredefinedMusic] = useState("mainTheme");
   const [isPlaying, setIsPlaying] = useState(false);
+  const userHasInteractedRef = useRef(false);
 
   const audioSources = [PixiLoader.shared.resources.mainTheme.data];
 
@@ -90,13 +91,19 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   };
 
   useEffect(() => {
-    if (isPlaying && !behaviour.audioContext) {
-      playMusic({
+    if (
+      behaviour.enabled &&
+      !behaviour.audioContext &&
+      userHasInteractedRef.current
+    ) {
+      if (!isPlaying) setIsPlaying(true);
+      const nextIndex = playMusic({
         audioSources,
         behaviour,
         defaultConfig,
         index,
       });
+      saveLastPlayedIndex(nextIndex);
     }
 
     if (
@@ -107,7 +114,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     }
     lastParticlePredefinedEffect = defaultConfig.particlePredefinedEffect;
 
-    if (isPlaying) {
+    if (isPlaying && behaviour.enabled) {
       if (defaultConfig.particlePredefinedEffect === "reactiveSound") {
         const spawnBehaviour = getConfigByName("SpawnBehaviour", defaultConfig);
         spawnBehaviour.word = "SOUND!";
@@ -115,11 +122,14 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     }
 
     const handleWindowClick = debounce(() => {
-      if (!isPlaying && !behaviour.audioContext) {
+      userHasInteractedRef.current = true;
+      const b = defaultConfig.emitterConfig.behaviours[index] || {};
+      if (!b.enabled) return;
+      if (!isPlaying && !b.audioContext) {
         setIsPlaying(true);
         const nextIndex = playMusic({
           audioSources,
-          behaviour,
+          behaviour: b,
           defaultConfig,
           index,
         });
@@ -127,10 +137,10 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
       }
     }, 100);
 
-    window.addEventListener("click", handleWindowClick);
+    window.addEventListener("click", handleWindowClick, true);
 
     return () => {
-      window.removeEventListener("click", handleWindowClick);
+      window.removeEventListener("click", handleWindowClick, true);
     };
   }, [defaultConfig]);
 
@@ -149,6 +159,19 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           id="enabled"
           onChange={(value) => {
             behaviour.enabled = value;
+            if (!value) {
+              stopMusic({ behaviour, defaultConfig, index });
+              setIsPlaying(false);
+            } else {
+              setIsPlaying(true);
+              playMusic({
+                audioSources: [],
+                behaviour,
+                defaultConfig,
+                index,
+                mainSource: PixiLoader.shared.resources[predefinedMusic].data,
+              });
+            }
             updateBehaviours();
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
@@ -168,6 +191,8 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           label="Sample"
           defaultValue={predefinedMusic}
           onChange={(value) => {
+            setPredefinedMusic(value);
+            if (!behaviour.enabled) return;
             setIsPlaying(true);
             playMusic({
               audioSources: [],
@@ -176,7 +201,6 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
               index,
               mainSource: PixiLoader.shared.resources[value].data,
             });
-            setPredefinedMusic(value);
           }}
           elements={predefinedType}
         />

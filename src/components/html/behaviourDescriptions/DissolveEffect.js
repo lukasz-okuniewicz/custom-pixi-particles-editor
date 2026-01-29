@@ -27,7 +27,11 @@ const DissolveEffectDescription = () => {
         <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Pixel-Based Dissolution:</b> Breaks the sprite into individual
+            <b>Custom Sprite</b>: Use a custom sprite/image for the dissolve
+            effect (upload or select a different texture).
+          </li>
+          <li>
+            <b>Pixel-Based Dissolution</b>: Breaks the sprite into individual
             pixels or pixel groups that dissolve independently.
           </li>
           <li>

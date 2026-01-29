@@ -27,7 +27,11 @@ const GlitchEffectDescription = () => {
         <h4>Key Features:</h4>
         <ul>
           <li>
-            <b>Horizontal Slicing:</b> Divides the sprite into horizontal slices
+            <b>Custom Sprite</b>: Use a custom sprite/image for the glitch
+            effect (upload or select a different texture).
+          </li>
+          <li>
+            <b>Horizontal Slicing</b>: Divides the sprite into horizontal slices
             that can be offset independently.
           </li>
           <li>

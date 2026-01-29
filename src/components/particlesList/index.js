@@ -4,6 +4,7 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import pixiRefs from "@pixi/pixiRefs";
 import { createAndAddParticles } from "@pixi/particles";
 import InputNumber from "@components/html/InputNumber";
+import ParticleEmittersDescription from "@components/html/behaviourDescriptions/ParticleEmitters";
 
 export default function ParticlesList({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -74,12 +75,7 @@ export default function ParticlesList({ defaultConfig }) {
     <>
       <legend onClick={toggleSubmenuVisibility}>Particle Emitters</legend>
       <div className={`${isSubmenuVisible}`}>
-        <span className="explanation">
-          Here, you can duplicate and modify the current emitter configurations,
-          adjusting certain properties to achieve additional effects that cannot
-          be accomplished through the emitter configuration alone. The resulting
-          settings must then be manually applied to each particle emitter.
-        </span>
+        <ParticleEmittersDescription />
         {particlesConfig.map((item, index) => (
           <Fragment key={index}>
             {index > 0 && (
