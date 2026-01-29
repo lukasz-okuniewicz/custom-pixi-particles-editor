@@ -154,16 +154,32 @@ const GeneralProperties = ({
         <InputNumber
           label="Animated Sprite Index To Start"
           id="animated-sprite-index-to-start"
-          value={defaultConfig.animatedSpriteIndexToStart ?? 0}
+          value={
+            defaultConfig.emitterConfig.animatedSprite
+              .animatedSpriteIndexToStart ?? 0
+          }
           step="0.1"
-          onChange={(value) => updateProps("animatedSpriteIndexToStart", value)}
+          onChange={(value) =>
+            updateProps(
+              "emitterConfig.animatedSprite.animatedSpriteIndexToStart",
+              value,
+            )
+          }
         />
         <InputNumber
           label="Animated Sprite Zero Pad"
           id="animated-sprite-zero-pad"
-          value={defaultConfig.animatedSpriteZeroPad ?? 1}
+          value={
+            defaultConfig.emitterConfig.animatedSprite.animatedSpriteZeroPad ??
+            1
+          }
           step="0.1"
-          onChange={(value) => updateProps("animatedSpriteZeroPad", value)}
+          onChange={(value) =>
+            updateProps(
+              "emitterConfig.animatedSprite.animatedSpriteZeroPad",
+              value,
+            )
+          }
         />
         <Checkbox
           label="Animated Sprite Loop"
@@ -187,21 +203,31 @@ const GeneralProperties = ({
     );
   };
 
-  if (defaultConfig.particlePredefinedEffect === "shatterEffect" || defaultConfig.particlePredefinedEffect === "dissolveEffect" || defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect" || defaultConfig.particlePredefinedEffect === "ghostEffect" || defaultConfig.particlePredefinedEffect === "glitchEffect" || defaultConfig.particlePredefinedEffect === "meltEffect") return (
-    <>
-      <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
-      <div className={`${isSubmenuVisible}`}>
-        <GeneralDescription />
-        {/* Follow Mouse Toggle */}
-        <Select
-          label="Particle Effects"
-          defaultValue={defaultConfig.particlePredefinedEffect || "coffeeShop"}
-          onChange={handleEffectChange}
-          elements={particleEffects}
-        />
-      </div>
-    </>
+  if (
+    defaultConfig.particlePredefinedEffect === "shatterEffect" ||
+    defaultConfig.particlePredefinedEffect === "dissolveEffect" ||
+    defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect" ||
+    defaultConfig.particlePredefinedEffect === "ghostEffect" ||
+    defaultConfig.particlePredefinedEffect === "glitchEffect" ||
+    defaultConfig.particlePredefinedEffect === "meltEffect"
   )
+    return (
+      <>
+        <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
+        <div className={`${isSubmenuVisible}`}>
+          <GeneralDescription />
+          {/* Follow Mouse Toggle */}
+          <Select
+            label="Particle Effects"
+            defaultValue={
+              defaultConfig.particlePredefinedEffect || "coffeeShop"
+            }
+            onChange={handleEffectChange}
+            elements={particleEffects}
+          />
+        </div>
+      </>
+    );
 
   return (
     <>

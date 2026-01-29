@@ -512,9 +512,12 @@ export default function Content() {
       newImages: (value) => {
         defaultConfig.textures = value;
         defaultConfig.refresh = true;
-        setDefaultConfig(() => ({
-          ...defaultConfig,
-        }));
+        // Defer so loader resources are fully committed before particle system reads them (fixes animated sprite needing multiple refresh)
+        requestAnimationFrame(() => {
+          setDefaultConfig(() => ({
+            ...defaultConfig,
+          }));
+        });
       },
       finishingImages: (value) => {
         defaultConfig.finishingTextures = value;
@@ -803,13 +806,19 @@ export default function Content() {
       defaultConfig.emitterConfig?.animatedSprite &&
       defaultConfig.emitterConfig?.animatedSprite.animatedSpriteName
     ) {
-      defaultConfig.textures[0] =
-        defaultConfig.emitterConfig.animatedSprite.animatedSpriteName;
+      defaultConfig.textures = [
+        defaultConfig.emitterConfig.animatedSprite.animatedSpriteName,
+      ];
       defaultConfig.emitterConfig.animatedSprite.frameRate =
         defaultConfig.emitterConfig.animatedSprite.frameRate || 0.25;
     }
 
     createEffect({ defaultConfig, fullConfig, contentRef });
+
+    // Clear refresh flag so repeated effect runs (e.g. from dependency changes) don't keep doing full reload
+    if (defaultConfig.refresh) {
+      setDefaultConfig((prev) => ({ ...prev, refresh: false }));
+    }
 
     if (defaultConfig.bgImage) {
       onImageLoaded(defaultConfig.bgImage);
