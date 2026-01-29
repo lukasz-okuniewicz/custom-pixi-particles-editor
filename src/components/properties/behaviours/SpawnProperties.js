@@ -41,6 +41,8 @@ export default function SpawnProperties({ defaultConfig, index }) {
     trailSpeed: 1, // Speed of the trail
     trailRepeat: false, // Loop the trail
     trailStart: 0, // Start the trail at 20% of its path
+    trailRangeSegments: 20, // Segments for trail range (higher = finer distribution)
+    trailRangeWeightFactor: 4, // Weight decay toward trail end
     customPoints: [
       {
         spawnType: "Rectangle",
@@ -366,6 +368,37 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
+                {behaviour.spawnAlongTrail && (
+                  <>
+                    <InputNumber
+                      label="Trail Range Segments"
+                      id="trailRangeSegments"
+                      value={
+                        behaviour.trailRangeSegments ??
+                        keysToInitialize.trailRangeSegments
+                      }
+                      step="1"
+                      min={2}
+                      onChange={(value) => {
+                        behaviour.trailRangeSegments = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <InputNumber
+                      label="Trail Range Weight Factor"
+                      id="trailRangeWeightFactor"
+                      value={
+                        behaviour.trailRangeWeightFactor ??
+                        keysToInitialize.trailRangeWeightFactor
+                      }
+                      step="0.1"
+                      onChange={(value) => {
+                        behaviour.trailRangeWeightFactor = value;
+                        updateBehaviours();
+                      }}
+                    />
+                  </>
+                )}
               </>
             )}
           </>
