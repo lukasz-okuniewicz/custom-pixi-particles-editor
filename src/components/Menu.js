@@ -12,7 +12,7 @@ import ColorProperties from "@components/properties/behaviours/ColorProperties";
 import AngularVelocityProperties from "@components/properties/behaviours/AngularVelocityProperties";
 import EmitDirectionProperties from "@components/properties/behaviours/EmitDirectionProperties";
 import TurbulenceProperties from "@components/properties/behaviours/TurbulenceProperties";
-import { getConfigIndexByName } from "@utils";
+import { getConfigIndexByName, getCustomBehaviourEntries } from "@utils";
 import React from "react";
 import ParticlesList from "@components/particlesList";
 import AttractionRepulsionProperties from "@components/properties/behaviours/AttractionRepulsionProperties";
@@ -26,6 +26,7 @@ import LightEffectProperties from "@components/properties/behaviours/LightEffect
 import StretchProperties from "@components/properties/behaviours/StretchProperties";
 import TemperatureProperties from "@components/properties/behaviours/TemperatureProperties";
 import MoveToPointProperties from "@components/properties/behaviours/MoveToPointProperties";
+import CustomBehaviourProperties from "@components/properties/behaviours/CustomBehaviourProperties";
 import ShatterEffectProperties from "@components/properties/behaviours/ShatterEffectProperties";
 import DissolveEffectProperties from "@components/properties/behaviours/DissolveEffectProperties";
 import MagneticAssemblyEffectProperties from "@components/properties/behaviours/MagneticAssemblyEffectProperties";
@@ -232,6 +233,10 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
       <TurbulenceProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("TurbulenceBehaviour", defaultConfig)}
+      />
+      <CustomBehaviourProperties
+        defaultConfig={defaultConfig}
+        customBehaviours={getCustomBehaviourEntries(defaultConfig)}
       />
       <ParticlesList defaultConfig={defaultConfig} />
     </div>

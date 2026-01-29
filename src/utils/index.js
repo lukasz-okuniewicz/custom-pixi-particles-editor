@@ -3,6 +3,30 @@ import pixiRefs from "@pixi/pixiRefs";
 import { Sprite, Texture } from "pixi.js-legacy";
 import { images } from "@utils/updatePropsLoogic";
 
+/** Built-in behaviour names; any other name in config is treated as a custom behaviour */
+export const BUILT_IN_BEHAVIOUR_NAMES = [
+  "AngularVelocityBehaviour",
+  "LifeBehaviour",
+  "ColorBehaviour",
+  "PositionBehaviour",
+  "SizeBehaviour",
+  "EmitDirectionBehaviour",
+  "RotationBehaviour",
+  "TurbulenceBehaviour",
+  "CollisionBehaviour",
+  "AttractionRepulsionBehaviour",
+  "NoiseBasedMotionBehaviour",
+  "ForceFieldsBehaviour",
+  "SpawnBehaviour",
+  "TimelineBehaviour",
+  "GroupingBehaviour",
+  "SoundReactiveBehaviour",
+  "LightEffectBehaviour",
+  "StretchBehaviour",
+  "TemperatureBehaviour",
+  "MoveToPointBehaviour",
+];
+
 export const camelCaseToNormal = (text) => {
   return text
     .replace(/([a-z])([A-Z])/g, "$1 $2")
@@ -104,6 +128,32 @@ export const getBehaviourByName = (name, config) => {
   if (!name || !Array.isArray(config?.emitterConfig?.behaviours)) return;
 
   return config.emitterConfig.behaviours.find((b) => b.name === name);
+};
+
+/**
+ * Returns list of { index, name } for behaviours in config that are not built-in
+ * (so they can be shown in the Custom Behaviour properties panel).
+ */
+export const getCustomBehaviourEntries = (config) => {
+  const behaviours = config?.emitterConfig?.behaviours;
+  if (!Array.isArray(behaviours)) return [];
+  return behaviours
+    .map((b, i) => ({ index: i, name: b?.name }))
+    .filter((b) => b.name && !BUILT_IN_BEHAVIOUR_NAMES.includes(b.name));
+};
+
+/**
+ * Returns a deep clone of config with only built-in behaviours in emitterConfig.behaviours.
+ * Use when passing config to the library create() or updateConfig() so older library
+ * versions that don't support custom behaviours (PlaceholderBehaviour) won't throw.
+ */
+export const getConfigSafeForLibrary = (config) => {
+  if (!config?.emitterConfig?.behaviours) return config;
+  const safe = JSON.parse(JSON.stringify(config));
+  safe.emitterConfig.behaviours = safe.emitterConfig.behaviours.filter(
+    (b) => b?.name && BUILT_IN_BEHAVIOUR_NAMES.includes(b.name),
+  );
+  return safe;
 };
 
 export const updateBehaviourByIndex = (index, behaviour, config) => {

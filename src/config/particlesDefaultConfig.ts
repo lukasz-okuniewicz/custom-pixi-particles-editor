@@ -110,6 +110,89 @@ const particlesDefaultConfig = {
     },
     textures: ["gdevelop/BloodHand.png"],
   },
+  customBehaviourExample: {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 100,
+          customPoints: [
+            {
+              spawnType: "Rectangle",
+              radius: 200,
+              perspective: 0,
+              maxZ: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 80, y: 80 },
+            },
+          ],
+          name: "SpawnBehaviour",
+        },
+        {
+          priority: 10000,
+          enabled: true,
+          maxLifeTime: 2,
+          timeVariance: 0.2,
+          name: "LifeBehaviour",
+        },
+        {
+          priority: 100,
+          enabled: true,
+          velocity: { x: 0, y: -40 },
+          velocityVariance: { x: 20, y: 10 },
+          acceleration: { x: 0, y: 0 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          priority: 0,
+          enabled: true,
+          allowNegativeValues: false,
+          sizeStart: { x: 12, y: 12 },
+          sizeEnd: { x: 4, y: 4 },
+          startVariance: 2,
+          endVariance: 1,
+          name: "SizeBehaviour",
+        },
+        {
+          priority: 0,
+          enabled: true,
+          start: {
+            _r: 100,
+            _g: 200,
+            _b: 255,
+            _alpha: 1,
+          },
+          end: {
+            _r: 200,
+            _g: 100,
+            _b: 255,
+            _alpha: 0.5,
+          },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          name: "ColorBehaviour",
+        },
+        {
+          priority: 0,
+          enabled: true,
+          name: "ExampleCustomBehaviour",
+          customParam: 1,
+          customLabel: "Register with BehaviourRegistry in your app to run",
+        },
+      ],
+      emitController: {
+        _maxParticles: 10000,
+        _maxLife: 1,
+        _emitPerSecond: 25,
+        _frames: 0,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      blendMode: 0,
+    },
+    textures: ["sparkle.png"],
+  },
   fromPointAToPointB1: {
     emitterConfig: {
       behaviours: [

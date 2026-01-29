@@ -1,9 +1,11 @@
 import { _customPixiParticlesEditorOnly } from "custom-pixi-particles";
 import pixiRefs from "@pixi/pixiRefs";
+import { getConfigSafeForLibrary } from "@utils";
 
 export const createParticles = (defaultConfig) => {
   if (!defaultConfig) return;
-  const particles = _customPixiParticlesEditorOnly.create(defaultConfig);
+  const safeConfig = getConfigSafeForLibrary(defaultConfig);
+  const particles = _customPixiParticlesEditorOnly.create(safeConfig);
   particles.play();
   pixiRefs.particles = particles;
   pixiRefs.particlesArr.push(particles);
@@ -12,12 +14,15 @@ export const createParticles = (defaultConfig) => {
 
 export const updateParticles = (defaultConfig) => {
   if (!defaultConfig) return;
-  pixiRefs.particles.updateConfig(defaultConfig.emitterConfig);
+  const safeConfig = getConfigSafeForLibrary(defaultConfig);
+  pixiRefs.particles.updateConfig(safeConfig.emitterConfig);
 };
 
 export const createAndAddParticles = (config, parent, options = {}) => {
-  const particleConfig = JSON.parse(JSON.stringify(config));
-  const particles = _customPixiParticlesEditorOnly.create(particleConfig);
+  const safeConfig = getConfigSafeForLibrary(
+    JSON.parse(JSON.stringify(config)),
+  );
+  const particles = _customPixiParticlesEditorOnly.create(safeConfig);
   if (options.position) {
     particles.position.set(options.position.x, options.position.y);
   }
