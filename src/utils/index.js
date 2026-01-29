@@ -146,6 +146,8 @@ export const getCustomBehaviourEntries = (config) => {
  * Returns a deep clone of config with only built-in behaviours in emitterConfig.behaviours.
  * Use when passing config to the library create() or updateConfig() so older library
  * versions that don't support custom behaviours (PlaceholderBehaviour) won't throw.
+ * Preserves live SoundReactive fields (analyser, audioContext, frequencyData) from the
+ * original config so sound reactive behaviour keeps working after update.
  */
 export const getConfigSafeForLibrary = (config) => {
   if (!config?.emitterConfig?.behaviours) return config;
@@ -153,6 +155,23 @@ export const getConfigSafeForLibrary = (config) => {
   safe.emitterConfig.behaviours = safe.emitterConfig.behaviours.filter(
     (b) => b?.name && BUILT_IN_BEHAVIOUR_NAMES.includes(b.name),
   );
+  const origSoundIndex = config.emitterConfig.behaviours.findIndex(
+    (b) => b?.name === "SoundReactiveBehaviour",
+  );
+  const safeSoundIndex = safe.emitterConfig.behaviours.findIndex(
+    (b) => b?.name === "SoundReactiveBehaviour",
+  );
+  if (origSoundIndex !== -1 && safeSoundIndex !== -1) {
+    const orig = config.emitterConfig.behaviours[origSoundIndex];
+    const safeBehaviour = safe.emitterConfig.behaviours[safeSoundIndex];
+    if (orig.analyser != null) safeBehaviour.analyser = orig.analyser;
+    if (orig.audioContext != null)
+      safeBehaviour.audioContext = orig.audioContext;
+    if (orig.frequencyData != null)
+      safeBehaviour.frequencyData = orig.frequencyData;
+    if (typeof orig.isPlaying === "boolean")
+      safeBehaviour.isPlaying = orig.isPlaying;
+  }
   return safe;
 };
 

@@ -12,7 +12,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "custom-pixi-particles": "^4.31.0",
+    "custom-pixi-particles": "^4.32.0",
     "file-saver": "^2.0.5",
     "gsap": "^3.12.5",
     "mitt": "^3.0.1",
