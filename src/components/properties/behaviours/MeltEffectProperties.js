@@ -18,6 +18,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
   const triggerTimeoutRef = useRef(null);
   const isMeltingRef = useRef(false);
   const meltSpriteRef = useRef(null);
+  const meltEffectInstanceRef = useRef(null);
   const fileSpriteInputRef = useRef(null);
 
   const keysToInitialize = {
@@ -58,9 +59,9 @@ export default function MeltEffectProperties({ defaultConfig }) {
     return () => clearTimeout(timeout);
   });
 
-  // Load custom sprite from config on mount
+  // Load custom sprite from config on mount / when customSprite changes (e.g. upload)
   useEffect(() => {
-    if (meltConfig.customSprite && !meltSprite && meltConfig.customSprite.result) {
+    if (meltConfig.customSprite?.result) {
       createMeltSprite(meltConfig.customSprite.result);
     }
   }, [meltConfig.customSprite]);
@@ -77,6 +78,8 @@ export default function MeltEffectProperties({ defaultConfig }) {
     if (meltEffectInstance) {
       meltEffectInstance.destroy();
       setMeltEffectInstance(null);
+      meltEffectInstanceRef.current = null;
+      pixiRefs.meltEffectInstance = null;
     }
 
     const { bgContainer, app } = pixiRefs;
@@ -141,6 +144,8 @@ export default function MeltEffectProperties({ defaultConfig }) {
     if (meltEffectInstance) {
       meltEffectInstance.destroy();
       setMeltEffectInstance(null);
+      meltEffectInstanceRef.current = null;
+      pixiRefs.meltEffectInstance = null;
     }
 
     sprite.visible = true;
@@ -151,10 +156,14 @@ export default function MeltEffectProperties({ defaultConfig }) {
     sprite.parent.addChildAt(effect, index);
 
     setMeltEffectInstance(effect);
+    meltEffectInstanceRef.current = effect;
+    pixiRefs.meltEffectInstance = effect;
 
     effect.start().then(() => {
       effect.destroy();
       setMeltEffectInstance(null);
+      meltEffectInstanceRef.current = null;
+      pixiRefs.meltEffectInstance = null;
       isMeltingRef.current = false;
 
       if (sprite && sprite.parent) {
@@ -183,6 +192,11 @@ export default function MeltEffectProperties({ defaultConfig }) {
 
   useEffect(() => {
     return () => {
+      if (meltEffectInstanceRef.current) {
+        meltEffectInstanceRef.current.destroy();
+        meltEffectInstanceRef.current = null;
+        pixiRefs.meltEffectInstance = null;
+      }
       if (meltSpriteRef.current) meltSpriteRef.current.destroy();
       if (triggerTimeoutRef.current) clearTimeout(triggerTimeoutRef.current);
     };
@@ -200,13 +214,10 @@ export default function MeltEffectProperties({ defaultConfig }) {
         result: reader.result,
       };
 
-      // Store in config
+      // Store in config - the useEffect watching meltConfig.customSprite will call createMeltSprite
       const newConfig = { ...meltConfig, customSprite: imageData };
       defaultConfig.meltEffect = newConfig;
       updateProps("meltEffect", newConfig);
-
-      // Create texture directly from data URL
-      createMeltSprite(reader.result);
     };
     reader.onerror = () => {
       console.error("Failed to read sprite file");

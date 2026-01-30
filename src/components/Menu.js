@@ -26,6 +26,7 @@ import LightEffectProperties from "@components/properties/behaviours/LightEffect
 import StretchProperties from "@components/properties/behaviours/StretchProperties";
 import TemperatureProperties from "@components/properties/behaviours/TemperatureProperties";
 import MoveToPointProperties from "@components/properties/behaviours/MoveToPointProperties";
+import Wireframe3DProperties from "@components/properties/behaviours/Wireframe3DProperties";
 import CustomBehaviourProperties from "@components/properties/behaviours/CustomBehaviourProperties";
 import ShatterEffectProperties from "@components/properties/behaviours/ShatterEffectProperties";
 import DissolveEffectProperties from "@components/properties/behaviours/DissolveEffectProperties";
@@ -174,6 +175,10 @@ const Menu = ({ defaultConfig, fullConfig, handlePredefinedEffectChange }) => {
       <MoveToPointProperties
         defaultConfig={defaultConfig}
         index={getConfigIndexByName("MoveToPointBehaviour", defaultConfig)}
+      />
+      <Wireframe3DProperties
+        defaultConfig={defaultConfig}
+        index={getConfigIndexByName("Wireframe3DBehaviour", defaultConfig)}
       />
       <LightEffectProperties
         defaultConfig={defaultConfig}

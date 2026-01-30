@@ -177,6 +177,12 @@ const createSprite = (textureName) => {
 const resetPixiContainers = () => {
   const { bgContainer, bgContainer2, bgSprite, bgSprite2 } = pixiRefs;
 
+  // Stop melt effect if running (prevents error when switching effects mid-animation)
+  if (pixiRefs.meltEffectInstance) {
+    pixiRefs.meltEffectInstance.destroy();
+    pixiRefs.meltEffectInstance = null;
+  }
+
   // Clear containers
   bgContainer.removeChildren();
   bgContainer2.removeChildren();

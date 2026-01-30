@@ -25,6 +25,7 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "StretchBehaviour",
   "TemperatureBehaviour",
   "MoveToPointBehaviour",
+  "Wireframe3DBehaviour",
 ];
 
 export const camelCaseToNormal = (text) => {

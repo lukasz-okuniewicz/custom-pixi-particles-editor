@@ -91,8 +91,14 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   };
 
   useEffect(() => {
+    // Don't run audio logic if we don't have a valid SoundReactive behaviour
+    if (index < 0 || behaviour?.name !== "SoundReactiveBehaviour") return;
+
+    // Only play music when SoundReactive behaviour is enabled (not when other behaviours change)
+    const isSoundReactiveEnabled = behaviour.enabled;
+
     if (
-      behaviour.enabled &&
+      isSoundReactiveEnabled &&
       !behaviour.audioContext &&
       userHasInteractedRef.current
     ) {
@@ -114,7 +120,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     }
     lastParticlePredefinedEffect = defaultConfig.particlePredefinedEffect;
 
-    if (isPlaying && behaviour.enabled) {
+    if (isPlaying && isSoundReactiveEnabled) {
       if (defaultConfig.particlePredefinedEffect === "reactiveSound") {
         const spawnBehaviour = getConfigByName("SpawnBehaviour", defaultConfig);
         spawnBehaviour.word = "SOUND!";
@@ -124,7 +130,8 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     const handleWindowClick = debounce(() => {
       userHasInteractedRef.current = true;
       const b = defaultConfig.emitterConfig.behaviours[index] || {};
-      if (!b.enabled) return;
+      // Only play when SoundReactive behaviour specifically is enabled
+      if (b?.name !== "SoundReactiveBehaviour" || !b.enabled) return;
       if (!isPlaying && !b.audioContext) {
         setIsPlaying(true);
         const nextIndex = playMusic({
@@ -156,7 +163,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
 
         <Checkbox
           label="Enabled"
-          id="enabled"
+          id="sound-reactive-enabled"
           onChange={(value) => {
             behaviour.enabled = value;
             if (!value) {

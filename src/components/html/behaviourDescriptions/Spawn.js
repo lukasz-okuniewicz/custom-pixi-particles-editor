@@ -84,9 +84,39 @@ const SpawnDescription = () => {
             </ul>
           </li>
           <li>
-            <b>Trail Effects:</b> Create animations where particles follow a
-            trail with adjustable speed, looping, and spawning along the entire
-            trail or at specific positions.
+            <b>Trail Effects:</b> Animate a moving “head” along the spawn path
+            (e.g. Frame, Ring, Bezier) so particles appear along the trail.
+            <ul>
+              <li>
+                <b>Trailing Enabled:</b> Turns on trail mode (path types only;
+                not available for Rectangle, Word, Grid, etc.).
+              </li>
+              <li>
+                <b>Spawn Along Trail:</b> When <b>on</b>, particles are spread
+                evenly along the trail. When <b>off</b>, more particles spawn
+                near the leading edge (controlled by Trail Range Weight Factor).
+              </li>
+              <li>
+                <b>Trail Speed / Repeat / Start:</b> Speed along the path,
+                whether to loop, and where on the path (0–1) the trail begins.
+              </li>
+              <li>
+                <b>Trail Range Segments:</b> Number of sample points along the
+                trail; higher values give a smoother distribution.
+              </li>
+              <li>
+                <b>Trail Range Weight Factor:</b> When Spawn Along Trail is off,
+                how strongly particles are biased toward the leading edge
+                (higher = more at the front).
+              </li>
+              <li>
+                <b>Trail Range Length (0–1):</b> Length of the trail segment
+                that gets particles. <b>1</b> = from path start to head;
+                <b>0.2</b> = only the last 20%, so the path start (e.g. top-left
+                of a Frame) stays clear. When the loop restarts, the tail at the
+                end of the path stays visible until the head moves on.
+              </li>
+            </ul>
           </li>
           <li>
             <b>Perspective Scaling:</b> Adds depth realism by scaling particles

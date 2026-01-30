@@ -263,7 +263,8 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             behaviour.sizeStart.x ?? keysToInitialize.sizeStart.x,
             behaviour.sizeStart.y ?? keysToInitialize.sizeStart.y,
           ]}
-          step="1"
+          step="10"
+          min={0}
           onChange={(value, id) => {
             behaviour.sizeStart[id] = value;
             updateBehaviours();
@@ -287,7 +288,8 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             behaviour.sizeEnd.x ?? keysToInitialize.sizeEnd.x,
             behaviour.sizeEnd.y ?? keysToInitialize.sizeEnd.y,
           ]}
-          step="1"
+          step="10"
+          min={0}
           onChange={(value, id) => {
             behaviour.sizeEnd[id] = value;
             updateBehaviours();

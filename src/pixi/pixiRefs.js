@@ -11,6 +11,7 @@ const pixiRefs = {
   bgSpriteSize: null,
   particles: null,
   particlesArr: [],
+  meltEffectInstance: null,
 };
 
 export default pixiRefs;
