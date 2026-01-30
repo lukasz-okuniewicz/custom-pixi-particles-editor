@@ -27,8 +27,15 @@ import { saveAs } from "file-saver";
 
 export default function Content() {
   const [defaultConfig, setDefaultConfig2] = useState(null);
+  const [containerReady, setContainerReady] = useState(false);
+  const [appReady, setAppReady] = useState(false);
   const contentRef = useRef(null);
   const fullConfig = JSON.parse(JSON.stringify(particlesDefaultConfig));
+
+  const setContentRef = useCallback((el) => {
+    contentRef.current = el;
+    if (el) setContainerReady(true);
+  }, []);
 
   const setDefaultConfig = (conf) => {
     setDefaultConfig2(conf);
@@ -769,21 +776,36 @@ export default function Content() {
     [fullConfig],
   );
 
-  // Initialization
+  // Initialization (run when container ref is ready)
   useEffect(() => {
-    const initialize = () => {
+    if (!containerReady || !contentRef.current) return;
+
+    let destroyApp = () => {};
+    let mounted = true;
+    const initialize = async () => {
       initializeEffect({
         setDefaultConfig,
       });
-      initializeApp(contentRef);
+      const cleanup = await initializeApp(contentRef);
+      if (mounted && cleanup) {
+        destroyApp = cleanup;
+        setAppReady(true);
+      } else if (cleanup) {
+        cleanup();
+      }
     };
 
     initialize();
-  }, []);
+    return () => {
+      mounted = false;
+      setAppReady(false);
+      destroyApp();
+    };
+  }, [containerReady]);
 
   // Handle effects and events
   useEffect(() => {
-    if (!defaultConfig) return;
+    if (!defaultConfig || !pixiRefs.app) return;
 
     const { emitterConfig, textures } = defaultConfig;
 
@@ -835,13 +857,13 @@ export default function Content() {
       pixiRefs.app.stage.off("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
     };
-  }, [defaultConfig, fullConfig, handleResize, handleMouseMove]);
+  }, [defaultConfig, fullConfig, handleResize, handleMouseMove, appReady]);
 
   return (
     <>
       <div
         className="fixed top-0 left-0 bottom-0 right-[400px] bg-gray-600"
-        ref={contentRef}
+        ref={setContentRef}
       ></div>
 
       {defaultConfig && (

@@ -4,7 +4,26 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { camelCaseToNormal, updateProps } from "@utils";
 import Select from "@components/html/Select";
 import File from "@components/html/File";
-import { BLEND_MODES, Loader } from "pixi.js-legacy";
+import { Assets } from "pixi.js";
+import { normalizeBlendModeForPixiV8 } from "@utils";
+
+// Pixi v8 uses string blend modes; provide options for the dropdown
+const EDITOR_BLEND_MODES = [
+  { key: "normal", value: "normal", displayName: "Normal" },
+  { key: "add", value: "add", displayName: "Add" },
+  { key: "multiply", value: "multiply", displayName: "Multiply" },
+  { key: "screen", value: "screen", displayName: "Screen" },
+  { key: "overlay", value: "overlay", displayName: "Overlay" },
+  { key: "darken", value: "darken", displayName: "Darken" },
+  { key: "lighten", value: "lighten", displayName: "Lighten" },
+  { key: "difference", value: "difference", displayName: "Difference" },
+  { key: "exclusion", value: "exclusion", displayName: "Exclusion" },
+  { key: "color-dodge", value: "color-dodge", displayName: "Color Dodge" },
+  { key: "color-burn", value: "color-burn", displayName: "Color Burn" },
+  { key: "hard-light", value: "hard-light", displayName: "Hard Light" },
+  { key: "soft-light", value: "soft-light", displayName: "Soft Light" },
+  { key: "none", value: "none", displayName: "None" },
+];
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import InputString from "@components/html/InputString";
@@ -70,31 +89,27 @@ const GeneralProperties = ({
     return groups;
   }, [fullConfig]);
 
-  // Memoized blend modes list
-  const blendModes = useMemo(() => {
-    // Filter only string keys from the enum
-    return Object.entries(BLEND_MODES)
-      .filter(([_, value]) => typeof value === "number") // Exclude reverse mappings
-      .map(([key, value]) => ({
-        key,
-        value,
-        displayName: key.replace(/_/g, " "), // Transform keys to normal text
-      }))
-      .sort((a, b) => a.displayName.localeCompare(b.displayName)); // Sort by display name
-  }, []);
+  // Memoized blend modes list (Pixi v8 string blend modes)
+  const blendModes = useMemo(
+    () =>
+      [...EDITOR_BLEND_MODES].sort((a, b) =>
+        a.displayName.localeCompare(b.displayName)
+      ),
+    []
+  );
 
-  // Memoized predefined images
+  // Memoized predefined images (from Assets cache after Loader.load())
   const predefinedImages = useMemo(() => {
-    const textures =
-      Loader.shared.resources?.["multipacked-0.json"]?.textures || {};
-    const textures2 = Loader.shared.resources?.["images.json"]?.textures || {};
+    const sheet1 = Assets.get("multipacked-0.json");
+    const sheet2 = Assets.get("images.json");
+    const textures = {
+      ...(sheet1?.textures || {}),
+      ...(sheet2?.textures || {}),
+    };
 
-    // Combine textures1 and textures2
-    const combinedTextures = { ...textures, ...textures2 };
+    if (Object.keys(textures).length === 0) return [];
 
-    if (Object.keys(combinedTextures).length === 0) return [];
-
-    return Object.keys(combinedTextures)
+    return Object.keys(textures)
       .sort()
       .map((key) => ({
         key,
@@ -397,7 +412,9 @@ const GeneralProperties = ({
             />
             <Select
               label="Blend Mode"
-              defaultValue={defaultConfig.emitterConfig.blendMode ?? "NORMAL"}
+              defaultValue={normalizeBlendModeForPixiV8(
+                defaultConfig.emitterConfig.blendMode
+              )}
               onChange={(value) => {
                 updateProps("emitterConfig.blendMode", value, undefined, true);
               }}

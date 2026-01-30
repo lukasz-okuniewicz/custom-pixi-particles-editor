@@ -3,7 +3,7 @@ import { getConfigByName, mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import SoundReactiveDescription from "@components/html/behaviourDescriptions/SoundReactive";
-import { Loader as PixiLoader } from "pixi.js-legacy";
+import { audioCache } from "@utils/Loader";
 import { playMusic, stopMusic, updateContext } from "@utils/audio";
 import ColorPicker from "@components/html/ColorPicker";
 import Select from "@components/html/Select";
@@ -27,7 +27,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
     "instrumentalMusic",
   ];
   const audioSources = predefinedAudioKeys
-    .map((key) => PixiLoader.shared.resources[key]?.data)
+    .map((key) => audioCache[key])
     .filter(Boolean);
 
   const saveLastPlayedIndex = (index) => {
@@ -188,7 +188,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
                 behaviour,
                 defaultConfig,
                 index,
-                mainSource: PixiLoader.shared.resources[predefinedMusic]?.data,
+                mainSource: audioCache[predefinedMusic],
               });
             }
             updateBehaviours();
@@ -218,7 +218,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
               behaviour,
               defaultConfig,
               index,
-              mainSource: PixiLoader.shared.resources[value]?.data,
+              mainSource: audioCache[value],
             });
           }}
           elements={predefinedType}

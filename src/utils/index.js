@@ -1,7 +1,38 @@
 import eventBus from "@utils/eventBus";
 import pixiRefs from "@pixi/pixiRefs";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Assets, Sprite, Texture } from "pixi.js";
 import { images } from "@utils/updatePropsLoogic";
+
+/**
+ * Legacy Pixi v6/v7 used numeric BLEND_MODES; v8 uses strings.
+ * Map legacy number -> Pixi v8 string so default config blendMode works.
+ */
+const LEGACY_BLEND_TO_V8 = {
+  0: "normal",
+  1: "add",
+  2: "multiply",
+  3: "screen",
+  4: "overlay",
+  5: "darken",
+  6: "lighten",
+  7: "color-dodge",
+  8: "color-burn",
+  9: "hard-light",
+  10: "soft-light",
+  11: "difference",
+  12: "exclusion",
+  13: "none",
+};
+
+/** Normalize blendMode for Pixi v8: number -> string, string passed through. */
+export const normalizeBlendModeForPixiV8 = (val) => {
+  if (val == null) return "normal";
+  if (typeof val === "string") return val;
+  if (typeof val === "number" && LEGACY_BLEND_TO_V8[val] != null) {
+    return LEGACY_BLEND_TO_V8[val];
+  }
+  return "normal";
+};
 
 /** Built-in behaviour names; any other name in config is treated as a custom behaviour */
 export const BUILT_IN_BEHAVIOUR_NAMES = [
@@ -173,6 +204,12 @@ export const getConfigSafeForLibrary = (config) => {
     if (typeof orig.isPlaying === "boolean")
       safeBehaviour.isPlaying = orig.isPlaying;
   }
+  // Normalize blendMode: default config uses legacy numbers; Pixi v8 expects strings
+  if (safe.emitterConfig) {
+    safe.emitterConfig.blendMode = normalizeBlendModeForPixiV8(
+      safe.emitterConfig.blendMode
+    );
+  }
   return safe;
 };
 
@@ -231,8 +268,11 @@ export const resize = (contentRef) => {
   const GAME_HEIGHT = 750;
 
   // Resize renderer
-  app.renderer.view.style.width = `${finalInnerWidth}px`;
-  app.renderer.view.style.height = `${finalInnerHeight}px`;
+  const canvas = app.renderer.canvas ?? app.canvas;
+  if (canvas) {
+    canvas.style.width = `${finalInnerWidth}px`;
+    canvas.style.height = `${finalInnerHeight}px`;
+  }
   app.renderer.resize(finalInnerWidth, finalInnerHeight);
 
   particlesContainer.position.x = GAME_WIDTH / 2;
@@ -352,7 +392,7 @@ export const onImageLoaded = (value) => {
   if (pixiRefs.bgSprite2) {
     pixiRefs.bgSprite2.removeChildren();
   }
-  const bgTexture = Texture.from(value.fileName);
+  const bgTexture = Assets.get(value.fileName);
   const sprite = new Sprite(bgTexture);
   pixiRefs.bgSprite = sprite;
   pixiRefs.bgContainer.addChild(sprite);

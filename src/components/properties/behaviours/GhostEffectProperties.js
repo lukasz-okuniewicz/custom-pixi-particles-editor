@@ -8,8 +8,7 @@ import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { GhostEffect } from "custom-pixi-particles";
-import { Sprite, Texture, BLEND_MODES } from "pixi.js-legacy";
-import { Loader as PixiLoader } from "@pixi/loaders";
+import { Assets, Sprite, Texture } from "pixi.js";
 import GhostEffectDescription from "@components/html/behaviourDescriptions/GhostEffect";
 
 export default function GhostEffectProperties({ defaultConfig }) {
@@ -28,7 +27,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
     endAlpha: 0,
     startTint: 0xffffff,
     endTint: 0x00ffff,
-    blendMode: BLEND_MODES.NORMAL,
+    blendMode: "normal",
     maxGhosts: 20,
   };
 
@@ -125,8 +124,8 @@ export default function GhostEffectProperties({ defaultConfig }) {
     const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of textureNames) {
       try {
-        texture = Texture.from(name);
-        if (texture && texture.valid) break;
+        texture = Assets.get(name);
+        if (texture) break;
       } catch (e) {}
     }
 
@@ -221,23 +220,17 @@ export default function GhostEffectProperties({ defaultConfig }) {
     };
   }, []);
 
-  const blendModeOptions = useMemo(() => {
-    const seen = new Set();
-    return Object.entries(BLEND_MODES)
-      .filter(([key, value]) => {
-        // Filter only numeric values and avoid duplicates
-        if (typeof value !== "number") return false;
-        if (seen.has(value)) return false;
-        seen.add(value);
-        return true;
-      })
-      .map(([key, value]) => ({
-        key: key, // Use the string key as the unique identifier
-        value: value.toString(), // Use value for the option value
-        displayName: key.replace(/_/g, " "),
-      }))
-      .sort((a, b) => a.displayName.localeCompare(b.displayName));
-  }, []);
+  const blendModeOptions = useMemo(
+    () =>
+      [
+        { key: "normal", value: "normal", displayName: "Normal" },
+        { key: "add", value: "add", displayName: "Add" },
+        { key: "multiply", value: "multiply", displayName: "Multiply" },
+        { key: "screen", value: "screen", displayName: "Screen" },
+        { key: "overlay", value: "overlay", displayName: "Overlay" },
+      ].sort((a, b) => a.displayName.localeCompare(b.displayName)),
+    []
+  );
 
   const handleSpriteUpload = useCallback((e) => {
     const file = fileSpriteInputRef.current?.files?.[0];

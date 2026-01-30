@@ -7,8 +7,7 @@ import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { DissolveEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
-import { Loader as PixiLoader } from "@pixi/loaders";
+import { Assets, Sprite, Texture } from "pixi.js";
 import DissolveEffectDescription from "@components/html/behaviourDescriptions/DissolveEffect";
 
 export default function DissolveEffectProperties({ defaultConfig }) {
@@ -131,8 +130,8 @@ export default function DissolveEffectProperties({ defaultConfig }) {
     const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of textureNames) {
       try {
-        texture = Texture.from(name);
-        if (texture && texture.valid) break;
+        texture = Assets.get(name);
+        if (texture) break;
       } catch (e) {}
     }
 

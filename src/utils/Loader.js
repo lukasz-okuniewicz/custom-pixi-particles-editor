@@ -1,41 +1,59 @@
-import { Loader as PixiLoader } from "pixi.js-legacy";
+import { Assets } from "pixi.js";
+
+// Pixi v8 Assets has no built-in audio parser; load audio as HTML Audio elements for Web Audio API
+const AUDIO_PATHS = [
+  { id: "mainTheme", src: "audio/mainTheme.mp3" },
+  { id: "instrumentalPiano", src: "audio/instrumentalPiano.mp3" },
+  { id: "elDestino", src: "audio/elDestino.mp3" },
+  { id: "honorAndSwords", src: "audio/honorAndSwords.mp3" },
+  { id: "jingleBells", src: "audio/jingleBells.mp3" },
+  { id: "relaxingInstrumental", src: "audio/relaxingInstrumental.mp3" },
+  { id: "relaxingMusic", src: "audio/relaxingMusic.mp3" },
+  { id: "instrumentalMusic", src: "audio/instrumentalMusic.mp3" },
+];
+
+const PIXI_ASSET_PATHS = [
+  "images.json",
+  "multipacked-0.json",
+  { alias: "autumn", src: "backgrounds/autumn.jpg" },
+  { alias: "campFire", src: "backgrounds/campfire.jpg" },
+  { alias: "birds", src: "backgrounds/birds.jpg" },
+  { alias: "cigarette", src: "backgrounds/cigarette.jpg" },
+  { alias: "blackHole", src: "backgrounds/blackHole.jpg" },
+  { alias: "face", src: "backgrounds/face.jpeg" },
+  { alias: "office1", src: "backgrounds/office1.png" },
+  { alias: "office2", src: "backgrounds/office2.png" },
+  { alias: "house", src: "backgrounds/house.jpg" },
+  { alias: "earth", src: "backgrounds/earth.jpg" },
+];
+
+/** Cache of loaded HTML Audio elements (id -> HTMLAudioElement) for SoundReactive behaviour */
+export const audioCache = {};
+
+function loadAudio(id, src) {
+  return new Promise((resolve, reject) => {
+    const audio = new Audio(src);
+    audio.addEventListener("canplaythrough", () => {
+      audioCache[id] = audio;
+      resolve();
+    }, { once: true });
+    audio.addEventListener("error", (e) => {
+      reject(e);
+    }, { once: true });
+    audio.load();
+  });
+}
 
 export default class Loader {
-  static load() {
-    return new Promise((resolve) => {
-      const loader = PixiLoader.shared;
-      // Already loading (e.g. React Strict Mode double-mount): wait for completion
-      if (loader.loading) {
-        loader.onComplete.once(() => resolve(true));
-        return;
-      }
-      // Already loaded (e.g. remount after load finished): resolve immediately
-      if (loader.resources.mainTheme) {
-        resolve(true);
-        return;
-      }
-      loader.add("images.json");
-      loader.add("multipacked-0.json");
-      loader.add("autumn", "backgrounds/autumn.jpg");
-      loader.add("campFire", "backgrounds/campfire.jpg");
-      loader.add("birds", "backgrounds/birds.jpg");
-      loader.add("cigarette", "backgrounds/cigarette.jpg");
-      loader.add("blackHole", "backgrounds/blackHole.jpg");
-      loader.add("face", "backgrounds/face.jpeg");
-      loader.add("office1", "backgrounds/office1.png");
-      loader.add("office2", "backgrounds/office2.png");
-      loader.add("house", "backgrounds/house.jpg");
-      loader.add("earth", "backgrounds/earth.jpg");
-      loader.add("mainTheme", "audio/mainTheme.mp3");
-      loader.add("instrumentalPiano", "audio/instrumentalPiano.mp3");
-      loader.add("elDestino", "audio/elDestino.mp3");
-      loader.add("honorAndSwords", "audio/honorAndSwords.mp3");
-      loader.add("jingleBells", "audio/jingleBells.mp3");
-      loader.add("relaxingInstrumental", "audio/relaxingInstrumental.mp3");
-      loader.add("relaxingMusic", "audio/relaxingMusic.mp3");
-      loader.add("instrumentalMusic", "audio/instrumentalMusic.mp3");
-      loader.load();
-      loader.onComplete.once(() => resolve(true));
-    });
+  static async load() {
+    if (audioCache.mainTheme) {
+      return;
+    }
+    await Promise.all([
+      ...PIXI_ASSET_PATHS.map((item) =>
+        typeof item === "string" ? Assets.load(item) : Assets.load(item)
+      ),
+      ...AUDIO_PATHS.map(({ id, src }) => loadAudio(id, src)),
+    ]);
   }
 }

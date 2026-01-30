@@ -12,12 +12,12 @@
     "start": "next start"
   },
   "dependencies": {
-    "custom-pixi-particles": "^4.32.0",
+    "custom-pixi-particles": "^8.9.0",
     "file-saver": "^2.0.5",
     "gsap": "^3.14.2",
     "mitt": "^3.0.1",
     "next": "15.0.3",
-    "pixi.js-legacy": "^6.5.10",
+    "pixi.js": "^8.13.2",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-color": "^2.19.3",
     "react-dom": "19.0.0-rc-66855b96-20241106",

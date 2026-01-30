@@ -6,7 +6,7 @@ import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
 import TurbulenceDescription from "@components/html/behaviourDescriptions/Turbulence";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
 export default function TurbulenceProperties({ defaultConfig, index }) {
@@ -47,7 +47,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
     const handleWindowClick = (event) => {
       if (selectedPositionIndexRef.current !== null) {
         const localPosition = new Point(0, 0);
-        pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+        pixiRefs.app.renderer.events.mapPositionToPoint(
           localPosition,
           event.clientX,
           event.clientY,

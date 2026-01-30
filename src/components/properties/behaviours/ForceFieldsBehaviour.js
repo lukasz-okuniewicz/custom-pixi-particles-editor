@@ -12,7 +12,7 @@ import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import Checkbox from "@components/html/Checkbox";
 import Select from "@components/html/Select";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 import ForceFieldsDescription from "@components/html/behaviourDescriptions/ForceFields";
 
@@ -58,7 +58,7 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
     const handleWindowClick = (event) => {
       if (selectedPositionIndexRef.current !== null) {
         const localPosition = new Point(0, 0);
-        pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+        pixiRefs.app.renderer.events.mapPositionToPoint(
           localPosition,
           event.clientX,
           event.clientY,

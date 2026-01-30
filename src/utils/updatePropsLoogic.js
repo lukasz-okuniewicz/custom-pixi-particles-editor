@@ -1,18 +1,20 @@
-import { Loader as PixiLoader } from "@pixi/loaders";
+import { Assets } from "pixi.js";
 import eventBus from "@utils/eventBus";
 
-export const images = (value, emitName) => {
-  const loader = PixiLoader.shared;
+export const images = async (value, emitName) => {
   const arrayOfTextures = [];
+  const toLoad = [];
 
-  let howManyToLoad = 0;
   value.forEach((file) => {
     arrayOfTextures.push(file.fileName);
-    if (!loader.resources[file.fileName]) {
-      howManyToLoad++;
-      loader.add(file.fileName, file.result);
+    if (!Assets.get(file.fileName)) {
+      toLoad.push(Assets.load({ alias: file.fileName, src: file.result }));
     }
   });
+
+  if (toLoad.length > 0) {
+    await Promise.all(toLoad);
+  }
 
   const emitWithFullList = () => {
     if (
@@ -26,24 +28,12 @@ export const images = (value, emitName) => {
     }
   };
 
-  if (howManyToLoad > 0) {
-    loader.load();
-    loader.onComplete.once(emitWithFullList);
-  } else {
-    // All resources already in loader: emit once with full list so refresh runs with complete textures
-    emitWithFullList();
-  }
+  emitWithFullList();
 };
 
-export const bgImage = (value, onImageLoaded) => {
-  const loader2 = PixiLoader.shared;
-  if (!loader2.resources[value.fileName]) {
-    loader2.add(value.fileName, value.result);
-    loader2.load();
-    loader2.onComplete.once(() => {
-      onImageLoaded(value);
-    });
-  } else {
-    onImageLoaded(value);
+export const bgImage = async (value, onImageLoaded) => {
+  if (!Assets.get(value.fileName)) {
+    await Assets.load({ alias: value.fileName, src: value.result });
   }
+  onImageLoaded(value);
 };

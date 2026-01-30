@@ -1,10 +1,12 @@
-import { Application, Container, Graphics, Sprite } from "pixi.js-legacy";
+import { Application, Container, Graphics, Sprite } from "pixi.js";
 import pixiRefs from "./pixiRefs";
 
-export const initializeApp = (contentRef) => {
-  if (pixiRefs.app) return;
+export const initializeApp = async (contentRef) => {
+  if (pixiRefs.app) return () => {};
+  if (!contentRef?.current) return () => {};
 
-  const app = new Application({ backgroundColor: 0 });
+  const app = new Application();
+  await app.init({ backgroundColor: 0 });
   globalThis.__PIXI_APP__ = app;
   pixiRefs.app = app;
 
@@ -14,9 +16,9 @@ export const initializeApp = (contentRef) => {
   const graphics = new Graphics();
   pixiRefs.bgSprite2 = new Sprite();
 
-  bgContainer.name = "bgContainer";
-  bgContainer2.name = "bgContainer2";
-  particlesContainer.name = "particlesContainer";
+  bgContainer.label = "bgContainer";
+  bgContainer2.label = "bgContainer2";
+  particlesContainer.label = "particlesContainer";
 
   pixiRefs.bgContainer = bgContainer;
   pixiRefs.bgContainer2 = bgContainer2;
@@ -24,10 +26,22 @@ export const initializeApp = (contentRef) => {
   pixiRefs.graphics = graphics;
 
   app.stage.addChild(bgContainer, particlesContainer, bgContainer2, graphics);
-  contentRef.current.appendChild(app.view);
+
+  if (contentRef?.current) {
+    contentRef.current.appendChild(app.canvas);
+  }
 
   return () => {
-    app.destroy(true, { children: true, texture: true, baseTexture: true });
-    pixiRefs.app = null; // Reset app ref
+    app.destroy(true, { removeView: true });
+    pixiRefs.app = null;
+    pixiRefs.bgContainer = null;
+    pixiRefs.bgContainer2 = null;
+    pixiRefs.particlesContainer = null;
+    pixiRefs.graphics = null;
+    pixiRefs.bgSprite = null;
+    pixiRefs.bgSprite2 = null;
+    pixiRefs.particles = null;
+    pixiRefs.particlesArr = [];
+    pixiRefs.meltEffectInstance = null;
   };
 };

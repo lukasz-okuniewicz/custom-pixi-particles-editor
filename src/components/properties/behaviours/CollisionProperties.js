@@ -4,7 +4,7 @@ import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 import CollisionDescription from "@components/html/behaviourDescriptions/Collision";
 
@@ -38,13 +38,15 @@ export default function CollisionProperties({ defaultConfig, index }) {
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
-  pixiRefs.graphics.visible = behaviour.showLines;
+  if (pixiRefs.graphics) {
+    pixiRefs.graphics.visible = behaviour.showLines;
+  }
 
   useEffect(() => {
     const handleWindowClick = (event) => {
       if (selectedLineIndexRef.current !== null && pointKeyRef.current) {
         const localPosition = new Point(0, 0);
-        pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+        pixiRefs.app.renderer.events.mapPositionToPoint(
           localPosition,
           event.clientX,
           event.clientY,

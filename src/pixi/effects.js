@@ -1,4 +1,4 @@
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Assets, Sprite, Texture } from "pixi.js";
 import pixiRefs from "./pixiRefs";
 import {
   createAndAddParticles,
@@ -85,7 +85,7 @@ const createCoffeeShop = ({ fullConfig }) => {
 
   createSprite("office2");
 
-  pixiRefs.bgSprite2.texture = Texture.from("office1");
+  pixiRefs.bgSprite2.texture = Assets.get("office1");
   bgContainer2.addChild(pixiRefs.bgSprite2);
 
   // Create particles
@@ -162,7 +162,7 @@ const createSpiral = ({ defaultConfig }) => {
 
 const createSprite = (textureName) => {
   const { bgContainer } = pixiRefs;
-  const bgTexture = Texture.from(textureName);
+  const bgTexture = Assets.get(textureName);
   const sprite = new Sprite(bgTexture);
 
   pixiRefs.bgSprite = sprite;
@@ -222,12 +222,12 @@ const reloadEverything = (defaultConfig, fullConfig) => {
 
 const drawLines = (lines) => {
   pixiRefs.graphics.clear();
-  pixiRefs.graphics.lineStyle(2, 0xffffff, 1);
 
   if (lines.length > 0) {
     lines.forEach((line) => {
       pixiRefs.graphics.moveTo(line.point1.x, line.point1.y);
       pixiRefs.graphics.lineTo(line.point2.x, line.point2.y);
     });
+    pixiRefs.graphics.stroke({ width: 2, color: 0xffffff });
   }
 };

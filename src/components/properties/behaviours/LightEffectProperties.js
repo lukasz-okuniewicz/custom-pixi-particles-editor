@@ -5,7 +5,7 @@ import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import ColorPicker from "@components/html/ColorPicker";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 import LightEffectDescription from "@components/html/behaviourDescriptions/LightEffect";
 
@@ -57,7 +57,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
     const handleWindowClick = (event) => {
       if (selectedPositionIndexRef.current !== null) {
         const localPosition = new Point(0, 0);
-        pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+        pixiRefs.app.renderer.events.mapPositionToPoint(
           localPosition,
           event.clientX,
           event.clientY,
