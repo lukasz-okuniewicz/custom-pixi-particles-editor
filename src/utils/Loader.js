@@ -4,6 +4,16 @@ export default class Loader {
   static load() {
     return new Promise((resolve) => {
       const loader = PixiLoader.shared;
+      // Already loading (e.g. React Strict Mode double-mount): wait for completion
+      if (loader.loading) {
+        loader.onComplete.once(() => resolve(true));
+        return;
+      }
+      // Already loaded (e.g. remount after load finished): resolve immediately
+      if (loader.resources.mainTheme) {
+        resolve(true);
+        return;
+      }
       loader.add("images.json");
       loader.add("multipacked-0.json");
       loader.add("autumn", "backgrounds/autumn.jpg");

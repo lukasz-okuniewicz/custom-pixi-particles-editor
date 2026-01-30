@@ -16,7 +16,19 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const userHasInteractedRef = useRef(false);
 
-  const audioSources = [PixiLoader.shared.resources.mainTheme.data];
+  const predefinedAudioKeys = [
+    "mainTheme",
+    "instrumentalPiano",
+    "elDestino",
+    "honorAndSwords",
+    "jingleBells",
+    "relaxingInstrumental",
+    "relaxingMusic",
+    "instrumentalMusic",
+  ];
+  const audioSources = predefinedAudioKeys
+    .map((key) => PixiLoader.shared.resources[key]?.data)
+    .filter(Boolean);
 
   const saveLastPlayedIndex = (index) => {
     localStorage.setItem("lastPlayedAudioIndex", index);
@@ -176,7 +188,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
                 behaviour,
                 defaultConfig,
                 index,
-                mainSource: PixiLoader.shared.resources[predefinedMusic].data,
+                mainSource: PixiLoader.shared.resources[predefinedMusic]?.data,
               });
             }
             updateBehaviours();
@@ -206,7 +218,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
               behaviour,
               defaultConfig,
               index,
-              mainSource: PixiLoader.shared.resources[value].data,
+              mainSource: PixiLoader.shared.resources[value]?.data,
             });
           }}
           elements={predefinedType}

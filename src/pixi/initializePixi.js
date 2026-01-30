@@ -1,4 +1,4 @@
-import { Application, Container, Graphics } from "pixi.js-legacy";
+import { Application, Container, Graphics, Sprite } from "pixi.js-legacy";
 import pixiRefs from "./pixiRefs";
 
 export const initializeApp = (contentRef) => {
@@ -12,6 +12,7 @@ export const initializeApp = (contentRef) => {
   const bgContainer2 = new Container();
   const particlesContainer = new Container();
   const graphics = new Graphics();
+  pixiRefs.bgSprite2 = new Sprite();
 
   bgContainer.name = "bgContainer";
   bgContainer2.name = "bgContainer2";
