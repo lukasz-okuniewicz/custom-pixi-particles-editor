@@ -1,109 +1,85 @@
 # custom-pixi-particles-editor by [@lukasz-okuniewicz](http://github.com/lukasz-okuniewicz)
 
-**custom-pixi-particles-editor** is a powerful, web-based visual editor for creating and customizing particle effects using the [custom-pixi-particles](https://github.com/lukasz-okuniewicz/custom-pixi-particles) library. Built with **Next.js** and **React**, it provides an intuitive interface for designing particle systems without writing code.
+**custom-pixi-particles-editor** is a web-based visual editor for creating and customizing particle effects with the [custom-pixi-particles](https://github.com/lukasz-okuniewicz/custom-pixi-particles) engine. Built with **Next.js** and **React**, it lets you design particle systems in real time without writing code.
 
 ---
 
 ## ✨ Features
 
-- **Visual Editor**: Create and customize particle effects through an intuitive UI
-- **Real-Time Preview**: See your changes instantly as you adjust parameters
-- **Comprehensive Controls**: Access to all particle behaviors, effects, and configurations
-- **Export/Import**: Save and load your particle configurations as JSON files
-- **Live Demo**: Try the editor online at [okuniewicz.eu](https://okuniewicz.eu/)
-
----
-
-## 🛠️ Installation
-
-Install the editor package via npm:
-
-```bash
-npm install custom-pixi-particles-editor
-```
+- **Visual editor** – Configure emitters, behaviours, and effects through the UI
+- **Real-time preview** – Changes apply instantly on the canvas
+- **Full engine support** – All particle behaviours, emission types, and special effects (Shatter, Dissolve, Ghost, Glitch, Melt, Magnetic Assembly)
+- **Export / import** – Save and load emitter configurations as JSON
+- **Live demo** – [Try the editor online](https://okuniewicz.eu/)
 
 ---
 
 ## 🚀 Quick Start
 
-### Development Mode
+### From source (recommended)
 
-Run the editor in development mode:
+Clone the repository (or use the parent repo that contains both the engine and the editor), then:
 
 ```bash
+cd custom-pixi-particles-editor
+npm install
 npm run dev
 ```
 
-The editor will be available at:
-```
-http://localhost:3000
-```
+Open [http://localhost:3000](http://localhost:3000).
 
-### Production Build
-
-Build the editor for production:
+### Production build
 
 ```bash
 npm run build
 npm start
 ```
 
-The production server will start on port 3000 by default.
+The app will be served on port 3000.
 
 ---
 
 ## 📖 Usage
 
-1. **Start the Editor**: Run `npm run dev` or `npm start`
-2. **Open in Browser**: Navigate to `http://localhost:3000`
-3. **Create Effects**: Use the sidebar to configure particle properties, behaviors, and effects
-4. **Preview**: See your particle effects render in real-time in the main canvas
-5. **Save/Load**: Export your configurations as JSON files or load existing ones
-
----
-
-## 🎮 Live Demo
-
-Try the editor online without installation:
-🔗 [CustomPIXIParticles Live Editor](https://okuniewicz.eu/)
+1. Start the app with `npm run dev` or `npm start`.
+2. Open [http://localhost:3000](http://localhost:3000).
+3. Use the sidebar to configure emitters, behaviours (Life, Position, Spawn, Size, Color, etc.), and special effects.
+4. Preview updates in real time on the canvas.
+5. Export or load emitter configs as JSON (Load & Save section).
 
 ---
 
 ## 🏗️ Technology Stack
 
-- **Next.js 15** - React framework for the web application
-- **React 19** - UI library
-- **PIXI.js Legacy v6** - 2D WebGL renderer
-- **Custom PIXI Particles** - Core particle engine
-- **Tailwind CSS** - Utility-first CSS framework
-- **GSAP** - Animation library
+- **Next.js 15** – React framework
+- **React 19** – UI
+- **PIXI.js Legacy v6** – 2D WebGL canvas
+- **custom-pixi-particles** – Particle engine
+- **Tailwind CSS 4** – Styling
+- **GSAP** – Animations
 
 ---
 
-## 📦 Dependencies
+## 📦 Requirements
 
-The editor requires:
-- **Node.js** (v18 or higher recommended)
+- **Node.js** v18+
 - **npm** or **yarn**
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, feature suggestions, and bug reports are welcome! Open an issue or submit a pull request on the [GitHub repository](https://github.com/lukasz-okuniewicz/custom-pixi-particles-editor).
+Contributions and bug reports are welcome on the [GitHub repository](https://github.com/lukasz-okuniewicz/custom-pixi-particles-editor).
 
 ---
 
 ## 📄 License
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+MIT – see the [LICENSE](LICENSE) file.
 
 ---
 
-## 🔗 Related Projects
+## 🔗 Related
 
-- [custom-pixi-particles](https://github.com/lukasz-okuniewicz/custom-pixi-particles) - The core particle engine library
-
----
-
-With custom-pixi-particles-editor, you can create stunning particle effects visually without writing a single line of code! 🌟
+- [custom-pixi-particles](https://github.com/lukasz-okuniewicz/custom-pixi-particles) – Particle engine used by this editor
+- [Live Editor](https://okuniewicz.eu/) – Run the editor in the browser without installing

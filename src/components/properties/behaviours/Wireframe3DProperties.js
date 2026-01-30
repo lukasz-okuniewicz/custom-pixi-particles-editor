@@ -99,6 +99,8 @@ export default function Wireframe3DProperties({ defaultConfig, index }) {
     { key: "figure8", displayName: "Figure 8" },
   ];
 
+  if (defaultConfig.particlePredefinedEffect === "coffeeShop") return <></>;
+  
   return (
     <>
       <legend onClick={toggleSubmenuVisibility}>
