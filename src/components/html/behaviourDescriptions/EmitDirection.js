@@ -84,6 +84,18 @@ const EmitDirectionDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>angle</b> — Primary emission direction (degrees).</li>
+          <li><b>variance</b> — Random variation in angle.</li>
+          <li><b>oscillate</b> — Enable periodic directional shifts.</li>
+          <li><b>oscillationSpeed</b>, <b>oscillationAmplitude</b> — Oscillation frequency and amplitude (degrees).</li>
+          <li><b>useNoise</b> — Perlin noise for direction.</li>
+          <li><b>noiseScale</b> — Noise granularity/intensity.</li>
+          <li><b>velocityScaling</b> — Scale velocity by life progress.</li>
+        </ul>
         <h4>How It Works:</h4>
         <p>
           The behavior calculates the cosine and sine of the angle (modified by

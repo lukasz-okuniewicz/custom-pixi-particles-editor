@@ -52,6 +52,12 @@ const AttractionRepulsionDescription = () => {
             </ul>
           </li>
         </ul>
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>influencePoints</b> — Array of point objects: point (x, y), strength (positive = attraction, negative = repulsion), range (effective radius).</li>
+        </ul>
         <h4>Advanced Features:</h4>
         <ul>
           <li>

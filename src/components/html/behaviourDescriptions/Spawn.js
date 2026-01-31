@@ -24,19 +24,43 @@ const SpawnDescription = () => {
           animations to life.
         </p>
 
-        <h4>Key Features:</h4>
+        <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Versatile Spawn Types:</b> Includes multiple predefined spawning
-            methods:
-            <ul>
-              <li>
-                <b>Rectangle:</b> Uniform particle distribution in a rectangular
-                area.
-              </li>
-              <li>
-                <b>Ring:</b> Particles arranged in circular patterns.
-              </li>
+            <b>Enabled</b>: Toggle the behaviour on or off.
+          </li>
+          <li>
+            <b>Priority</b>: Execution order relative to other behaviours.
+          </li>
+          <li>
+            <b>Custom Points</b>: Array of spawn points; each defines spawn
+            type, position, and shape-specific parameters (radius, star points,
+            cone angle, path points, etc.).
+          </li>
+        </ul>
+
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>trailingEnabled</b>, <b>spawnAlongTrail</b>, <b>trailSpeed</b>, <b>trailRepeat</b>, <b>trailStart</b>, <b>trailRangeSegments</b>, <b>trailRangeWeightFactor</b>, <b>trailRangeLength</b> — Trail spawning options.</li>
+          <li><b>customPoints</b> — Array of spawn points. Each point: spawnType (Rectangle, Frame, Ring, Star, Word, Sphere, Cone, Grid, Lissajous, Bezier, Heart, Helix, Spring, Path, Oval), plus shape-specific params (radius, center, position, positionVariance, pathPoints, etc.).</li>
+        </ul>
+        <h4>Spawn Types (per Custom Point):</h4>
+        <ul>
+          <li>
+            <b>Rectangle:</b> Uniform particle distribution in a rectangular
+            area.
+          </li>
+          <li>
+            <b>Frame:</b> Particles along the edges of a frame.
+          </li>
+          <li>
+            <b>Frame Rectangle:</b> Frame with rectangular inner bounds.
+          </li>
+          <li>
+            <b>Ring:</b> Particles arranged in circular patterns.
+          </li>
               <li>
                 <b>Star:</b> Configurable star-shaped distributions.
               </li>
@@ -50,14 +74,11 @@ const SpawnDescription = () => {
               <li>
                 <b>Spherical:</b> 3D sphere-shaped spawning.
               </li>
-              <li>
-                <b>Cone:</b> Conical particle distributions with customizable
-                angles.
-              </li>
-              <li>
-                <b>Frame:</b> Particles along the edges of a frame.
-              </li>
-              <li>
+          <li>
+            <b>Cone:</b> Conical particle distributions with customizable
+            angles.
+          </li>
+          <li>
                 <b>Bezier:</b> Particles follow Bezier curve paths.
               </li>
               <li>
@@ -78,10 +99,8 @@ const SpawnDescription = () => {
                 <b>Path:</b> Particles distributed along a custom path defined
                 by points.
               </li>
-              <li>
-                <b>Oval:</b> Elliptical particle distributions.
-              </li>
-            </ul>
+          <li>
+            <b>Oval:</b> Elliptical particle distributions.
           </li>
           <li>
             <b>Trail Effects:</b> Animate a moving “head” along the spawn path
@@ -98,7 +117,7 @@ const SpawnDescription = () => {
               </li>
               <li>
                 <b>Trail Speed / Repeat / Start:</b> Speed along the path,
-                whether to loop, and where on the path (0–1) the trail begins.
+                whether to loop, and where on the path (0-1) the trail begins.
               </li>
               <li>
                 <b>Trail Range Segments:</b> Number of sample points along the
@@ -110,7 +129,7 @@ const SpawnDescription = () => {
                 (higher = more at the front).
               </li>
               <li>
-                <b>Trail Range Length (0–1):</b> Length of the trail segment
+                <b>Trail Range Length (0-1):</b> Length of the trail segment
                 that gets particles. <b>1</b> = from path start to head;
                 <b>0.2</b> = only the last 20%, so the path start (e.g. top-left
                 of a Frame) stays clear. When the loop restarts, the tail at the

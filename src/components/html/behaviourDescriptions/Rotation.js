@@ -72,6 +72,19 @@ const RotationDescription = () => {
             counterclockwise).
           </li>
         </ul>
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>rotation</b> — Base angular velocity (degrees or rad/sec).</li>
+          <li><b>variance</b> — Random variation in rotation speed.</li>
+          <li><b>oscillate</b> — Enable oscillatory rotation (swaying).</li>
+          <li><b>oscillationSpeed</b>, <b>oscillationAmplitude</b> — Sway frequency and angular variation.</li>
+          <li><b>useNoise</b> — Perlin noise for rotation.</li>
+          <li><b>noiseScale</b> — Noise intensity.</li>
+          <li><b>acceleration</b> — Angular acceleration (spin up/down).</li>
+          <li><b>clockwise</b> — Rotation direction.</li>
+        </ul>
         <h4>Use Cases:</h4>
         <ul>
           <li>Simulating spinning sparks in a firework display</li>

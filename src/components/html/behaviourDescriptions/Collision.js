@@ -77,6 +77,15 @@ const CollisionDescription = () => {
             </ul>
           </li>
         </ul>
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>showLines</b> — Show collision line segments on canvas.</li>
+          <li><b>skipPositionBehaviourOnCollision</b>, <b>skipAngularVelocityBehaviourOnCollision</b>, <b>skipColorBehaviourOnCollision</b>, <b>skipEmitDirectionBehaviourOnCollision</b>, <b>skipRotationBehaviourOnCollision</b>, <b>skipSizeBehaviourOnCollision</b> — Disable these behaviours after collision.</li>
+          <li><b>lines</b> — Array of line segments; each has two points (x, y).</li>
+          <li><b>distance</b> — Collision threshold (proximity to line).</li>
+        </ul>
         <h4>Practical Applications:</h4>
         <ul>
           <li>
