@@ -34,7 +34,7 @@ If you find this editor useful, consider supporting the project:
 - **Predefined effects** – 80+ presets including fire, smoke, explosions, trails, text, snow, fountains, warp effects, swarms, and more
 - **Behaviour descriptions** – Inline "Show Description" for each behaviour with property documentation
 - **Export / import** – Save and load emitter configurations as JSON
-- **Special effects** – Shatter, Dissolve, Ghost, Glitch, Melt, Magnetic Assembly
+- **Special effects** – Shatter, Dissolve, Ghost, Glitch, Melt, Magnetic Assembly, Pixel Sort, Prism Refraction, Crystallize, Slit-Scan, Granular Erosion, Liquid Mercury
 - **3D wireframes** – Cube, sphere, torus, and other wireframe shapes with motion options
 
 ### Supported Behaviours
