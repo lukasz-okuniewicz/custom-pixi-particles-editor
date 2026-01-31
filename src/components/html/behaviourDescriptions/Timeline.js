@@ -35,7 +35,7 @@ const TimelineDescription = () => {
           </li>
           <li>
             <b>Timeline</b>: Define keyframes that specify particle properties
-            at different points in their lifecycle (time range: 0–1).
+            at different points in their lifecycle (time range: 0-1).
           </li>
           <li>
             <b>Size Evolution</b>: Adjust particle size dynamically across
@@ -55,6 +55,12 @@ const TimelineDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>timeline</b> — Array of keyframes. Each keyframe: time (0-1), and optionally size (x, y), color (r, g, b, alpha), rotation (degrees). Properties are interpolated between keyframes.</li>
+        </ul>
         <h4>How It Works:</h4>
         <p>
           The behavior calculates a particle&apos;s current lifecycle progress

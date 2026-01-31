@@ -88,6 +88,19 @@ const DissolveEffectDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>pixelSize</b> — Size of each particle/pixel (larger = chunkier).</li>
+          <li><b>edgeSoftness</b> — Smoothness of dissolve edge (0-1).</li>
+          <li><b>driftStrength</b> — How far particles drift from original position.</li>
+          <li><b>noiseIntensity</b> — Randomness in particle movement.</li>
+          <li><b>lifetime</b> — Duration of the dissolve.</li>
+          <li><b>fadeOutDuration</b> — Time for particles to fade out.</li>
+          <li><b>direction</b> — Dissolve pattern (e.g. center-out, left-to-right).</li>
+          <li><b>windAngle</b> — Wind direction in radians.</li>
+          <li><b>customSprite</b> — Optional custom texture (upload/select).</li>
+        </ul>
+
         <h4>Applications:</h4>
         <ul>
           <li>Magical disappearance effects.</li>

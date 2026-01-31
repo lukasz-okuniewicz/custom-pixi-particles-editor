@@ -83,6 +83,18 @@ const MeltEffectDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>gridCols</b>, <b>gridRows</b> — Grid cells for deformation.</li>
+          <li><b>gravity</b> — Downward force affecting melt speed.</li>
+          <li><b>viscosity</b> — Flow resistance (0-1, higher = slower).</li>
+          <li><b>horizontalSpread</b> — Sideways spread as material melts.</li>
+          <li><b>duration</b> — Total melt animation time.</li>
+          <li><b>blurAmount</b> — Blur strength for liquid look.</li>
+          <li><b>threshold</b> — Position (0-1) when melting begins.</li>
+          <li><b>customSprite</b> — Optional custom texture.</li>
+        </ul>
+
         <h4>Applications:</h4>
         <ul>
           <li>Melting and liquid effects.</li>

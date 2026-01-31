@@ -60,24 +60,22 @@ const GroupingDescription = () => {
             <b>Boundary Enforcement</b>: Restricts particles to stay within the
             defined group radius.
           </li>
-          <li>
-            <b>Dynamic Radius Speed</b>: Enables radius expansion or contraction
-            over time, creating breathing or pulsating effects.
-          </li>
-          <li>
-            <b>Max Radius</b>: Upper limit for the group radius when using
-            dynamic radius (breathing effect).
-          </li>
-          <li>
-            <b>Min Radius</b>: Lower limit for the group radius when using
-            dynamic radius (breathing effect).
-          </li>
-          <li>
-            <b>Cluster Points</b>: Additional attraction points (Point x/y per
-            cluster). Use &quot;Select Position&quot; to set the group center
-            by clicking on the canvas; add or remove cluster points for complex
-            formations.
-          </li>
+        </ul>
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>groupCenter</b> — (x, y) central point for the group. Use &quot;Select Position&quot; to set by clicking on the canvas.</li>
+          <li><b>groupRadius</b> — Maximum interaction boundary.</li>
+          <li><b>attractionStrength</b> — Force pulling particles toward center/cluster points.</li>
+          <li><b>repulsionStrength</b> — Repelling force to space particles apart.</li>
+          <li><b>orbitSpeed</b> — Rotational movement within the group.</li>
+          <li><b>randomness</b> — Random variation in motion.</li>
+          <li><b>boundaryEnforcement</b> — Restrict particles to stay within the defined group radius.</li>
+          <li><b>dynamicRadiusSpeed</b> — Speed of radius expansion/contraction (breathing effect).</li>
+          <li><b>maxRadius</b> — Upper limit for group radius when using dynamic radius.</li>
+          <li><b>minRadius</b> — Lower limit for group radius when using dynamic radius.</li>
+          <li><b>clusterPoints</b> — Array of (x, y) additional attraction points; add/remove for complex formations.</li>
         </ul>
         <h4>Advanced Features:</h4>
         <ul>

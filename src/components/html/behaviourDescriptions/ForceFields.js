@@ -70,6 +70,12 @@ const ForceFieldsDescription = () => {
             </ul>
           </li>
         </ul>
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>fields</b> — Array of force fields. Each field: <b>position</b> (x, y), <b>radius</b>, <b>strength</b>, <b>type</b> (&quot;wind&quot; | &quot;gravity&quot; | &quot;turbulence&quot;), <b>direction</b> (x, y; for wind).</li>
+        </ul>
         <h4>Practical Applications:</h4>
         <ul>
           <li>

@@ -25,54 +25,109 @@ const PositionDescription = () => {
           realistic animations.
         </p>
 
-        <h4>Key Features:</h4>
+        <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Priority:</b> Define the execution order when multiple behaviors
+            <b>Priority</b>: Define the execution order when multiple behaviours
             are applied.
           </li>
           <li>
-            <b>Warp Motion:</b>
-            <ul>
-              <li>
-                Configure warp effects with speed, field of view (FOV), and
-                stretch.
-              </li>
-              <li>
-                Simulate depth with distance scaling and center-based warps.
-              </li>
-            </ul>
+            <b>Velocity & Velocity Variance</b>: Initial linear motion (x, y)
+            with optional randomness.
           </li>
           <li>
-            <b>Velocity and Acceleration:</b>
-            <ul>
-              <li>Set linear motion parameters with adjustable variances.</li>
-              <li>Add dynamic motion effects through acceleration settings.</li>
-            </ul>
+            <b>Acceleration & Acceleration Variance</b>: Change in velocity over
+            time for dynamic motion.
           </li>
           <li>
-            <b>Sinusoidal Motion:</b>
-            <ul>
-              <li>Enable oscillation along X and/or Y axes.</li>
-              <li>Customize oscillation amplitude and frequency.</li>
-            </ul>
-          </li>
-          <li>
-            <b>Point-to-Point Motion:</b>
-            <ul>
-              <li>Define start and end points (A to B).</li>
-              <li>
-                Support bidirectional traversal with configurable durations and
-                amplitudes.
-              </li>
-              <li>
-                Apply custom easing curves (e.g., bounce, elastic) for smooth
-                transitions.
-              </li>
-            </ul>
+            <b>Position & Position Variance</b>: Spawn position offset (used with
+            warp mode).
           </li>
         </ul>
 
+        <h4>Warp Motion:</h4>
+        <ul>
+          <li>
+            <b>Warp</b>: Enable depth-based warp effect (e.g. starfield).
+          </li>
+          <li>
+            <b>Warp Speed, Warp Base Speed</b>: Speed of warp animation.
+          </li>
+          <li>
+            <b>Warp FOV, Warp Stretch</b>: Field of view and stretch for depth
+            effect.
+          </li>
+          <li>
+            <b>Warp Distance Scale Converter, Warp Distance To Center</b>: Depth
+            scaling and center-based warp options.
+          </li>
+          <li>
+            <b>Camera Z Converter</b>: Converts z-depth for perspective.
+          </li>
+        </ul>
+
+        <h4>Sinusoidal Motion:</h4>
+        <ul>
+          <li>
+            <b>Sin X, Sin Y</b>: Enable oscillation along X and/or Y axes.
+          </li>
+          <li>
+            <b>Sin X Value, Sin Y Value</b>: Amplitude (x = amplitude, y =
+            frequency).
+          </li>
+          <li>
+            <b>Sin X Variance, Sin Y Variance</b>: Random variation for amplitude
+            and frequency.
+          </li>
+        </ul>
+
+        <h4>Point-to-Point Motion (From A to B):</h4>
+        <ul>
+          <li>
+            <b>From A To B</b>: Enable point-to-point traversal.
+          </li>
+          <li>
+            <b>Point A, Point B</b>: Start and end coordinates.
+          </li>
+          <li>
+            <b>From A To B Two Ways</b>: Bidirectional (A→B→A); off = one-way.
+          </li>
+          <li>
+            <b>There Duration, There Amplitude</b>: Time and amplitude for A→B
+            leg (min/max for variance).
+          </li>
+          <li>
+            <b>Back Duration, Back Amplitude</b>: Time and amplitude for B→A leg.
+          </li>
+          <li>
+            <b>There, Back</b>: Per-axis function (Sin, Cos, Tan) and easing
+            (power1, bounce, elastic, etc.).
+          </li>
+          <li>
+            <b>From A To B One Way</b>: One-way only (no return).
+          </li>
+        </ul>
+
+        <h4>All properties</h4>
+        <ul>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>spawnType</b> — Spawn shape (Rectangle, Frame, Ring, etc.).</li>
+          <li><b>radius</b> — Radius for spawn (e.g. Ring).</li>
+          <li><b>warp</b> — Enable depth-based warp (e.g. starfield).</li>
+          <li><b>warpSpeed</b>, <b>warpBaseSpeed</b> — Warp animation speed.</li>
+          <li><b>sinX</b>, <b>sinY</b> — Enable sinusoidal motion on X/Y.</li>
+          <li><b>sinXVal</b>, <b>sinYVal</b> — Amplitude and frequency (x, y).</li>
+          <li><b>sinXValVariance</b>, <b>sinYValVariance</b> — Variance for sin values.</li>
+          <li><b>position</b>, <b>positionVariance</b> — Spawn position offset (x, y).</li>
+          <li><b>velocity</b>, <b>velocityVariance</b> — Initial velocity (x, y).</li>
+          <li><b>acceleration</b>, <b>accelerationVariance</b> — Acceleration (x, y).</li>
+          <li><b>cameraZConverter</b>, <b>warpFov</b>, <b>warpStretch</b>, <b>warpDistanceScaleConverter</b>, <b>warpDistanceToCenter</b> — Warp/depth options.</li>
+          <li><b>fromAtoB</b>, <b>fromAtoBTwoWays</b>, <b>fromAtoBOneWay</b> — Point-to-point mode.</li>
+          <li><b>pointA</b>, <b>pointB</b> — Start and end points (x, y).</li>
+          <li><b>thereDuration</b>, <b>backDuration</b> — Duration for A→B and B→A (min/max).</li>
+          <li><b>thereAmplitude</b>, <b>backAmplitude</b> — Amplitude for each leg (min/max).</li>
+          <li><b>there</b>, <b>back</b> — Per-axis function (Sin, Cos, Tan) and easing.</li>
+        </ul>
         <h4>How It Works:</h4>
         <p>
           Particles are initialized with position, velocity, and optional warp

@@ -49,17 +49,21 @@ const NoiseBasedMotionDescription = () => {
             influenced by the noise, defined as a 2D vector.
           </li>
         </ul>
-        <h4>Advanced Features:</h4>
+        <h4>All properties</h4>
         <ul>
-          <li>
-            <b>Custom Gradients</b>: Uses pre-generated random gradients for
-            smooth directional transitions across the noise field.
-          </li>
-          <li>
-            <b>Grid Size</b>: The size of the noise grid, determining how far
-            gradients are spaced. Larger grids produce broader noise patterns.
-          </li>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>noiseScale</b> — Level of detail in the noise field (smaller = finer).</li>
+          <li><b>noiseIntensity</b> — Scale of noise effect on movement.</li>
+          <li><b>noiseSpeed</b> — How quickly particles traverse the noise field.</li>
+          <li><b>noiseDirection</b> — Global direction (x, y) influenced by noise.</li>
         </ul>
+        <h4>Editor Properties:</h4>
+        <p>
+          The editor exposes: <b>Noise Scale</b>, <b>Noise Intensity</b>,{" "}
+          <b>Noise Speed</b>, and <b>Noise Direction</b> (x, y vector). Custom
+          gradients and grid size are handled internally by the noise algorithm.
+        </p>
         <p>Use this behavior to create:</p>
         <ul>
           <li>Organic motions, such as flowing water or drifting particles.</li>

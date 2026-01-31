@@ -34,13 +34,17 @@ const TurbulenceDescription = () => {
             applied relative to others.
           </li>
           <li>
-            <b>Show Vertices</b>: Toggle visibility of vortex positions in the
+            <b>Show Vortices</b>: Toggle visibility of vortex positions in the
             canvas for editing and debugging.
           </li>
           <li>
-            <b>Turbulence Version</b>: Select the type of vortex effect (e.g.
-            ClockWise rotation, Non ClockWise rotation, Pushing V1/V2, Sucking
-            V1/V2).
+            <b>Effect (Turbulence Version)</b>: Select the type of vortex
+            effect: ClockWise rotation, Non ClockWise rotation, Pushing V1/V2,
+            Sucking V1/V2.
+          </li>
+          <li>
+            <b>Start Variance, End Variance</b>: Random variation for vortex
+            size at start and end of life.
           </li>
           <li>
             <b>Position & Position Variance</b>: Vortex center position and
@@ -73,6 +77,22 @@ const TurbulenceDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>showVortices</b> — Show vortex positions on canvas.</li>
+          <li><b>effect</b> — Vortex type (0-5: ClockWise, Non ClockWise, Pushing V1/V2, Sucking V1/V2).</li>
+          <li><b>startVariance</b>, <b>endVariance</b> — Vortex size variance at start/end.</li>
+          <li><b>duration</b> — Emit duration (-1 = indefinitely).</li>
+          <li><b>position</b>, <b>positionVariance</b> — Vortex center (x, y) and variance.</li>
+          <li><b>velocity</b>, <b>velocityVariance</b> — Vortex movement and variance.</li>
+          <li><b>acceleration</b>, <b>accelerationVariance</b> — Vortex acceleration.</li>
+          <li><b>sizeStart</b>, <b>sizeEnd</b> — Vortex size at start/end (x, y).</li>
+          <li><b>emitPerSecond</b> — Vortices emitted per second.</li>
+          <li><b>maxLifeTime</b> — Max lifetime of each vortex.</li>
+          <li><b>vortileSize</b> — Influence radius of each vortex.</li>
+        </ul>
         <h4>How It Works:</h4>
         <p>
           The behavior applies vortex effects to particles based on their

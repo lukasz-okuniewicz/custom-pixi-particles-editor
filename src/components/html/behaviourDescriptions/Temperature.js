@@ -60,31 +60,11 @@ const TemperatureDescription = () => {
           </li>
         </ul>
 
-        <h4>Adjustable Parameters:</h4>
+        <h4>All properties</h4>
         <ul>
-          <li>
-            <b>Zones Array:</b> An array of zone objects where each object
-            contains:
-            <ul>
-              <li>
-                <b>Center:</b> The position of the zone.
-              </li>
-              <li>
-                <b>Radius:</b> The size of the zone.
-              </li>
-              <li>
-                <b>Velocity:</b> Scaling factors for particle velocity (x and y
-                axes).
-              </li>
-              <li>
-                <b>Color:</b> The target color for particles in the zone.
-              </li>
-            </ul>
-          </li>
-          <li>
-            <b>Behavior Control:</b> Toggle the behavior on or off and set the
-            execution priority.
-          </li>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>zones</b> — Array of zone objects. Each zone: <b>center</b> (x, y), <b>radius</b>, <b>velocity</b> (x, y scaling), <b>color</b> (r, g, b, alpha). Use &quot;Select Position&quot; to set zone center on canvas; add/remove zones as needed.</li>
         </ul>
 
         <h4>Applications:</h4>
