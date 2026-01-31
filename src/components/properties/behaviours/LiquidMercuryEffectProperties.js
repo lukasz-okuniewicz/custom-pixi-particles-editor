@@ -6,7 +6,7 @@ import InputNumber from "@components/html/InputNumber";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { LiquidMercuryEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import LiquidMercuryEffectDescription from "@components/html/behaviourDescriptions/LiquidMercuryEffect";
 
 export default function LiquidMercuryEffectProperties({ defaultConfig }) {

@@ -1,41 +1,115 @@
-import { Loader as PixiLoader } from "pixi.js-legacy";
+import { Assets, Texture } from "pixi.js";
+
+const BASE = "";
+
+const ASSET_IDS = [
+  "images.json",
+  "multipacked-0.json",
+  "autumn",
+  "campFire",
+  "birds",
+  "cigarette",
+  "blackHole",
+  "face",
+  "office1",
+  "office2",
+  "house",
+  "earth",
+];
+const AUDIO_IDS = [
+  "mainTheme",
+  "instrumentalPiano",
+  "elDestino",
+  "honorAndSwords",
+  "jingleBells",
+  "relaxingInstrumental",
+  "relaxingMusic",
+  "instrumentalMusic",
+];
+
+const ASSET_URLS = {
+  "images.json": `${BASE}/images.json`,
+  "multipacked-0.json": `${BASE}/multipacked-0.json`,
+  autumn: `${BASE}/backgrounds/autumn.jpg`,
+  campFire: `${BASE}/backgrounds/campfire.jpg`,
+  birds: `${BASE}/backgrounds/birds.jpg`,
+  cigarette: `${BASE}/backgrounds/cigarette.jpg`,
+  blackHole: `${BASE}/backgrounds/blackHole.jpg`,
+  face: `${BASE}/backgrounds/face.jpeg`,
+  office1: `${BASE}/backgrounds/office1.png`,
+  office2: `${BASE}/backgrounds/office2.png`,
+  house: `${BASE}/backgrounds/house.jpg`,
+  earth: `${BASE}/backgrounds/earth.jpg`,
+};
+const AUDIO_URLS = {
+  mainTheme: `${BASE}/audio/mainTheme.mp3`,
+  instrumentalPiano: `${BASE}/audio/instrumentalPiano.mp3`,
+  elDestino: `${BASE}/audio/elDestino.mp3`,
+  honorAndSwords: `${BASE}/audio/honorAndSwords.mp3`,
+  jingleBells: `${BASE}/audio/jingleBells.mp3`,
+  relaxingInstrumental: `${BASE}/audio/relaxingInstrumental.mp3`,
+  relaxingMusic: `${BASE}/audio/relaxingMusic.mp3`,
+  instrumentalMusic: `${BASE}/audio/instrumentalMusic.mp3`,
+};
+
+/** Load one audio file and return { data: AudioBuffer } for compatibility with old loader.resources[key].data */
+async function loadAudioBuffer(url) {
+  const res = await fetch(url);
+  const arrayBuffer = await res.arrayBuffer();
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const data = await ctx.decodeAudioData(arrayBuffer);
+  return { data };
+}
+
+/** Shared resources object: same shape as old Loader.shared.resources (spritesheet .textures, audio .data). */
+const shared = { resources: {} };
+
+/**
+ * Register all spritesheet frame textures in Pixi's TextureCache so Texture.from(frameName)
+ * resolves (used by the particle engine). Call after load() and before creating particles.
+ */
+function registerSpritesheetFrames() {
+  ["images.json", "multipacked-0.json"].forEach((sheetId) => {
+    const sheet = shared.resources[sheetId];
+    if (sheet?.textures && typeof sheet.textures === "object") {
+      Object.entries(sheet.textures).forEach(([name, tex]) => {
+        if (tex && typeof tex === "object") Texture.addToCache(tex, name);
+      });
+    }
+  });
+}
 
 export default class Loader {
-  static load() {
-    return new Promise((resolve) => {
-      const loader = PixiLoader.shared;
-      // Already loading (e.g. React Strict Mode double-mount): wait for completion
-      if (loader.loading) {
-        loader.onComplete.once(() => resolve(true));
-        return;
+  static get shared() {
+    return shared;
+  }
+
+  static registerSpritesheetFrames() {
+    registerSpritesheetFrames();
+  }
+
+  static async load() {
+    if (shared.resources.mainTheme) {
+      return;
+    }
+    Object.entries(ASSET_URLS).forEach(([id, url]) => {
+      if (!Assets.resolver.hasKey(id)) {
+        Assets.add({ alias: id, src: url });
       }
-      // Already loaded (e.g. remount after load finished): resolve immediately
-      if (loader.resources.mainTheme) {
-        resolve(true);
-        return;
-      }
-      loader.add("images.json");
-      loader.add("multipacked-0.json");
-      loader.add("autumn", "backgrounds/autumn.jpg");
-      loader.add("campFire", "backgrounds/campfire.jpg");
-      loader.add("birds", "backgrounds/birds.jpg");
-      loader.add("cigarette", "backgrounds/cigarette.jpg");
-      loader.add("blackHole", "backgrounds/blackHole.jpg");
-      loader.add("face", "backgrounds/face.jpeg");
-      loader.add("office1", "backgrounds/office1.png");
-      loader.add("office2", "backgrounds/office2.png");
-      loader.add("house", "backgrounds/house.jpg");
-      loader.add("earth", "backgrounds/earth.jpg");
-      loader.add("mainTheme", "audio/mainTheme.mp3");
-      loader.add("instrumentalPiano", "audio/instrumentalPiano.mp3");
-      loader.add("elDestino", "audio/elDestino.mp3");
-      loader.add("honorAndSwords", "audio/honorAndSwords.mp3");
-      loader.add("jingleBells", "audio/jingleBells.mp3");
-      loader.add("relaxingInstrumental", "audio/relaxingInstrumental.mp3");
-      loader.add("relaxingMusic", "audio/relaxingMusic.mp3");
-      loader.add("instrumentalMusic", "audio/instrumentalMusic.mp3");
-      loader.load();
-      loader.onComplete.once(() => resolve(true));
     });
+    const [loadedArray, ...audioResults] = await Promise.all([
+      Assets.load(ASSET_IDS),
+      ...AUDIO_IDS.map((id) =>
+        loadAudioBuffer(AUDIO_URLS[id]).then((r) => ({ id, ...r }))
+      ),
+    ]);
+    ASSET_IDS.forEach((id, i) => {
+      shared.resources[id] = loadedArray[i];
+    });
+    audioResults.forEach(({ id, data }) => {
+      shared.resources[id] = { data };
+    });
+
+    registerSpritesheetFrames();
   }
 }

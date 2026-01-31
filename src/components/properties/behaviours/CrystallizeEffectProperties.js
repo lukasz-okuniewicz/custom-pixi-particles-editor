@@ -7,7 +7,7 @@ import Checkbox from "@components/html/Checkbox";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { CrystallizeEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import CrystallizeEffectDescription from "@components/html/behaviourDescriptions/CrystallizeEffect";
 
 export default function CrystallizeEffectProperties({ defaultConfig }) {

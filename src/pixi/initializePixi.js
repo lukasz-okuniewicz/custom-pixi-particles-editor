@@ -1,10 +1,11 @@
-import { Application, Container, Graphics, Sprite } from "pixi.js-legacy";
+import { Application, Container, Graphics, Sprite } from "pixi.js";
 import pixiRefs from "./pixiRefs";
 
 export const initializeApp = (contentRef) => {
   if (pixiRefs.app) return;
 
-  const app = new Application({ backgroundColor: 0 });
+  const app = new Application();
+  app.renderer.background.color = 0;
   globalThis.__PIXI_APP__ = app;
   pixiRefs.app = app;
 

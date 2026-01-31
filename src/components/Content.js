@@ -23,6 +23,7 @@ import {
   refreshHandler,
 } from "@pixi/handlers";
 import { bgImage } from "@utils/updatePropsLoogic";
+import Loader from "@utils/Loader";
 import { saveAs } from "file-saver";
 
 export default function Content() {
@@ -867,6 +868,10 @@ export default function Content() {
       defaultConfig.emitterConfig.animatedSprite.frameRate =
         defaultConfig.emitterConfig.animatedSprite.frameRate || 0.25;
     }
+
+    // Ensure spritesheet frame names (Snow100.png, smoke/smoke2_4.png, etc.) are in TextureCache
+    // so the particle engine's Texture.from(frameName) resolves instead of requesting URLs (404).
+    Loader.registerSpritesheetFrames();
 
     createEffect({ defaultConfig, fullConfig, contentRef });
 

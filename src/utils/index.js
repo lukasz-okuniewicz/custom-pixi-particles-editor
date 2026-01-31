@@ -1,6 +1,6 @@
 import eventBus from "@utils/eventBus";
 import pixiRefs from "@pixi/pixiRefs";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import { images } from "@utils/updatePropsLoogic";
 
 /** Built-in behaviour names; any other name in config is treated as a custom behaviour */

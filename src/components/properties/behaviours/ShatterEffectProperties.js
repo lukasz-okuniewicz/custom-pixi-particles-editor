@@ -9,8 +9,7 @@ import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { ShatterEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
-import { Loader as PixiLoader } from "@pixi/loaders";
+import { Sprite, Texture } from "pixi.js";
 import ShatterEffectDescription from "@components/html/behaviourDescriptions/ShatterEffect";
 
 export default function ShatterEffectProperties({ defaultConfig }) {

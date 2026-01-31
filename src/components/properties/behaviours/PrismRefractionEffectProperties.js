@@ -6,7 +6,7 @@ import InputNumber from "@components/html/InputNumber";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { PrismRefractionEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import PrismRefractionEffectDescription from "@components/html/behaviourDescriptions/PrismRefractionEffect";
 
 export default function PrismRefractionEffectProperties({ defaultConfig }) {

@@ -7,7 +7,7 @@ import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { SlitScanEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import SlitScanEffectDescription from "@components/html/behaviourDescriptions/SlitScanEffect";
 
 export default function SlitScanEffectProperties({ defaultConfig }) {

@@ -6,7 +6,7 @@ import InputNumber from "@components/html/InputNumber";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { GranularErosionEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import GranularErosionEffectDescription from "@components/html/behaviourDescriptions/GranularErosionEffect";
 
 export default function GranularErosionEffectProperties({ defaultConfig }) {

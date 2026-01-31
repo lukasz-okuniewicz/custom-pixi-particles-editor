@@ -7,7 +7,7 @@ import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { PixelSortEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import PixelSortEffectDescription from "@components/html/behaviourDescriptions/PixelSortEffect";
 
 export default function PixelSortEffectProperties({ defaultConfig }) {

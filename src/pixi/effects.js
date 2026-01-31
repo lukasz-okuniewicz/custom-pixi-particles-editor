@@ -1,4 +1,4 @@
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import pixiRefs from "./pixiRefs";
 import {
   createAndAddParticles,

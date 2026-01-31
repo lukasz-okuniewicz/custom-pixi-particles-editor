@@ -6,7 +6,7 @@ import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import Select from "@components/html/Select";
 import VortexDescription from "@components/html/behaviourDescriptions/Vortex";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
 export default function VortexProperties({ defaultConfig, index }) {

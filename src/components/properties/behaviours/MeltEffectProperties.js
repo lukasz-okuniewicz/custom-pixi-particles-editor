@@ -6,8 +6,7 @@ import InputNumber from "@components/html/InputNumber";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { MeltEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
-import { Loader as PixiLoader } from "@pixi/loaders";
+import { Sprite, Texture } from "pixi.js";
 import MeltEffectDescription from "@components/html/behaviourDescriptions/MeltEffect";
 
 export default function MeltEffectProperties({ defaultConfig }) {
