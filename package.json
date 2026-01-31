@@ -5,14 +5,14 @@
   },
   "name": "custom-pixi-particles-editor",
   "description": "custom pixi particles editor",
-  "version": "3.7.0",
+  "version": "4.0.0",
   "scripts": {
     "dev": "rimraf .next && next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "custom-pixi-particles": "^4.33.1",
+    "custom-pixi-particles": "^4.34.0",
     "file-saver": "^2.0.5",
     "gsap": "^3.14.2",
     "mitt": "^3.0.1",
