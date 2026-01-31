@@ -57,6 +57,33 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "TemperatureBehaviour",
   "MoveToPointBehaviour",
   "Wireframe3DBehaviour",
+  "VortexBehaviour",
+  "PulseBehaviour",
+  "RippleBehaviour",
+  "OrbitBehaviour",
+  "FlickerBehaviour",
+  "WobbleBehaviour",
+  "ColorCycleBehaviour",
+  "ConstrainToShapeBehaviour",
+  "GravityWellBehaviour",
+  "TrailBehaviour",
+  "BounceBehaviour",
+  "HomingBehaviour",
+  "FloatUpBehaviour",
+  "MagnetBehaviour",
+  "NearMissDispersionBehaviour",
+  "ConversionCascadeBehaviour",
+  "BoidsFlockingBehaviour",
+  "ProximityStateBehaviour",
+  "PhaseFieldFlowBehaviour",
+  "PhaseCoherenceBehaviour",
+  "CurvatureFlowBehaviour",
+  "LimitCycleBehaviour",
+  "AizawaAttractorBehaviour",
+  "ToroidalFlowBehaviour",
+  "ProximityTriggeredPhaseBehaviour",
+  "LissajousHarmonicLatticeBehaviour",
+  "JacobianCurlFieldBehaviour",
 ];
 
 export const camelCaseToNormal = (text) => {
@@ -291,7 +318,8 @@ export const resize = (contentRef) => {
   );
 
   // Adjust background sprite to 100% width while maintaining aspect ratio
-  if (bgSprite) {
+  // Guard against zero-dimension sprites (e.g. texture not loaded yet when re-selecting effects)
+  if (bgSprite && bgSprite.width > 0 && bgSprite.height > 0) {
     const isPortrait = bgSprite.height > bgSprite.width;
     if (!isPortrait) {
       const scale = GAME_WIDTH / bgSprite.width;
@@ -307,7 +335,7 @@ export const resize = (contentRef) => {
       bgSprite.position.set((GAME_WIDTH - bgSprite.width) / 2, 0);
     }
   }
-  if (bgSprite2) {
+  if (bgSprite2 && bgSprite2.width > 0 && bgSprite2.height > 0) {
     const isPortrait = bgSprite2.height > bgSprite2.width;
     if (!isPortrait) {
       const scale = GAME_WIDTH / bgSprite2.width;

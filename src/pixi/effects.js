@@ -15,8 +15,14 @@ let lastPredefinedEffect = null;
 export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
   if (!defaultConfig || !fullConfig) return;
 
-  // Skip particle creation for shatterEffect, dissolveEffect, magneticAssemblyEffect, ghostEffect, glitchEffect, and meltEffect
-  if (defaultConfig.particlePredefinedEffect === "shatterEffect" || defaultConfig.particlePredefinedEffect === "dissolveEffect" || defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect" || defaultConfig.particlePredefinedEffect === "ghostEffect" || defaultConfig.particlePredefinedEffect === "glitchEffect" || defaultConfig.particlePredefinedEffect === "meltEffect") {
+  // Skip particle creation for sprite/image effects
+  const spriteEffectKeys = [
+    "shatterEffect", "dissolveEffect", "magneticAssemblyEffect", "ghostEffect",
+    "glitchEffect", "meltEffect", "pixelSortEffect", "prismRefractionEffect",
+    "crystallizeEffect", "slitScanEffect", "granularErosionEffect",
+    "liquidMercuryEffect",
+  ];
+  if (spriteEffectKeys.includes(defaultConfig.particlePredefinedEffect)) {
     killTween();
     resetPixiContainers();
     stopAllParticlesArr();
@@ -175,12 +181,17 @@ const createSprite = (textureName) => {
 };
 
 const resetPixiContainers = () => {
-  const { bgContainer, bgContainer2, bgSprite, bgSprite2 } = pixiRefs;
+  const { bgContainer, bgContainer2, bgSprite, bgSprite2, app } = pixiRefs;
 
   // Stop melt effect if running (prevents error when switching effects mid-animation)
   if (pixiRefs.meltEffectInstance) {
     pixiRefs.meltEffectInstance.destroy();
     pixiRefs.meltEffectInstance = null;
+  }
+
+  // Reset renderer state (e.g. warp sets dark background; restore default when switching effects)
+  if (app?.renderer) {
+    app.renderer.backgroundColor = 0;
   }
 
   // Clear containers

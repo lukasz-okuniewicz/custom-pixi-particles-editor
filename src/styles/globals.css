@@ -7,12 +7,144 @@
   --darkreader-neutral-text: #d8d4cf;
   --darkreader-selection-background: #004daa;
   --darkreader-selection-text: #e8e6e3;
+  --editor-sidebar-width: 400px;
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --editor-sidebar-width: 360px;
+  }
+}
+
+@media (max-width: 992px) {
+  :root {
+    --editor-sidebar-width: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --editor-sidebar-width: min(320px, 92vw);
+  }
+}
+
+/* Mobile: canvas full width so menu doesn't cover it by default */
+@media (max-width: 768px) {
+  .editor-canvas-area {
+    right: 0 !important;
+  }
+}
+
+/* Mobile: menu is off-screen drawer, slides in when open */
+@media (max-width: 768px) {
+  .editor-sidebar {
+    transform: translateX(100%);
+    transition: transform 0.25s ease-out;
+    z-index: 30;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .editor-sidebar.editor-sidebar--open {
+    transform: translateX(0);
+  }
+}
+
+/* Backdrop when mobile menu is open */
+.editor-menu-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 25;
+  touch-action: none;
+}
+
+@media (max-width: 768px) {
+  .editor-menu-backdrop.editor-menu-backdrop--visible {
+    display: block;
+  }
+}
+
+/* Floating button to open menu on mobile */
+.editor-menu-fab {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #181a1b;
+  border: 2px solid rgba(0, 255, 233, 0.6);
+  color: #00ffe9;
+  z-index: 20;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.editor-menu-fab:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 768px) {
+  .editor-menu-fab {
+    display: flex;
+  }
+
+  .editor-menu-fab.editor-menu-fab--hidden {
+    display: none;
+  }
+}
+
+/* Close button inside mobile menu */
+.editor-sidebar-close {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(62, 68, 70, 0.8);
+  color: #c8c3bc;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.editor-sidebar-close:hover,
+.editor-sidebar-close:focus {
+  background: rgba(0, 255, 233, 0.2);
+  color: #00ffe9;
+}
+
+@media (max-width: 768px) {
+  .editor-sidebar-close {
+    display: flex;
+  }
 }
 
 * {
   box-sizing: border-box;
   text-shadow: 1px 1px 1px #000;
   transition: all 0.3s;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 html {

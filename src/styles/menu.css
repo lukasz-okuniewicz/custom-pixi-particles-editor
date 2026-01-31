@@ -1,16 +1,27 @@
-.menu {
-  width: 400px;
+.menu,
+.editor-sidebar {
+  width: var(--editor-sidebar-width);
+  min-width: 240px;
+  max-width: 100vw;
   position: fixed;
   right: 0;
   top: 0;
   bottom: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   display: block;
   padding: 20px;
+  padding-top: 52px; /* room for close button on mobile */
   z-index: 2;
   background-color: rgb(24, 26, 27);
   border-left-color: rgba(140, 130, 115, 0.5);
+}
+
+@media (min-width: 769px) {
+  .menu,
+  .editor-sidebar {
+    padding-top: 20px;
+  }
 }
 
 legend {
