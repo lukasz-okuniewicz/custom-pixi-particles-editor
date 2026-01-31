@@ -37,6 +37,12 @@ const SPRITE_IMAGE_EFFECT_KEYS = [
   "glitchEffect",
   "magneticAssemblyEffect",
   "meltEffect",
+  "pixelSortEffect",
+  "prismRefractionEffect",
+  "crystallizeEffect",
+  "slitScanEffect",
+  "granularErosionEffect",
+  "liquidMercuryEffect",
   "shatterEffect",
 ];
 
@@ -258,6 +264,12 @@ const GeneralProperties = ({
   if (
     defaultConfig.particlePredefinedEffect === "shatterEffect" ||
     defaultConfig.particlePredefinedEffect === "dissolveEffect" ||
+    defaultConfig.particlePredefinedEffect === "pixelSortEffect" ||
+    defaultConfig.particlePredefinedEffect === "prismRefractionEffect" ||
+    defaultConfig.particlePredefinedEffect === "crystallizeEffect" ||
+    defaultConfig.particlePredefinedEffect === "slitScanEffect" ||
+    defaultConfig.particlePredefinedEffect === "granularErosionEffect" ||
+    defaultConfig.particlePredefinedEffect === "liquidMercuryEffect" ||
     defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect" ||
     defaultConfig.particlePredefinedEffect === "ghostEffect" ||
     defaultConfig.particlePredefinedEffect === "glitchEffect" ||
