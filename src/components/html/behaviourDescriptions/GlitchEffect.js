@@ -82,6 +82,18 @@ const GlitchEffectDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>slices</b> — Number of horizontal slices.</li>
+          <li><b>offsetRange</b> — Max horizontal offset of slices.</li>
+          <li><b>flickerIntensity</b> — Flicker strength (0-1).</li>
+          <li><b>rgbSplit</b> — Enable RGB channel separation.</li>
+          <li><b>rgbOffset</b> — Distance between RGB channels when rgbSplit is on.</li>
+          <li><b>duration</b> — Total glitch play time.</li>
+          <li><b>refreshRate</b> — How often the glitch pattern updates.</li>
+          <li><b>customSprite</b> — Optional custom texture.</li>
+        </ul>
+
         <h4>Applications:</h4>
         <ul>
           <li>Digital corruption and error effects.</li>

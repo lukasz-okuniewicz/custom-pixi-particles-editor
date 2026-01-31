@@ -19,15 +19,21 @@ const StretchDescription = () => {
       <div className="explanation" ref={contentRef}>
         <p>
           <b>Stretch Behaviour</b> introduces a dynamic scaling effect for
-          particles based on their speed. It adjusts a particle`&apos;s
+          particles based on their speed. It adjusts a particle&apos;s
           dimensions and rotation to simulate stretching and alignment in the
           direction of movement, creating realistic motion effects.
         </p>
 
-        <h4>Key Features:</h4>
+        <h4>Key Properties:</h4>
         <ul>
           <li>
-            <b>Speed-Based Scaling:</b> Scales the particle`&apos;s width
+            <b>Enabled</b>: Toggle the behaviour on or off.
+          </li>
+          <li>
+            <b>Priority</b>: Execution order relative to other behaviours.
+          </li>
+          <li>
+            <b>Speed-Based Scaling:</b> Scales the particle&apos;s width
             (X-axis) proportionally to its speed while maintaining a constant
             height (Y-axis).
           </li>
@@ -60,6 +66,15 @@ const StretchDescription = () => {
             <b>Efficiency:</b> Optimized calculations ensure real-time updates
             for particle scaling and rotation, even in high-density systems.
           </li>
+        </ul>
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>baseScale</b> — Default height (Y) of the particle.</li>
+          <li><b>stretchFactor</b> — Sensitivity of width scaling with speed.</li>
+          <li><b>minStretch</b>, <b>maxStretch</b> — Min/max width scale.</li>
+          <li><b>alignRotation</b> — Align particle rotation with movement direction.</li>
         </ul>
 
         <h4>Applications:</h4>

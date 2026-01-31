@@ -107,7 +107,20 @@ const MoveToPointDescription = () => {
             &apos;arrived&apos;.
           </li>
         </ul>
-
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>active</b> — When true, particles move toward target (set at runtime).</li>
+          <li><b>targetPoint</b> — (x, y) destination.</li>
+          <li><b>speed</b> — Units per second toward target.</li>
+          <li><b>priority</b> — Execution order (e.g. negative to run after position).</li>
+          <li><b>pathType</b> — &quot;linear&quot; or &quot;sinusoidal&quot;.</li>
+          <li><b>pathEasing</b> — Easing function (linear, power1.inOut, bounce.out, etc.).</li>
+          <li><b>sinusoidalAmplitude</b>, <b>sinusoidalFrequency</b> — Wave params when pathType is sinusoidal.</li>
+          <li><b>killOnArrival</b> — When true, particles die on arrival.</li>
+          <li><b>resetMaxLifetime</b> — When true with killOnArrival, set maxLifeTime to 0 on arrival.</li>
+          <li><b>arrivalThreshold</b> — Distance from target to count as arrived.</li>
+        </ul>
         <h4>How It Works:</h4>
         <p>
           When the <b>Move To Point Behaviour</b> is <code>enabled</code> and

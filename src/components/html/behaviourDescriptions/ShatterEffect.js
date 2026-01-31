@@ -87,6 +87,26 @@ const ShatterEffectDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>gridCols</b>, <b>gridRows</b> — Number of fragments.</li>
+          <li><b>explosionPower</b> — Initial force on fragments.</li>
+          <li><b>friction</b> — Slowdown (0-1).</li>
+          <li><b>gravity</b> — Downward pull.</li>
+          <li><b>turbulence</b> — Random motion strength.</li>
+          <li><b>lifetime</b> — How long fragments stay visible.</li>
+          <li><b>fadeOutDuration</b> — Fade-out time.</li>
+          <li><b>mode</b> — Pattern: radial, directional, swirl.</li>
+          <li><b>explosionOrigin</b> — (x, y) 0-1 start point.</li>
+          <li><b>blastDirection</b> — Direction angle (when mode is directional).</li>
+          <li><b>swirlStrength</b> — Swirl amount (when mode is swirl).</li>
+          <li><b>randomizeScale</b> — Randomize fragment scale.</li>
+          <li><b>endTint</b> — Fragment end color (hex).</li>
+          <li><b>enableRotation</b> — Add spin to fragments.</li>
+          <li><b>rotationStrength</b> — Rotation intensity.</li>
+          <li><b>customSprite</b> — Optional custom texture.</li>
+        </ul>
+
         <h4>Applications:</h4>
         <ul>
           <li>Destruction and impact effects in games.</li>

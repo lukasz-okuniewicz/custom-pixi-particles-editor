@@ -110,6 +110,24 @@ const SizeDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>sizeStart</b>, <b>sizeEnd</b> — Start and end size (x, y).</li>
+          <li><b>startVariance</b>, <b>endVariance</b> — Random variation for size.</li>
+          <li><b>maxSize</b> — Maximum size clamp (x, y).</li>
+          <li><b>uniformScaling</b> — Keep aspect ratio when scaling.</li>
+          <li><b>pulsate</b> — Breathing/throbbing effect.</li>
+          <li><b>pulsationSpeed</b>, <b>pulsationAmplitude</b> — Pulsation frequency and intensity.</li>
+          <li><b>useNoise</b> — Pseudo-random noise for size.</li>
+          <li><b>noiseScale</b> — Noise intensity.</li>
+          <li><b>invertAtMidpoint</b> — Flip size transition halfway.</li>
+          <li><b>sizeSteps</b> — Multi-step size sequence (array of (x, y)).</li>
+          <li><b>timeOffset</b> — Delay or advance scaling.</li>
+          <li><b>xScalingFunction</b>, <b>yScalingFunction</b> — Easing: linear, easeIn, easeOut, easeInOut.</li>
+          <li><b>sizeAlphaDependency</b> — Link size to alpha.</li>
+        </ul>
         <h4>Use Cases:</h4>
         <ul>
           <li>Particles that grow or shrink dynamically over time.</li>

@@ -82,6 +82,18 @@ const MagneticAssemblyEffectDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>gridCols</b>, <b>gridRows</b> — Number of particles in the grid.</li>
+          <li><b>duration</b> — Total assembly animation time.</li>
+          <li><b>easing</b> — Curve (linear, back.out, power1.inOut, bounce.out).</li>
+          <li><b>scatterRange</b> — Max distance particles start from final position.</li>
+          <li><b>stagger</b> — Delay between particle movements (0-1).</li>
+          <li><b>mode</b> — Pattern: random-scatter, from-center, off-screen, vortex.</li>
+          <li><b>startAlpha</b> — Initial particle transparency.</li>
+          <li><b>customSprite</b> — Optional custom texture.</li>
+        </ul>
+
         <h4>Applications:</h4>
         <ul>
           <li>Creation and summoning animations.</li>

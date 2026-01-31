@@ -61,27 +61,25 @@ const LightEffectDescription = () => {
           </li>
         </ul>
 
-        <h4>Adjustable Parameters:</h4>
+        <h4>All properties</h4>
         <ul>
-          <li>
-            <b>Light Intensity:</b> Controls the brightness of the light source.
-          </li>
-          <li>
-            <b>Attenuation Factor:</b> Adjusts the rate at which light
-            diminishes over distance.
-          </li>
-          <li>
-            <b>Spread Angle:</b> For directional light, sets the angle of the
-            light cone.
-          </li>
-          <li>
-            <b>Volumetric Intensity:</b> Determines the strength of the glow
-            effect.
-          </li>
-          <li>
-            <b>Fog Density:</b> Controls the density of the fog for scattering
-            effects.
-          </li>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>lightSource</b> — (x, y) position of the light. Use &quot;Select Position&quot; to set on canvas.</li>
+          <li><b>lightIntensity</b> — Brightness of the light (when not volumetric).</li>
+          <li><b>lightColor</b> — (r, g, b) color of the light.</li>
+          <li><b>attenuationFactor</b> — Distance falloff rate (when not volumetric).</li>
+          <li><b>ambientLight</b> — Base light level.</li>
+          <li><b>directionalLight</b> — Enable directional cone.</li>
+          <li><b>direction</b> — (x, y) direction of light (when directional).</li>
+          <li><b>spreadAngle</b> — Cone angle for directional light.</li>
+          <li><b>volumetricLight</b> — Use volumetric glow/fog instead of point falloff.</li>
+          <li><b>volumetricIntensity</b> — Strength of volumetric glow.</li>
+          <li><b>fogDensity</b> — Fog/scatter density (when volumetric).</li>
+          <li><b>lightPulsation</b>, <b>pulsationSpeed</b>, <b>pulsationAmplitude</b> — Optional light pulse.</li>
+          <li><b>flicker</b>, <b>flickerIntensity</b> — Optional flicker.</li>
+          <li><b>lightTrails</b>, <b>trailFadeSpeed</b> — Optional light trails.</li>
+          <li><b>spotlight</b>, <b>beamCutoff</b> — Optional spotlight beam cutoff.</li>
         </ul>
 
         <h4>Applications:</h4>

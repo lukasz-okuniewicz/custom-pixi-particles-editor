@@ -78,6 +78,17 @@ const GhostEffectDescription = () => {
           </li>
         </ul>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>spawnInterval</b> — Time between spawning new ghost copies.</li>
+          <li><b>ghostLifetime</b> — How long each ghost stays visible.</li>
+          <li><b>startAlpha</b>, <b>endAlpha</b> — Transparency at spawn and fade-out (0-1).</li>
+          <li><b>startTint</b>, <b>endTint</b> — Color (hex) at spawn and fade-out.</li>
+          <li><b>blendMode</b> — Rendering blend (NORMAL, ADD, MULTIPLY, etc.).</li>
+          <li><b>maxGhosts</b> — Max ghosts visible at once.</li>
+          <li><b>customSprite</b> — Optional custom texture for the trail.</li>
+        </ul>
+
         <h4>Applications:</h4>
         <ul>
           <li>Motion blur and trail effects.</li>

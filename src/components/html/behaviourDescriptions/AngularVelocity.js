@@ -124,6 +124,19 @@ const AngularVelocityDescription = () => {
             Designing dynamic particle patterns for interactive art or games.
           </li>
         </ul>
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>degrees</b> — Base angular velocity (degrees/sec).</li>
+          <li><b>degreesVariance</b> — Random variation in angular velocity.</li>
+          <li><b>maxRadius</b>, <b>maxRadiusVariance</b> — Starting distance from center.</li>
+          <li><b>minRadius</b>, <b>minRadiusVariance</b> — Ending radius (particle life end).</li>
+          <li><b>oscillate</b> — Enable oscillating angular velocity.</li>
+          <li><b>oscillationSpeed</b>, <b>oscillationAmplitude</b> — Oscillation frequency and intensity (degrees).</li>
+          <li><b>linearRadiusReduction</b> — Linear (true) or exponential radius reduction over life.</li>
+          <li><b>dynamicRadius</b> — Real-time radius variation (e.g. breathing).</li>
+        </ul>
         <h4>Live Examples:</h4>
         <span>
           <a href="/?effect=twist" target="_blank">

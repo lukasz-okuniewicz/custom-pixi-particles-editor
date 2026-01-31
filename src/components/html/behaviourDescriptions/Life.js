@@ -54,6 +54,13 @@ const LifeDescription = () => {
           such as fading particles as they approach the end of their lifespan.
         </p>
 
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>maxLifeTime</b> — Maximum particle lifetime (seconds).</li>
+          <li><b>timeVariance</b> — Random variation added to lifetime.</li>
+        </ul>
         <h4>Use Cases:</h4>
         <ul>
           <li>

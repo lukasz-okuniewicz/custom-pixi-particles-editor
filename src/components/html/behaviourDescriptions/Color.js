@@ -73,6 +73,21 @@ const ColorDescription = () => {
             a flickering effect, ideal for flames or unstable energy sources.
           </li>
         </ul>
+        <h4>All properties</h4>
+        <ul>
+          <li><b>enabled</b> — Turn the behaviour on or off.</li>
+          <li><b>priority</b> — Execution order (higher runs first).</li>
+          <li><b>start</b>, <b>end</b> — Start and end colors (r, g, b, alpha).</li>
+          <li><b>startVariance</b>, <b>endVariance</b> — Random variation for start/end colors.</li>
+          <li><b>sinus</b> — Sinusoidal alpha modulation (fade in/out).</li>
+          <li><b>usePerlin</b> — Perlin noise-based color changes.</li>
+          <li><b>mirrorTransition</b> — Reverse gradient midway.</li>
+          <li><b>fadeToGray</b> — Desaturate over life.</li>
+          <li><b>fadeToTransparent</b> — Reduce opacity over life.</li>
+          <li><b>flickerIntensity</b> — Random brightness variation.</li>
+          <li><b>pulseIntensity</b>, <b>pulseSpeed</b> — Pulsing color effect.</li>
+          <li><b>colorStops</b> — Multi-step gradient (array of r, g, b, alpha).</li>
+        </ul>
         <h4>Practical Applications:</h4>
         <ul>
           <li>
