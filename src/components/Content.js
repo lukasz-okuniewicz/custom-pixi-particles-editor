@@ -27,6 +27,7 @@ import { saveAs } from "file-saver";
 
 export default function Content() {
   const [defaultConfig, setDefaultConfig2] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const contentRef = useRef(null);
   const fullConfig = JSON.parse(JSON.stringify(particlesDefaultConfig));
 
@@ -592,6 +593,36 @@ export default function Content() {
           setDefaultConfig(() => ({
             ...defaultConfig,
           }));
+        } else if (value.pixelSortEffect !== undefined && !value.emitterConfig) {
+          defaultConfig.pixelSortEffect = value.pixelSortEffect;
+          defaultConfig.particlePredefinedEffect = "pixelSortEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({ ...defaultConfig }));
+        } else if (value.prismRefractionEffect !== undefined && !value.emitterConfig) {
+          defaultConfig.prismRefractionEffect = value.prismRefractionEffect;
+          defaultConfig.particlePredefinedEffect = "prismRefractionEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({ ...defaultConfig }));
+        } else if (value.crystallizeEffect !== undefined && !value.emitterConfig) {
+          defaultConfig.crystallizeEffect = value.crystallizeEffect;
+          defaultConfig.particlePredefinedEffect = "crystallizeEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({ ...defaultConfig }));
+        } else if (value.slitScanEffect !== undefined && !value.emitterConfig) {
+          defaultConfig.slitScanEffect = value.slitScanEffect;
+          defaultConfig.particlePredefinedEffect = "slitScanEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({ ...defaultConfig }));
+        } else if (value.granularErosionEffect !== undefined && !value.emitterConfig) {
+          defaultConfig.granularErosionEffect = value.granularErosionEffect;
+          defaultConfig.particlePredefinedEffect = "granularErosionEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({ ...defaultConfig }));
+        } else if (value.liquidMercuryEffect !== undefined && !value.emitterConfig) {
+          defaultConfig.liquidMercuryEffect = value.liquidMercuryEffect;
+          defaultConfig.particlePredefinedEffect = "liquidMercuryEffect";
+          defaultConfig.refresh = true;
+          setDefaultConfig(() => ({ ...defaultConfig }));
         } else {
           // Regular particle config (has emitterConfig or is particle config format)
           if (value.emitterConfig) {
@@ -624,6 +655,12 @@ export default function Content() {
           if (value.meltEffect) {
             defaultConfig.meltEffect = value.meltEffect;
           }
+          if (value.pixelSortEffect) defaultConfig.pixelSortEffect = value.pixelSortEffect;
+          if (value.prismRefractionEffect) defaultConfig.prismRefractionEffect = value.prismRefractionEffect;
+          if (value.crystallizeEffect) defaultConfig.crystallizeEffect = value.crystallizeEffect;
+          if (value.slitScanEffect) defaultConfig.slitScanEffect = value.slitScanEffect;
+          if (value.granularErosionEffect) defaultConfig.granularErosionEffect = value.granularErosionEffect;
+          if (value.liquidMercuryEffect) defaultConfig.liquidMercuryEffect = value.liquidMercuryEffect;
           defaultConfig.particlePredefinedEffect = undefined;
           defaultConfig.refresh = true;
           setDefaultConfig(() => ({
@@ -704,6 +741,24 @@ export default function Content() {
             type: "application/json",
           });
           saveAs(blob, "melt_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "pixelSortEffect") {
+          const pixelSortConfig = defaultConfig.pixelSortEffect || {};
+          saveAs(new Blob([JSON.stringify({ pixelSortEffect: pixelSortConfig }, null, 2)], { type: "application/json" }), "pixel_sort_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "prismRefractionEffect") {
+          const prismConfig = defaultConfig.prismRefractionEffect || {};
+          saveAs(new Blob([JSON.stringify({ prismRefractionEffect: prismConfig }, null, 2)], { type: "application/json" }), "prism_refraction_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "crystallizeEffect") {
+          const crystallizeConfig = defaultConfig.crystallizeEffect || {};
+          saveAs(new Blob([JSON.stringify({ crystallizeEffect: crystallizeConfig }, null, 2)], { type: "application/json" }), "crystallize_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "slitScanEffect") {
+          const slitScanConfig = defaultConfig.slitScanEffect || {};
+          saveAs(new Blob([JSON.stringify({ slitScanEffect: slitScanConfig }, null, 2)], { type: "application/json" }), "slit_scan_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "granularErosionEffect") {
+          const cfg = defaultConfig.granularErosionEffect || {};
+          saveAs(new Blob([JSON.stringify({ granularErosionEffect: cfg }, null, 2)], { type: "application/json" }), "granular_erosion_effect_config.json");
+        } else if (defaultConfig.particlePredefinedEffect === "liquidMercuryEffect") {
+          const cfg = defaultConfig.liquidMercuryEffect || {};
+          saveAs(new Blob([JSON.stringify({ liquidMercuryEffect: cfg }, null, 2)], { type: "application/json" }), "liquid_mercury_effect_config.json");
         } else {
           // Download particle config as usual
           if (!pixiRefs.particles || !pixiRefs.particles.emitter) {
@@ -840,15 +895,42 @@ export default function Content() {
   return (
     <>
       <div
-        className="fixed top-0 left-0 bottom-0 right-[400px] bg-gray-600"
+        className="fixed top-0 left-0 bottom-0 bg-gray-600 editor-canvas-area"
+        style={{ right: "var(--editor-sidebar-width)" }}
         ref={contentRef}
       ></div>
+
+      {/* Backdrop when mobile menu is open — tap to close */}
+      <div
+        role="button"
+        tabIndex={-1}
+        aria-label="Close menu"
+        className={`editor-menu-backdrop ${mobileMenuOpen ? "editor-menu-backdrop--visible" : ""}`}
+        onClick={() => setMobileMenuOpen(false)}
+        onKeyDown={(e) => e.key === "Enter" && setMobileMenuOpen(false)}
+      />
+
+      {/* Floating button to open menu on mobile */}
+      <button
+        type="button"
+        aria-label="Open menu"
+        className={`editor-menu-fab ${mobileMenuOpen ? "editor-menu-fab--hidden" : ""}`}
+        onClick={() => setMobileMenuOpen(true)}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
 
       {defaultConfig && (
         <Menu
           fullConfig={fullConfig}
           handlePredefinedEffectChange={handlePredefinedEffectChange}
           defaultConfig={defaultConfig}
+          isMobileMenuOpen={mobileMenuOpen}
+          onCloseMenu={() => setMobileMenuOpen(false)}
         />
       )}
     </>
