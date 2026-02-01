@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
-import { mergeObjectsWithDefaults, updateProps } from "@utils";
+import { getTextureByName, mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
 import File from "@components/html/File";
@@ -84,11 +84,10 @@ export default function SlitScanEffectProperties({ defaultConfig }) {
     }
     const names = ["campFire", "face", "blackHole", "earth", "autumn"];
     for (const name of names) {
-      try {
-        texture = Texture.from(name);
-        if (texture?.valid) break;
-      } catch (e) {}
+      texture = getTextureByName(name);
+      if (texture) break;
     }
+    if (!texture) texture = Texture.WHITE;
     const s = new Sprite(texture);
     s.anchor.set(0.5, 0.5);
     s.x = app.screen.width / 2;

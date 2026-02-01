@@ -1,7 +1,28 @@
 import eventBus from "@utils/eventBus";
 import pixiRefs from "@pixi/pixiRefs";
-import { Sprite, Texture } from "pixi.js";
+import { Assets, Sprite, Texture } from "pixi.js";
 import { images } from "@utils/updatePropsLoogic";
+import Loader from "@utils/Loader";
+
+/**
+ * Get texture by alias/name. Works with Pixi v7 (Loader.shared.resources) and v8 (Assets.get).
+ */
+export const getTextureByName = (name) => {
+  let texture;
+  try {
+    if (Loader.shared?.resources?.[name]) {
+      const res = Loader.shared.resources[name];
+      texture = res?.texture ?? res;
+    }
+    if (!texture && typeof Assets?.get === "function") {
+      texture = Assets.get(name);
+    }
+    if (!texture && typeof Texture?.from === "function") {
+      texture = Texture.from(name);
+    }
+  } catch (e) {}
+  return texture && (texture.valid === undefined || texture.valid) ? texture : null;
+};
 
 /** Built-in behaviour names; any other name in config is treated as a custom behaviour */
 export const BUILT_IN_BEHAVIOUR_NAMES = [

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
-import { mergeObjectsWithDefaults, updateProps } from "@utils";
+import { getTextureByName, mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
 import File from "@components/html/File";
@@ -118,11 +118,10 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
 
       const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
       for (const name of textureNames) {
-        try {
-          texture = Texture.from(name);
-          if (texture && texture.valid) break;
-        } catch (e) {}
+        texture = getTextureByName(name);
+        if (texture) break;
       }
+      if (!texture) texture = Texture.WHITE;
 
       const sprite = new Sprite(texture);
       sprite.anchor.set(0.5, 0.5);

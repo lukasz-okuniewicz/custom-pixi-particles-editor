@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
-import { mergeObjectsWithDefaults, updateProps } from "@utils";
+import { getTextureByName, mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import ColorPicker from "@components/html/ColorPicker";
 import Select from "@components/html/Select";
@@ -120,16 +120,15 @@ export default function GhostEffectProperties({ defaultConfig }) {
       }
     }
     
-    // Fallback to default textures if custom texture not available
-    const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
-    for (const name of textureNames) {
-      try {
-        texture = Texture.from(name);
-        if (texture && texture.valid) break;
-      } catch (e) {}
-    }
+      // Fallback to default textures if custom texture not available
+      const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
+      for (const name of textureNames) {
+        texture = getTextureByName(name);
+        if (texture) break;
+      }
+      if (!texture) texture = Texture.WHITE;
 
-    const sprite = new Sprite(texture);
+      const sprite = new Sprite(texture);
     sprite.anchor.set(0.5, 0.5);
     sprite.x = app.screen.width / 2;
     sprite.y = app.screen.height / 2 - 100;
