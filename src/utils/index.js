@@ -357,8 +357,10 @@ export const detectMouseMove = (contentRef, e) => {
   if (!contentRef.current) return;
   const finalInnerWidth = contentRef.current.clientWidth;
   const finalInnerHeight = contentRef.current.clientHeight;
-  const x = -(finalInnerWidth / 2 - e.data.global.x);
-  const y = -(finalInnerHeight / 2 - e.data.global.y);
+  const global = e.global ?? e.data?.global;
+  if (!global) return;
+  const x = -(finalInnerWidth / 2 - global.x);
+  const y = -(finalInnerHeight / 2 - global.y);
   pixiRefs.particles.updatePosition({ x, y });
 };
 
@@ -382,7 +384,7 @@ export const updateProps = (name, value, id, refresh) => {
         eventBus.emit("refresh");
         break;
       case "noConfig.BackgroundColor":
-        pixiRefs.app.renderer.backgroundColor = parseInt(
+        pixiRefs.app.renderer.background.color = parseInt(
           `0x${value.hex.replace("#", "")}`,
           16,
         );

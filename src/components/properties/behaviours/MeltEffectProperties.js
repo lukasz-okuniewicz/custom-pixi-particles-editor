@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useEffect, useRef, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import File from "@components/html/File";
@@ -32,7 +32,10 @@ export default function MeltEffectProperties({ defaultConfig }) {
   };
 
   const meltConfig = useMemo(() => {
-    return mergeObjectsWithDefaults(keysToInitialize, defaultConfig.meltEffect || {});
+    return mergeObjectsWithDefaults(
+      keysToInitialize,
+      defaultConfig.meltEffect || {},
+    );
   }, [defaultConfig.meltEffect]);
 
   const toggleSubmenuVisibility = useCallback(() => {
@@ -65,74 +68,78 @@ export default function MeltEffectProperties({ defaultConfig }) {
     }
   }, [meltConfig.customSprite]);
 
-  const createMeltSprite = useCallback((customDataUrl = null) => {
-    if (meltSpriteRef.current) {
-      if (meltSpriteRef.current.parent) {
-        meltSpriteRef.current.parent.removeChild(meltSpriteRef.current);
+  const createMeltSprite = useCallback(
+    (customDataUrl = null) => {
+      if (meltSpriteRef.current) {
+        if (meltSpriteRef.current.parent) {
+          meltSpriteRef.current.parent.removeChild(meltSpriteRef.current);
+        }
+        meltSpriteRef.current.destroy();
+        meltSpriteRef.current = null;
       }
-      meltSpriteRef.current.destroy();
-      meltSpriteRef.current = null;
-    }
 
-    if (meltEffectInstance) {
-      meltEffectInstance.destroy();
-      setMeltEffectInstance(null);
-      meltEffectInstanceRef.current = null;
-      pixiRefs.meltEffectInstance = null;
-    }
-
-    const { bgContainer, app } = pixiRefs;
-    if (!bgContainer || !app) return;
-
-    let texture;
-    
-    // Use custom uploaded sprite if available - create texture directly from data URL
-    if (customDataUrl) {
-      try {
-        // Create an image element from the data URL
-        const img = new Image();
-        img.onload = () => {
-          texture = Texture.from(img);
-          const sprite = new Sprite(texture);
-          sprite.anchor.set(0.5, 0.5);
-          sprite.x = app.screen.width / 2;
-          sprite.y = app.screen.height / 2 - 100;
-          sprite.scale.set(1);
-
-          bgContainer.addChild(sprite);
-          meltSpriteRef.current = sprite;
-          setMeltSprite(sprite);
-        };
-        img.onerror = (e) => {
-          console.error("Failed to load image from data URL:", e);
-          // Fall through to default textures
-        };
-        img.src = customDataUrl;
-        return; // Return early, sprite will be created in onload
-      } catch (e) {
-        console.error("Failed to create texture from data URL:", e);
+      if (meltEffectInstance) {
+        meltEffectInstance.destroy();
+        setMeltEffectInstance(null);
+        meltEffectInstanceRef.current = null;
+        pixiRefs.meltEffectInstance = null;
       }
-    }
-    
-    // Fallback to default textures if custom texture not available
-    const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
-    for (const name of textureNames) {
-      try {
-        texture = Assets.get(name);
-        if (texture) break;
-      } catch (e) {}
-    }
 
-    const sprite = new Sprite(texture);
-    sprite.anchor.set(0.5, 0.5);
-    sprite.x = app.screen.width / 2;
-    sprite.y = app.screen.height / 2 - 100;
-    sprite.scale.set(1);
+      const { bgContainer, app } = pixiRefs;
+      if (!bgContainer || !app) return;
 
-    bgContainer.addChild(sprite);
-    meltSpriteRef.current = sprite;
-    setMeltSprite(sprite);
-  }, [meltEffectInstance, meltConfig]);
+      let texture;
+
+      // Use custom uploaded sprite if available - create texture directly from data URL
+      if (customDataUrl) {
+        try {
+          // Create an image element from the data URL
+          const img = new Image();
+          img.onload = () => {
+            texture = Texture.from(img);
+            const sprite = new Sprite(texture);
+            sprite.anchor.set(0.5, 0.5);
+            sprite.x = app.screen.width / 2;
+            sprite.y = app.screen.height / 2 - 100;
+            sprite.scale.set(1);
+
+            bgContainer.addChild(sprite);
+            meltSpriteRef.current = sprite;
+            setMeltSprite(sprite);
+          };
+          img.onerror = (e) => {
+            console.error("Failed to load image from data URL:", e);
+            // Fall through to default textures
+          };
+          img.src = customDataUrl;
+          return; // Return early, sprite will be created in onload
+        } catch (e) {
+          console.error("Failed to create texture from data URL:", e);
+        }
+      }
+
+      // Fallback to default textures if custom texture not available
+      const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
+      for (const name of textureNames) {
+        try {
+          texture = Assets.get(name);
+          if (texture) break;
+        } catch (e) {}
+      }
+      if (!texture) texture = Texture.WHITE;
+
+      const sprite = new Sprite(texture);
+      sprite.anchor.set(0.5, 0.5);
+      sprite.x = app.screen.width / 2;
+      sprite.y = app.screen.height / 2 - 100;
+      sprite.scale.set(1);
+
+      bgContainer.addChild(sprite);
+      meltSpriteRef.current = sprite;
+      setMeltSprite(sprite);
+    },
+    [meltEffectInstance, meltConfig],
+  );
 
   const performMelt = useCallback(() => {
     const sprite = meltSpriteRef.current;
@@ -201,29 +208,32 @@ export default function MeltEffectProperties({ defaultConfig }) {
     };
   }, []);
 
-  const handleSpriteUpload = useCallback((e) => {
-    const file = fileSpriteInputRef.current?.files?.[0];
-    if (!file) return;
+  const handleSpriteUpload = useCallback(
+    (e) => {
+      const file = fileSpriteInputRef.current?.files?.[0];
+      if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const fileName = `melt-sprite-${Date.now()}-${file.name}`;
-      const imageData = {
-        fileName: fileName,
-        result: reader.result,
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileName = `melt-sprite-${Date.now()}-${file.name}`;
+        const imageData = {
+          fileName: fileName,
+          result: reader.result,
+        };
+
+        // Store in config - the useEffect watching meltConfig.customSprite will call createMeltSprite
+        const newConfig = { ...meltConfig, customSprite: imageData };
+        defaultConfig.meltEffect = newConfig;
+        updateProps("meltEffect", newConfig);
       };
-
-      // Store in config - the useEffect watching meltConfig.customSprite will call createMeltSprite
-      const newConfig = { ...meltConfig, customSprite: imageData };
-      defaultConfig.meltEffect = newConfig;
-      updateProps("meltEffect", newConfig);
-    };
-    reader.onerror = () => {
-      console.error("Failed to read sprite file");
-    };
-    reader.readAsDataURL(file);
-    e.target.value = "";
-  }, [meltConfig, createMeltSprite]);
+      reader.onerror = () => {
+        console.error("Failed to read sprite file");
+      };
+      reader.readAsDataURL(file);
+      e.target.value = "";
+    },
+    [meltConfig, createMeltSprite],
+  );
 
   const handleSpriteUploadClick = useCallback(() => {
     fileSpriteInputRef.current?.click();
@@ -238,7 +248,9 @@ export default function MeltEffectProperties({ defaultConfig }) {
         <MeltEffectDescription />
         <File
           label="Custom Sprite"
-          buttonText={meltConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          buttonText={
+            meltConfig.customSprite ? "Replace Sprite" : "Upload Sprite"
+          }
           id="melt-sprite-upload"
           onChange={handleSpriteUpload}
           onClick={handleSpriteUploadClick}
@@ -252,7 +264,9 @@ export default function MeltEffectProperties({ defaultConfig }) {
                 onClick={() => createMeltSprite()}
                 disabled={!!(meltSprite && meltSprite.parent)}
               >
-                {meltSprite && meltSprite.parent ? "Sprite Active" : "Create Sprite"}
+                {meltSprite && meltSprite.parent
+                  ? "Sprite Active"
+                  : "Create Sprite"}
               </button>
             </div>
           </div>
@@ -276,56 +290,71 @@ export default function MeltEffectProperties({ defaultConfig }) {
           label="Grid Columns"
           id="gridCols"
           value={meltConfig.gridCols}
-          step="1" min="1" max="50"
+          step="1"
+          min="1"
+          max="50"
           onChange={(v) => updateMeltConfig({ gridCols: v })}
         />
         <InputNumber
           label="Grid Rows"
           id="gridRows"
           value={meltConfig.gridRows}
-          step="1" min="1" max="50"
+          step="1"
+          min="1"
+          max="50"
           onChange={(v) => updateMeltConfig({ gridRows: v })}
         />
         <InputNumber
           label="Gravity"
           id="gravity"
           value={meltConfig.gravity}
-          step="50" min="0"
+          step="50"
+          min="0"
           onChange={(v) => updateMeltConfig({ gravity: v })}
         />
         <InputNumber
           label="Viscosity"
           id="viscosity"
           value={meltConfig.viscosity}
-          step="0.01" min="0" max="1"
+          step="0.01"
+          min="0"
+          max="1"
           onChange={(v) => updateMeltConfig({ viscosity: v })}
         />
         <InputNumber
           label="Horizontal Spread"
           id="horizontalSpread"
           value={meltConfig.horizontalSpread}
-          step="5" min="0" max="200"
+          step="5"
+          min="0"
+          max="200"
           onChange={(v) => updateMeltConfig({ horizontalSpread: v })}
         />
         <InputNumber
           label="Duration"
           id="duration"
           value={meltConfig.duration}
-          step="0.1" min="0.1" max="10"
+          step="0.1"
+          min="0.1"
+          max="10"
           onChange={(v) => updateMeltConfig({ duration: v })}
         />
         <InputNumber
           label="Blur Amount"
           id="blurAmount"
           value={meltConfig.blurAmount}
-          step="1" min="0" max="20"
+          step="1"
+          min="0"
+          max="20"
           onChange={(v) => updateMeltConfig({ blurAmount: v })}
         />
         <InputNumber
           label="Threshold"
           id="threshold"
           value={meltConfig.threshold}
-          step="0.1" min="0" max="1"
+          step="0.1"
+          min="0"
+          max="1"
           onChange={(v) => updateMeltConfig({ threshold: v })}
         />
       </div>

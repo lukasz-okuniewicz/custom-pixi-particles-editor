@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useState, useEffect, useRef, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { PixelSortEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import PixelSortEffectDescription from "@components/html/behaviourDescriptions/PixelSortEffect";
 
 export default function PixelSortEffectProperties({ defaultConfig }) {
@@ -33,7 +33,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
   const pixelSortConfig = useMemo(() => {
     return mergeObjectsWithDefaults(
       keysToInitialize,
-      defaultConfig.pixelSortEffect || {}
+      defaultConfig.pixelSortEffect || {},
     );
   }, [defaultConfig.pixelSortEffect]);
 
@@ -51,12 +51,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
     const checkAndReattach = () => {
       const { bgContainer } = pixiRefs;
       const sprite = pixelSortSpriteRef.current;
-      if (
-        sprite &&
-        bgContainer &&
-        !sprite.parent &&
-        !isSortingRef.current
-      ) {
+      if (sprite && bgContainer && !sprite.parent && !isSortingRef.current) {
         bgContainer.addChild(sprite);
       }
     };
@@ -80,7 +75,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
       if (pixelSortSpriteRef.current) {
         if (pixelSortSpriteRef.current.parent) {
           pixelSortSpriteRef.current.parent.removeChild(
-            pixelSortSpriteRef.current
+            pixelSortSpriteRef.current,
           );
         }
         pixelSortSpriteRef.current.destroy();
@@ -111,7 +106,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
           pixelSortSpriteRef.current = sprite;
           setPixelSortSprite(sprite);
         };
-        img.onerror = () => {}
+        img.onerror = () => {};
         img.src = customDataUrl;
         return;
       }
@@ -120,9 +115,10 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
       for (const name of textureNames) {
         try {
           texture = Texture.from(name);
-          if (texture && texture.valid) break;
+          if (texture) break;
         } catch (e) {}
       }
+      if (!texture) texture = Texture.WHITE;
 
       const sprite = new Sprite(texture);
       sprite.anchor.set(0.5, 0.5);
@@ -134,7 +130,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
       pixelSortSpriteRef.current = sprite;
       setPixelSortSprite(sprite);
     },
-    [pixelSortEffectInstance, pixelSortConfig]
+    [pixelSortEffectInstance, pixelSortConfig],
   );
 
   const performPixelSort = useCallback(() => {
@@ -236,7 +232,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
       reader.readAsDataURL(file);
       e.target.value = "";
     },
-    [pixelSortConfig, createPixelSortSprite]
+    [pixelSortConfig, createPixelSortSprite],
   );
 
   const handleSpriteUploadClick = useCallback(() => {

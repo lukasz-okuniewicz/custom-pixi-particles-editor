@@ -16,7 +16,7 @@ export const predefinedImageHandler = ({
 };
 
 export const refreshHandler = ({ setDefaultConfig, defaultConfig }) => {
-  pixiRefs.app.stage.interactive = false;
+  pixiRefs.app.stage.eventMode = "none";
   setDefaultConfig(() => ({
     ...defaultConfig,
     refresh: true,
@@ -24,7 +24,7 @@ export const refreshHandler = ({ setDefaultConfig, defaultConfig }) => {
 };
 
 export const followMouseHandler = ({ value, setDefaultConfig }) => {
-  pixiRefs.app.stage.interactive = value;
+  pixiRefs.app.stage.eventMode = value ? "dynamic" : "none";
   setDefaultConfig((prevConfig) => ({
     ...prevConfig,
     followMouse: value,

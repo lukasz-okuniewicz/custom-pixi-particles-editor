@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useState, useEffect, useRef, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { SlitScanEffect } from "custom-pixi-particles";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js";
 import SlitScanEffectDescription from "@components/html/behaviourDescriptions/SlitScanEffect";
 
 export default function SlitScanEffectProperties({ defaultConfig }) {
@@ -28,8 +28,12 @@ export default function SlitScanEffectProperties({ defaultConfig }) {
   };
 
   const config = useMemo(
-    () => mergeObjectsWithDefaults(keysToInitialize, defaultConfig.slitScanEffect || {}),
-    [defaultConfig.slitScanEffect]
+    () =>
+      mergeObjectsWithDefaults(
+        keysToInitialize,
+        defaultConfig.slitScanEffect || {},
+      ),
+    [defaultConfig.slitScanEffect],
   );
 
   const updateConfig = (updatedFields) => {
@@ -42,7 +46,8 @@ export default function SlitScanEffectProperties({ defaultConfig }) {
     const check = () => {
       const { bgContainer } = pixiRefs;
       const s = spriteRef.current;
-      if (s && bgContainer && !s.parent && !isRunningRef.current) bgContainer.addChild(s);
+      if (s && bgContainer && !s.parent && !isRunningRef.current)
+        bgContainer.addChild(s);
     };
     check();
     const t = setTimeout(check, 50);
@@ -50,54 +55,60 @@ export default function SlitScanEffectProperties({ defaultConfig }) {
   });
 
   useEffect(() => {
-    if (config.customSprite && !sprite && config.customSprite.result) createSprite(config.customSprite.result);
+    if (config.customSprite && !sprite && config.customSprite.result)
+      createSprite(config.customSprite.result);
   }, [config.customSprite]);
 
-  const createSprite = useCallback((customDataUrl = null) => {
-    if (spriteRef.current) {
-      if (spriteRef.current.parent) spriteRef.current.parent.removeChild(spriteRef.current);
-      spriteRef.current.destroy();
-      spriteRef.current = null;
-    }
-    if (effectInstance) {
-      effectInstance.destroy();
-      setEffectInstance(null);
-    }
-    const { bgContainer, app } = pixiRefs;
-    if (!bgContainer || !app) return;
-    let texture;
-    if (customDataUrl) {
-      const img = new Image();
-      img.onload = () => {
-        texture = Texture.from(img);
-        const s = new Sprite(texture);
-        s.anchor.set(0.5, 0.5);
-        s.x = app.screen.width / 2;
-        s.y = app.screen.height / 2 - 100;
-        s.scale.set(1.5);
-        bgContainer.addChild(s);
-        spriteRef.current = s;
-        setSprite(s);
-      };
-      img.src = customDataUrl;
-      return;
-    }
-    const names = ["campFire", "face", "blackHole", "earth", "autumn"];
-    for (const name of names) {
-      try {
-        texture = Texture.from(name);
-        if (texture?.valid) break;
-      } catch (e) {}
-    }
-    const s = new Sprite(texture);
-    s.anchor.set(0.5, 0.5);
-    s.x = app.screen.width / 2;
-    s.y = app.screen.height / 2 - 100;
-    s.scale.set(1.5);
-    bgContainer.addChild(s);
-    spriteRef.current = s;
-    setSprite(s);
-  }, [effectInstance, config]);
+  const createSprite = useCallback(
+    (customDataUrl = null) => {
+      if (spriteRef.current) {
+        if (spriteRef.current.parent)
+          spriteRef.current.parent.removeChild(spriteRef.current);
+        spriteRef.current.destroy();
+        spriteRef.current = null;
+      }
+      if (effectInstance) {
+        effectInstance.destroy();
+        setEffectInstance(null);
+      }
+      const { bgContainer, app } = pixiRefs;
+      if (!bgContainer || !app) return;
+      let texture;
+      if (customDataUrl) {
+        const img = new Image();
+        img.onload = () => {
+          texture = Texture.from(img);
+          const s = new Sprite(texture);
+          s.anchor.set(0.5, 0.5);
+          s.x = app.screen.width / 2;
+          s.y = app.screen.height / 2 - 100;
+          s.scale.set(1.5);
+          bgContainer.addChild(s);
+          spriteRef.current = s;
+          setSprite(s);
+        };
+        img.src = customDataUrl;
+        return;
+      }
+      const names = ["campFire", "face", "blackHole", "earth", "autumn"];
+      for (const name of names) {
+        try {
+          texture = Texture.from(name);
+          if (texture) break;
+        } catch (e) {}
+      }
+      if (!texture) texture = Texture.WHITE;
+      const s = new Sprite(texture);
+      s.anchor.set(0.5, 0.5);
+      s.x = app.screen.width / 2;
+      s.y = app.screen.height / 2 - 100;
+      s.scale.set(1.5);
+      bgContainer.addChild(s);
+      spriteRef.current = s;
+      setSprite(s);
+    },
+    [effectInstance, config],
+  );
 
   const performEffect = useCallback(() => {
     const s = spriteRef.current;
@@ -138,52 +149,136 @@ export default function SlitScanEffectProperties({ defaultConfig }) {
     } else performEffect();
   }, [createSprite, performEffect]);
 
-  useEffect(() => () => { if (spriteRef.current) spriteRef.current.destroy(); }, []);
+  useEffect(
+    () => () => {
+      if (spriteRef.current) spriteRef.current.destroy();
+    },
+    [],
+  );
 
-  const handleUpload = useCallback((e) => {
-    const file = fileInputRef.current?.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const newConfig = { ...config, customSprite: { fileName: file.name, result: reader.result } };
-      defaultConfig.slitScanEffect = newConfig;
-      updateProps("slitScanEffect", newConfig);
-      createSprite(reader.result);
-    };
-    reader.readAsDataURL(file);
-    e.target.value = "";
-  }, [config, createSprite]);
+  const handleUpload = useCallback(
+    (e) => {
+      const file = fileInputRef.current?.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const newConfig = {
+          ...config,
+          customSprite: { fileName: file.name, result: reader.result },
+        };
+        defaultConfig.slitScanEffect = newConfig;
+        updateProps("slitScanEffect", newConfig);
+        createSprite(reader.result);
+      };
+      reader.readAsDataURL(file);
+      e.target.value = "";
+    },
+    [config, createSprite],
+  );
 
-  const modeOptions = [{ key: "wave", displayName: "Wave" }, { key: "slit-scan", displayName: "Slit-Scan" }];
-  const directionOptions = [{ key: "horizontal", displayName: "Horizontal" }, { key: "vertical", displayName: "Vertical" }];
+  const modeOptions = [
+    { key: "wave", displayName: "Wave" },
+    { key: "slit-scan", displayName: "Slit-Scan" },
+  ];
+  const directionOptions = [
+    { key: "horizontal", displayName: "Horizontal" },
+    { key: "vertical", displayName: "Vertical" },
+  ];
 
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
     <>
-      <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Slit-Scan Effect Properties</legend>
+      <legend
+        onClick={() =>
+          setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))
+        }
+      >
+        Slit-Scan Effect Properties
+      </legend>
       <div className={isSubmenuVisible}>
         <SlitScanEffectDescription />
-        <File label="Custom Sprite" buttonText={config.customSprite ? "Replace Sprite" : "Upload Sprite"} id="slitscan-sprite-upload" onChange={handleUpload} onClick={() => fileInputRef.current?.click()} ref={fileInputRef} />
+        <File
+          label="Custom Sprite"
+          buttonText={config.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          id="slitscan-sprite-upload"
+          onChange={handleUpload}
+          onClick={() => fileInputRef.current?.click()}
+          ref={fileInputRef}
+        />
         {!sprite && (
           <div className="form-group">
             <div className="col-xs-12">
-              <button className="btn btn-default btn-block" onClick={() => createSprite()} disabled={!!(sprite?.parent)}>{sprite?.parent ? "Sprite Active" : "Create Sprite"}</button>
+              <button
+                className="btn btn-default btn-block"
+                onClick={() => createSprite()}
+                disabled={!!sprite?.parent}
+              >
+                {sprite?.parent ? "Sprite Active" : "Create Sprite"}
+              </button>
             </div>
           </div>
         )}
         <div className="form-group">
           <div className="col-xs-12">
-            <button className="btn btn-primary btn-block" onClick={triggerEffect} disabled={isRunningRef.current}>{isRunningRef.current ? "Running..." : "Trigger Slit-Scan"}</button>
+            <button
+              className="btn btn-primary btn-block"
+              onClick={triggerEffect}
+              disabled={isRunningRef.current}
+            >
+              {isRunningRef.current ? "Running..." : "Trigger Slit-Scan"}
+            </button>
           </div>
         </div>
         <hr />
-        <Select label="Mode" defaultValue={config.mode} onChange={(v) => updateConfig({ mode: v })} elements={modeOptions} />
-        <InputNumber label="Speed" id="speed" value={config.speed} step="0.5" min="0" max="20" onChange={(v) => updateConfig({ speed: v })} />
-        <InputNumber label="Amplitude" id="amplitude" value={config.amplitude} step="1" min="0" max="100" onChange={(v) => updateConfig({ amplitude: v })} />
-        <InputNumber label="Frequency" id="frequency" value={config.frequency} step="0.01" min="0" max="0.2" onChange={(v) => updateConfig({ frequency: v })} />
-        <Select label="Direction" defaultValue={config.direction} onChange={(v) => updateConfig({ direction: v })} elements={directionOptions} />
-        <InputNumber label="Duration" id="duration" value={config.duration} step="0.1" min="0.1" max="10" onChange={(v) => updateConfig({ duration: v })} />
+        <Select
+          label="Mode"
+          defaultValue={config.mode}
+          onChange={(v) => updateConfig({ mode: v })}
+          elements={modeOptions}
+        />
+        <InputNumber
+          label="Speed"
+          id="speed"
+          value={config.speed}
+          step="0.5"
+          min="0"
+          max="20"
+          onChange={(v) => updateConfig({ speed: v })}
+        />
+        <InputNumber
+          label="Amplitude"
+          id="amplitude"
+          value={config.amplitude}
+          step="1"
+          min="0"
+          max="100"
+          onChange={(v) => updateConfig({ amplitude: v })}
+        />
+        <InputNumber
+          label="Frequency"
+          id="frequency"
+          value={config.frequency}
+          step="0.01"
+          min="0"
+          max="0.2"
+          onChange={(v) => updateConfig({ frequency: v })}
+        />
+        <Select
+          label="Direction"
+          defaultValue={config.direction}
+          onChange={(v) => updateConfig({ direction: v })}
+          elements={directionOptions}
+        />
+        <InputNumber
+          label="Duration"
+          id="duration"
+          value={config.duration}
+          step="0.1"
+          min="0.1"
+          max="10"
+          onChange={(v) => updateConfig({ duration: v })}
+        />
       </div>
     </>
   );

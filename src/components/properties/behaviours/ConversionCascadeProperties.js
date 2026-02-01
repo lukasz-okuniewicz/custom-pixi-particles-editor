@@ -5,7 +5,7 @@ import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import ConversionCascadeDescription from "@components/html/behaviourDescriptions/ConversionCascade";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
 export default function ConversionCascadeProperties({ defaultConfig, index }) {
@@ -41,7 +41,7 @@ export default function ConversionCascadeProperties({ defaultConfig, index }) {
       const which = selectingPositionRef.current;
       if (which !== "source" && which !== "target") return;
       const localPosition = new Point(0, 0);
-      pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+      pixiRefs.app.renderer.events.mapPositionToPoint(
         localPosition,
         event.clientX,
         event.clientY,

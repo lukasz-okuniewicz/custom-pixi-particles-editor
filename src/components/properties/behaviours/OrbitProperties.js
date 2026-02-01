@@ -5,7 +5,7 @@ import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import OrbitDescription from "@components/html/behaviourDescriptions/Orbit";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
 export default function OrbitProperties({ defaultConfig, index }) {
@@ -40,7 +40,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
     const handleWindowClick = (event) => {
       if (!isSelectingPositionRef.current) return;
       const localPosition = new Point(0, 0);
-      pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+      pixiRefs.app.renderer.events.mapPositionToPoint(
         localPosition,
         event.clientX,
         event.clientY,
@@ -68,9 +68,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
 
   return (
     <>
-      <legend onClick={toggleSubmenuVisibility}>
-        Orbit Properties
-      </legend>
+      <legend onClick={toggleSubmenuVisibility}>Orbit Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <OrbitDescription />
         <Checkbox

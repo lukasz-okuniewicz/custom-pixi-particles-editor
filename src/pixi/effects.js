@@ -1,4 +1,4 @@
-import { Assets, Sprite, Texture } from "pixi.js";
+import { Sprite, Texture } from "pixi.js";
 import pixiRefs from "./pixiRefs";
 import {
   createAndAddParticles,
@@ -17,9 +17,17 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
 
   // Skip particle creation for sprite/image effects
   const spriteEffectKeys = [
-    "shatterEffect", "dissolveEffect", "magneticAssemblyEffect", "ghostEffect",
-    "glitchEffect", "meltEffect", "pixelSortEffect", "prismRefractionEffect",
-    "crystallizeEffect", "slitScanEffect", "granularErosionEffect",
+    "shatterEffect",
+    "dissolveEffect",
+    "magneticAssemblyEffect",
+    "ghostEffect",
+    "glitchEffect",
+    "meltEffect",
+    "pixelSortEffect",
+    "prismRefractionEffect",
+    "crystallizeEffect",
+    "slitScanEffect",
+    "granularErosionEffect",
     "liquidMercuryEffect",
   ];
   if (spriteEffectKeys.includes(defaultConfig.particlePredefinedEffect)) {
@@ -91,7 +99,7 @@ const createCoffeeShop = ({ fullConfig }) => {
 
   createSprite("office2");
 
-  pixiRefs.bgSprite2.texture = Assets.get("office1");
+  pixiRefs.bgSprite2.texture = Texture.from("office1");
   bgContainer2.addChild(pixiRefs.bgSprite2);
 
   // Create particles
@@ -168,7 +176,7 @@ const createSpiral = ({ defaultConfig }) => {
 
 const createSprite = (textureName) => {
   const { bgContainer } = pixiRefs;
-  const bgTexture = Assets.get(textureName);
+  const bgTexture = Texture.from(textureName);
   const sprite = new Sprite(bgTexture);
 
   pixiRefs.bgSprite = sprite;
@@ -191,7 +199,7 @@ const resetPixiContainers = () => {
 
   // Reset renderer state (e.g. warp sets dark background; restore default when switching effects)
   if (app?.renderer) {
-    app.renderer.backgroundColor = 0;
+    app.renderer.background.color = 0;
   }
 
   // Clear containers
@@ -213,7 +221,7 @@ const prepareWarp = (fullConfig) => {
   particles.play();
   pixiRefs.particlesArr.push(particles);
 
-  pixiRefs.app.renderer.backgroundColor = parseInt(`0x000203`, 16);
+  pixiRefs.app.renderer.background.color = parseInt(`0x000203`, 16);
 };
 
 const reloadEverything = (defaultConfig, fullConfig) => {
@@ -236,9 +244,10 @@ const drawLines = (lines) => {
 
   if (lines.length > 0) {
     lines.forEach((line) => {
-      pixiRefs.graphics.moveTo(line.point1.x, line.point1.y);
-      pixiRefs.graphics.lineTo(line.point2.x, line.point2.y);
+      pixiRefs.graphics
+        .moveTo(line.point1.x, line.point1.y)
+        .lineTo(line.point2.x, line.point2.y)
+        .stroke({ width: 2, color: 0xffffff, alpha: 1 });
     });
-    pixiRefs.graphics.stroke({ width: 2, color: 0xffffff });
   }
 };

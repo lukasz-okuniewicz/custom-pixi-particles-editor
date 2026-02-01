@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useEffect, useRef, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import Select from "@components/html/Select";
@@ -12,7 +12,8 @@ import MagneticAssemblyEffectDescription from "@components/html/behaviourDescrip
 
 export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [magneticAssemblyEffectInstance, setMagneticAssemblyEffectInstance] = useState(null);
+  const [magneticAssemblyEffectInstance, setMagneticAssemblyEffectInstance] =
+    useState(null);
   const [magneticAssemblySprite, setMagneticAssemblySprite] = useState(null);
 
   const triggerTimeoutRef = useRef(null);
@@ -32,7 +33,10 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
   };
 
   const magneticAssemblyConfig = useMemo(() => {
-    return mergeObjectsWithDefaults(keysToInitialize, defaultConfig.magneticAssemblyEffect || {});
+    return mergeObjectsWithDefaults(
+      keysToInitialize,
+      defaultConfig.magneticAssemblyEffect || {},
+    );
   }, [defaultConfig.magneticAssemblyEffect]);
 
   const toggleSubmenuVisibility = useCallback(() => {
@@ -60,77 +64,87 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
 
   // Load custom sprite from config on mount
   useEffect(() => {
-    if (magneticAssemblyConfig.customSprite && !magneticAssemblySprite && magneticAssemblyConfig.customSprite.result) {
+    if (
+      magneticAssemblyConfig.customSprite &&
+      !magneticAssemblySprite &&
+      magneticAssemblyConfig.customSprite.result
+    ) {
       createMagneticAssemblySprite(magneticAssemblyConfig.customSprite.result);
     }
   }, [magneticAssemblyConfig.customSprite]);
 
-  const createMagneticAssemblySprite = useCallback((customDataUrl = null) => {
-    if (magneticAssemblySpriteRef.current) {
-      if (magneticAssemblySpriteRef.current.parent) {
-        magneticAssemblySpriteRef.current.parent.removeChild(magneticAssemblySpriteRef.current);
+  const createMagneticAssemblySprite = useCallback(
+    (customDataUrl = null) => {
+      if (magneticAssemblySpriteRef.current) {
+        if (magneticAssemblySpriteRef.current.parent) {
+          magneticAssemblySpriteRef.current.parent.removeChild(
+            magneticAssemblySpriteRef.current,
+          );
+        }
+        magneticAssemblySpriteRef.current.destroy();
+        magneticAssemblySpriteRef.current = null;
       }
-      magneticAssemblySpriteRef.current.destroy();
-      magneticAssemblySpriteRef.current = null;
-    }
 
-    if (magneticAssemblyEffectInstance) {
-      magneticAssemblyEffectInstance.destroy();
-      setMagneticAssemblyEffectInstance(null);
-    }
-
-    const { bgContainer, app } = pixiRefs;
-    if (!bgContainer || !app) return;
-
-    let texture;
-    
-    // Use custom uploaded sprite if available - create texture directly from data URL
-    if (customDataUrl) {
-      try {
-        // Create an image element from the data URL
-        const img = new Image();
-        img.onload = () => {
-          texture = Texture.from(img);
-          const sprite = new Sprite(texture);
-          sprite.anchor.set(0.5, 0.5);
-          sprite.x = app.screen.width / 2;
-          sprite.y = app.screen.height / 2 - 100;
-          sprite.scale.set(1);
-
-          bgContainer.addChild(sprite);
-          magneticAssemblySpriteRef.current = sprite;
-          setMagneticAssemblySprite(sprite);
-        };
-        img.onerror = (e) => {
-          console.error("Failed to load image from data URL:", e);
-          // Fall through to default textures
-        };
-        img.src = customDataUrl;
-        return; // Return early, sprite will be created in onload
-      } catch (e) {
-        console.error("Failed to create texture from data URL:", e);
+      if (magneticAssemblyEffectInstance) {
+        magneticAssemblyEffectInstance.destroy();
+        setMagneticAssemblyEffectInstance(null);
       }
-    }
-    
-    // Fallback to default textures if custom texture not available
-    const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
-    for (const name of textureNames) {
-      try {
-        texture = Assets.get(name);
-        if (texture) break;
-      } catch (e) {}
-    }
 
-    const sprite = new Sprite(texture);
-    sprite.anchor.set(0.5, 0.5);
-    sprite.x = app.screen.width / 2;
-    sprite.y = app.screen.height / 2 - 100;
-    sprite.scale.set(1);
+      const { bgContainer, app } = pixiRefs;
+      if (!bgContainer || !app) return;
 
-    bgContainer.addChild(sprite);
-    magneticAssemblySpriteRef.current = sprite;
-    setMagneticAssemblySprite(sprite);
-  }, [magneticAssemblyEffectInstance, magneticAssemblyConfig]);
+      let texture;
+
+      // Use custom uploaded sprite if available - create texture directly from data URL
+      if (customDataUrl) {
+        try {
+          // Create an image element from the data URL
+          const img = new Image();
+          img.onload = () => {
+            texture = Texture.from(img);
+            const sprite = new Sprite(texture);
+            sprite.anchor.set(0.5, 0.5);
+            sprite.x = app.screen.width / 2;
+            sprite.y = app.screen.height / 2 - 100;
+            sprite.scale.set(1);
+
+            bgContainer.addChild(sprite);
+            magneticAssemblySpriteRef.current = sprite;
+            setMagneticAssemblySprite(sprite);
+          };
+          img.onerror = (e) => {
+            console.error("Failed to load image from data URL:", e);
+            // Fall through to default textures
+          };
+          img.src = customDataUrl;
+          return; // Return early, sprite will be created in onload
+        } catch (e) {
+          console.error("Failed to create texture from data URL:", e);
+        }
+      }
+
+      // Fallback to default textures if custom texture not available
+      const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
+      for (const name of textureNames) {
+        try {
+          texture = Assets.get(name);
+          if (texture) break;
+        } catch (e) {}
+      }
+      if (!texture) texture = Texture.WHITE;
+
+      const sprite = new Sprite(texture);
+      sprite.anchor.set(0.5, 0.5);
+      sprite.x = app.screen.width / 2;
+      sprite.y = app.screen.height / 2 - 100;
+      sprite.scale.set(1);
+
+      bgContainer.addChild(sprite);
+      magneticAssemblySpriteRef.current = sprite;
+      setMagneticAssemblySprite(sprite);
+    },
+    [magneticAssemblyEffectInstance, magneticAssemblyConfig],
+  );
 
   const performAssembly = useCallback(() => {
     const sprite = magneticAssemblySpriteRef.current;
@@ -183,7 +197,8 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
 
   useEffect(() => {
     return () => {
-      if (magneticAssemblySpriteRef.current) magneticAssemblySpriteRef.current.destroy();
+      if (magneticAssemblySpriteRef.current)
+        magneticAssemblySpriteRef.current.destroy();
       if (triggerTimeoutRef.current) clearTimeout(triggerTimeoutRef.current);
     };
   }, []);
@@ -195,32 +210,38 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
     { key: "vortex", displayName: "Vortex" },
   ];
 
-  const handleSpriteUpload = useCallback((e) => {
-    const file = fileSpriteInputRef.current?.files?.[0];
-    if (!file) return;
+  const handleSpriteUpload = useCallback(
+    (e) => {
+      const file = fileSpriteInputRef.current?.files?.[0];
+      if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const fileName = `magnetic-assembly-sprite-${Date.now()}-${file.name}`;
-      const imageData = {
-        fileName: fileName,
-        result: reader.result,
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileName = `magnetic-assembly-sprite-${Date.now()}-${file.name}`;
+        const imageData = {
+          fileName: fileName,
+          result: reader.result,
+        };
+
+        // Store in config
+        const newConfig = {
+          ...magneticAssemblyConfig,
+          customSprite: imageData,
+        };
+        defaultConfig.magneticAssemblyEffect = newConfig;
+        updateProps("magneticAssemblyEffect", newConfig);
+
+        // Create texture directly from data URL
+        createMagneticAssemblySprite(reader.result);
       };
-
-      // Store in config
-      const newConfig = { ...magneticAssemblyConfig, customSprite: imageData };
-      defaultConfig.magneticAssemblyEffect = newConfig;
-      updateProps("magneticAssemblyEffect", newConfig);
-
-      // Create texture directly from data URL
-      createMagneticAssemblySprite(reader.result);
-    };
-    reader.onerror = () => {
-      console.error("Failed to read sprite file");
-    };
-    reader.readAsDataURL(file);
-    e.target.value = "";
-  }, [magneticAssemblyConfig, createMagneticAssemblySprite]);
+      reader.onerror = () => {
+        console.error("Failed to read sprite file");
+      };
+      reader.readAsDataURL(file);
+      e.target.value = "";
+    },
+    [magneticAssemblyConfig, createMagneticAssemblySprite],
+  );
 
   const handleSpriteUploadClick = useCallback(() => {
     fileSpriteInputRef.current?.click();
@@ -237,12 +258,18 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
 
   return (
     <>
-      <legend onClick={toggleSubmenuVisibility}>Magnetic Assembly Effect Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>
+        Magnetic Assembly Effect Properties
+      </legend>
       <div className={`${isSubmenuVisible}`}>
         <MagneticAssemblyEffectDescription />
         <File
           label="Custom Sprite"
-          buttonText={magneticAssemblyConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          buttonText={
+            magneticAssemblyConfig.customSprite
+              ? "Replace Sprite"
+              : "Upload Sprite"
+          }
           id="magnetic-assembly-sprite-upload"
           onChange={handleSpriteUpload}
           onClick={handleSpriteUploadClick}
@@ -254,9 +281,13 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
               <button
                 className="btn btn-default btn-block"
                 onClick={() => createMagneticAssemblySprite()}
-                disabled={!!(magneticAssemblySprite && magneticAssemblySprite.parent)}
+                disabled={
+                  !!(magneticAssemblySprite && magneticAssemblySprite.parent)
+                }
               >
-                {magneticAssemblySprite && magneticAssemblySprite.parent ? "Sprite Active" : "Create Sprite"}
+                {magneticAssemblySprite && magneticAssemblySprite.parent
+                  ? "Sprite Active"
+                  : "Create Sprite"}
               </button>
             </div>
           </div>
@@ -280,21 +311,26 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
           label="Grid Columns"
           id="gridCols"
           value={magneticAssemblyConfig.gridCols}
-          step="1" min="1" max="50"
+          step="1"
+          min="1"
+          max="50"
           onChange={(v) => updateMagneticAssemblyConfig({ gridCols: v })}
         />
         <InputNumber
           label="Grid Rows"
           id="gridRows"
           value={magneticAssemblyConfig.gridRows}
-          step="1" min="1" max="50"
+          step="1"
+          min="1"
+          max="50"
           onChange={(v) => updateMagneticAssemblyConfig({ gridRows: v })}
         />
         <InputNumber
           label="Duration"
           id="duration"
           value={magneticAssemblyConfig.duration}
-          step="0.1" min="0.1"
+          step="0.1"
+          min="0.1"
           onChange={(v) => updateMagneticAssemblyConfig({ duration: v })}
         />
         <Select
@@ -307,14 +343,17 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
           label="Scatter Range"
           id="scatterRange"
           value={magneticAssemblyConfig.scatterRange}
-          step="50" min="0"
+          step="50"
+          min="0"
           onChange={(v) => updateMagneticAssemblyConfig({ scatterRange: v })}
         />
         <InputNumber
           label="Stagger"
           id="stagger"
           value={magneticAssemblyConfig.stagger}
-          step="0.1" min="0" max="1"
+          step="0.1"
+          min="0"
+          max="1"
           onChange={(v) => updateMagneticAssemblyConfig({ stagger: v })}
         />
         <Select
@@ -327,7 +366,9 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
           label="Start Alpha"
           id="startAlpha"
           value={magneticAssemblyConfig.startAlpha}
-          step="0.1" min="0" max="1"
+          step="0.1"
+          min="0"
+          max="1"
           onChange={(v) => updateMagneticAssemblyConfig({ startAlpha: v })}
         />
       </div>

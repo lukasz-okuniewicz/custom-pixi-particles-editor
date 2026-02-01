@@ -5,10 +5,13 @@ import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import ProximityTriggeredPhaseDescription from "@components/html/behaviourDescriptions/ProximityTriggeredPhase";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
-export default function ProximityTriggeredPhaseProperties({ defaultConfig, index }) {
+export default function ProximityTriggeredPhaseProperties({
+  defaultConfig,
+  index,
+}) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
   const [isSelectingPosition, setIsSelectingPosition] = useState(false);
   const isSelectingPositionRef = useRef(false);
@@ -42,7 +45,7 @@ export default function ProximityTriggeredPhaseProperties({ defaultConfig, index
     const handleWindowClick = (event) => {
       if (!isSelectingPositionRef.current) return;
       const localPosition = new Point(0, 0);
-      pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+      pixiRefs.app.renderer.events.mapPositionToPoint(
         localPosition,
         event.clientX,
         event.clientY,
@@ -193,7 +196,9 @@ export default function ProximityTriggeredPhaseProperties({ defaultConfig, index
             behaviour.writeStateForColor = value;
             updateBehaviours();
           }}
-          checked={behaviour.writeStateForColor ?? keysToInitialize.writeStateForColor}
+          checked={
+            behaviour.writeStateForColor ?? keysToInitialize.writeStateForColor
+          }
         />
       </div>
     </>

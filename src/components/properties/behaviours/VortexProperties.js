@@ -6,7 +6,7 @@ import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import Select from "@components/html/Select";
 import VortexDescription from "@components/html/behaviourDescriptions/Vortex";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
 export default function VortexProperties({ defaultConfig, index }) {
@@ -41,7 +41,7 @@ export default function VortexProperties({ defaultConfig, index }) {
     const handleWindowClick = (event) => {
       if (!isSelectingPositionRef.current) return;
       const localPosition = new Point(0, 0);
-      pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+      pixiRefs.app.renderer.events.mapPositionToPoint(
         localPosition,
         event.clientX,
         event.clientY,
@@ -75,9 +75,7 @@ export default function VortexProperties({ defaultConfig, index }) {
 
   return (
     <>
-      <legend onClick={toggleSubmenuVisibility}>
-        Vortex Properties
-      </legend>
+      <legend onClick={toggleSubmenuVisibility}>Vortex Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <VortexDescription />
         <Checkbox
@@ -139,7 +137,9 @@ export default function VortexProperties({ defaultConfig, index }) {
         />
         <Select
           label="Spiral Direction"
-          defaultValue={behaviour.spiralDirection ?? keysToInitialize.spiralDirection}
+          defaultValue={
+            behaviour.spiralDirection ?? keysToInitialize.spiralDirection
+          }
           onChange={(value) => {
             behaviour.spiralDirection = value;
             updateBehaviours();

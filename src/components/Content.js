@@ -984,12 +984,12 @@ export default function Content() {
     handleResize();
 
     // Add event listeners
-    pixiRefs.app.stage.on("mousemove", handleMouseMove);
+    pixiRefs.app.stage.on("pointermove", handleMouseMove);
     window.addEventListener("resize", handleResize);
 
     // Cleanup on unmount
     return () => {
-      pixiRefs.app.stage.off("mousemove", handleMouseMove);
+      pixiRefs.app.stage.off("pointermove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
     };
   }, [defaultConfig, fullConfig, handleResize, handleMouseMove, appReady]);

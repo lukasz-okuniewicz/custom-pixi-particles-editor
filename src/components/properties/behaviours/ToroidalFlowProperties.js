@@ -5,7 +5,7 @@ import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import ToroidalFlowDescription from "@components/html/behaviourDescriptions/ToroidalFlow";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
 export default function ToroidalFlowProperties({ defaultConfig, index }) {
@@ -42,7 +42,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
     const handleWindowClick = (event) => {
       if (!isSelectingPositionRef.current) return;
       const localPosition = new Point(0, 0);
-      pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+      pixiRefs.app.renderer.events.mapPositionToPoint(
         localPosition,
         event.clientX,
         event.clientY,
@@ -182,12 +182,17 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
             behaviour.writeSurfaceDistForVisual = value;
             updateBehaviours();
           }}
-          checked={behaviour.writeSurfaceDistForVisual ?? keysToInitialize.writeSurfaceDistForVisual}
+          checked={
+            behaviour.writeSurfaceDistForVisual ??
+            keysToInitialize.writeSurfaceDistForVisual
+          }
         />
         <InputNumber
           label="Surface Dist Falloff"
           id="toroidal-surfaceDistFalloff"
-          value={behaviour.surfaceDistFalloff ?? keysToInitialize.surfaceDistFalloff}
+          value={
+            behaviour.surfaceDistFalloff ?? keysToInitialize.surfaceDistFalloff
+          }
           step="1"
           min="1"
           onChange={(value) => {

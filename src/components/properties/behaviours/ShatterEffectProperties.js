@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useEffect, useRef, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
@@ -38,12 +38,15 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     swirlStrength: 0,
     randomizeScale: false,
     endTint: 0xffffff,
-    enableRotation: true,    // NEW
-    rotationStrength: 1.0,   // NEW
+    enableRotation: true, // NEW
+    rotationStrength: 1.0, // NEW
   };
 
   const shatterConfig = useMemo(() => {
-    return mergeObjectsWithDefaults(keysToInitialize, defaultConfig.shatterEffect || {});
+    return mergeObjectsWithDefaults(
+      keysToInitialize,
+      defaultConfig.shatterEffect || {},
+    );
   }, [defaultConfig.shatterEffect]);
 
   const toggleSubmenuVisibility = useCallback(() => {
@@ -71,77 +74,85 @@ export default function ShatterEffectProperties({ defaultConfig }) {
 
   // Load custom sprite from config on mount
   useEffect(() => {
-    if (shatterConfig.customSprite && !shatterSprite && shatterConfig.customSprite.result) {
+    if (
+      shatterConfig.customSprite &&
+      !shatterSprite &&
+      shatterConfig.customSprite.result
+    ) {
       createShatterSprite(shatterConfig.customSprite.result);
     }
   }, [shatterConfig.customSprite]);
 
-  const createShatterSprite = useCallback((customDataUrl = null) => {
-    if (shatterSpriteRef.current) {
-      if (shatterSpriteRef.current.parent) {
-        shatterSpriteRef.current.parent.removeChild(shatterSpriteRef.current);
+  const createShatterSprite = useCallback(
+    (customDataUrl = null) => {
+      if (shatterSpriteRef.current) {
+        if (shatterSpriteRef.current.parent) {
+          shatterSpriteRef.current.parent.removeChild(shatterSpriteRef.current);
+        }
+        shatterSpriteRef.current.destroy();
+        shatterSpriteRef.current = null;
       }
-      shatterSpriteRef.current.destroy();
-      shatterSpriteRef.current = null;
-    }
 
-    if (shatterEffectInstance) {
-      shatterEffectInstance.destroy();
-      setShatterEffectInstance(null);
-    }
-
-    const { bgContainer, app } = pixiRefs;
-    if (!bgContainer || !app) return;
-
-    let texture;
-    
-    // Use custom uploaded sprite if available - create texture directly from data URL
-    if (customDataUrl) {
-      try {
-        // Create an image element from the data URL
-        const img = new Image();
-        img.onload = () => {
-          texture = Texture.from(img);
-          const sprite = new Sprite(texture);
-          sprite.anchor.set(0.5, 0.5);
-          sprite.x = app.screen.width / 2;
-          sprite.y = app.screen.height / 2 - 100;
-          sprite.scale.set(1.5);
-
-          bgContainer.addChild(sprite);
-          shatterSpriteRef.current = sprite;
-          setShatterSprite(sprite);
-        };
-        img.onerror = (e) => {
-          console.error("Failed to load image from data URL:", e);
-          // Fall through to default textures
-        };
-        img.src = customDataUrl;
-        return; // Return early, sprite will be created in onload
-      } catch (e) {
-        console.error("Failed to create texture from data URL:", e);
+      if (shatterEffectInstance) {
+        shatterEffectInstance.destroy();
+        setShatterEffectInstance(null);
       }
-    }
-    
-    // Fallback to default textures if custom texture not available
-    const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
-    for (const name of textureNames) {
-      try {
-        texture = Assets.get(name);
-        if (texture) break;
-      } catch (e) {}
-    }
 
-    const sprite = new Sprite(texture);
-    sprite.anchor.set(0.5, 0.5);
-    sprite.x = app.screen.width / 2;
-    sprite.y = app.screen.height / 2 - 100;
-    sprite.scale.set(1.5);
+      const { bgContainer, app } = pixiRefs;
+      if (!bgContainer || !app) return;
 
-    bgContainer.addChild(sprite);
-    shatterSpriteRef.current = sprite;
-    setShatterSprite(sprite);
-  }, [shatterEffectInstance, shatterConfig]);
+      let texture;
+
+      // Use custom uploaded sprite if available - create texture directly from data URL
+      if (customDataUrl) {
+        try {
+          // Create an image element from the data URL
+          const img = new Image();
+          img.onload = () => {
+            texture = Texture.from(img);
+            const sprite = new Sprite(texture);
+            sprite.anchor.set(0.5, 0.5);
+            sprite.x = app.screen.width / 2;
+            sprite.y = app.screen.height / 2 - 100;
+            sprite.scale.set(1.5);
+
+            bgContainer.addChild(sprite);
+            shatterSpriteRef.current = sprite;
+            setShatterSprite(sprite);
+          };
+          img.onerror = (e) => {
+            console.error("Failed to load image from data URL:", e);
+            // Fall through to default textures
+          };
+          img.src = customDataUrl;
+          return; // Return early, sprite will be created in onload
+        } catch (e) {
+          console.error("Failed to create texture from data URL:", e);
+        }
+      }
+
+      // Fallback to default textures if custom texture not available
+      const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
+      for (const name of textureNames) {
+        try {
+          texture = Assets.get(name);
+          if (texture) break;
+        } catch (e) {}
+      }
+      if (!texture) texture = Texture.WHITE;
+
+      const sprite = new Sprite(texture);
+      sprite.anchor.set(0.5, 0.5);
+      sprite.x = app.screen.width / 2;
+      sprite.y = app.screen.height / 2 - 100;
+      sprite.scale.set(1.5);
+
+      bgContainer.addChild(sprite);
+      shatterSpriteRef.current = sprite;
+      setShatterSprite(sprite);
+    },
+    [shatterEffectInstance, shatterConfig],
+  );
 
   const performExplosion = useCallback(() => {
     const sprite = shatterSpriteRef.current;
@@ -205,56 +216,68 @@ export default function ShatterEffectProperties({ defaultConfig }) {
     { key: "swirl", displayName: "Swirl" },
   ];
 
-  const handleSpriteUpload = useCallback((e) => {
-    const file = fileSpriteInputRef.current?.files?.[0];
-    if (!file) return;
+  const handleSpriteUpload = useCallback(
+    (e) => {
+      const file = fileSpriteInputRef.current?.files?.[0];
+      if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const fileName = `shatter-sprite-${Date.now()}-${file.name}`;
-      const imageData = {
-        fileName: fileName,
-        result: reader.result,
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileName = `shatter-sprite-${Date.now()}-${file.name}`;
+        const imageData = {
+          fileName: fileName,
+          result: reader.result,
+        };
+
+        // Store in config
+        const newConfig = { ...shatterConfig, customSprite: imageData };
+        defaultConfig.shatterEffect = newConfig;
+        updateProps("shatterEffect", newConfig);
+
+        // Create texture directly from data URL
+        createShatterSprite(reader.result);
       };
-
-      // Store in config
-      const newConfig = { ...shatterConfig, customSprite: imageData };
-      defaultConfig.shatterEffect = newConfig;
-      updateProps("shatterEffect", newConfig);
-
-      // Create texture directly from data URL
-      createShatterSprite(reader.result);
-    };
-    reader.onerror = () => {
-      console.error("Failed to read sprite file");
-    };
-    reader.readAsDataURL(file);
-    e.target.value = "";
-  }, [shatterConfig, createShatterSprite]);
+      reader.onerror = () => {
+        console.error("Failed to read sprite file");
+      };
+      reader.readAsDataURL(file);
+      e.target.value = "";
+    },
+    [shatterConfig, createShatterSprite],
+  );
 
   const handleSpriteUploadClick = useCallback(() => {
     fileSpriteInputRef.current?.click();
   }, []);
 
-  const hexToRgb = (hex) => ({ r: (hex >> 16) & 0xff, g: (hex >> 8) & 0xff, b: hex & 0xff, a: 1 });
+  const hexToRgb = (hex) => ({
+    r: (hex >> 16) & 0xff,
+    g: (hex >> 8) & 0xff,
+    b: hex & 0xff,
+    a: 1,
+  });
   const rgbToHex = (r, g, b) => (r << 16) | (g << 8) | b;
 
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
     <>
-      <legend onClick={toggleSubmenuVisibility}>Shatter Effect Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>
+        Shatter Effect Properties
+      </legend>
       <div className={`${isSubmenuVisible}`}>
         <ShatterEffectDescription />
         <File
           label="Custom Sprite"
-          buttonText={shatterConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          buttonText={
+            shatterConfig.customSprite ? "Replace Sprite" : "Upload Sprite"
+          }
           id="shatter-sprite-upload"
           onChange={handleSpriteUpload}
           onClick={handleSpriteUploadClick}
           ref={fileSpriteInputRef}
         />
-        {!shatterSprite ?
+        {!shatterSprite ? (
           <div className="form-group">
             <div className="col-xs-12">
               <button
@@ -262,11 +285,15 @@ export default function ShatterEffectProperties({ defaultConfig }) {
                 onClick={() => createShatterSprite()}
                 disabled={!!(shatterSprite && shatterSprite.parent)}
               >
-                {shatterSprite && shatterSprite.parent ? "Sprite Active" : "Create Sprite"}
+                {shatterSprite && shatterSprite.parent
+                  ? "Sprite Active"
+                  : "Create Sprite"}
               </button>
             </div>
           </div>
-          : <></> }
+        ) : (
+          <></>
+        )}
         <div className="form-group">
           <div className="col-xs-12">
             <button
@@ -293,7 +320,9 @@ export default function ShatterEffectProperties({ defaultConfig }) {
             label="Rotation Strength"
             id="rotationStrength"
             value={shatterConfig.rotationStrength}
-            step="0.1" min="0" max="10"
+            step="0.1"
+            min="0"
+            max="10"
             onChange={(v) => updateShatterConfig({ rotationStrength: v })}
           />
         )}
@@ -304,56 +333,68 @@ export default function ShatterEffectProperties({ defaultConfig }) {
           label="Grid Columns"
           id="gridCols"
           value={shatterConfig.gridCols}
-          step="1" min="1" max="50"
+          step="1"
+          min="1"
+          max="50"
           onChange={(v) => updateShatterConfig({ gridCols: v })}
         />
         <InputNumber
           label="Grid Rows"
           id="gridRows"
           value={shatterConfig.gridRows}
-          step="1" min="1" max="50"
+          step="1"
+          min="1"
+          max="50"
           onChange={(v) => updateShatterConfig({ gridRows: v })}
         />
         <InputNumber
           label="Explosion Power"
           id="explosionPower"
           value={shatterConfig.explosionPower}
-          step="100" min="0"
+          step="100"
+          min="0"
           onChange={(v) => updateShatterConfig({ explosionPower: v })}
         />
         <InputNumber
           label="Friction"
           id="friction"
           value={shatterConfig.friction}
-          step="0.01" min="0" max="1"
+          step="0.01"
+          min="0"
+          max="1"
           onChange={(v) => updateShatterConfig({ friction: v })}
         />
         <InputNumber
           label="Gravity"
           id="gravity"
           value={shatterConfig.gravity}
-          step="50" min="0"
+          step="50"
+          min="0"
           onChange={(v) => updateShatterConfig({ gravity: v })}
         />
         <InputNumber
           label="Turbulence"
           id="turbulence"
           value={shatterConfig.turbulence}
-          step="0.1" min="0" max="2"
+          step="0.1"
+          min="0"
+          max="2"
           onChange={(v) => updateShatterConfig({ turbulence: v })}
         />
         <InputNumber
           label="Lifetime"
           id="lifetime"
           value={shatterConfig.lifetime}
-          step="0.1" min="0.1"
+          step="0.1"
+          min="0.1"
           onChange={(v) => updateShatterConfig({ lifetime: v })}
         />
         <InputNumber
           label="Fade Out Duration"
           id="fadeOutDuration"
           value={shatterConfig.fadeOutDuration}
-          step="0.1" min="0"
+          step="0.1"
+          min="0"
           onChange={(v) => updateShatterConfig({ fadeOutDuration: v })}
         />
         <Select
@@ -366,8 +407,13 @@ export default function ShatterEffectProperties({ defaultConfig }) {
           label="Explosion Origin"
           id="explosionOrigin"
           params={["x", "y"]}
-          value={[shatterConfig.explosionOrigin.x, shatterConfig.explosionOrigin.y]}
-          step="0.1" min="0" max="1"
+          value={[
+            shatterConfig.explosionOrigin.x,
+            shatterConfig.explosionOrigin.y,
+          ]}
+          step="0.1"
+          min="0"
+          max="1"
           onChange={(v, id) => {
             const origin = { ...shatterConfig.explosionOrigin, [id]: v };
             updateShatterConfig({ explosionOrigin: origin });
@@ -401,7 +447,9 @@ export default function ShatterEffectProperties({ defaultConfig }) {
           label="End Tint"
           color={hexToRgb(shatterConfig.endTint)}
           colorChanged={(color) => {
-            updateShatterConfig({ endTint: rgbToHex(color.rgb.r, color.rgb.g, color.rgb.b) });
+            updateShatterConfig({
+              endTint: rgbToHex(color.rgb.r, color.rgb.g, color.rgb.b),
+            });
           }}
         />
       </div>

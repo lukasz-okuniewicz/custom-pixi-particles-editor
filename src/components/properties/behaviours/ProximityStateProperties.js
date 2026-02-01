@@ -5,7 +5,7 @@ import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import ProximityStateDescription from "@components/html/behaviourDescriptions/ProximityState";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
 export default function ProximityStateProperties({ defaultConfig, index }) {
@@ -43,7 +43,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
     const handleWindowClick = (event) => {
       if (!isSelectingPositionRef.current) return;
       const localPosition = new Point(0, 0);
-      pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+      pixiRefs.app.renderer.events.mapPositionToPoint(
         localPosition,
         event.clientX,
         event.clientY,
@@ -149,7 +149,9 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
         <InputNumber
           label="Wander Phase Speed"
           id="proximity-wanderPhaseSpeed"
-          value={behaviour.wanderPhaseSpeed ?? keysToInitialize.wanderPhaseSpeed}
+          value={
+            behaviour.wanderPhaseSpeed ?? keysToInitialize.wanderPhaseSpeed
+          }
           step="0.1"
           onChange={(value) => {
             behaviour.wanderPhaseSpeed = value;
@@ -194,7 +196,9 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             behaviour.writeStateForColor = value;
             updateBehaviours();
           }}
-          checked={behaviour.writeStateForColor ?? keysToInitialize.writeStateForColor}
+          checked={
+            behaviour.writeStateForColor ?? keysToInitialize.writeStateForColor
+          }
         />
         <Checkbox
           label="Write Distance For Visual"
@@ -203,7 +207,10 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             behaviour.writeDistanceForVisual = value;
             updateBehaviours();
           }}
-          checked={behaviour.writeDistanceForVisual ?? keysToInitialize.writeDistanceForVisual}
+          checked={
+            behaviour.writeDistanceForVisual ??
+            keysToInitialize.writeDistanceForVisual
+          }
         />
       </div>
     </>

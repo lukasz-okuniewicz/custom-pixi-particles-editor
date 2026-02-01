@@ -5,7 +5,7 @@ import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import MagnetDescription from "@components/html/behaviourDescriptions/Magnet";
-import { Point } from "pixi.js-legacy";
+import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
 export default function MagnetProperties({ defaultConfig, index }) {
@@ -39,7 +39,7 @@ export default function MagnetProperties({ defaultConfig, index }) {
     const handleWindowClick = (event) => {
       if (!isSelectingPositionRef.current) return;
       const localPosition = new Point(0, 0);
-      pixiRefs.app.renderer.plugins.interaction.mapPositionToPoint(
+      pixiRefs.app.renderer.events.mapPositionToPoint(
         localPosition,
         event.clientX,
         event.clientY,
@@ -67,9 +67,7 @@ export default function MagnetProperties({ defaultConfig, index }) {
 
   return (
     <>
-      <legend onClick={toggleSubmenuVisibility}>
-        Magnet Properties
-      </legend>
+      <legend onClick={toggleSubmenuVisibility}>Magnet Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <MagnetDescription />
         <Checkbox

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useEffect, useRef, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
@@ -31,7 +31,10 @@ export default function GlitchEffectProperties({ defaultConfig }) {
   };
 
   const glitchConfig = useMemo(() => {
-    return mergeObjectsWithDefaults(keysToInitialize, defaultConfig.glitchEffect || {});
+    return mergeObjectsWithDefaults(
+      keysToInitialize,
+      defaultConfig.glitchEffect || {},
+    );
   }, [defaultConfig.glitchEffect]);
 
   const toggleSubmenuVisibility = useCallback(() => {
@@ -59,77 +62,85 @@ export default function GlitchEffectProperties({ defaultConfig }) {
 
   // Load custom sprite from config on mount
   useEffect(() => {
-    if (glitchConfig.customSprite && !glitchSprite && glitchConfig.customSprite.result) {
+    if (
+      glitchConfig.customSprite &&
+      !glitchSprite &&
+      glitchConfig.customSprite.result
+    ) {
       createGlitchSprite(glitchConfig.customSprite.result);
     }
   }, [glitchConfig.customSprite]);
 
-  const createGlitchSprite = useCallback((customDataUrl = null) => {
-    if (glitchSpriteRef.current) {
-      if (glitchSpriteRef.current.parent) {
-        glitchSpriteRef.current.parent.removeChild(glitchSpriteRef.current);
+  const createGlitchSprite = useCallback(
+    (customDataUrl = null) => {
+      if (glitchSpriteRef.current) {
+        if (glitchSpriteRef.current.parent) {
+          glitchSpriteRef.current.parent.removeChild(glitchSpriteRef.current);
+        }
+        glitchSpriteRef.current.destroy();
+        glitchSpriteRef.current = null;
       }
-      glitchSpriteRef.current.destroy();
-      glitchSpriteRef.current = null;
-    }
 
-    if (glitchEffectInstance) {
-      glitchEffectInstance.destroy();
-      setGlitchEffectInstance(null);
-    }
-
-    const { bgContainer, app } = pixiRefs;
-    if (!bgContainer || !app) return;
-
-    let texture;
-    
-    // Use custom uploaded sprite if available - create texture directly from data URL
-    if (customDataUrl) {
-      try {
-        // Create an image element from the data URL
-        const img = new Image();
-        img.onload = () => {
-          texture = Texture.from(img);
-          const sprite = new Sprite(texture);
-          sprite.anchor.set(0.5, 0.5);
-          sprite.x = app.screen.width / 2;
-          sprite.y = app.screen.height / 2 - 100;
-          sprite.scale.set(1);
-
-          bgContainer.addChild(sprite);
-          glitchSpriteRef.current = sprite;
-          setGlitchSprite(sprite);
-        };
-        img.onerror = (e) => {
-          console.error("Failed to load image from data URL:", e);
-          // Fall through to default textures
-        };
-        img.src = customDataUrl;
-        return; // Return early, sprite will be created in onload
-      } catch (e) {
-        console.error("Failed to create texture from data URL:", e);
+      if (glitchEffectInstance) {
+        glitchEffectInstance.destroy();
+        setGlitchEffectInstance(null);
       }
-    }
-    
-    // Fallback to default textures if custom texture not available
-    const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
-    for (const name of textureNames) {
-      try {
-        texture = Assets.get(name);
-        if (texture) break;
-      } catch (e) {}
-    }
 
-    const sprite = new Sprite(texture);
-    sprite.anchor.set(0.5, 0.5);
-    sprite.x = app.screen.width / 2;
-    sprite.y = app.screen.height / 2 - 100;
-    sprite.scale.set(1);
+      const { bgContainer, app } = pixiRefs;
+      if (!bgContainer || !app) return;
 
-    bgContainer.addChild(sprite);
-    glitchSpriteRef.current = sprite;
-    setGlitchSprite(sprite);
-  }, [glitchEffectInstance, glitchConfig]);
+      let texture;
+
+      // Use custom uploaded sprite if available - create texture directly from data URL
+      if (customDataUrl) {
+        try {
+          // Create an image element from the data URL
+          const img = new Image();
+          img.onload = () => {
+            texture = Texture.from(img);
+            const sprite = new Sprite(texture);
+            sprite.anchor.set(0.5, 0.5);
+            sprite.x = app.screen.width / 2;
+            sprite.y = app.screen.height / 2 - 100;
+            sprite.scale.set(1);
+
+            bgContainer.addChild(sprite);
+            glitchSpriteRef.current = sprite;
+            setGlitchSprite(sprite);
+          };
+          img.onerror = (e) => {
+            console.error("Failed to load image from data URL:", e);
+            // Fall through to default textures
+          };
+          img.src = customDataUrl;
+          return; // Return early, sprite will be created in onload
+        } catch (e) {
+          console.error("Failed to create texture from data URL:", e);
+        }
+      }
+
+      // Fallback to default textures if custom texture not available
+      const textureNames = ["campFire", "face", "blackHole", "earth", "autumn"];
+      for (const name of textureNames) {
+        try {
+          texture = Assets.get(name);
+          if (texture) break;
+        } catch (e) {}
+      }
+      if (!texture) texture = Texture.WHITE;
+
+      const sprite = new Sprite(texture);
+      sprite.anchor.set(0.5, 0.5);
+      sprite.x = app.screen.width / 2;
+      sprite.y = app.screen.height / 2 - 100;
+      sprite.scale.set(1);
+
+      bgContainer.addChild(sprite);
+      glitchSpriteRef.current = sprite;
+      setGlitchSprite(sprite);
+    },
+    [glitchEffectInstance, glitchConfig],
+  );
 
   const performGlitch = useCallback(() => {
     const sprite = glitchSpriteRef.current;
@@ -187,32 +198,35 @@ export default function GlitchEffectProperties({ defaultConfig }) {
     };
   }, []);
 
-  const handleSpriteUpload = useCallback((e) => {
-    const file = fileSpriteInputRef.current?.files?.[0];
-    if (!file) return;
+  const handleSpriteUpload = useCallback(
+    (e) => {
+      const file = fileSpriteInputRef.current?.files?.[0];
+      if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const fileName = `glitch-sprite-${Date.now()}-${file.name}`;
-      const imageData = {
-        fileName: fileName,
-        result: reader.result,
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileName = `glitch-sprite-${Date.now()}-${file.name}`;
+        const imageData = {
+          fileName: fileName,
+          result: reader.result,
+        };
+
+        // Store in config
+        const newConfig = { ...glitchConfig, customSprite: imageData };
+        defaultConfig.glitchEffect = newConfig;
+        updateProps("glitchEffect", newConfig);
+
+        // Create texture directly from data URL
+        createGlitchSprite(reader.result);
       };
-
-      // Store in config
-      const newConfig = { ...glitchConfig, customSprite: imageData };
-      defaultConfig.glitchEffect = newConfig;
-      updateProps("glitchEffect", newConfig);
-
-      // Create texture directly from data URL
-      createGlitchSprite(reader.result);
-    };
-    reader.onerror = () => {
-      console.error("Failed to read sprite file");
-    };
-    reader.readAsDataURL(file);
-    e.target.value = "";
-  }, [glitchConfig, createGlitchSprite]);
+      reader.onerror = () => {
+        console.error("Failed to read sprite file");
+      };
+      reader.readAsDataURL(file);
+      e.target.value = "";
+    },
+    [glitchConfig, createGlitchSprite],
+  );
 
   const handleSpriteUploadClick = useCallback(() => {
     fileSpriteInputRef.current?.click();
@@ -222,12 +236,16 @@ export default function GlitchEffectProperties({ defaultConfig }) {
 
   return (
     <>
-      <legend onClick={toggleSubmenuVisibility}>Glitch Effect Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>
+        Glitch Effect Properties
+      </legend>
       <div className={`${isSubmenuVisible}`}>
         <GlitchEffectDescription />
         <File
           label="Custom Sprite"
-          buttonText={glitchConfig.customSprite ? "Replace Sprite" : "Upload Sprite"}
+          buttonText={
+            glitchConfig.customSprite ? "Replace Sprite" : "Upload Sprite"
+          }
           id="glitch-sprite-upload"
           onChange={handleSpriteUpload}
           onClick={handleSpriteUploadClick}
@@ -241,7 +259,9 @@ export default function GlitchEffectProperties({ defaultConfig }) {
                 onClick={() => createGlitchSprite()}
                 disabled={!!(glitchSprite && glitchSprite.parent)}
               >
-                {glitchSprite && glitchSprite.parent ? "Sprite Active" : "Create Sprite"}
+                {glitchSprite && glitchSprite.parent
+                  ? "Sprite Active"
+                  : "Create Sprite"}
               </button>
             </div>
           </div>
@@ -265,21 +285,27 @@ export default function GlitchEffectProperties({ defaultConfig }) {
           label="Slices"
           id="slices"
           value={glitchConfig.slices}
-          step="1" min="1" max="50"
+          step="1"
+          min="1"
+          max="50"
           onChange={(v) => updateGlitchConfig({ slices: v })}
         />
         <InputNumber
           label="Offset Range"
           id="offsetRange"
           value={glitchConfig.offsetRange}
-          step="1" min="0" max="200"
+          step="1"
+          min="0"
+          max="200"
           onChange={(v) => updateGlitchConfig({ offsetRange: v })}
         />
         <InputNumber
           label="Flicker Intensity"
           id="flickerIntensity"
           value={glitchConfig.flickerIntensity}
-          step="0.1" min="0" max="1"
+          step="0.1"
+          min="0"
+          max="1"
           onChange={(v) => updateGlitchConfig({ flickerIntensity: v })}
         />
         <Checkbox
@@ -293,7 +319,9 @@ export default function GlitchEffectProperties({ defaultConfig }) {
             label="RGB Offset"
             id="rgbOffset"
             value={glitchConfig.rgbOffset}
-            step="1" min="0" max="50"
+            step="1"
+            min="0"
+            max="50"
             onChange={(v) => updateGlitchConfig({ rgbOffset: v })}
           />
         )}
@@ -301,14 +329,18 @@ export default function GlitchEffectProperties({ defaultConfig }) {
           label="Duration"
           id="duration"
           value={glitchConfig.duration}
-          step="0.1" min="0.1" max="5"
+          step="0.1"
+          min="0.1"
+          max="5"
           onChange={(v) => updateGlitchConfig({ duration: v })}
         />
         <InputNumber
           label="Refresh Rate"
           id="refreshRate"
           value={glitchConfig.refreshRate}
-          step="0.01" min="0.01" max="1"
+          step="0.01"
+          min="0.01"
+          max="1"
           onChange={(v) => updateGlitchConfig({ refreshRate: v })}
         />
       </div>

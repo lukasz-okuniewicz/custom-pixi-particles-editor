@@ -3,10 +3,10 @@ import pixiRefs from "./pixiRefs";
 
 export const initializeApp = async (contentRef) => {
   if (pixiRefs.app) return () => {};
-  if (!contentRef?.current) return () => {};
 
   const app = new Application();
-  await app.init({ backgroundColor: 0 });
+  await app.init();
+  app.renderer.background.color = 0;
   globalThis.__PIXI_APP__ = app;
   pixiRefs.app = app;
 
@@ -26,22 +26,10 @@ export const initializeApp = async (contentRef) => {
   pixiRefs.graphics = graphics;
 
   app.stage.addChild(bgContainer, particlesContainer, bgContainer2, graphics);
-
-  if (contentRef?.current) {
-    contentRef.current.appendChild(app.canvas);
-  }
+  contentRef.current.appendChild(app.canvas);
 
   return () => {
-    app.destroy(true, { removeView: true });
-    pixiRefs.app = null;
-    pixiRefs.bgContainer = null;
-    pixiRefs.bgContainer2 = null;
-    pixiRefs.particlesContainer = null;
-    pixiRefs.graphics = null;
-    pixiRefs.bgSprite = null;
-    pixiRefs.bgSprite2 = null;
-    pixiRefs.particles = null;
-    pixiRefs.particlesArr = [];
-    pixiRefs.meltEffectInstance = null;
+    app.destroy(true, { children: true, texture: true, baseTexture: true });
+    pixiRefs.app = null; // Reset app ref
   };
 };
