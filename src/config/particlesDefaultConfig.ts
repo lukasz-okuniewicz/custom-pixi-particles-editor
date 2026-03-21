@@ -3631,6 +3631,94 @@ const particlesDefaultConfig = {
     },
     textures: ["sparkle.png"],
   },
+  /** Mixed static sparkles + animated coin strip (`textureVariants` demo). */
+  sparkleCoinMix: {
+    emitterConfig: {
+      behaviours: [
+        {
+          priority: 100,
+          customPoints: [
+            {
+              spawnType: "Ring",
+              radius: 0,
+              position: { x: 0, y: 0 },
+              positionVariance: { x: 0, y: 0 },
+            },
+          ],
+          name: "SpawnBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 10000,
+          maxLifeTime: 1.5,
+          timeVariance: 0.35,
+          name: "LifeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 100,
+          velocity: { x: 0, y: -160 },
+          velocityVariance: { x: 200, y: 200 },
+          acceleration: { x: 0, y: 220 },
+          accelerationVariance: { x: 0, y: 0 },
+          name: "PositionBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          allowNegativeValues: false,
+          sizeStart: { x: 0.4, y: 0.4 },
+          sizeEnd: { x: 0.12, y: 0.12 },
+          startVariance: 0.25,
+          endVariance: 0.12,
+          name: "SizeBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          rotation: 0,
+          variance: 5,
+          name: "RotationBehaviour",
+        },
+        {
+          enabled: true,
+          priority: 0,
+          start: { _r: 255, _g: 255, _b: 255, _alpha: 1 },
+          end: { _r: 255, _g: 220, _b: 100, _alpha: 0 },
+          startVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
+          name: "ColorBehaviour",
+        },
+      ],
+      emitController: {
+        _maxParticles: 10000,
+        _maxLife: 1,
+        _emitPerSecond: 140,
+        _frames: 0,
+        name: "UniformEmission",
+      },
+      duration: -1,
+      alpha: 1,
+      anchor: { x: 0.5, y: 0.5 },
+      blendMode: "add",
+      animatedSprite: {
+        enabled: true,
+        frameRate: 0.25,
+        loop: true,
+      },
+      textureVariants: [
+        { type: "staticRandom", textures: ["sparkle.png", "pop_00.png"] },
+        {
+          type: "frames",
+          prefix: "coin_",
+          frameRate: 0.25,
+          loop: true,
+        },
+      ],
+      variantWeights: [0.35, 0.65],
+    },
+    textures: ["sparkle.png", "coin_", "pop_00.png"],
+  },
   flyingFountain: {
     emitterConfig: {
       behaviours: [

@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useAutoResizeTextarea } from "@hooks/useAutoResizeTextarea";
 import { camelCaseToNormal, updateProps } from "@utils";
 import Select from "@components/html/Select";
 import File from "@components/html/File";
@@ -180,6 +181,53 @@ const GeneralProperties = ({
     reader.readAsDataURL(fileParticleBackgroundImageRef.current.files[0]);
   }, []);
 
+  const [textureVariantsJson, setTextureVariantsJson] = useState("[]");
+  const [variantWeightsJson, setVariantWeightsJson] = useState("");
+  const [textureVariantsJsonError, setTextureVariantsJsonError] =
+    useState(false);
+
+  useEffect(() => {
+    const tv = defaultConfig.emitterConfig.textureVariants;
+    setTextureVariantsJson(
+      tv && tv.length ? JSON.stringify(tv, null, 2) : "[]",
+    );
+    const w = defaultConfig.emitterConfig.variantWeights;
+    setVariantWeightsJson(
+      w && w.length ? JSON.stringify(w) : "",
+    );
+    setTextureVariantsJsonError(false);
+  }, [defaultConfig.emitterConfig.textureVariants, defaultConfig.emitterConfig.variantWeights]);
+
+  const textureVariantsTextarea = useAutoResizeTextarea(textureVariantsJson);
+
+  const applyTextureVariantsFromJson = useCallback(() => {
+    try {
+      const parsed = JSON.parse(textureVariantsJson);
+      if (!Array.isArray(parsed)) throw new Error("Expected array");
+      updateProps(
+        "emitterConfig.textureVariants",
+        parsed.length ? parsed : undefined,
+      );
+      if (variantWeightsJson.trim()) {
+        const w = JSON.parse(variantWeightsJson);
+        if (!Array.isArray(w)) throw new Error("Weights must be array");
+        updateProps(
+          "emitterConfig.variantWeights",
+          w.length ? w : undefined,
+        );
+      } else {
+        updateProps("emitterConfig.variantWeights", undefined);
+      }
+      setTextureVariantsJsonError(false);
+    } catch {
+      setTextureVariantsJsonError(true);
+    }
+  }, [
+    textureVariantsJson,
+    variantWeightsJson,
+    updateProps,
+  ]);
+
   const renderAnimatedSprite = () => {
     if (!defaultConfig.emitterConfig.animatedSprite) return null;
     if (!defaultConfig.emitterConfig.animatedSprite.enabled) return null;
@@ -260,6 +308,58 @@ const GeneralProperties = ({
       </>
     );
   };
+
+  const renderTextureVariantsEditor = () => (
+    <>
+      <p className="col-xs-12" style={{ fontSize: "12px", opacity: 0.85 }}>
+        Optional: mix static and animated particles in one emitter. Non-empty
+        list overrides legacy <code>textures</code> + Animated Sprite mode.
+        Use <code>frames</code> (prefix for 00.png, 01.png…) or{" "}
+        <code>staticRandom</code> (full texture keys). Leave weights empty for
+        equal probability.
+      </p>
+      <div className="form-group">
+        <label className="col-xs-4 form-label" htmlFor="texture-variants-json">
+          Texture variants JSON
+        </label>
+        <div className="col-xs-8">
+          <textarea
+            id="texture-variants-json"
+            ref={textureVariantsTextarea.ref}
+            className="form-control"
+            rows={1}
+            value={textureVariantsJson}
+            onChange={(e) => setTextureVariantsJson(e.target.value)}
+            onInput={textureVariantsTextarea.onInput}
+            onBlur={applyTextureVariantsFromJson}
+            spellCheck={false}
+            style={{ resize: "none", overflow: "hidden" }}
+          />
+          {textureVariantsJsonError && (
+            <span className="text-danger" style={{ fontSize: "12px" }}>
+              Invalid JSON
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="form-group">
+        <label className="col-xs-4 form-label" htmlFor="variant-weights-json">
+          Variant weights (JSON array, optional)
+        </label>
+        <div className="col-xs-8">
+          <input
+            id="variant-weights-json"
+            className="form-control"
+            type="text"
+            value={variantWeightsJson}
+            onChange={(e) => setVariantWeightsJson(e.target.value)}
+            onBlur={applyTextureVariantsFromJson}
+            spellCheck={false}
+          />
+        </div>
+      </div>
+    </>
+  );
 
   if (
     defaultConfig.particlePredefinedEffect === "shatterEffect" ||
@@ -377,6 +477,8 @@ const GeneralProperties = ({
             />
             <hr />
             {renderAnimatedSprite()}
+            <hr />
+            {renderTextureVariantsEditor()}
             <hr />
             <File
               label="Background Image"

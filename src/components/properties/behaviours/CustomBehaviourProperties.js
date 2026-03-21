@@ -1,9 +1,26 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { useAutoResizeTextarea } from "@hooks/useAutoResizeTextarea";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import { updateProps } from "@utils";
+
+function BehaviourJsonTextarea({ defaultValue, onBlur }) {
+  const { ref, onInput } = useAutoResizeTextarea();
+  return (
+    <textarea
+      ref={ref}
+      className="form-control"
+      rows={1}
+      defaultValue={defaultValue}
+      onInput={onInput}
+      onBlur={onBlur}
+      spellCheck={false}
+      style={{ resize: "none", overflow: "hidden" }}
+    />
+  );
+}
 
 /**
  * Renders a generic properties panel for custom behaviours (those not in the
@@ -124,13 +141,10 @@ export default function CustomBehaviourProperties({
                 />
                 <div className="form-group">
                   <label className="form-label">Raw JSON</label>
-                  <textarea
-                    className="form-control"
-                    rows={8}
+                  <BehaviourJsonTextarea
+                    key={`${index}-${name}-json`}
                     defaultValue={JSON.stringify(behaviour, null, 2)}
-                    onBlur={(e) =>
-                      handleJsonChange(index, e.target.value)
-                    }
+                    onBlur={(e) => handleJsonChange(index, e.target.value)}
                   />
                   {jsonErrorByIndex[index] && (
                     <div className="text-danger small">

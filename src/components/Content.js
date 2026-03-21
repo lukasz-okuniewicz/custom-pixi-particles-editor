@@ -21,6 +21,7 @@ import {
   followMouseHandler,
   predefinedImageHandler,
   refreshHandler,
+  syncFollowMouseInteraction,
 } from "@pixi/handlers";
 import { bgImage } from "@utils/updatePropsLoogic";
 import { saveAs } from "file-saver";
@@ -961,7 +962,11 @@ export default function Content() {
 
     if (
       defaultConfig.emitterConfig?.animatedSprite &&
-      defaultConfig.emitterConfig?.animatedSprite.animatedSpriteName
+      defaultConfig.emitterConfig?.animatedSprite.animatedSpriteName &&
+      !(
+        Array.isArray(defaultConfig.emitterConfig.textureVariants) &&
+        defaultConfig.emitterConfig.textureVariants.length > 0
+      )
     ) {
       defaultConfig.textures = [
         defaultConfig.emitterConfig.animatedSprite.animatedSpriteName,
@@ -982,6 +987,8 @@ export default function Content() {
     }
 
     handleResize();
+
+    syncFollowMouseInteraction(defaultConfig.followMouse);
 
     // Add event listeners
     pixiRefs.app.stage.on("pointermove", handleMouseMove);
