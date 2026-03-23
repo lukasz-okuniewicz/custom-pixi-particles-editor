@@ -172,16 +172,20 @@ const GeneralProperties = ({
     useState(false);
 
   useEffect(() => {
-    const tv = defaultConfig.emitterConfig.textureVariants;
+    const emitterConfig = defaultConfig?.emitterConfig || {};
+    const tv = emitterConfig.textureVariants;
     setTextureVariantsJson(
       tv && tv.length ? JSON.stringify(tv, null, 2) : "[]",
     );
-    const w = defaultConfig.emitterConfig.variantWeights;
+    const w = emitterConfig.variantWeights;
     setVariantWeightsJson(
       w && w.length ? JSON.stringify(w) : "",
     );
     setTextureVariantsJsonError(false);
-  }, [defaultConfig.emitterConfig.textureVariants, defaultConfig.emitterConfig.variantWeights]);
+  }, [
+    defaultConfig?.emitterConfig?.textureVariants,
+    defaultConfig?.emitterConfig?.variantWeights,
+  ]);
 
   const textureVariantsTextarea = useAutoResizeTextarea(textureVariantsJson);
 
@@ -214,7 +218,7 @@ const GeneralProperties = ({
   ]);
 
   const renderAnimatedSprite = () => {
-    if (!defaultConfig.emitterConfig.animatedSprite) return null;
+    if (!defaultConfig?.emitterConfig?.animatedSprite) return null;
     if (!defaultConfig.emitterConfig.animatedSprite.enabled) return null;
 
     return (
