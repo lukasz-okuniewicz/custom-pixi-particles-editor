@@ -138,7 +138,6 @@ const Menu = ({
         fullConfig={fullConfig}
         handlePredefinedEffectChange={handlePredefinedEffectChange}
       />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
       <ShatterEffectProperties defaultConfig={defaultConfig} />
     </div>
   )
@@ -158,7 +157,6 @@ const Menu = ({
         fullConfig={fullConfig}
         handlePredefinedEffectChange={handlePredefinedEffectChange}
       />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
       <DissolveEffectProperties defaultConfig={defaultConfig} />
     </div>
   )
@@ -178,7 +176,6 @@ const Menu = ({
         fullConfig={fullConfig}
         handlePredefinedEffectChange={handlePredefinedEffectChange}
       />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
       <MagneticAssemblyEffectProperties defaultConfig={defaultConfig} />
     </div>
   )
@@ -198,7 +195,6 @@ const Menu = ({
         fullConfig={fullConfig}
         handlePredefinedEffectChange={handlePredefinedEffectChange}
       />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
       <GhostEffectProperties defaultConfig={defaultConfig} />
     </div>
   )
@@ -218,7 +214,6 @@ const Menu = ({
         fullConfig={fullConfig}
         handlePredefinedEffectChange={handlePredefinedEffectChange}
       />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
       <GlitchEffectProperties defaultConfig={defaultConfig} />
     </div>
   )
@@ -238,7 +233,6 @@ const Menu = ({
         fullConfig={fullConfig}
         handlePredefinedEffectChange={handlePredefinedEffectChange}
       />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
       <MeltEffectProperties defaultConfig={defaultConfig} />
     </div>
   )
@@ -252,7 +246,6 @@ const Menu = ({
         {closeButton}
         <LoadAndSaveProperties defaultConfig={defaultConfig} />
         <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
         <PixelSortEffectProperties defaultConfig={defaultConfig} />
       </div>
     )
@@ -263,7 +256,6 @@ const Menu = ({
         {closeButton}
         <LoadAndSaveProperties defaultConfig={defaultConfig} />
         <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
         <PrismRefractionEffectProperties defaultConfig={defaultConfig} />
       </div>
     )
@@ -274,7 +266,6 @@ const Menu = ({
         {closeButton}
         <LoadAndSaveProperties defaultConfig={defaultConfig} />
         <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
         <CrystallizeEffectProperties defaultConfig={defaultConfig} />
       </div>
     )
@@ -285,7 +276,6 @@ const Menu = ({
         {closeButton}
         <LoadAndSaveProperties defaultConfig={defaultConfig} />
         <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
         <SlitScanEffectProperties defaultConfig={defaultConfig} />
       </div>
     )
@@ -296,7 +286,6 @@ const Menu = ({
         {closeButton}
         <LoadAndSaveProperties defaultConfig={defaultConfig} />
         <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
         <GranularErosionEffectProperties defaultConfig={defaultConfig} />
       </div>
     )
@@ -307,7 +296,6 @@ const Menu = ({
         {closeButton}
         <LoadAndSaveProperties defaultConfig={defaultConfig} />
         <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
         <LiquidMercuryEffectProperties defaultConfig={defaultConfig} />
       </div>
     )
