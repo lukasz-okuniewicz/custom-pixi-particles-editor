@@ -1,5 +1,17 @@
 import pixiRefs from "@pixi/pixiRefs";
 
+/**
+ * Makes the whole canvas receive pointer hit-tests so pointermove fires even in
+ * gaps between particle sprites (Pixi v8 only bubbles from actual hit targets).
+ * Re-apply after resize because renderer.screen is updated in place.
+ */
+export const syncFollowMouseInteraction = (follow) => {
+  if (!pixiRefs.app) return;
+  const { stage, screen } = pixiRefs.app;
+  stage.eventMode = follow ? "dynamic" : "none";
+  stage.hitArea = follow ? screen : null;
+};
+
 export const predefinedImageHandler = ({
   value,
   defaultConfig,
@@ -16,7 +28,7 @@ export const predefinedImageHandler = ({
 };
 
 export const refreshHandler = ({ setDefaultConfig, defaultConfig }) => {
-  pixiRefs.app.stage.interactive = false;
+  syncFollowMouseInteraction(defaultConfig.followMouse);
   setDefaultConfig(() => ({
     ...defaultConfig,
     refresh: true,
@@ -24,7 +36,7 @@ export const refreshHandler = ({ setDefaultConfig, defaultConfig }) => {
 };
 
 export const followMouseHandler = ({ value, setDefaultConfig }) => {
-  pixiRefs.app.stage.interactive = value;
+  syncFollowMouseInteraction(value);
   setDefaultConfig((prevConfig) => ({
     ...prevConfig,
     followMouse: value,

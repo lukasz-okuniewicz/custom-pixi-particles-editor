@@ -19,6 +19,7 @@ export default function LifeProperties({ defaultConfig, index }) {
     priority: 10000,
     maxLifeTime: 1.4,
     timeVariance: 0.4,
+    infiniteLifeVisualPeriod: 5,
     name: "LifeBehaviour",
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
@@ -56,7 +57,7 @@ export default function LifeProperties({ defaultConfig, index }) {
         />
         <hr />
         <InputNumber
-          label="Max Life Time"
+          label="Max Life Time (-1 = infinite)"
           id="max-life-time"
           value={behaviour.maxLifeTime ?? keysToInitialize.maxLifeTime}
           step="1"
@@ -75,6 +76,24 @@ export default function LifeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
+        <InputNumber
+          label="Infinite life: visual period (sec)"
+          id="infinite-life-visual-period"
+          value={
+            behaviour.infiniteLifeVisualPeriod ??
+            keysToInitialize.infiniteLifeVisualPeriod
+          }
+          step="0.5"
+          min="0.1"
+          onChange={(value) => {
+            behaviour.infiniteLifeVisualPeriod = value;
+            updateBehaviours();
+          }}
+        />
+        <p className="explanation" style={{ fontSize: "0.85em", marginTop: 4 }}>
+          When max life is infinite, life progress repeats every this many seconds
+          so Color and other life-based effects keep animating.
+        </p>
       </div>
     </>
   );

@@ -23,6 +23,7 @@ export default function SizeProperties({ defaultConfig, index }) {
     sizeEnd: { x: 0, y: 0 },
     startVariance: 0.1,
     endVariance: 0,
+    endMatchesStart: false,
     maxSize: { x: 5, y: 5 },
     uniformScaling: true,
     pulsate: false,
@@ -140,32 +141,47 @@ export default function SizeProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
-              label="Size End"
-              id="size-end"
-              params={["x", "y"]}
-              value={[
-                behaviour.sizeEnd.x ?? keysToInitialize.sizeEnd.x,
-                behaviour.sizeEnd.y ?? keysToInitialize.sizeEnd.y,
-              ]}
-              step="0.1"
-              min="0"
-              onChange={(value, id) => {
-                behaviour.sizeEnd[id] = value;
-                updateBehaviours();
-              }}
-            />
-            <InputNumber
-              label="End Variance"
-              id="size-end-variance"
-              value={behaviour.endVariance ?? keysToInitialize.endVariance}
-              step="0.1"
-              min="0"
+            <Checkbox
+              label="End matches start (per particle)"
+              id="size-end-matches-start"
               onChange={(value) => {
-                behaviour.endVariance = value;
+                behaviour.endMatchesStart = value;
                 updateBehaviours();
               }}
+              checked={
+                behaviour.endMatchesStart ?? keysToInitialize.endMatchesStart
+              }
             />
+            {!behaviour.endMatchesStart && (
+              <>
+                <InputNumber
+                  label="Size End"
+                  id="size-end"
+                  params={["x", "y"]}
+                  value={[
+                    behaviour.sizeEnd.x ?? keysToInitialize.sizeEnd.x,
+                    behaviour.sizeEnd.y ?? keysToInitialize.sizeEnd.y,
+                  ]}
+                  step="0.1"
+                  min="0"
+                  onChange={(value, id) => {
+                    behaviour.sizeEnd[id] = value;
+                    updateBehaviours();
+                  }}
+                />
+                <InputNumber
+                  label="End Variance"
+                  id="size-end-variance"
+                  value={behaviour.endVariance ?? keysToInitialize.endVariance}
+                  step="0.1"
+                  min="0"
+                  onChange={(value) => {
+                    behaviour.endVariance = value;
+                    updateBehaviours();
+                  }}
+                />
+              </>
+            )}
             <InputNumber
               label="Max Size"
               id="maxSize"

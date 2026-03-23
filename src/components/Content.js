@@ -21,6 +21,7 @@ import {
   followMouseHandler,
   predefinedImageHandler,
   refreshHandler,
+  syncFollowMouseInteraction,
 } from "@pixi/handlers";
 import { bgImage } from "@utils/updatePropsLoogic";
 import Loader from "@utils/Loader";
@@ -417,7 +418,7 @@ export default function Content() {
         if (!behaviour.pulseSpeed) {
           delete behaviour.pulseSpeed;
         }
-      } else {
+      } else if (behaviour.colorStops && behaviour.colorStops.length > 0) {
         delete behaviour.start;
         delete behaviour.end;
         delete behaviour.startVariance;
@@ -632,6 +633,16 @@ export default function Content() {
             // Assume it's a particle config in the old format
             defaultConfig.emitterConfig = value;
           }
+          // Round-trip: downloaded JSON may omit textures; merge so load matches editor state
+          if (Array.isArray(value.textures) && value.textures.length > 0) {
+            defaultConfig.textures = value.textures;
+          }
+          if (Array.isArray(value.finishingTextures)) {
+            defaultConfig.finishingTextures = value.finishingTextures;
+          }
+          if (value.particleLinks != null) {
+            defaultConfig.particleLinks = value.particleLinks;
+          }
           // Preserve shatterEffect if it exists in the loaded config
           if (value.shatterEffect) {
             defaultConfig.shatterEffect = value.shatterEffect;
@@ -656,12 +667,20 @@ export default function Content() {
           if (value.meltEffect) {
             defaultConfig.meltEffect = value.meltEffect;
           }
-          if (value.pixelSortEffect) defaultConfig.pixelSortEffect = value.pixelSortEffect;
-          if (value.prismRefractionEffect) defaultConfig.prismRefractionEffect = value.prismRefractionEffect;
-          if (value.crystallizeEffect) defaultConfig.crystallizeEffect = value.crystallizeEffect;
-          if (value.slitScanEffect) defaultConfig.slitScanEffect = value.slitScanEffect;
-          if (value.granularErosionEffect) defaultConfig.granularErosionEffect = value.granularErosionEffect;
-          if (value.liquidMercuryEffect) defaultConfig.liquidMercuryEffect = value.liquidMercuryEffect;
+          if (value.pixelSortEffect)
+            defaultConfig.pixelSortEffect = value.pixelSortEffect;
+          if (value.prismRefractionEffect)
+            defaultConfig.prismRefractionEffect = value.prismRefractionEffect;
+          if (value.crystallizeEffect)
+            defaultConfig.crystallizeEffect = value.crystallizeEffect;
+          if (value.slitScanEffect)
+            defaultConfig.slitScanEffect = value.slitScanEffect;
+          if (value.granularErosionEffect)
+            defaultConfig.granularErosionEffect = value.granularErosionEffect;
+          if (value.liquidMercuryEffect)
+            defaultConfig.liquidMercuryEffect = value.liquidMercuryEffect;
+          if (value.metaballPass !== undefined)
+            defaultConfig.metaballPass = value.metaballPass;
           defaultConfig.particlePredefinedEffect = undefined;
           defaultConfig.refresh = true;
           setDefaultConfig(() => ({
@@ -783,6 +802,19 @@ export default function Content() {
           removeFromAngular(downloadableObj);
           removeFromEmitDirectional(downloadableObj);
 
+          if (Array.isArray(defaultConfig.textures) && defaultConfig.textures.length > 0) {
+            downloadableObj.textures = [...defaultConfig.textures];
+          }
+          if (
+            Array.isArray(defaultConfig.finishingTextures) &&
+            defaultConfig.finishingTextures.length > 0
+          ) {
+            downloadableObj.finishingTextures = [...defaultConfig.finishingTextures];
+          }
+          if (defaultConfig.particleLinks != null) {
+            downloadableObj.particleLinks = defaultConfig.particleLinks;
+          }
+
           const blob = new Blob([JSON.stringify(downloadableObj)], {
             type: "application/json",
           });
@@ -860,7 +892,11 @@ export default function Content() {
 
     if (
       defaultConfig.emitterConfig?.animatedSprite &&
-      defaultConfig.emitterConfig?.animatedSprite.animatedSpriteName
+      defaultConfig.emitterConfig?.animatedSprite.animatedSpriteName &&
+      !(
+        Array.isArray(defaultConfig.emitterConfig.textureVariants) &&
+        defaultConfig.emitterConfig.textureVariants.length > 0
+      )
     ) {
       defaultConfig.textures = [
         defaultConfig.emitterConfig.animatedSprite.animatedSpriteName,
@@ -885,6 +921,8 @@ export default function Content() {
     }
 
     handleResize();
+
+    syncFollowMouseInteraction(defaultConfig.followMouse);
 
     // Add event listeners
     pixiRefs.app.stage.on("mousemove", handleMouseMove);
