@@ -30,16 +30,16 @@ If you find this editor useful, consider supporting the project:
 
 - **Visual editor** – Configure emitters, behaviours, and effects through an intuitive UI
 - **Real-time preview** – Changes apply instantly on the canvas
-- **Full engine support** – All particle behaviours, emission types, and special effects
+- **Full engine support** – Particle behaviours, emission types, and special effects exposed in the UI
 - **Predefined effects** – 80+ presets including fire, smoke, explosions, trails, text, snow, fountains, warp effects, swarms, and more
 - **Behaviour descriptions** – Inline "Show Description" for each behaviour with property documentation
 - **Export / import** – Save and load emitter configurations as JSON
-- **Special effects** – Shatter, Dissolve, Ghost, Glitch, Melt, Magnetic Assembly, Pixel Sort, Prism Refraction, Crystallize, Slit-Scan, Granular Erosion, Liquid Mercury
+- **Sprite / image effects** – Shatter, Dissolve, Ghost, Glitch, Melt, Magnetic Assembly, Pixel Sort, Prism Refraction, Crystallize, Slit Scan, Granular Erosion, Liquid Mercury
 - **3D wireframes** – Cube, sphere, torus, and other wireframe shapes with motion options
 
 ### Supported Behaviours
 
-Life, Position, Spawn, Size, Color, Rotation, Angular Velocity, Emit Direction, Turbulence, Collision, Attraction/Repulsion, Noise-Based Motion, Force Fields, Timeline, Grouping, Sound Reactive, Light Effect, Stretch, Temperature, Move To Point, Wireframe 3D, Aizawa Attractor, Boids Flocking, Bounce, Color Cycle, Constrain To Shape, Conversion Cascade, Curvature Flow, Flicker, Float Up, Gravity Well, Homing, Jacobian Curl-Field, Lissajous Harmonic Lattice, Limit Cycle, Magnet, Near Miss Dispersion, Orbit, Phase Coherence, Phase Field Flow, Proximity State, Proximity Triggered Phase, Pulse, Ripple, Trail, Toroidal Flow, Vortex, Wobble.
+Life, Position, Spawn, Size, Color, Rotation, Angular Velocity, Emit Direction, Turbulence, Collision, Attraction/Repulsion, Noise-Based Motion, Force Fields, Timeline, Grouping, Sound Reactive, Light Effect, Stretch, Temperature, Move To Point, Form Pattern, Wireframe 3D, Aizawa Attractor, Boids Flocking, Bounce, Color Cycle, Constrain To Shape, Conversion Cascade, Curvature Flow, Flicker, Float Up, Gravity Well, Homing, Jacobian Curl-Field, Lissajous Harmonic Lattice, Limit Cycle, Magnet, Near Miss Dispersion, Orbit, Phase Coherence, Phase Field Flow, Proximity State, Proximity Triggered Phase, Pulse, Ripple, Trail, Toroidal Flow, Toroidal Wrap, Vortex, Wobble, Shear Flow, Obstacle SDF Steer, RVO Avoidance, Emitter Attractor Link, Kelvin Wake, Bezier Flow Tube, Screen Space Flow Map, Beat Phase Lock, Damage Flash Ripple.
 
 ---
 
@@ -65,25 +65,43 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### Production build
+The dev script clears `.next` before starting so stale build cache is less likely to cause issues.
+
+### Local engine package (monorepo)
+
+If you are editing **custom-pixi-particles** alongside this app, link the local engine so the editor does not only use the npm registry version:
+
+```bash
+cd ../custom-pixi-particles && npm link
+cd ../custom-pixi-particles-editor && npm link custom-pixi-particles
+```
+
+### Production build (static export)
+
+This app sets Next.js `output: 'export'` in `next.config.mjs`, so **`npm run build` produces static files in the `out/` directory** (no Node server bundle).
 
 ```bash
 npm run build
-npm start
 ```
 
-The app will be served on port 3000.
+Serve `out/` with any static file server, for example:
+
+```bash
+npx serve out
+```
+
+`npm start` (`next start`) targets the default Node.js server output and is **not** the deployment path for this static-export setup.
 
 ---
 
 ## 📖 Usage
 
-1. Start the app with `npm run dev` or `npm start`.
-2. Open [http://localhost:3000](http://localhost:3000).
+1. Start the app with `npm run dev` or serve the `out/` folder after `npm run build`.
+2. Open [http://localhost:3000](http://localhost:3000) (or your static server URL).
 3. Use the sidebar to:
-   - Select a **predefined effect** from the dropdown (fire, smoke, explosion, etc.)
+   - Select a **predefined effect** from the dropdown (particle presets and **Sprite / Image Effects**)
    - Configure **emitters**, **behaviours** (Life, Position, Spawn, Size, Color, etc.), and **emission types**
-   - Adjust **special effects** (Shatter, Dissolve, Ghost, Glitch, Melt, Magnetic Assembly)
+   - Adjust **sprite / image effects** when that preset is selected (Shatter, Dissolve, Ghost, Glitch, Melt, Magnetic Assembly, Pixel Sort, Prism Refraction, Crystallize, Slit Scan, Granular Erosion, Liquid Mercury)
 4. Click **"Show Description"** next to any behaviour for detailed property documentation.
 5. Preview updates in real time on the canvas.
 6. Use **Load & Save** to export or import emitter configs as JSON.
@@ -92,10 +110,10 @@ The app will be served on port 3000.
 
 ## 📤 Using Exported Config
 
-Exported JSON configs can be used directly with the **custom-pixi-particles** library:
+Exported JSON configs can be used with the **custom-pixi-particles** library. Import the **`customPixiParticles` named export** (there is no default export):
 
 ```javascript
-import customPixiParticles from 'custom-pixi-particles'
+import { customPixiParticles } from 'custom-pixi-particles'
 
 // Load your exported config (e.g. from file or API)
 const config = {
@@ -119,10 +137,10 @@ The exported JSON structure matches the `emitterConfig` and `textures` expected 
 
 ## 🏗️ Technology Stack
 
-- **Next.js 15** – React framework
+- **Next.js 15** – React framework (static export for production)
 - **React 19** – UI
-- **PIXI.js Legacy v6** – 2D WebGL canvas
-- **custom-pixi-particles** – Particle engine
+- **PixiJS v8** – 2D WebGL rendering (`pixi.js`; webpack resolves a single instance so the editor and engine share textures)
+- **custom-pixi-particles** – Particle engine (npm dependency version matches `package.json`)
 - **Tailwind CSS 4** – Styling
 - **GSAP** – Animations
 
