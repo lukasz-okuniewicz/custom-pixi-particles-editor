@@ -12,6 +12,7 @@ const pixiRefs = {
   particles: null,
   particlesArr: [],
   meltEffectInstance: null,
+  metaballPassInstance: null,
 };
 
 export default pixiRefs;

@@ -55,6 +55,101 @@ legend:hover {
   color: #00ffe9;
 }
 
+.editor-sidebar-section {
+  scroll-margin-top: 12px;
+}
+
+/* Behaviour section title (legend) when that behaviour is enabled in config */
+.editor-sidebar-section--behaviour-on > legend {
+  color: #00ffe9;
+  border-bottom-color: rgba(0, 255, 233, 0.45);
+  text-shadow: 0 0 14px rgba(0, 255, 233, 0.22);
+}
+
+.editor-sidebar-section--behaviour-on > legend:hover {
+  color: #b5fff7;
+  border-bottom-color: rgba(0, 255, 233, 0.6);
+}
+
+.enabled-behaviours-summary {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 255, 233, 0.22);
+  background: rgba(0, 40, 36, 0.35);
+}
+
+.enabled-behaviours-summary--empty {
+  border-color: rgba(140, 130, 115, 0.35);
+  background: rgba(30, 32, 34, 0.6);
+}
+
+.enabled-behaviours-summary__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.enabled-behaviours-summary__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgb(220, 215, 205);
+}
+
+.enabled-behaviours-summary__count {
+  font-size: 12px;
+  font-weight: 600;
+  color: #00ffe9;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 255, 233, 0.12);
+}
+
+.enabled-behaviours-summary__sub {
+  margin: 8px 0 10px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: rgba(200, 195, 188, 0.75);
+}
+
+.enabled-behaviours-summary__hint {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(200, 195, 188, 0.65);
+}
+
+.enabled-behaviours-summary__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.enabled-behaviours-summary__chip {
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1.2;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 233, 0.35);
+  background: rgba(24, 26, 27, 0.9);
+  color: rgb(210, 205, 195);
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.enabled-behaviours-summary__chip:hover {
+  border-color: #00ffe9;
+  color: #00ffe9;
+  background: rgba(0, 60, 55, 0.45);
+}
+
+.enabled-behaviours-summary__chip:focus-visible {
+  outline: 2px solid #00ffe9;
+  outline-offset: 2px;
+}
+
 .form-group {
   margin-top: 15px;
   margin-bottom: 15px;

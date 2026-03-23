@@ -15,6 +15,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
       UniformEmission: true,
       RandomEmission: true,
       StandardEmission: true,
+      PersistentFillEmission: true,
     };
     return Object.keys(names)
       .sort()
@@ -58,6 +59,47 @@ export default function EmissionTypeProperties({ defaultConfig }) {
           label="Duration"
           id="duration"
           value={defaultConfig.emitterConfig.duration ?? 1}
+          step="1"
+          onChange={(value) => updateProps("emitterConfig.duration", value)}
+        />
+      </>
+    );
+  };
+
+  const renderPersistentFillEmission = () => {
+    return (
+      <>
+        <InputNumber
+          label="Max Particles"
+          id="persistent-max-particles"
+          value={
+            defaultConfig.emitterConfig.emitController._maxParticles > 0
+              ? defaultConfig.emitterConfig.emitController._maxParticles
+              : 200
+          }
+          step="1"
+          onChange={(value) =>
+            updateProps("emitterConfig.emitController._maxParticles", value)
+          }
+        />
+        <InputNumber
+          label="Burst Per Frame"
+          id="persistent-burst"
+          value={
+            defaultConfig.emitterConfig.emitController._burstPerFrame > 0
+              ? defaultConfig.emitterConfig.emitController._burstPerFrame
+              : 100
+          }
+          step="1"
+          min="1"
+          onChange={(value) =>
+            updateProps("emitterConfig.emitController._burstPerFrame", value)
+          }
+        />
+        <InputNumber
+          label="Duration"
+          id="duration-persistent"
+          value={defaultConfig.emitterConfig.duration ?? -1}
           step="1"
           onChange={(value) => updateProps("emitterConfig.duration", value)}
         />
@@ -129,6 +171,20 @@ export default function EmissionTypeProperties({ defaultConfig }) {
                 undefined,
                 true,
               );
+            } else if (value === "PersistentFillEmission") {
+              updateProps(
+                "emitterConfig.emitController._maxParticles",
+                200,
+                undefined,
+                true,
+              );
+              updateProps(
+                "emitterConfig.emitController._burstPerFrame",
+                100,
+                undefined,
+                true,
+              );
+              updateProps("emitterConfig.duration", -1, undefined, true);
             } else {
               updateProps(
                 "emitterConfig.emitController._maxParticles",
@@ -152,6 +208,8 @@ export default function EmissionTypeProperties({ defaultConfig }) {
           "StandardEmission" && renderStandardAndRandomEmission()}
         {defaultConfig.emitterConfig.emitController.name === "RandomEmission" &&
           renderStandardAndRandomEmission()}
+        {defaultConfig.emitterConfig.emitController.name ===
+          "PersistentFillEmission" && renderPersistentFillEmission()}
       </div>
     </>
   );

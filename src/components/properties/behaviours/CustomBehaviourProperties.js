@@ -5,6 +5,7 @@ import { useAutoResizeTextarea } from "@hooks/useAutoResizeTextarea";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
 import { updateProps } from "@utils";
+import CustomBehavioursDescription from "@components/html/behaviourDescriptions/CustomBehaviours";
 
 function BehaviourJsonTextarea({ defaultValue, onBlur }) {
   const { ref, onInput } = useAutoResizeTextarea();
@@ -95,6 +96,7 @@ export default function CustomBehaviourProperties({
     <>
       <legend onClick={toggleSubmenuVisibility}>Custom behaviours</legend>
       <div className={`${isSubmenuVisible}`}>
+        <CustomBehavioursDescription />
         <p className="form-group text-muted small">
           These behaviours are not built-in. Register them with
           BehaviourRegistry in your app so they run when config is loaded.

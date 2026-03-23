@@ -56,6 +56,7 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "StretchBehaviour",
   "TemperatureBehaviour",
   "MoveToPointBehaviour",
+  "FormPatternBehaviour",
   "Wireframe3DBehaviour",
   "VortexBehaviour",
   "PulseBehaviour",
@@ -68,6 +69,7 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "GravityWellBehaviour",
   "TrailBehaviour",
   "BounceBehaviour",
+  "ToroidalWrapBehaviour",
   "HomingBehaviour",
   "FloatUpBehaviour",
   "MagnetBehaviour",
@@ -84,6 +86,15 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "ProximityTriggeredPhaseBehaviour",
   "LissajousHarmonicLatticeBehaviour",
   "JacobianCurlFieldBehaviour",
+  "ShearFlowBehaviour",
+  "ObstacleSDFSteerBehaviour",
+  "RVOAvoidanceBehaviour",
+  "EmitterAttractorLinkBehaviour",
+  "KelvinWakeBehaviour",
+  "BezierFlowTubeBehaviour",
+  "ScreenSpaceFlowMapBehaviour",
+  "BeatPhaseLockBehaviour",
+  "DamageFlashRippleBehaviour",
 ];
 
 export const camelCaseToNormal = (text) => {
@@ -209,7 +220,14 @@ export const getCustomBehaviourEntries = (config) => {
  * original config so sound reactive behaviour keeps working after update.
  */
 export const getConfigSafeForLibrary = (config) => {
-  if (!config?.emitterConfig?.behaviours) return config;
+  if (!config?.emitterConfig?.behaviours) {
+    if (!Object.prototype.hasOwnProperty.call(config, "metaballPass")) {
+      return config;
+    }
+    const stripped = { ...config };
+    delete stripped.metaballPass;
+    return stripped;
+  }
   const safe = JSON.parse(JSON.stringify(config));
   safe.emitterConfig.behaviours = safe.emitterConfig.behaviours.filter(
     (b) => b?.name && BUILT_IN_BEHAVIOUR_NAMES.includes(b.name),
@@ -236,6 +254,9 @@ export const getConfigSafeForLibrary = (config) => {
     safe.emitterConfig.blendMode = normalizeBlendModeForPixiV8(
       safe.emitterConfig.blendMode
     );
+  }
+  if (Object.prototype.hasOwnProperty.call(safe, "metaballPass")) {
+    delete safe.metaballPass;
   }
   return safe;
 };
@@ -274,7 +295,7 @@ export const updateNestedConfig = (config, keys, value, id) => {
         current[key] = value; // Update the value at the last key
       }
     } else {
-      current[key] = { ...current[key] }; // Create a shallow copy of the nested object
+      current[key] = { ...(current[key] || {}) }; // Copy nested object (handles undefined)
       current = current[key]; // Traverse deeper
     }
   });
@@ -282,7 +303,8 @@ export const updateNestedConfig = (config, keys, value, id) => {
 };
 
 export const resize = (contentRef) => {
-  const { app, bgSprite, particlesContainer, graphics, bgSprite2 } = pixiRefs;
+  const { app, bgSprite, particlesContainer, graphics, bgSprite2, metaballPassInstance } =
+    pixiRefs;
 
   if (!contentRef || !contentRef.current) return;
 
@@ -316,6 +338,10 @@ export const resize = (contentRef) => {
     (finalInnerWidth - GAME_WIDTH * stageScale) / 2, // Center horizontally
     (finalInnerHeight - GAME_HEIGHT * stageScale) / 2, // Center vertically
   );
+
+  if (metaballPassInstance && typeof metaballPassInstance.resize === "function") {
+    metaballPassInstance.resize(GAME_WIDTH, GAME_HEIGHT);
+  }
 
   // Adjust background sprite to 100% width while maintaining aspect ratio
   // Guard against zero-dimension sprites (e.g. texture not loaded yet when re-selecting effects)
@@ -441,6 +467,32 @@ export const initializeProperty = (obj, key, defaultValue = {}) => {
 
 export const mergeObjectsWithDefaults = (defaults, target) => {
   if (Array.isArray(defaults)) {
+    if (Array.isArray(target)) {
+      // `flowData: []` + numeric array — do not merge element-wise (would turn each number into {})
+      if (
+        defaults.length === 0 &&
+        target.length > 0 &&
+        target.every((x) => typeof x === "number")
+      ) {
+        return target;
+      }
+      // Previous buggy merge: 128 empty objects — treat as empty
+      if (
+        target.length > 0 &&
+        target.every(
+          (x) =>
+            typeof x === "object" &&
+            x !== null &&
+            !Array.isArray(x) &&
+            Object.keys(x).length === 0,
+        )
+      ) {
+        return [];
+      }
+    }
+    if (!Array.isArray(target)) {
+      return defaults;
+    }
     return target.map((targetItem, index) => {
       const defaultItem = defaults[index] || {};
       return mergeObjectsWithDefaults(defaultItem, targetItem);

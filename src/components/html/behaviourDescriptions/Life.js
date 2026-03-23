@@ -34,8 +34,8 @@ const LifeDescription = () => {
             to other behaviors.
           </li>
           <li>
-            <b>Max Lifetime</b>: Specifies the maximum duration (in seconds) a
-            particle can exist.
+            <b>Max Lifetime</b>: Maximum duration (seconds). Use{" "}
+            <b>-1</b> for infinite life (persistent pools / wrap effects).
           </li>
           <li>
             <b>Time Variance</b>: Adds randomness to the lifetime, allowing for
