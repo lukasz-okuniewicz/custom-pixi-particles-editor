@@ -39,7 +39,12 @@ const SizeDescription = () => {
           <li>
             <b>Size End and Variance</b>: Sets the target size for particles at
             the end of their lifecycle, with additional randomness for
-            variation.
+            variation (hidden when <b>End matches start</b> is on).
+          </li>
+          <li>
+            <b>End matches start (per particle)</b>: Each particle ends at its
+            own start size after start variance; Size End and End Variance are
+            ignored.
           </li>
           <li>
             <b>Max Size</b>: Limits the maximum size particles can achieve.
@@ -116,6 +121,7 @@ const SizeDescription = () => {
           <li><b>priority</b> — Execution order (higher runs first).</li>
           <li><b>sizeStart</b>, <b>sizeEnd</b> — Start and end size (x, y).</li>
           <li><b>startVariance</b>, <b>endVariance</b> — Random variation for size.</li>
+          <li><b>endMatchesStart</b> — If true, per-particle end size equals that particle&apos;s start size (after start variance).</li>
           <li><b>maxSize</b> — Maximum size clamp (x, y).</li>
           <li><b>uniformScaling</b> — Keep aspect ratio when scaling.</li>
           <li><b>pulsate</b> — Breathing/throbbing effect.</li>
