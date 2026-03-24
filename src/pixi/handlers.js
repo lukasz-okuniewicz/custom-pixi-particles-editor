@@ -8,7 +8,11 @@ import pixiRefs from "@pixi/pixiRefs";
 export const syncFollowMouseInteraction = (follow) => {
   if (!pixiRefs.app) return;
   const { stage, screen } = pixiRefs.app;
+  // Pixi v8 interaction API
   stage.eventMode = follow ? "dynamic" : "none";
+  // Pixi v7 (pixi.js-legacy) interaction API
+  stage.interactive = !!follow;
+  stage.interactiveChildren = !!follow;
   stage.hitArea = follow ? screen : null;
 };
 
