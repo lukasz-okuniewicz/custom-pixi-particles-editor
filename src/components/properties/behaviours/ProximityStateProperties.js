@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import ProximityStateDescription from "@components/html/behaviourDescriptions/ProximityState";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -78,7 +80,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <ProximityStateDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="proximity-enabled"
           onChange={(value) => {
@@ -87,7 +89,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="proximity-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -97,7 +99,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Target"
           id="proximity-target"
           params={["x", "y"]}
@@ -125,7 +127,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Near Radius"
           id="proximity-nearRadius"
           value={behaviour.nearRadius ?? keysToInitialize.nearRadius}
@@ -136,7 +138,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Wander Strength"
           id="proximity-wanderStrength"
           value={behaviour.wanderStrength ?? keysToInitialize.wanderStrength}
@@ -146,7 +148,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Wander Phase Speed"
           id="proximity-wanderPhaseSpeed"
           value={
@@ -158,7 +160,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Seek Strength"
           id="proximity-seekStrength"
           value={behaviour.seekStrength ?? keysToInitialize.seekStrength}
@@ -168,7 +170,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Seek Max Speed"
           id="proximity-seekMaxSpeed"
           value={behaviour.seekMaxSpeed ?? keysToInitialize.seekMaxSpeed}
@@ -178,7 +180,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Arrival Radius"
           id="proximity-arrivalRadius"
           value={behaviour.arrivalRadius ?? keysToInitialize.arrivalRadius}
@@ -189,7 +191,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write State For Color"
           id="proximity-writeStateForColor"
           onChange={(value) => {
@@ -200,7 +202,7 @@ export default function ProximityStateProperties({ defaultConfig, index }) {
             behaviour.writeStateForColor ?? keysToInitialize.writeStateForColor
           }
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Distance For Visual"
           id="proximity-writeDistanceForVisual"
           onChange={(value) => {

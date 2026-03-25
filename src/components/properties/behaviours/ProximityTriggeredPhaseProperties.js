@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import ProximityTriggeredPhaseDescription from "@components/html/behaviourDescriptions/ProximityTriggeredPhase";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -82,7 +84,7 @@ export default function ProximityTriggeredPhaseProperties({
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <ProximityTriggeredPhaseDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="proxtrig-enabled"
           onChange={(value) => {
@@ -91,7 +93,7 @@ export default function ProximityTriggeredPhaseProperties({
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="proxtrig-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -101,7 +103,7 @@ export default function ProximityTriggeredPhaseProperties({
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Trigger"
           id="proxtrig-triggerPos"
           params={["x", "y"]}
@@ -126,7 +128,7 @@ export default function ProximityTriggeredPhaseProperties({
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Trigger Radius"
           id="proxtrig-triggerRadius"
           value={behaviour.triggerRadius ?? keysToInitialize.triggerRadius}
@@ -137,7 +139,7 @@ export default function ProximityTriggeredPhaseProperties({
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Orbit Strength"
           id="proxtrig-orbitStrength"
           value={behaviour.orbitStrength ?? keysToInitialize.orbitStrength}
@@ -147,7 +149,7 @@ export default function ProximityTriggeredPhaseProperties({
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Orbit Phase Speed"
           id="proxtrig-orbitPhaseSpeed"
           value={behaviour.orbitPhaseSpeed ?? keysToInitialize.orbitPhaseSpeed}
@@ -157,7 +159,7 @@ export default function ProximityTriggeredPhaseProperties({
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Escape Strength"
           id="proxtrig-escapeStrength"
           value={behaviour.escapeStrength ?? keysToInitialize.escapeStrength}
@@ -167,7 +169,7 @@ export default function ProximityTriggeredPhaseProperties({
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Jitter Strength"
           id="proxtrig-jitterStrength"
           value={behaviour.jitterStrength ?? keysToInitialize.jitterStrength}
@@ -177,7 +179,7 @@ export default function ProximityTriggeredPhaseProperties({
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="State Smooth Edge"
           id="proxtrig-stateSmoothEdge"
           value={behaviour.stateSmoothEdge ?? keysToInitialize.stateSmoothEdge}
@@ -189,7 +191,7 @@ export default function ProximityTriggeredPhaseProperties({
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write State For Color"
           id="proxtrig-writeStateForColor"
           onChange={(value) => {

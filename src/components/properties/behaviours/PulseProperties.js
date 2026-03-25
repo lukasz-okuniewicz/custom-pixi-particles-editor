@@ -1,11 +1,13 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import Select from "@components/html/Select";
-import ColorPicker from "@components/html/ColorPicker";
 import PulseDescription from "@components/html/behaviourDescriptions/Pulse";
 
 export default function PulseProperties({ defaultConfig, index }) {
@@ -58,7 +60,7 @@ export default function PulseProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <PulseDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="pulse-enabled"
           onChange={(value) => {
@@ -67,7 +69,7 @@ export default function PulseProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="pulse-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -77,7 +79,7 @@ export default function PulseProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Frequency"
           id="pulse-frequency"
           value={behaviour.frequency ?? keysToInitialize.frequency}
@@ -87,7 +89,7 @@ export default function PulseProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Amplitude"
           id="pulse-amplitude"
           value={behaviour.amplitude ?? keysToInitialize.amplitude}
@@ -97,7 +99,7 @@ export default function PulseProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Pulse Size"
           id="pulse-pulseSize"
           onChange={(value) => {
@@ -106,7 +108,7 @@ export default function PulseProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.pulseSize ?? keysToInitialize.pulseSize}
         />
-        <Checkbox
+        <BfCheckbox
           label="Pulse Alpha"
           id="pulse-pulseAlpha"
           onChange={(value) => {
@@ -115,7 +117,7 @@ export default function PulseProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.pulseAlpha ?? keysToInitialize.pulseAlpha}
         />
-        <Checkbox
+        <BfCheckbox
           label="Pulse Color"
           id="pulse-pulseColor"
           onChange={(value) => {
@@ -125,7 +127,8 @@ export default function PulseProperties({ defaultConfig, index }) {
           checked={behaviour.pulseColor ?? keysToInitialize.pulseColor}
         />
         {behaviour.pulseColor && (
-          <ColorPicker
+          <BfColorPicker
+            id="pulse-colorBlend"
             label="Color Blend"
             value={
               behaviour.colorBlend ?? {
@@ -145,7 +148,7 @@ export default function PulseProperties({ defaultConfig, index }) {
             }}
           />
         )}
-        <Select
+        <BfSelect
           label="Mode"
           defaultValue={behaviour.mode ?? keysToInitialize.mode}
           onChange={(value) => {
@@ -154,7 +157,7 @@ export default function PulseProperties({ defaultConfig, index }) {
           }}
           elements={modeOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Phase Offset"
           id="pulse-phaseOffset"
           value={behaviour.phaseOffset ?? keysToInitialize.phaseOffset}

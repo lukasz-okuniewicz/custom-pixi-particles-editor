@@ -25,14 +25,23 @@ import {
 } from "@pixi/handlers";
 import { bgImage } from "@utils/updatePropsLoogic";
 import { saveAs } from "file-saver";
+import Loader from "@utils/Loader";
 
 export default function Content() {
   const [defaultConfig, setDefaultConfig2] = useState(null);
   const [containerReady, setContainerReady] = useState(false);
   const [appReady, setAppReady] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [uiNotice, setUiNotice] = useState(null);
+  const [isDirty, setIsDirty] = useState(false);
+  const [validationWarnings, setValidationWarnings] = useState([]);
   const contentRef = useRef(null);
+  const isApplyingHistoryRef = useRef(false);
+  const lastSnapshotRef = useRef("");
+  const baselineSnapshotRef = useRef("");
+  const didAttemptDraftRestoreRef = useRef(false);
   const fullConfig = JSON.parse(JSON.stringify(particlesDefaultConfig));
+  const DRAFT_STORAGE_KEY = "particleEditor.autosaveDraft.v1";
 
   const setContentRef = useCallback((el) => {
     contentRef.current = el;
@@ -43,9 +52,100 @@ export default function Content() {
     setDefaultConfig2(conf);
   };
 
+  const pushNotice = useCallback((notice) => {
+    setUiNotice(notice);
+  }, []);
+
   const handleResize = useCallback(() => {
     resize(contentRef);
   }, [contentRef]);
+
+  const computeWarnings = useCallback((config) => {
+    const warnings = [];
+    const emitter = config?.emitterConfig || {};
+    const behaviours = Array.isArray(emitter.behaviours) ? emitter.behaviours : [];
+    const lifeIdx = behaviours.findIndex((b) => b?.name === "LifeBehaviour");
+    const life = lifeIdx >= 0 ? behaviours[lifeIdx] : null;
+    const effectName = config?.particlePredefinedEffect || "coffeeShop";
+    const heavyEffects = new Set([
+      "shatterEffect",
+      "liquidMercuryEffect",
+      "pixelSortEffect",
+      "crystallizeEffect",
+      "slitScanEffect",
+    ]);
+    const heavyMultiplier = heavyEffects.has(effectName) ? 0.7 : 1;
+    const maxParticles = Number(emitter.maxParticles || 0);
+    const emitRate = Number(emitter.emitRate || 0);
+    const lifeEnd = Number(life?.lifeEnd ?? 0);
+    const enabledBehavioursCount = behaviours.filter((b) => b && b.enabled !== false).length;
+
+    if (maxParticles > 12000 * heavyMultiplier) warnings.push("Very high maxParticles can degrade real-time editing performance.");
+    if (emitRate > 1500 * heavyMultiplier) warnings.push("High emitRate may cause visual instability and FPS drops.");
+    if (lifeEnd > 18 * heavyMultiplier) warnings.push("Long particle lifetime can create buildup and memory pressure.");
+    if (enabledBehavioursCount > 12) warnings.push("Many enabled behaviours can make tweaking harder; consider disabling non-critical ones.");
+    return warnings;
+  }, []);
+
+  const sanitizeTemplateConfig = useCallback((template) => {
+    const clone = JSON.parse(JSON.stringify(template || {}));
+    if (!clone?.emitterConfig) return clone;
+    if (!clone.emitterConfig.reactiveSignals || typeof clone.emitterConfig.reactiveSignals !== "object") {
+      clone.emitterConfig.reactiveSignals = {};
+    }
+    const behaviours = Array.isArray(clone.emitterConfig.behaviours)
+      ? clone.emitterConfig.behaviours
+      : [];
+    clone.emitterConfig.behaviours = behaviours
+      .filter((b) => b && typeof b === "object")
+      .map((b) =>
+        b.name === "SoundReactiveBehaviour"
+          ? {
+              ...b,
+              reactiveSignals:
+                b.reactiveSignals && typeof b.reactiveSignals === "object"
+                  ? b.reactiveSignals
+                  : {},
+            }
+          : b,
+      );
+    return clone;
+  }, []);
+
+  const normalizeRuntimeConfig = useCallback((config) => {
+    const originalBehaviours = Array.isArray(config?.emitterConfig?.behaviours)
+      ? config.emitterConfig.behaviours
+      : [];
+    const clone = JSON.parse(JSON.stringify(config || {}));
+    if (!clone?.emitterConfig) return clone;
+    if (!clone.emitterConfig.reactiveSignals || typeof clone.emitterConfig.reactiveSignals !== "object") {
+      clone.emitterConfig.reactiveSignals = {};
+    }
+    if (Array.isArray(clone.emitterConfig.behaviours)) {
+      clone.emitterConfig.behaviours = clone.emitterConfig.behaviours.map((b) => {
+        if (!b || typeof b !== "object") return b;
+        if (b.name !== "SoundReactiveBehaviour") return b;
+        const original = originalBehaviours.find(
+          (orig) => orig?.name === "SoundReactiveBehaviour",
+        );
+        return {
+          ...b,
+          analyser: original?.analyser ?? null,
+          audioContext: original?.audioContext ?? null,
+          frequencyData: original?.frequencyData ?? null,
+          isPlaying:
+            typeof original?.isPlaying === "boolean"
+              ? original.isPlaying
+              : b.isPlaying,
+          reactiveSignals:
+            b.reactiveSignals && typeof b.reactiveSignals === "object"
+              ? b.reactiveSignals
+              : {},
+        };
+      });
+    }
+    return clone;
+  }, []);
 
   const removeFromPosition = (downloadableObj) => {
     const behaviourIndex = getConfigIndexByName(
@@ -501,6 +601,61 @@ export default function Content() {
   };
 
   useEffect(() => {
+    if (!uiNotice) return undefined;
+    const timeout = setTimeout(() => setUiNotice(null), 2800);
+    return () => clearTimeout(timeout);
+  }, [uiNotice]);
+
+  useEffect(() => {
+    if (!defaultConfig) return;
+    const snapshot = JSON.stringify(defaultConfig);
+    if (!lastSnapshotRef.current) {
+      lastSnapshotRef.current = snapshot;
+      return;
+    }
+    if (snapshot === lastSnapshotRef.current) return;
+    if (isApplyingHistoryRef.current) {
+      isApplyingHistoryRef.current = false;
+      lastSnapshotRef.current = snapshot;
+      return;
+    }
+    lastSnapshotRef.current = snapshot;
+    setIsDirty(snapshot !== baselineSnapshotRef.current);
+  }, [defaultConfig]);
+
+  useEffect(() => {
+    if (!defaultConfig) return;
+    setValidationWarnings(computeWarnings(defaultConfig));
+  }, [computeWarnings, defaultConfig]);
+
+  useEffect(() => {
+    if (!defaultConfig) return;
+    const draft = window.setTimeout(() => {
+      try {
+        window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(defaultConfig));
+      } catch {}
+    }, 800);
+    return () => window.clearTimeout(draft);
+  }, [defaultConfig, DRAFT_STORAGE_KEY]);
+
+  useEffect(() => {
+    if (!defaultConfig || didAttemptDraftRestoreRef.current) return;
+    didAttemptDraftRestoreRef.current = true;
+    baselineSnapshotRef.current = JSON.stringify(defaultConfig);
+    try {
+      const draftRaw = window.localStorage.getItem(DRAFT_STORAGE_KEY);
+      if (!draftRaw) return;
+      const draft = JSON.parse(draftRaw);
+      const draftSnapshot = JSON.stringify(draft);
+      if (draftSnapshot === baselineSnapshotRef.current) return;
+      if (!window.confirm("A local autosave draft was found. Restore it?")) return;
+      isApplyingHistoryRef.current = true;
+      setDefaultConfig(draft);
+      pushNotice({ type: "info", message: "Autosave draft restored." });
+    } catch {}
+  }, [defaultConfig, pushNotice, DRAFT_STORAGE_KEY]);
+
+  useEffect(() => {
     const eventHandlers = {
       updateConfig: ({ value, id, arrayName, refresh }) => {
         setDefaultConfig((prevConfig) => ({
@@ -707,6 +862,8 @@ export default function Content() {
           setDefaultConfig(() => ({
             ...defaultConfig,
           }));
+          baselineSnapshotRef.current = JSON.stringify({ ...defaultConfig });
+          setIsDirty(false);
         }
       },
       downloadConfig: () => {
@@ -892,8 +1049,27 @@ export default function Content() {
           const blob = new Blob([JSON.stringify(downloadableObj)], {
             type: "application/json",
           });
-          saveAs(blob, "particle_config");
+          saveAs(blob, "particle_config.json");
         }
+        pushNotice({ type: "success", message: "Config downloaded." });
+        baselineSnapshotRef.current = JSON.stringify(defaultConfig);
+        setIsDirty(false);
+      },
+      loadConfigError: ({ message, details }) => {
+        pushNotice({
+          type: "error",
+          message: details ? `${message} (${details})` : message,
+        });
+      },
+      uiNotice: ({ type, message }) => pushNotice({ type, message }),
+      applyTemplate: (templateName) => {
+        if (!templateName || !fullConfig[templateName]) return;
+        const safeTemplate = sanitizeTemplateConfig(fullConfig[templateName]);
+        setDefaultConfig(() => ({
+          ...safeTemplate,
+          particlePredefinedEffect: templateName,
+        }));
+        pushNotice({ type: "success", message: `Template applied: ${templateName}` });
       },
     };
 
@@ -908,7 +1084,7 @@ export default function Content() {
         eventBus.off(event, handler),
       );
     };
-  }, [defaultConfig, handleResize]);
+  }, [defaultConfig, fullConfig, handleResize, pushNotice, sanitizeTemplateConfig]);
 
   const handleMouseMove = useCallback(
     (e) => {
@@ -1000,7 +1176,12 @@ export default function Content() {
         defaultConfig.emitterConfig.animatedSprite.frameRate || 0.25;
     }
 
-    createEffect({ defaultConfig, fullConfig, contentRef });
+    // Ensure spritesheet frame names (Snow100.png, smoke/smoke2_4.png, etc.) resolve via Assets
+    // so the particle engine's Texture.from(frameName) does not request bad URLs (404).
+    Loader.registerSpritesheetFrames();
+
+    const runtimeConfig = normalizeRuntimeConfig(defaultConfig);
+    createEffect({ defaultConfig: runtimeConfig, fullConfig, contentRef });
 
     // Clear refresh flag so repeated effect runs (e.g. from dependency changes) don't keep doing full reload
     if (defaultConfig.refresh) {
@@ -1024,12 +1205,55 @@ export default function Content() {
       pixiRefs.app.stage.off("pointermove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
     };
-  }, [defaultConfig, fullConfig, handleResize, handleMouseMove, appReady]);
+  }, [
+    defaultConfig,
+    fullConfig,
+    handleResize,
+    handleMouseMove,
+    appReady,
+    normalizeRuntimeConfig,
+  ]);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      const targetTag = e.target?.tagName?.toLowerCase();
+      const isTypingTarget =
+        targetTag === "input" ||
+        targetTag === "textarea" ||
+        targetTag === "select" ||
+        e.target?.isContentEditable;
+
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        updateProps("noConfig.download-config");
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "f") {
+        e.preventDefault();
+        const searchInput = document.getElementById("sidebar-behaviour-search");
+        if (searchInput && typeof searchInput.focus === "function") searchInput.focus();
+        return;
+      }
+      if (!isTypingTarget && e.key === "/") {
+        e.preventDefault();
+        const searchInput = document.getElementById("sidebar-behaviour-search");
+        if (searchInput && typeof searchInput.focus === "function") searchInput.focus();
+      }
+      if (!isTypingTarget && e.key.toLowerCase() === "m") {
+        setMobileMenuOpen((prev) => !prev);
+      }
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   return (
     <>
       <div
-        className="fixed top-0 left-0 bottom-0 bg-gray-600 editor-canvas-area"
+        className="fixed top-0 left-0 bottom-0 editor-canvas-area"
         style={{ right: "var(--editor-sidebar-width)" }}
         ref={setContentRef}
       ></div>
@@ -1073,10 +1297,21 @@ export default function Content() {
           fullConfig={fullConfig}
           handlePredefinedEffectChange={handlePredefinedEffectChange}
           defaultConfig={defaultConfig}
+          isDirty={isDirty}
+          validationWarnings={validationWarnings}
           isMobileMenuOpen={mobileMenuOpen}
           onCloseMenu={() => setMobileMenuOpen(false)}
         />
       )}
+      {uiNotice ? (
+        <div
+          className={`editor-ui-notice editor-ui-notice--${uiNotice.type || "info"}`}
+          role="status"
+          aria-live="polite"
+        >
+          {uiNotice.message}
+        </div>
+      ) : null}
     </>
   );
 }

@@ -17,16 +17,18 @@ const InputNumber = forwardRef(
     },
     ref,
   ) => {
+    const fieldClassName = className ? `form-control ${className}` : "form-control";
     const handleInputChange = (value, newValue) => {
       if (typeof onChange === "function") {
         onChange(newValue, value);
       }
     };
 
-    const renderInput = (inputValue, index, value) => (
-      <div className="col-xs-4" key={index}>
+    const renderInput = (inputValue, index, paramKey) => (
+      <div className="editor-input-number-param" key={index}>
+        <span className="editor-input-number-param-key">{paramKey}</span>
         <input
-          className={"form-control " + (inputValue !== 0 ? className : "")}
+          className={fieldClassName}
           type="number"
           id={`${id}-${index}`}
           step={step}
@@ -36,18 +38,16 @@ const InputNumber = forwardRef(
           onChange={(e) => {
             const val = parseFloat(e.target.value);
             if (!Number.isNaN(val)) {
-              handleInputChange(value, val);
+              handleInputChange(paramKey, val);
             } else {
-              handleInputChange(value, e.target.value);
+              handleInputChange(paramKey, e.target.value);
             }
           }}
-          aria-label={params ? value : label}
+          aria-label={params ? `${label} (${paramKey})` : label}
+          aria-describedby={
+            tooltipText && params ? `${id}-tooltip` : undefined
+          }
         />
-        {params && (
-          <span className="tooltiptext" id={`${id}-tooltip-${index}`}>
-            {value}
-          </span>
-        )}
       </div>
     );
 
@@ -57,15 +57,22 @@ const InputNumber = forwardRef(
           {label}
         </label>
         {Array.isArray(params) && params.length > 0 ? (
-          params.map((v, index) => renderInput(value[index], index, v))
+          <div className="col-xs-8" style={{ position: "relative" }}>
+            <div className="editor-input-number-params">
+              {params.map((v, index) => renderInput(value[index], index, v))}
+            </div>
+            {tooltipText ? (
+              <span className="tooltiptext" id={`${id}-tooltip`}>
+                {tooltipText}
+              </span>
+            ) : null}
+          </div>
         ) : (
           <div className="col-xs-8">
             <input
               ref={ref}
               id={id}
-              className={
-                "form-control " + (parseFloat(value) !== 0 ? className : "")
-              }
+              className={fieldClassName}
               type="number"
               step={step}
               min={min}
@@ -80,6 +87,7 @@ const InputNumber = forwardRef(
                 }
               }}
               aria-describedby={tooltipText ? `${id}-tooltip` : undefined}
+              inputMode="decimal"
             />
             {tooltipText && (
               <span className="tooltiptext" id={`${id}-tooltip`}>

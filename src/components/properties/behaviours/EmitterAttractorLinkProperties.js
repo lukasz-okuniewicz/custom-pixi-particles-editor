@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import EmitterAttractorLinkDescription from "@components/html/behaviourDescriptions/EmitterAttractorLink";
 
 export default function EmitterAttractorLinkProperties({ defaultConfig, index }) {
@@ -51,7 +53,7 @@ export default function EmitterAttractorLinkProperties({ defaultConfig, index })
           Spring toward targetX/targetY (e.g. another transform). Update targets
           from gameplay code.
         </p>
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="eal-enabled"
           onChange={(value) => {
@@ -60,7 +62,7 @@ export default function EmitterAttractorLinkProperties({ defaultConfig, index })
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <Checkbox
+        <BfCheckbox
           label="Active"
           id="eal-active"
           onChange={(value) => {
@@ -69,7 +71,7 @@ export default function EmitterAttractorLinkProperties({ defaultConfig, index })
           }}
           checked={behaviour.active ?? keysToInitialize.active}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="eal-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -79,7 +81,7 @@ export default function EmitterAttractorLinkProperties({ defaultConfig, index })
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Target"
           id="eal-target"
           params={["x", "y"]}
@@ -94,7 +96,7 @@ export default function EmitterAttractorLinkProperties({ defaultConfig, index })
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="eal-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -104,7 +106,7 @@ export default function EmitterAttractorLinkProperties({ defaultConfig, index })
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Falloff"
           id="eal-falloff"
           value={behaviour.falloff ?? keysToInitialize.falloff}
@@ -115,7 +117,7 @@ export default function EmitterAttractorLinkProperties({ defaultConfig, index })
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Axis mask (1=x,2=y,3=both)"
           id="eal-axisMask"
           value={behaviour.axisMask ?? keysToInitialize.axisMask}

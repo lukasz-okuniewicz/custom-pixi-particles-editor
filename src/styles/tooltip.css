@@ -1,34 +1,64 @@
 .tooltiptext {
   visibility: hidden;
-  width: auto;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  padding: 5px 10px;
-  border-radius: 6px;
+  width: max-content;
+  max-width: min(320px, 78vw);
+  background: linear-gradient(180deg, rgba(24, 36, 58, 0.98), rgba(12, 18, 29, 0.98));
+  color: var(--editor-text, #e5ebff);
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(103, 212, 255, 0.35);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 500;
 
   position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
+  z-index: 60;
+  bottom: calc(100% + 8px);
+  right: 0;
+  left: auto;
+  transform: translateY(4px);
+  pointer-events: none;
 
   opacity: 0;
-  transition: opacity 0.3s;
+  transition:
+    opacity 120ms ease-out,
+    transform 120ms ease-out;
 }
 
 .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+  content: none;
 }
 
-input:hover + .tooltiptext {
+/* Adjacent to native inputs */
+input:hover + .tooltiptext,
+select:hover + .tooltiptext,
+textarea:hover + .tooltiptext {
   visibility: visible;
   opacity: 1;
+  transform: translateY(0);
+}
+
+/* Color pickers, SketchPicker, and any control where the hint follows a non-input sibling */
+.form-group .col-xs-8:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Show hint when hovering the field label, regardless of input type. */
+.form-group .form-label:hover + .col-xs-8 .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Also show hint while keyboard-focusing fields. */
+input:focus-visible + .tooltiptext,
+select:focus-visible + .tooltiptext,
+textarea:focus-visible + .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }

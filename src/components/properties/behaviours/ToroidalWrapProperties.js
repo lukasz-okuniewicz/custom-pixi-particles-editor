@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import ToroidalWrapDescription from "@components/html/behaviourDescriptions/ToroidalWrap";
 
 export default function ToroidalWrapProperties({ defaultConfig, index }) {
@@ -17,7 +19,8 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
   const keysToInitialize = {
     name: "ToroidalWrapBehaviour",
-    enabled: true,
+    // false: presets without this behaviour use an empty merge target; true looked "enabled" incorrectly (see BounceProperties).
+    enabled: false,
     priority: 45,
     wrapX: true,
     wrapY: true,
@@ -51,7 +54,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <ToroidalWrapDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="toroidal-wrap-enabled"
           onChange={(value) => {
@@ -60,7 +63,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="toroidal-wrap-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -70,7 +73,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Wrap X"
           id="toroidal-wrap-x"
           onChange={(value) => {
@@ -79,7 +82,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.wrapX ?? keysToInitialize.wrapX}
         />
-        <Checkbox
+        <BfCheckbox
           label="Wrap Y"
           id="toroidal-wrap-y"
           onChange={(value) => {
@@ -88,7 +91,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.wrapY ?? keysToInitialize.wrapY}
         />
-        <Checkbox
+        <BfCheckbox
           label="Use canvas size (auto bounds)"
           id="toroidal-use-canvas"
           onChange={(value) => {
@@ -99,7 +102,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
         />
         {!behaviour.useCanvasBounds && (
           <>
-        <InputNumber
+        <BfInputNumber
           label="Min X"
           id="toroidal-minX"
           value={behaviour.minX ?? keysToInitialize.minX}
@@ -109,7 +112,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max X"
           id="toroidal-maxX"
           value={behaviour.maxX ?? keysToInitialize.maxX}
@@ -119,7 +122,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min Y"
           id="toroidal-minY"
           value={behaviour.minY ?? keysToInitialize.minY}
@@ -129,7 +132,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Y"
           id="toroidal-maxY"
           value={behaviour.maxY ?? keysToInitialize.maxY}
@@ -141,7 +144,7 @@ export default function ToroidalWrapProperties({ defaultConfig, index }) {
         />
           </>
         )}
-        <InputNumber
+        <BfInputNumber
           label="Inset"
           id="toroidal-inset"
           value={behaviour.inset ?? keysToInitialize.inset}

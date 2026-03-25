@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import ConversionCascadeDescription from "@components/html/behaviourDescriptions/ConversionCascade";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -74,7 +76,7 @@ export default function ConversionCascadeProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <ConversionCascadeDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="conversionCascade-enabled"
           onChange={(value) => {
@@ -83,7 +85,7 @@ export default function ConversionCascadeProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <Checkbox
+        <BfCheckbox
           label="Active (Trigger Flow)"
           id="conversionCascade-active"
           onChange={(value) => {
@@ -92,7 +94,7 @@ export default function ConversionCascadeProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.active ?? keysToInitialize.active}
         />
-        <InputNumber
+        <BfInputNumber
           label="Source"
           id="conversionCascade-source"
           params={["x", "y"]}
@@ -120,7 +122,7 @@ export default function ConversionCascadeProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Target"
           id="conversionCascade-target"
           params={["x", "y"]}
@@ -148,7 +150,7 @@ export default function ConversionCascadeProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="conversionCascade-speed"
           value={behaviour.speed ?? keysToInitialize.speed}
@@ -158,7 +160,7 @@ export default function ConversionCascadeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Kill On Arrival"
           id="conversionCascade-killOnArrival"
           onChange={(value) => {
@@ -167,7 +169,7 @@ export default function ConversionCascadeProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.killOnArrival ?? keysToInitialize.killOnArrival}
         />
-        <InputNumber
+        <BfInputNumber
           label="Arrival Threshold"
           id="conversionCascade-arrivalThreshold"
           value={

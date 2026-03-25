@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
+import { BfInputNumber } from "@components/properties/BehaviourFieldWrappers";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { LiquidMercuryEffect } from "custom-pixi-particles";
@@ -177,14 +177,8 @@ export default function LiquidMercuryEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
-      <legend
-        onClick={() =>
-          setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))
-        }
-      >
-        Liquid Mercury Effect Properties
-      </legend>
+    <div className="editor-sidebar-section">
+      <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Liquid Mercury Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <LiquidMercuryEffectDescription />
         <File
@@ -220,52 +214,12 @@ export default function LiquidMercuryEffectProperties({ defaultConfig }) {
           </div>
         </div>
         <hr />
-        <InputNumber
-          label="Viscosity"
-          id="viscosity"
-          value={config.viscosity}
-          step="0.1"
-          min="0"
-          max="1"
-          onChange={(v) => updateConfig({ viscosity: v })}
-        />
-        <InputNumber
-          label="Reflectivity"
-          id="reflectivity"
-          value={config.reflectivity}
-          step="0.1"
-          min="0"
-          max="1"
-          onChange={(v) => updateConfig({ reflectivity: v })}
-        />
-        <InputNumber
-          label="Ripple Speed"
-          id="rippleSpeed"
-          value={config.rippleSpeed}
-          step="0.5"
-          min="0"
-          max="10"
-          onChange={(v) => updateConfig({ rippleSpeed: v })}
-        />
-        <InputNumber
-          label="Edge Roundness"
-          id="edgeRoundness"
-          value={config.edgeRoundness}
-          step="0.5"
-          min="1"
-          max="5"
-          onChange={(v) => updateConfig({ edgeRoundness: v })}
-        />
-        <InputNumber
-          label="Duration"
-          id="duration"
-          value={config.duration}
-          step="0.1"
-          min="0.1"
-          max="10"
-          onChange={(v) => updateConfig({ duration: v })}
-        />
+        <BfInputNumber label="Viscosity" id="viscosity" value={config.viscosity} step="0.1" min="0" max="1" onChange={(v) => updateConfig({ viscosity: v })} />
+        <BfInputNumber label="Reflectivity" id="reflectivity" value={config.reflectivity} step="0.1" min="0" max="1" onChange={(v) => updateConfig({ reflectivity: v })} />
+        <BfInputNumber label="Ripple Speed" id="rippleSpeed" value={config.rippleSpeed} step="0.5" min="0" max="10" onChange={(v) => updateConfig({ rippleSpeed: v })} />
+        <BfInputNumber label="Edge Roundness" id="edgeRoundness" value={config.edgeRoundness} step="0.5" min="1" max="5" onChange={(v) => updateConfig({ edgeRoundness: v })} />
+        <BfInputNumber label="Duration" id="duration" value={config.duration} step="0.1" min="0.1" max="10" onChange={(v) => updateConfig({ duration: v })} />
       </div>
-    </>
+    </div>
   );
 }

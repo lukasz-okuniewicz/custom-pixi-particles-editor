@@ -7,6 +7,21 @@ import Select from "@components/html/Select";
 import { normalizeBlendModeForPixiV8, updateProps } from "@utils";
 import ParticleLinksDescription from "@components/html/behaviourDescriptions/ParticleLinks";
 
+const PARTICLE_LINKS_HINTS = {
+  enabled: "Turns particle link mesh rendering on or off.",
+  maxDistance: "Maximum distance between particles to draw a connecting line.",
+  maxLinksPerParticle: "Caps how many link lines a single particle can create.",
+  lineWidth: "Thickness of link lines in pixels.",
+  lineAlpha: "Opacity of link lines from 0 (transparent) to 1 (opaque).",
+  lineColor:
+    "Fallback line color as a decimal value (e.g. 0x8899ff in decimal form).",
+  useParticleTint: "When enabled, line color is tinted from connected particles.",
+  fadeByDistance:
+    "Reduces line opacity as particle distance approaches max distance.",
+  updateEveryNFrames: "How often the link mesh recalculates (lower = smoother, higher = cheaper).",
+  blendMode: "Blend mode used when compositing the link mesh.",
+};
+
 /** Defaults aligned with library `PARTICLE_LINK_DEFAULTS` */
 const PL_DEFAULTS = {
   enabled: false,
@@ -69,6 +84,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         <Checkbox
           label="Enable"
           id="particle-links-enabled"
+          tooltipText={PARTICLE_LINKS_HINTS.enabled}
           onChange={(value) =>
             updateProps("particleLinks.enabled", value, undefined, false)
           }
@@ -77,6 +93,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         <InputNumber
           label="Max distance"
           id="particle-links-maxDistance"
+          tooltipText={PARTICLE_LINKS_HINTS.maxDistance}
           value={pl.maxDistance}
           step="1"
           min="1"
@@ -87,6 +104,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         <InputNumber
           label="Max links per particle"
           id="particle-links-maxLinksPerParticle"
+          tooltipText={PARTICLE_LINKS_HINTS.maxLinksPerParticle}
           value={pl.maxLinksPerParticle}
           step="1"
           min="1"
@@ -103,6 +121,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         <InputNumber
           label="Line width"
           id="particle-links-lineWidth"
+          tooltipText={PARTICLE_LINKS_HINTS.lineWidth}
           value={pl.lineWidth}
           step="0.5"
           min="0.5"
@@ -113,6 +132,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         <InputNumber
           label="Line alpha"
           id="particle-links-lineAlpha"
+          tooltipText={PARTICLE_LINKS_HINTS.lineAlpha}
           value={pl.lineAlpha}
           step="0.05"
           min="0"
@@ -124,6 +144,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         <InputNumber
           label="Line color (decimal hex)"
           id="particle-links-lineColor"
+          tooltipText={PARTICLE_LINKS_HINTS.lineColor}
           value={pl.lineColor}
           step="1"
           min="0"
@@ -134,6 +155,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         <Checkbox
           label="Tint lines from particle colors"
           id="particle-links-useParticleTint"
+          tooltipText={PARTICLE_LINKS_HINTS.useParticleTint}
           onChange={(value) =>
             updateProps(
               "particleLinks.useParticleTint",
@@ -147,6 +169,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         <Checkbox
           label="Fade lines by distance"
           id="particle-links-fadeByDistance"
+          tooltipText={PARTICLE_LINKS_HINTS.fadeByDistance}
           onChange={(value) =>
             updateProps(
               "particleLinks.fadeByDistance",
@@ -160,6 +183,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         <InputNumber
           label="Update every N frames"
           id="particle-links-updateEveryNFrames"
+          tooltipText={PARTICLE_LINKS_HINTS.updateEveryNFrames}
           value={pl.updateEveryNFrames}
           step="1"
           min="1"
@@ -175,6 +199,7 @@ export default function ParticleLinksProperties({ defaultConfig }) {
         />
         <Select
           label="Link blend mode"
+          tooltipText={PARTICLE_LINKS_HINTS.blendMode}
           defaultValue={blendValue}
           onChange={(value) => {
             if (value === "") {

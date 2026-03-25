@@ -1,10 +1,12 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import Select from "@components/html/Select";
 import FlickerDescription from "@components/html/behaviourDescriptions/Flicker";
 
 export default function FlickerProperties({ defaultConfig, index }) {
@@ -54,7 +56,7 @@ export default function FlickerProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <FlickerDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="flicker-enabled"
           onChange={(value) => {
@@ -63,7 +65,7 @@ export default function FlickerProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="flicker-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -73,7 +75,7 @@ export default function FlickerProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Intensity"
           id="flicker-intensity"
           value={behaviour.intensity ?? keysToInitialize.intensity}
@@ -83,7 +85,7 @@ export default function FlickerProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="flicker-speed"
           value={behaviour.speed ?? keysToInitialize.speed}
@@ -93,7 +95,7 @@ export default function FlickerProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Flicker Alpha"
           id="flicker-flickerAlpha"
           onChange={(value) => {
@@ -102,7 +104,7 @@ export default function FlickerProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.flickerAlpha ?? keysToInitialize.flickerAlpha}
         />
-        <Checkbox
+        <BfCheckbox
           label="Flicker Size"
           id="flicker-flickerSize"
           onChange={(value) => {
@@ -111,7 +113,7 @@ export default function FlickerProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.flickerSize ?? keysToInitialize.flickerSize}
         />
-        <Select
+        <BfSelect
           label="Mode"
           defaultValue={behaviour.mode ?? keysToInitialize.mode}
           onChange={(value) => {

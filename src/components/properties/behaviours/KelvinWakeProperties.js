@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import KelvinWakeDescription from "@components/html/behaviourDescriptions/KelvinWake";
 
 export default function KelvinWakeProperties({ defaultConfig, index }) {
@@ -54,7 +56,7 @@ export default function KelvinWakeProperties({ defaultConfig, index }) {
           V-shaped wake behind a moving source. Update source position/velocity
           from gameplay.
         </p>
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="kelvin-enabled"
           onChange={(value) => {
@@ -63,7 +65,7 @@ export default function KelvinWakeProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="kelvin-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -73,7 +75,7 @@ export default function KelvinWakeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Source"
           id="kelvin-src"
           params={["x", "y"]}
@@ -88,7 +90,7 @@ export default function KelvinWakeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Source velocity"
           id="kelvin-vel"
           params={["x", "y"]}
@@ -103,7 +105,7 @@ export default function KelvinWakeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Wake half-angle (rad)"
           id="kelvin-angle"
           value={behaviour.wakeAngle ?? keysToInitialize.wakeAngle}
@@ -113,7 +115,7 @@ export default function KelvinWakeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="kelvin-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -123,7 +125,7 @@ export default function KelvinWakeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Decay along ray"
           id="kelvin-decay"
           value={behaviour.decayAlongRay ?? keysToInitialize.decayAlongRay}
@@ -134,7 +136,7 @@ export default function KelvinWakeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Lateral jitter"
           id="kelvin-jitter"
           value={behaviour.lateralJitter ?? keysToInitialize.lateralJitter}
@@ -144,7 +146,7 @@ export default function KelvinWakeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max wake distance"
           id="kelvin-maxD"
           value={behaviour.maxWakeDistance ?? keysToInitialize.maxWakeDistance}

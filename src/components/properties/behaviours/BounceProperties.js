@@ -1,10 +1,12 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import Select from "@components/html/Select";
 import BounceDescription from "@components/html/behaviourDescriptions/Bounce";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -80,7 +82,7 @@ export default function BounceProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Bounce Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <BounceDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="bounce-enabled"
           onChange={(value) => {
@@ -89,7 +91,7 @@ export default function BounceProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="bounce-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -99,7 +101,7 @@ export default function BounceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Select
+        <BfSelect
           label="Mode"
           defaultValue={behaviour.mode ?? keysToInitialize.mode}
           onChange={(value) => {
@@ -110,7 +112,7 @@ export default function BounceProperties({ defaultConfig, index }) {
         />
         {behaviour.mode === "rectangle" && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Min X"
               id="bounce-minX"
               value={behaviour.minX ?? keysToInitialize.minX}
@@ -120,7 +122,7 @@ export default function BounceProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Max X"
               id="bounce-maxX"
               value={behaviour.maxX ?? keysToInitialize.maxX}
@@ -130,7 +132,7 @@ export default function BounceProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Min Y"
               id="bounce-minY"
               value={behaviour.minY ?? keysToInitialize.minY}
@@ -140,7 +142,7 @@ export default function BounceProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Max Y"
               id="bounce-maxY"
               value={behaviour.maxY ?? keysToInitialize.maxY}
@@ -154,7 +156,7 @@ export default function BounceProperties({ defaultConfig, index }) {
         )}
         {behaviour.mode === "circle" && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Circle center"
               id="bounce-center"
               params={["x", "y"]}
@@ -182,7 +184,7 @@ export default function BounceProperties({ defaultConfig, index }) {
             >
               Select Position
             </button>
-            <InputNumber
+            <BfInputNumber
               label="Radius"
               id="bounce-radius"
               value={behaviour.radius ?? keysToInitialize.radius}
@@ -194,7 +196,7 @@ export default function BounceProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <InputNumber
+        <BfInputNumber
           label="Bounciness"
           id="bounce-bounciness"
           value={behaviour.bounciness ?? keysToInitialize.bounciness}
@@ -206,7 +208,7 @@ export default function BounceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Bounces"
           id="bounce-maxBounces"
           value={behaviour.maxBounces ?? keysToInitialize.maxBounces}

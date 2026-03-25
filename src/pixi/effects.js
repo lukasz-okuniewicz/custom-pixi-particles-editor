@@ -6,7 +6,7 @@ import {
   stopAllParticlesArr,
   updateParticles,
 } from "./particles";
-import { getConfigIndexByName, resize } from "@utils";
+import { getBehaviourByName, getConfigIndexByName, resize } from "@utils";
 import { _customPixiParticlesEditorOnly } from "custom-pixi-particles";
 import { animateTween, animateWarp, killTween } from "@animations";
 
@@ -74,6 +74,25 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
     twist: () => createSprite("autumn"),
     warp: () => {
       prepareWarp(fullConfig);
+      animateWarp({ defaultConfig });
+    },
+    warpWithEffect: () => {
+      const position = getBehaviourByName("PositionBehaviour", defaultConfig);
+      if (position) {
+        // Keep this preset visibly animated even when authored with tiny warp speeds.
+        position.warp = true;
+        position.warpBaseSpeed = Math.max(position.warpBaseSpeed || 0, 0.01);
+        position.cameraZConverter = Math.max(position.cameraZConverter || 0, 10);
+      }
+      animateWarp({ defaultConfig });
+    },
+    warpWithEffectV2: () => {
+      const position = getBehaviourByName("PositionBehaviour", defaultConfig);
+      if (position) {
+        position.warp = true;
+        position.warpBaseSpeed = Math.max(position.warpBaseSpeed || 0, 0.01);
+        position.cameraZConverter = Math.max(position.cameraZConverter || 0, 10);
+      }
       animateWarp({ defaultConfig });
     },
     snowWithCollision: () => {

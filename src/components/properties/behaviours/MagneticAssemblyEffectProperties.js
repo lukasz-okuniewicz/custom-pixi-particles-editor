@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
-import Select from "@components/html/Select";
+import {
+  BfSelect,
+  BfInputNumber,
+} from "@components/properties/BehaviourFieldWrappers";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { MagneticAssemblyEffect } from "custom-pixi-particles";
@@ -257,10 +259,8 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
-      <legend onClick={toggleSubmenuVisibility}>
-        Magnetic Assembly Effect Properties
-      </legend>
+    <div className="editor-sidebar-section">
+      <legend onClick={toggleSubmenuVisibility}>Magnetic Assembly Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <MagneticAssemblyEffectDescription />
         <File
@@ -297,7 +297,7 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
         <div className="form-group">
           <div className="col-xs-12">
             <button
-              className="btn btn-primary btn-block"
+              className="btn btn-default btn-block"
               onClick={triggerAssembly}
               disabled={isAssemblingRef.current}
             >
@@ -307,7 +307,7 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
         </div>
         <hr />
 
-        <InputNumber
+        <BfInputNumber
           label="Grid Columns"
           id="gridCols"
           value={magneticAssemblyConfig.gridCols}
@@ -316,7 +316,7 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
           max="50"
           onChange={(v) => updateMagneticAssemblyConfig({ gridCols: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Grid Rows"
           id="gridRows"
           value={magneticAssemblyConfig.gridRows}
@@ -325,7 +325,7 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
           max="50"
           onChange={(v) => updateMagneticAssemblyConfig({ gridRows: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Duration"
           id="duration"
           value={magneticAssemblyConfig.duration}
@@ -333,13 +333,13 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
           min="0.1"
           onChange={(v) => updateMagneticAssemblyConfig({ duration: v })}
         />
-        <Select
+        <BfSelect
           label="Easing"
           defaultValue={magneticAssemblyConfig.easing}
           onChange={(v) => updateMagneticAssemblyConfig({ easing: v })}
           elements={easingOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scatter Range"
           id="scatterRange"
           value={magneticAssemblyConfig.scatterRange}
@@ -347,7 +347,7 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
           min="0"
           onChange={(v) => updateMagneticAssemblyConfig({ scatterRange: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Stagger"
           id="stagger"
           value={magneticAssemblyConfig.stagger}
@@ -356,13 +356,13 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
           max="1"
           onChange={(v) => updateMagneticAssemblyConfig({ stagger: v })}
         />
-        <Select
+        <BfSelect
           label="Mode"
           defaultValue={magneticAssemblyConfig.mode}
           onChange={(v) => updateMagneticAssemblyConfig({ mode: v })}
           elements={modeOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Start Alpha"
           id="startAlpha"
           value={magneticAssemblyConfig.startAlpha}
@@ -372,6 +372,6 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
           onChange={(v) => updateMagneticAssemblyConfig({ startAlpha: v })}
         />
       </div>
-    </>
+    </div>
   );
 }

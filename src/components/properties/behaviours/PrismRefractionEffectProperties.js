@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
+import { BfInputNumber } from "@components/properties/BehaviourFieldWrappers";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { PrismRefractionEffect } from "custom-pixi-particles";
@@ -177,14 +177,8 @@ export default function PrismRefractionEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
-      <legend
-        onClick={() =>
-          setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))
-        }
-      >
-        Prism Refraction Effect Properties
-      </legend>
+    <div className="editor-sidebar-section">
+      <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Prism Refraction Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <PrismRefractionEffectDescription />
         <File
@@ -220,52 +214,12 @@ export default function PrismRefractionEffectProperties({ defaultConfig }) {
           </div>
         </div>
         <hr />
-        <InputNumber
-          label="Dispersion Strength"
-          id="dispersionStrength"
-          value={config.dispersionStrength}
-          step="1"
-          min="0"
-          max="50"
-          onChange={(v) => updateConfig({ dispersionStrength: v })}
-        />
-        <InputNumber
-          label="Dispersion Angle (rad)"
-          id="dispersionAngle"
-          value={config.dispersionAngle}
-          step="0.1"
-          min="-3.15"
-          max="3.15"
-          onChange={(v) => updateConfig({ dispersionAngle: v })}
-        />
-        <InputNumber
-          label="Duration"
-          id="duration"
-          value={config.duration}
-          step="0.1"
-          min="0.1"
-          max="5"
-          onChange={(v) => updateConfig({ duration: v })}
-        />
-        <InputNumber
-          label="Scan Speed"
-          id="scanSpeed"
-          value={config.scanSpeed}
-          step="0.1"
-          min="0"
-          max="10"
-          onChange={(v) => updateConfig({ scanSpeed: v })}
-        />
-        <InputNumber
-          label="Fresnel Power"
-          id="fresnelPower"
-          value={config.fresnelPower}
-          step="0.5"
-          min="0"
-          max="5"
-          onChange={(v) => updateConfig({ fresnelPower: v })}
-        />
+        <BfInputNumber label="Dispersion Strength" id="dispersionStrength" value={config.dispersionStrength} step="1" min="0" max="50" onChange={(v) => updateConfig({ dispersionStrength: v })} />
+        <BfInputNumber label="Dispersion Angle (rad)" id="dispersionAngle" value={config.dispersionAngle} step="0.1" min="-3.15" max="3.15" onChange={(v) => updateConfig({ dispersionAngle: v })} />
+        <BfInputNumber label="Duration" id="duration" value={config.duration} step="0.1" min="0.1" max="5" onChange={(v) => updateConfig({ duration: v })} />
+        <BfInputNumber label="Scan Speed" id="scanSpeed" value={config.scanSpeed} step="0.1" min="0" max="10" onChange={(v) => updateConfig({ scanSpeed: v })} />
+        <BfInputNumber label="Fresnel Power" id="fresnelPower" value={config.fresnelPower} step="0.5" min="0" max="5" onChange={(v) => updateConfig({ fresnelPower: v })} />
       </div>
-    </>
+    </div>
   );
 }

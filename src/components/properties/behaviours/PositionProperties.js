@@ -1,10 +1,12 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useMemo, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import Select from "@components/html/Select";
-import InputNumber from "@components/html/InputNumber";
 import PositionDescription from "@components/html/behaviourDescriptions/Position";
 
 export default function PositionProperties({ defaultConfig, index }) {
@@ -112,7 +114,7 @@ export default function PositionProperties({ defaultConfig, index }) {
   const renderSinX = () => {
     return (
       <>
-        <InputNumber
+        <BfInputNumber
           label="Sin X Value"
           id="sin-x-value"
           params={["x", "y"]}
@@ -126,7 +128,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Sin X Variance"
           id="sin-x-variance"
           params={["x", "y"]}
@@ -148,7 +150,7 @@ export default function PositionProperties({ defaultConfig, index }) {
   const renderSinY = () => {
     return (
       <>
-        <InputNumber
+        <BfInputNumber
           label="Sin Y Value"
           id="sin-y-value"
           params={["x", "y"]}
@@ -162,7 +164,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Sin Y Variance"
           id="sin-y-variance"
           params={["x", "y"]}
@@ -183,7 +185,7 @@ export default function PositionProperties({ defaultConfig, index }) {
   const renderWarp = () => {
     return (
       <>
-        <InputNumber
+        <BfInputNumber
           label="Position Variance"
           id="position-variance"
           params={["x", "y"]}
@@ -197,7 +199,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="speed"
           value={behaviour.warpSpeed ?? keysToInitialize.warpSpeed}
@@ -207,7 +209,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Base Speed"
           id="base-speed"
           value={behaviour.warpBaseSpeed ?? keysToInitialize.warpBaseSpeed}
@@ -217,7 +219,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Camera Z Converter"
           id="camera-z"
           value={
@@ -229,7 +231,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="FOV"
           id="fov"
           value={behaviour.warpFov ?? keysToInitialize.warpFov}
@@ -239,7 +241,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Stretch"
           id="stretch"
           value={behaviour.warpStretch ?? keysToInitialize.warpStretch}
@@ -249,7 +251,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Distance Scale Converter"
           id="warpDistanceScaleConverter"
           value={
@@ -262,7 +264,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Closer to Center"
           id="closer-to-center"
           onChange={(value) => {
@@ -281,7 +283,7 @@ export default function PositionProperties({ defaultConfig, index }) {
   const renderNormal = () => {
     return (
       <>
-        <InputNumber
+        <BfInputNumber
           label="Velocity"
           id="velocity"
           params={["x", "y"]}
@@ -295,7 +297,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Velocity Variance"
           id="velocity-variance"
           params={["x", "y"]}
@@ -310,7 +312,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
-        <InputNumber
+        <BfInputNumber
           label="Gravity/Acceleration"
           id="gravity"
           params={["x", "y"]}
@@ -324,7 +326,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Gravity Variance"
           id="gravity-variance"
           params={["x", "y"]}
@@ -341,7 +343,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
-        <Checkbox
+        <BfCheckbox
           label="Sin X"
           id="sin-x"
           onChange={(value) => {
@@ -351,7 +353,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           checked={behaviour.sinX ?? keysToInitialize.sinX}
         />
         {behaviour.sinX === true && renderSinX()}
-        <Checkbox
+        <BfCheckbox
           label="Sin Y"
           id="sin-y"
           onChange={(value) => {
@@ -362,7 +364,7 @@ export default function PositionProperties({ defaultConfig, index }) {
         />
         {behaviour.sinY === true && renderSinY()}
         <hr />
-        <Checkbox
+        <BfCheckbox
           label="Warp Effect"
           id="warp"
           onChange={(value) => {
@@ -379,7 +381,7 @@ export default function PositionProperties({ defaultConfig, index }) {
   const renderFromAtoB = () => {
     return (
       <>
-        <Checkbox
+        <BfCheckbox
           label="Two Ways"
           id="fromAtoBTwoWays"
           onChange={(value) => {
@@ -390,7 +392,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             behaviour.fromAtoBTwoWays ?? keysToInitialize.fromAtoBTwoWays
           }
         />
-        <Select
+        <BfSelect
           label="There X"
           defaultValue={behaviour.there.x || keysToInitialize.there.x}
           onChange={(value) => {
@@ -399,7 +401,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
           elements={predefinedThereBack}
         />
-        <Select
+        <BfSelect
           label="There Y"
           defaultValue={behaviour.there.y || keysToInitialize.there.y}
           onChange={(value) => {
@@ -408,7 +410,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
           elements={predefinedThereBack}
         />
-        <Select
+        <BfSelect
           label="There Ease"
           defaultValue={behaviour.there.ease || keysToInitialize.there.ease}
           onChange={(value) => {
@@ -417,7 +419,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
           elements={predefinedEase}
         />
-        <InputNumber
+        <BfInputNumber
           label="There Duration"
           id="there-duration"
           params={["min", "max"]}
@@ -431,7 +433,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="There Amplitude"
           id="there-duration"
           params={["min", "max"]}
@@ -447,7 +449,7 @@ export default function PositionProperties({ defaultConfig, index }) {
         />
         {behaviour.fromAtoBTwoWays === true && renderSecondWay()}
         <hr />
-        <InputNumber
+        <BfInputNumber
           label="Point A"
           id="point-a"
           params={["x", "y"]}
@@ -461,7 +463,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Point B"
           id="point-b"
           params={["x", "y"]}
@@ -483,7 +485,7 @@ export default function PositionProperties({ defaultConfig, index }) {
     return (
       <>
         <hr />
-        <Select
+        <BfSelect
           label="Back X"
           defaultValue={behaviour.back.x || keysToInitialize.back.x}
           onChange={(value) => {
@@ -492,7 +494,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
           elements={predefinedThereBack}
         />
-        <Select
+        <BfSelect
           label="Back Y"
           defaultValue={behaviour.back.y || keysToInitialize.back.y}
           onChange={(value) => {
@@ -501,7 +503,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
           elements={predefinedThereBack}
         />
-        <Select
+        <BfSelect
           label="Back Ease"
           defaultValue={behaviour.back.ease || keysToInitialize.back.ease}
           onChange={(value) => {
@@ -510,7 +512,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
           elements={predefinedEase}
         />
-        <InputNumber
+        <BfInputNumber
           label="Back Duration"
           id="back-duration"
           params={["min", "max"]}
@@ -524,7 +526,7 @@ export default function PositionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Back Amplitude"
           id="back-duration"
           params={["min", "max"]}
@@ -547,7 +549,7 @@ export default function PositionProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Position Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <PositionDescription />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="position-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -559,7 +561,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
-        <Checkbox
+        <BfCheckbox
           label="From Point A to Point B"
           id="fromAtoB"
           onChange={(value) => {

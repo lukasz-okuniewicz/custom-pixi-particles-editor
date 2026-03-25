@@ -1,11 +1,14 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+  BfInputString,
+  BfFieldHint,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useMemo, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
-import InputString from "@components/html/InputString";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import Select from "@components/html/Select";
 import FormPatternDescription from "@components/html/behaviourDescriptions/FormPattern";
 import { rasterizeTextToPoints } from "custom-pixi-particles";
 
@@ -22,7 +25,8 @@ export default function FormPatternProperties({ defaultConfig, index }) {
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
   const keysToInitialize = {
     name: "FormPatternBehaviour",
-    enabled: true,
+    // false when behaviour is not in preset; presets with this behaviour set enabled explicitly (see ToroidalWrapProperties).
+    enabled: false,
     active: false,
     priority: -10,
     patternMode: "presetShape",
@@ -502,7 +506,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Form Pattern Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <FormPatternDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="form-pattern-enabled"
           onChange={(value) => {
@@ -511,7 +515,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="form-pattern-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -524,7 +528,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         />
         <hr />
         <SectionLabel>Pattern source</SectionLabel>
-        <Checkbox
+        <BfCheckbox
           label="Active"
           id="form-pattern-active"
           onChange={(value) => {
@@ -533,7 +537,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.active ?? keysToInitialize.active}
         />
-        <Select
+        <BfSelect
           label="Pattern mode"
           defaultValue={behaviour.patternMode || keysToInitialize.patternMode}
           onChange={(value) => {
@@ -545,7 +549,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
 
         {behaviour.patternMode === "presetShape" && (
           <>
-            <Select
+            <BfSelect
               label="Preset shape"
               defaultValue={
                 behaviour.presetShape || keysToInitialize.presetShape
@@ -556,7 +560,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               }}
               elements={presetShapes}
             />
-            <InputNumber
+            <BfInputNumber
               label="Preset radius / star outer"
               id="form-preset-radius"
               value={behaviour.presetParams.radius ?? 100}
@@ -566,7 +570,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Rect half width"
               id="form-preset-hw"
               value={behaviour.presetParams.halfWidth ?? 120}
@@ -576,7 +580,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Rect half height"
               id="form-preset-hh"
               value={behaviour.presetParams.halfHeight ?? 80}
@@ -586,7 +590,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Star inner ratio"
               id="form-preset-inner"
               value={behaviour.presetParams.innerRatio ?? 0.45}
@@ -598,7 +602,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Star points"
               id="form-preset-spikes"
               value={behaviour.presetParams.starPoints ?? 5}
@@ -610,7 +614,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               }}
             />
             {behaviour.presetShape === "polygon" && (
-              <InputNumber
+              <BfInputNumber
                 label="Polygon sides"
                 id="form-preset-poly-sides"
                 value={behaviour.presetParams.polygonSides ?? 6}
@@ -624,7 +628,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             )}
             {behaviour.presetShape === "lissajous" && (
               <>
-                <InputNumber
+                <BfInputNumber
                   label="Lissajous A"
                   id="form-liss-a"
                   value={behaviour.presetParams.lissajousA ?? 3}
@@ -634,7 +638,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Lissajous B"
                   id="form-liss-b"
                   value={behaviour.presetParams.lissajousB ?? 2}
@@ -644,7 +648,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Lissajous delta (rad)"
                   id="form-liss-d"
                   value={behaviour.presetParams.lissajousDelta ?? 0}
@@ -658,7 +662,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             )}
             <hr className="col-xs-12" />
             <SectionLabel>Morph (preset shape only)</SectionLabel>
-            <InputNumber
+            <BfInputNumber
               label="Morph blend"
               id="form-morph-blend"
               value={behaviour.morphBlend ?? 0}
@@ -670,7 +674,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Select
+            <BfSelect
               label="Morph preset shape"
               defaultValue={
                 behaviour.morphPresetShape || keysToInitialize.morphPresetShape
@@ -681,7 +685,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               }}
               elements={presetShapes}
             />
-            <InputNumber
+            <BfInputNumber
               label="Morph radius / star outer"
               id="form-morph-radius"
               value={behaviour.morphPresetParams.radius ?? 100}
@@ -694,7 +698,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             <SectionLabel>
               Morph timeline (keyframes drive morph blend over time)
             </SectionLabel>
-            <Checkbox
+            <BfCheckbox
               label="Morph timeline play"
               id="form-morph-tl-play"
               onChange={(value) => {
@@ -703,7 +707,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               }}
               checked={behaviour.morphTimelinePlay ?? false}
             />
-            <InputNumber
+            <BfInputNumber
               label="Morph timeline duration (ms)"
               id="form-morph-tl-dur"
               value={behaviour.morphTimelineDurationMs ?? 5000}
@@ -714,7 +718,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Checkbox
+            <BfCheckbox
               label="Morph timeline loop"
               id="form-morph-tl-loop"
               onChange={(value) => {
@@ -723,7 +727,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               }}
               checked={behaviour.morphTimelineLoop ?? true}
             />
-            <InputNumber
+            <BfInputNumber
               label="Morph timeline speed"
               id="form-morph-tl-speed"
               value={behaviour.morphTimelineSpeed ?? 1}
@@ -758,6 +762,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     }
                   }}
                 />
+                <BfFieldHint id="form-morph-kf" />
               </div>
             </div>
           </>
@@ -765,7 +770,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
 
         {behaviour.patternMode === "runtimeText" && (
           <>
-            <InputString
+            <BfInputString
               label="Text"
               id="form-runtime-text"
               value={behaviour.runtimeText ?? ""}
@@ -774,7 +779,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputString
+            <BfInputString
               label="Font family"
               id="form-font-family"
               value={behaviour.fontFamily ?? "sans-serif"}
@@ -783,7 +788,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Font size"
               id="form-font-size"
               value={behaviour.fontSize ?? 64}
@@ -794,7 +799,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputString
+            <BfInputString
               label="Font weight"
               id="form-font-weight"
               value={String(behaviour.fontWeight ?? "400")}
@@ -803,7 +808,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Select
+            <BfSelect
               label="Text raster"
               defaultValue={
                 behaviour.textRasterMode || keysToInitialize.textRasterMode
@@ -817,7 +822,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 { key: "stroke", displayName: "stroke" },
               ]}
             />
-            <InputNumber
+            <BfInputNumber
               label="Text stroke width"
               id="form-text-stroke-w"
               value={behaviour.textStrokeWidth ?? 2}
@@ -828,7 +833,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Select
+            <BfSelect
               label="Text align"
               defaultValue={
                 behaviour.textAlign || keysToInitialize.textAlign
@@ -842,7 +847,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 displayName: key,
               }))}
             />
-            <InputNumber
+            <BfInputNumber
               label="Line height (0 = auto)"
               id="form-text-line-height"
               value={behaviour.textLineHeight ?? 0}
@@ -870,6 +875,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 key={bakedPointsString.slice(0, 40)}
                 onBlur={(e) => applyBakedJson(e.target.value)}
               />
+              <BfFieldHint id="form-baked-json" />
               {bakedJsonError && (
                 <span className="text-red-500 text-xs">{bakedJsonError}</span>
               )}
@@ -878,7 +884,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         )}
 
         {behaviour.patternMode === "bakedPoints" && (
-          <Select
+          <BfSelect
             label="Baked points mode"
             defaultValue={
               behaviour.bakedPolylineMode || keysToInitialize.bakedPolylineMode
@@ -893,7 +899,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
 
         {behaviour.patternMode === "bakedPoints" && (
           <>
-            <InputString
+            <BfInputString
               label="Named preset key"
               id="form-baked-preset-name"
               value={behaviour.bakedPresetName ?? ""}
@@ -924,6 +930,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     }
                   }}
                 />
+                <BfFieldHint id="form-baked-presets" />
               </div>
             </div>
             <div className="form-group col-xs-12">
@@ -947,6 +954,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     }
                   }}
                 />
+                <BfFieldHint id="form-point-weights" />
               </div>
             </div>
           </>
@@ -954,7 +962,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
 
         {behaviour.patternMode === "bakedFrames" && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Frame index"
               id="form-baked-frame-idx"
               value={behaviour.bakedFrameIndex ?? 0}
@@ -965,7 +973,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Select
+            <BfSelect
               label="Baked frames mode"
               defaultValue={
                 behaviour.bakedPolylineMode || keysToInitialize.bakedPolylineMode
@@ -997,6 +1005,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     }
                   }}
                 />
+                <BfFieldHint id="form-baked-frames" />
               </div>
             </div>
           </>
@@ -1019,12 +1028,13 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                   updateBehaviours();
                 }}
               />
+              <BfFieldHint id="form-svg-path" />
             </div>
           </div>
         )}
 
         {behaviour.patternMode === "svgPath" && (
-          <InputNumber
+          <BfInputNumber
             label="SVG curve segments"
             id="form-svg-segs"
             value={behaviour.svgPathSegmentsPerCurve ?? 14}
@@ -1056,9 +1066,10 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
+                <BfFieldHint id="form-svg-raw" />
               </div>
             </div>
-            <InputString
+            <BfInputString
               label="Path element id"
               id="form-svg-path-id"
               value={behaviour.svgPathElementId ?? ""}
@@ -1067,7 +1078,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Checkbox
+            <BfCheckbox
               label="Normalize path bbox to ~100px radius"
               id="form-svg-fit"
               onChange={(value) => {
@@ -1113,6 +1124,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
+                <BfFieldHint id="form-image-data-url" />
               </div>
             </div>
             {behaviour.imageDataUrl && (
@@ -1171,13 +1183,14 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     }
                   }}
                 />
+                <BfFieldHint id="form-image-frames-data-url" />
               </div>
             </div>
             {hasImageSequence && (
               <>
                 <hr className="col-xs-12" />
                 <SectionLabel>Sequence playback</SectionLabel>
-                <InputNumber
+                <BfInputNumber
                   label="Image frame rate (fps)"
                   id="form-image-frame-rate"
                   value={behaviour.imageFrameRate ?? 12}
@@ -1188,7 +1201,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <Checkbox
+                <BfCheckbox
                   label="Image frame loop"
                   id="form-image-frame-loop"
                   onChange={(value) => {
@@ -1197,7 +1210,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                   }}
                   checked={behaviour.imageFrameLoop ?? true}
                 />
-                <Checkbox
+                <BfCheckbox
                   label="Image frame ping-pong"
                   id="form-image-frame-pingpong"
                   onChange={(value) => {
@@ -1210,7 +1223,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             )}
             <hr className="col-xs-12" />
             <SectionLabel>Sampling & fit</SectionLabel>
-            <InputNumber
+            <BfInputNumber
               label="Image alpha threshold"
               id="form-image-alpha"
               value={behaviour.imageAlphaThreshold ?? 128}
@@ -1222,7 +1235,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Select
+            <BfSelect
               label="Image fit mode"
               defaultValue={behaviour.imageFitMode || "contain"}
               onChange={(value) => {
@@ -1234,7 +1247,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 displayName: key,
               }))}
             />
-            <Select
+            <BfSelect
               label="Image sampling mode"
               defaultValue={behaviour.imageSamplingMode || "fill"}
               onChange={(value) => {
@@ -1246,7 +1259,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 displayName: key,
               }))}
             />
-            <Checkbox
+            <BfCheckbox
               label="Match particle colors to image"
               id="form-image-match-colors"
               onChange={(value) => {
@@ -1255,7 +1268,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               }}
               checked={behaviour.imageMatchParticleColors ?? false}
             />
-            <Checkbox
+            <BfCheckbox
               label="Restore original colors when form pattern ends"
               id="form-image-restore-colors"
               onChange={(value) => {
@@ -1266,7 +1279,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 behaviour.imageRestoreOriginalColorOnDeactivate ?? false
               }
             />
-            <InputNumber
+            <BfInputNumber
               label="Image color blend (ms, 0 = instant)"
               id="form-image-color-blend-ms"
               value={behaviour.imageColorBlendDurationMs ?? 0}
@@ -1277,7 +1290,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Select
+            <BfSelect
               label="Image color mode"
               defaultValue={behaviour.imageColorMode || "raw"}
               onChange={(value) => {
@@ -1294,7 +1307,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 displayName: key,
               }))}
             />
-            <Select
+            <BfSelect
               label="Image presets"
               defaultValue="custom"
               onChange={(value) => {
@@ -1311,7 +1324,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             <hr className="col-xs-12" />
             <SectionLabel>Color mapping</SectionLabel>
             {usesImageColorMapping && (
-              <Select
+              <BfSelect
                 label="Image color space (palette match)"
                 defaultValue={behaviour.imageColorSpace || "rgb"}
                 onChange={(value) => {
@@ -1325,7 +1338,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               />
             )}
             {usesQuantizedColor && (
-              <InputNumber
+              <BfInputNumber
                 label="Color quantize levels"
                 id="form-image-color-levels"
                 value={behaviour.imageColorQuantizeLevels ?? 8}
@@ -1339,7 +1352,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               />
             )}
             {usesPaletteColor && (
-              <InputString
+              <BfInputString
                 label="Palette (hex, comma-separated)"
                 id="form-image-palette"
                 value={behaviour.imageColorPalette ?? ""}
@@ -1350,7 +1363,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               />
             )}
             {usesImageColorMapping && (
-              <InputNumber
+              <BfInputNumber
                 label="Color jitter (0..1)"
                 id="form-image-color-jitter"
                 value={behaviour.imageColorJitter ?? 0}
@@ -1363,7 +1376,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 }}
               />
             )}
-            <InputNumber
+            <BfInputNumber
               label="Sampling density (0.1..4)"
               id="form-image-sampling-density"
               value={behaviour.imageSamplingDensity ?? 1}
@@ -1375,7 +1388,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Min sample spacing px"
               id="form-image-min-spacing"
               value={behaviour.imageMinPointSpacingPx ?? 0}
@@ -1388,7 +1401,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             />
             {usesImageEdges && (
               <>
-                <InputNumber
+                <BfInputNumber
                   label="Edge thickness"
                   id="form-image-edge-thickness"
                   value={behaviour.imageEdgeThickness ?? 1}
@@ -1400,7 +1413,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <Select
+                <BfSelect
                   label="Edge detector"
                   defaultValue={behaviour.imageEdgeDetector || "alphaContour"}
                   onChange={(value) => {
@@ -1416,7 +1429,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             )}
             <hr className="col-xs-12" />
             <SectionLabel>Masking</SectionLabel>
-            <Select
+            <BfSelect
               label="Mask mode"
               defaultValue={behaviour.imageMaskMode || "alpha"}
               onChange={(value) => {
@@ -1428,7 +1441,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 displayName: key,
               }))}
             />
-            <Checkbox
+            <BfCheckbox
               label="Invert mask"
               id="form-image-mask-invert"
               onChange={(value) => {
@@ -1438,7 +1451,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               checked={behaviour.imageInvertMask ?? false}
             />
             {usesLumaMask && (
-              <InputNumber
+              <BfInputNumber
                 label="Mask luma threshold (0..1)"
                 id="form-image-mask-luma-thr"
                 value={behaviour.imageMaskLumaThreshold ?? 0}
@@ -1453,7 +1466,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             )}
             {usesHueMask && (
               <>
-                <InputNumber
+                <BfInputNumber
                   label="Mask hue min"
                   id="form-image-mask-hue-min"
                   value={behaviour.imageMaskHueMin ?? 0}
@@ -1465,7 +1478,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Mask hue max"
                   id="form-image-mask-hue-max"
                   value={behaviour.imageMaskHueMax ?? 360}
@@ -1481,7 +1494,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             )}
             {hasImageSequence && (
               <>
-                <Checkbox
+                <BfCheckbox
                   label="Temporal coherence (image sequences)"
                   id="form-image-temporal-coherence"
                   onChange={(value) => {
@@ -1490,7 +1503,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                   }}
                   checked={behaviour.imageTemporalCoherence ?? true}
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Frame blend (0..1)"
                   id="form-image-frame-blend"
                   value={behaviour.imageFrameBlend ?? 0}
@@ -1506,7 +1519,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             )}
             <hr className="col-xs-12" />
             <SectionLabel>Performance & debug</SectionLabel>
-            <Checkbox
+            <BfCheckbox
               label="Progressive refine sampling"
               id="form-image-progressive-refine"
               onChange={(value) => {
@@ -1515,7 +1528,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
               }}
               checked={behaviour.imageProgressiveRefine ?? true}
             />
-            <InputNumber
+            <BfInputNumber
               label="Auto downscale max dimension"
               id="form-image-auto-downscale"
               value={behaviour.imageAutoDownscaleMax ?? 1024}
@@ -1527,7 +1540,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Select
+            <BfSelect
               label="Image debug overlay"
               defaultValue={behaviour.imageDebugOverlayMode || "off"}
               onChange={(value) => {
@@ -1542,7 +1555,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             <p className="col-xs-12 text-xs text-muted mb-1">
               Decoder status: {behaviour.imageDecodeStatus || "idle"}
             </p>
-            <Checkbox
+            <BfCheckbox
               label="Sample by alpha weight (denser opaque regions)"
               id="form-image-alpha-weight"
               onChange={(value) => {
@@ -1554,7 +1567,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           </>
         )}
 
-        <InputNumber
+        <BfInputNumber
           label="Point budget"
           id="form-point-budget"
           value={behaviour.pointBudget ?? keysToInitialize.pointBudget}
@@ -1567,7 +1580,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         />
         <hr />
         <SectionLabel>Formation transform</SectionLabel>
-        <InputNumber
+        <BfInputNumber
           label="Center"
           id="form-center"
           params={["x", "y"]}
@@ -1582,7 +1595,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale"
           id="form-scale"
           value={behaviour.scale ?? 1}
@@ -1593,7 +1606,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Rotation (deg)"
           id="form-rotation"
           value={behaviour.rotation ?? 0}
@@ -1603,7 +1616,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Live formation transform"
           id="form-live-transform"
           onChange={(value) => {
@@ -1615,7 +1628,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
 
         <hr />
         <SectionLabel>Assignment & timing</SectionLabel>
-        <Select
+        <BfSelect
           label="Assignment"
           defaultValue={
             behaviour.assignmentMode || keysToInitialize.assignmentMode
@@ -1626,7 +1639,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           elements={assignmentModes}
         />
-        <InputNumber
+        <BfInputNumber
           label="Assignment seed"
           id="form-assign-seed"
           value={behaviour.assignmentSeed ?? 0}
@@ -1637,7 +1650,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
         />
         {behaviour.assignmentMode === "optimal" && (
-          <InputNumber
+          <BfInputNumber
             label="Optimal max particles (Hungarian above -> greedy)"
             id="form-optimal-max"
             value={behaviour.optimalMaxParticles ?? 256}
@@ -1649,7 +1662,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             }}
           />
         )}
-        <Checkbox
+        <BfCheckbox
           label="Shuffle on each activate"
           id="form-shuffle-activate"
           onChange={(value) => {
@@ -1658,7 +1671,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.shuffleOnEachActivate ?? false}
         />
-        <InputNumber
+        <BfInputNumber
           label="Target jitter"
           id="form-target-jitter"
           value={behaviour.targetJitter ?? 0}
@@ -1669,7 +1682,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Select
+        <BfSelect
           label="Progress mode"
           defaultValue={behaviour.progressMode || keysToInitialize.progressMode}
           onChange={(value) => {
@@ -1679,7 +1692,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           elements={progressModes}
         />
         {behaviour.progressMode === "lifetime" && (
-          <InputNumber
+          <BfInputNumber
             label="Lifetime progress offset"
             id="form-life-progress-off"
             value={behaviour.lifetimeProgressOffset ?? 0}
@@ -1692,7 +1705,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             }}
           />
         )}
-        <InputNumber
+        <BfInputNumber
           label="Stagger min (sec)"
           id="form-stagger-min"
           value={behaviour.staggerMin ?? 0}
@@ -1703,7 +1716,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Stagger max (sec)"
           id="form-stagger-max"
           value={behaviour.staggerMax ?? 0}
@@ -1714,7 +1727,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Select
+        <BfSelect
           label="Stagger order"
           defaultValue={
             behaviour.staggerOrder || keysToInitialize.staggerOrder
@@ -1725,7 +1738,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           elements={staggerOrders}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed variance"
           id="form-speed-var"
           value={behaviour.speedVariance ?? 0}
@@ -1737,7 +1750,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Speed scale by distance"
           id="form-speed-scale-dist"
           onChange={(value) => {
@@ -1746,7 +1759,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.speedScaleByDistance ?? false}
         />
-        <InputNumber
+        <BfInputNumber
           label="Linger (ms)"
           id="form-linger-ms"
           value={behaviour.lingerMs ?? 0}
@@ -1757,7 +1770,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Show target preview"
           id="form-show-preview"
           onChange={(value) => {
@@ -1766,7 +1779,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.showTargetsPreview ?? false}
         />
-        <Checkbox
+        <BfCheckbox
           label="Show path preview (chords)"
           id="form-show-path-preview"
           onChange={(value) => {
@@ -1791,7 +1804,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
 
         <hr />
         <SectionLabel>Motion & pathing</SectionLabel>
-        <Checkbox
+        <BfCheckbox
           label="Kill On Arrival"
           id="form-pattern-kill"
           onChange={(value) => {
@@ -1800,7 +1813,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.killOnArrival ?? keysToInitialize.killOnArrival}
         />
-        <Select
+        <BfSelect
           label="Path Type"
           defaultValue={behaviour.pathType || keysToInitialize.pathType}
           onChange={(value) => {
@@ -1809,7 +1822,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           elements={predefinedPathType}
         />
-        <Select
+        <BfSelect
           label="Ease"
           defaultValue={behaviour.pathEasing || keysToInitialize.pathEasing}
           onChange={(value) => {
@@ -1818,7 +1831,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           elements={predefinedEase}
         />
-        <Select
+        <BfSelect
           label="Visual modulation"
           defaultValue={
             behaviour.visualModulation || keysToInitialize.visualModulation
@@ -1829,7 +1842,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           elements={visualModulations}
         />
-        <Select
+        <BfSelect
           label="Visual ease"
           defaultValue={
             behaviour.visualProgressEasing || keysToInitialize.visualProgressEasing
@@ -1842,7 +1855,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         />
         {usesVisualAlpha && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Visual alpha from"
               id="form-vis-a0"
               value={behaviour.visualAlphaFrom ?? 0}
@@ -1854,7 +1867,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Visual alpha to"
               id="form-vis-a1"
               value={behaviour.visualAlphaTo ?? 1}
@@ -1870,7 +1883,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         )}
         {usesVisualScale && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Visual scale from mul"
               id="form-vis-s0"
               value={behaviour.visualScaleFromMul ?? 0.5}
@@ -1881,7 +1894,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Visual scale to mul"
               id="form-vis-s1"
               value={behaviour.visualScaleToMul ?? 1.5}
@@ -1894,7 +1907,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <InputNumber
+        <BfInputNumber
           label="Arrival overshoot px"
           id="form-overshoot-px"
           value={behaviour.arrivalOvershootPx ?? 0}
@@ -1905,7 +1918,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Overshoot settle (ms)"
           id="form-overshoot-ms"
           value={behaviour.arrivalOvershootSettleMs ?? 200}
@@ -1916,7 +1929,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="form-pattern-speed"
           value={behaviour.speed ?? keysToInitialize.speed}
@@ -1926,7 +1939,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Arrival Threshold"
           id="form-pattern-arrival"
           value={
@@ -1940,7 +1953,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         />
         {behaviour.pathType === "sinusoidal" && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Sinusoidal Amplitude"
               id="form-sin-amp"
               value={
@@ -1954,7 +1967,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Sinusoidal Frequency"
               id="form-sin-freq"
               value={
@@ -1968,7 +1981,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Select
+            <BfSelect
               label="Sine phase"
               defaultValue={
                 behaviour.sinusoidalPhaseMode || keysToInitialize.sinusoidalPhaseMode
@@ -1983,7 +1996,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         )}
         {behaviour.pathType === "noise" && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Noise amplitude"
               id="form-noise-amp"
               value={behaviour.noiseAmplitude ?? 20}
@@ -1994,7 +2007,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Noise frequency"
               id="form-noise-freq"
               value={behaviour.noiseFrequency ?? 4}
@@ -2008,7 +2021,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           </>
         )}
         {behaviour.pathType === "arc" && (
-          <InputNumber
+          <BfInputNumber
             label="Arc bulge"
             id="form-arc-bulge"
             value={behaviour.arcBulge ?? 0}
@@ -2020,7 +2033,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           />
         )}
         {behaviour.pathType === "spiral" && (
-          <InputNumber
+          <BfInputNumber
             label="Spiral turns"
             id="form-spiral-turns"
             value={behaviour.spiralTurns ?? 0}
@@ -2033,7 +2046,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         )}
         {behaviour.pathType === "cubic" && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Cubic perp bulge"
               id="form-cubic-bulge"
               value={behaviour.cubicPerpBulge ?? 0.25}
@@ -2043,7 +2056,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Cubic asymmetry"
               id="form-cubic-asym"
               value={behaviour.cubicAsymmetry ?? 1}
@@ -2057,7 +2070,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         )}
         {behaviour.pathType === "springSeek" && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Spring stiffness"
               id="form-spring-k"
               value={behaviour.springStiffness ?? 180}
@@ -2068,7 +2081,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Spring damping"
               id="form-spring-d"
               value={behaviour.springDamping ?? 24}
@@ -2081,7 +2094,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <InputNumber
+        <BfInputNumber
           label="Path variety"
           id="form-path-variety"
           value={behaviour.pathVariety ?? 0}
@@ -2093,7 +2106,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Select
+        <BfSelect
           label="Path variety seed"
           defaultValue={
             behaviour.pathVarietySeedMode || keysToInitialize.pathVarietySeedMode
@@ -2104,7 +2117,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
           }}
           elements={pathVarietySeedModes}
         />
-        <InputNumber
+        <BfInputNumber
           label="Physics blend"
           id="form-physics-blend"
           value={behaviour.physicsBlend ?? 0}
@@ -2116,7 +2129,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="External offset X"
           id="form-ext-off-x"
           value={behaviour.externalOffsetX ?? 0}
@@ -2126,7 +2139,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="External offset Y"
           id="form-ext-off-y"
           value={behaviour.externalOffsetY ?? 0}
@@ -2136,7 +2149,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Follow emitter world position (Emitter.worldPosition)"
           id="form-follow-emitter"
           onChange={(value) => {
@@ -2147,7 +2160,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
         />
         <hr />
         <SectionLabel>Reactive & debugging</SectionLabel>
-        <InputNumber
+        <BfInputNumber
           label="Audio react speed (0 = off)"
           id="form-audio-speed"
           value={behaviour.audioReactSpeed ?? 0}
@@ -2157,7 +2170,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Audio react morph add"
           id="form-audio-morph"
           value={behaviour.audioReactMorph ?? 0}
@@ -2167,7 +2180,7 @@ export default function FormPatternProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Debug log assignment time (console)"
           id="form-fp-debug"
           onChange={(value) => {

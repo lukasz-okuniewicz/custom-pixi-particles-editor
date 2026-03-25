@@ -1,13 +1,16 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
-import ColorPicker from "@components/html/ColorPicker";
 import TemperatureDescription from "@components/html/behaviourDescriptions/Temperature";
-import Checkbox from "@components/html/Checkbox";
 
 export default function TemperatureProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -116,7 +119,7 @@ export default function TemperatureProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Temperature Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <TemperatureDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="angular-enabled"
           onChange={(value) => {
@@ -125,7 +128,7 @@ export default function TemperatureProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="color-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -142,7 +145,7 @@ export default function TemperatureProperties({ defaultConfig, index }) {
             <Fragment key={index}>
               <br />
               <h1>Zone {index + 1}</h1>
-              <InputNumber
+              <BfInputNumber
                 label="Center"
                 id="center"
                 params={["x", "y"]}
@@ -151,6 +154,7 @@ export default function TemperatureProperties({ defaultConfig, index }) {
                   zone.center.y ?? keysToInitialize.center.y,
                 ]}
                 step="1"
+                tooltipText={propertyHint("temperature-zone-center")}
                 onChange={(value, id) => {
                   zone.center[id] = value;
                   updateBehaviours();
@@ -166,17 +170,18 @@ export default function TemperatureProperties({ defaultConfig, index }) {
               >
                 Select Position
               </button>
-              <InputNumber
+              <BfInputNumber
                 label="Radius"
                 id="radius"
                 value={zone.radius ?? keysToInitialize.radius}
                 step="1"
+                tooltipText={propertyHint("temperature-zone-radius")}
                 onChange={(value) => {
                   zone.radius = value;
                   updateBehaviours();
                 }}
               />
-              <InputNumber
+              <BfInputNumber
                 label="Velocity Modifier"
                 id="velocity"
                 params={["x", "y"]}
@@ -185,13 +190,16 @@ export default function TemperatureProperties({ defaultConfig, index }) {
                   zone.velocity.y ?? keysToInitialize.velocity.y,
                 ]}
                 step="1"
+                tooltipText={propertyHint("temperature-zone-velocity")}
                 onChange={(value, id) => {
                   zone.velocity[id] = value;
                   updateBehaviours();
                 }}
               />
-              <ColorPicker
+              <BfColorPicker
+                id={`temperature-zone-${index}-color`}
                 label="Color"
+                tooltipText={propertyHint("temperature-zone-color")}
                 color={{
                   r: zone.color.r,
                   g: zone.color.g,

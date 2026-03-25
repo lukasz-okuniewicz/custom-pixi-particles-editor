@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import BeatPhaseLockDescription from "@components/html/behaviourDescriptions/BeatPhaseLock";
 
 export default function BeatPhaseLockProperties({ defaultConfig, index }) {
@@ -52,7 +54,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
         <p className="text-xs opacity-80 mb-2">
           BPM-locked phase; sets beatPhase01 on particles for color pipelines.
         </p>
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="bpl-enabled"
           onChange={(value) => {
@@ -61,7 +63,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="bpl-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -71,7 +73,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="BPM"
           id="bpl-bpm"
           value={behaviour.bpm ?? keysToInitialize.bpm}
@@ -82,7 +84,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Phase offset"
           id="bpl-phase"
           value={behaviour.phaseOffset ?? keysToInitialize.phaseOffset}
@@ -92,7 +94,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Lock strength"
           id="bpl-lock"
           value={behaviour.lockStrength ?? keysToInitialize.lockStrength}
@@ -104,7 +106,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Jitter"
           id="bpl-jitter"
           value={behaviour.jitter ?? keysToInitialize.jitter}
@@ -114,7 +116,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Harmonic"
           id="bpl-harmonic"
           value={behaviour.harmonic ?? keysToInitialize.harmonic}
@@ -125,7 +127,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write phase for visual"
           id="bpl-write"
           onChange={(value) => {
@@ -136,7 +138,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
             behaviour.writePhaseForVisual ?? keysToInitialize.writePhaseForVisual
           }
         />
-        <Checkbox
+        <BfCheckbox
           label="Apply scale pulse"
           id="bpl-scale"
           onChange={(value) => {
@@ -145,7 +147,7 @@ export default function BeatPhaseLockProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.applyScalePulse ?? keysToInitialize.applyScalePulse}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale pulse amount"
           id="bpl-scaleAmt"
           value={behaviour.scalePulseAmount ?? keysToInitialize.scalePulseAmount}

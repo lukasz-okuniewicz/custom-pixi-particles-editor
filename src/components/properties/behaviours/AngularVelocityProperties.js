@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import AngularVelocityDescription from "@components/html/behaviourDescriptions/AngularVelocity";
 
 export default function AngularVelocityProperties({ defaultConfig, index }) {
@@ -55,7 +57,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <AngularVelocityDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="angular-enabled"
           onChange={(value) => {
@@ -64,7 +66,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="angular-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -75,7 +77,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Degrees/sec"
           id="degrees"
           value={behaviour.degrees ?? keysToInitialize.degrees}
@@ -85,7 +87,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Degrees/sec Variance"
           id="degrees"
           value={behaviour.degreesVariance ?? keysToInitialize.degreesVariance}
@@ -95,7 +97,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Radius"
           id="degrees"
           value={behaviour.maxRadius ?? keysToInitialize.maxRadius}
@@ -105,7 +107,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Radius Variance"
           id="degrees"
           value={
@@ -117,7 +119,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min Radius"
           id="degrees"
           value={behaviour.minRadius ?? keysToInitialize.minRadius}
@@ -127,7 +129,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min Radius Variance"
           id="degrees"
           value={
@@ -139,7 +141,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Oscillate"
           id="angular-oscillate"
           onChange={(value) => {
@@ -150,7 +152,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
         />
         {behaviour.oscillate && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Oscillation Speed"
               id="oscillationSpeed"
               value={
@@ -162,7 +164,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Oscillation Amplitude"
               id="oscillationAmplitude"
               value={
@@ -177,7 +179,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <Checkbox
+        <BfCheckbox
           label="Linear Radius Reduction"
           id="angular-linearRadiusReduction"
           onChange={(value) => {
@@ -189,7 +191,7 @@ export default function AngularVelocityProperties({ defaultConfig, index }) {
             keysToInitialize.linearRadiusReduction
           }
         />
-        <Checkbox
+        <BfCheckbox
           label="Dynamic Radius"
           id="angular-dynamicRadius"
           onChange={(value) => {

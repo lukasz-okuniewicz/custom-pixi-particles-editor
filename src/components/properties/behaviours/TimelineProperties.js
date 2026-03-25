@@ -1,11 +1,14 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
 import { Fragment, useCallback, useState } from "react";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import TimelineDescription from "@components/html/behaviourDescriptions/Timeline";
-import ColorPicker from "@components/html/ColorPicker";
 
 export default function TimelineProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -79,7 +82,7 @@ export default function TimelineProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Timeline Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <TimelineDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="collision-enabled"
           onChange={(value) => {
@@ -88,7 +91,7 @@ export default function TimelineProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="collision-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -104,29 +107,31 @@ export default function TimelineProperties({ defaultConfig, index }) {
           behaviour.timeline.map((line, index) => (
             <Fragment key={index}>
               <h1>Timeline {index + 1}</h1>
-              <InputNumber
+              <BfInputNumber
                 label="Time"
                 id="time"
                 value={line.time}
                 step="0.1"
                 onChange={(value) => updateTime(index, value)}
               />
-              <InputNumber
+              <BfInputNumber
                 label="Size"
                 id="size"
                 value={line.properties.size}
                 step="0.1"
                 onChange={(value) => updateSize(index, value)}
               />
-              <InputNumber
+              <BfInputNumber
                 label="Rotation"
                 id="rotation"
                 value={line.properties.rotation}
                 step="1"
                 onChange={(value) => updateRotation(index, value)}
               />
-              <ColorPicker
+              <BfColorPicker
+                id={`timeline-line-${index}-color`}
                 label="Color"
+                tooltipText={propertyHint("timeline-keyframe-color")}
                 color={{
                   r: line.properties.color.r,
                   g: line.properties.color.g,

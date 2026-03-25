@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import FloatUpDescription from "@components/html/behaviourDescriptions/FloatUp";
 
 export default function FloatUpProperties({ defaultConfig, index }) {
@@ -47,7 +49,7 @@ export default function FloatUpProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <FloatUpDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="floatUp-enabled"
           onChange={(value) => {
@@ -56,7 +58,7 @@ export default function FloatUpProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="floatUp-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -66,7 +68,7 @@ export default function FloatUpProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Direction (°)"
           id="floatUp-direction"
           value={behaviour.direction ?? keysToInitialize.direction}
@@ -76,7 +78,7 @@ export default function FloatUpProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="floatUp-speed"
           value={behaviour.speed ?? keysToInitialize.speed}
@@ -86,7 +88,7 @@ export default function FloatUpProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Fade Out"
           id="floatUp-fadeOut"
           onChange={(value) => {
@@ -95,7 +97,7 @@ export default function FloatUpProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.fadeOut ?? keysToInitialize.fadeOut}
         />
-        <Checkbox
+        <BfCheckbox
           label="Shrink Over Life"
           id="floatUp-shrinkOverLife"
           onChange={(value) => {

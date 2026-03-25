@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
+import { BfInputNumber } from "@components/properties/BehaviourFieldWrappers";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { MeltEffect } from "custom-pixi-particles";
@@ -242,7 +242,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={toggleSubmenuVisibility}>Melt Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <MeltEffectDescription />
@@ -276,7 +276,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
         <div className="form-group">
           <div className="col-xs-12">
             <button
-              className="btn btn-primary btn-block"
+              className="btn btn-default btn-block"
               onClick={triggerMelt}
               disabled={isMeltingRef.current}
             >
@@ -286,7 +286,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
         </div>
         <hr />
 
-        <InputNumber
+        <BfInputNumber
           label="Grid Columns"
           id="gridCols"
           value={meltConfig.gridCols}
@@ -295,7 +295,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
           max="50"
           onChange={(v) => updateMeltConfig({ gridCols: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Grid Rows"
           id="gridRows"
           value={meltConfig.gridRows}
@@ -304,7 +304,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
           max="50"
           onChange={(v) => updateMeltConfig({ gridRows: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Gravity"
           id="gravity"
           value={meltConfig.gravity}
@@ -312,7 +312,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
           min="0"
           onChange={(v) => updateMeltConfig({ gravity: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Viscosity"
           id="viscosity"
           value={meltConfig.viscosity}
@@ -321,7 +321,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
           max="1"
           onChange={(v) => updateMeltConfig({ viscosity: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Horizontal Spread"
           id="horizontalSpread"
           value={meltConfig.horizontalSpread}
@@ -330,7 +330,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
           max="200"
           onChange={(v) => updateMeltConfig({ horizontalSpread: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Duration"
           id="duration"
           value={meltConfig.duration}
@@ -339,7 +339,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
           max="10"
           onChange={(v) => updateMeltConfig({ duration: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Blur Amount"
           id="blurAmount"
           value={meltConfig.blurAmount}
@@ -348,7 +348,7 @@ export default function MeltEffectProperties({ defaultConfig }) {
           max="20"
           onChange={(v) => updateMeltConfig({ blurAmount: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Threshold"
           id="threshold"
           value={meltConfig.threshold}
@@ -358,6 +358,6 @@ export default function MeltEffectProperties({ defaultConfig }) {
           onChange={(v) => updateMeltConfig({ threshold: v })}
         />
       </div>
-    </>
+    </div>
   );
 }

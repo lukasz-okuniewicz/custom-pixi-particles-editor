@@ -1,10 +1,12 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
-import ColorPicker from "@components/html/ColorPicker";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 import LightEffectDescription from "@components/html/behaviourDescriptions/LightEffect";
@@ -107,7 +109,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Light Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <LightEffectDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="emit-enabled"
           onChange={(value) => {
@@ -116,7 +118,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? false}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="emit-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -127,7 +129,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Light Position"
           id="lightSource"
           params={["x", "y"]}
@@ -153,7 +155,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
         </button>
         {!behaviour.volumetricLight && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Light Intensity"
               id="lightIntensity"
               value={
@@ -165,7 +167,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Attenuation Factor"
               id="attenuationFactor"
               value={
@@ -181,7 +183,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
           </>
         )}
 
-        <InputNumber
+        <BfInputNumber
           label="Ambient Light"
           id="ambientLight"
           value={behaviour.ambientLight ?? keysToInitialize.ambientLight}
@@ -191,7 +193,8 @@ export default function LightEffectProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <ColorPicker
+        <BfColorPicker
+          id="lightEffect-lightColor"
           label="Light Color"
           color={{
             r: behaviour.lightColor.r ?? keysToInitialize.lightColor.r,
@@ -206,7 +209,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Directional Light"
           id="directionalLight"
           onChange={(value) => {
@@ -219,7 +222,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
         />
         {behaviour.directionalLight && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Direction"
               id="direction"
               params={["x", "y"]}
@@ -233,7 +236,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Spread Angle"
               id="spreadAngle"
               value={behaviour.spreadAngle ?? keysToInitialize.spreadAngle}
@@ -245,7 +248,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <Checkbox
+        <BfCheckbox
           label="Volumetric Light"
           id="volumetricLight"
           onChange={(value) => {
@@ -258,7 +261,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
         />
         {behaviour.volumetricLight && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Volumetric Intensity"
               id="volumetricIntensity"
               value={
@@ -271,7 +274,7 @@ export default function LightEffectProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Fog Density"
               id="fogDensity"
               value={behaviour.fogDensity ?? keysToInitialize.fogDensity}

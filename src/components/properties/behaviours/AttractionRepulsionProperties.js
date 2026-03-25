@@ -1,9 +1,12 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 import AttractionRepulsionDescription from "@components/html/behaviourDescriptions/AttractionRepulsion";
@@ -125,7 +128,7 @@ export default function AttractionRepulsionProperties({
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <AttractionRepulsionDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="attraction-enabled"
           onChange={(value) => {
@@ -134,7 +137,7 @@ export default function AttractionRepulsionProperties({
           }}
           checked={behaviour.enabled ?? false}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="attraction-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -150,12 +153,13 @@ export default function AttractionRepulsionProperties({
           behaviour.influencePoints.map((point, index) => (
             <Fragment key={index}>
               <h1>Point {index + 1}</h1>
-              <InputNumber
+              <BfInputNumber
                 label="Position"
                 id={`point-${index + 1}-position`}
                 params={["x", "y"]}
                 value={[point.point.x, point.point.y]}
                 step="1"
+                tooltipText={propertyHint("attraction-influence-position")}
                 onChange={(value, id) => updatePoint(index, value, id)}
               />
               <button
@@ -168,18 +172,20 @@ export default function AttractionRepulsionProperties({
               >
                 Select Position
               </button>
-              <InputNumber
+              <BfInputNumber
                 label="Strength"
                 id={`point-${index + 1}-strength`}
                 value={point.strength}
                 step="1"
+                tooltipText={propertyHint("attraction-influence-strength")}
                 onChange={(value) => updateStrength(index, value)}
               />
-              <InputNumber
+              <BfInputNumber
                 label="Range"
                 id={`point-${index + 1}-range`}
                 value={point.range}
                 step="1"
+                tooltipText={propertyHint("attraction-influence-range")}
                 onChange={(value) => updateRange(index, value)}
               />
               <br />

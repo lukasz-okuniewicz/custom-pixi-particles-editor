@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import MagnetDescription from "@components/html/behaviourDescriptions/Magnet";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -70,7 +72,7 @@ export default function MagnetProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Magnet Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <MagnetDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="magnet-enabled"
           onChange={(value) => {
@@ -79,7 +81,7 @@ export default function MagnetProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="magnet-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -89,7 +91,7 @@ export default function MagnetProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Magnet center"
           id="magnet-center"
           params={["x", "y"]}
@@ -117,7 +119,7 @@ export default function MagnetProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Radius"
           id="magnet-radius"
           value={behaviour.radius ?? keysToInitialize.radius}
@@ -127,7 +129,7 @@ export default function MagnetProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="magnet-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -137,7 +139,7 @@ export default function MagnetProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Falloff Exponent"
           id="magnet-falloffExponent"
           value={behaviour.falloffExponent ?? keysToInitialize.falloffExponent}
@@ -147,7 +149,7 @@ export default function MagnetProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Speed"
           id="magnet-maxSpeed"
           value={behaviour.maxSpeed ?? keysToInitialize.maxSpeed}

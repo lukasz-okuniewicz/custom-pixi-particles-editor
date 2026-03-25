@@ -2,11 +2,18 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAutoResizeTextarea } from "@hooks/useAutoResizeTextarea";
-import { camelCaseToNormal, updateProps } from "@utils";
-import Select from "@components/html/Select";
+import { camelCaseToNormal, normalizeBlendModeForPixiV8, updateProps } from "@utils";
 import File from "@components/html/File";
 import { Assets } from "pixi.js";
-import { normalizeBlendModeForPixiV8 } from "@utils";
+import {
+  BfCheckbox,
+  BfColorPicker,
+  BfFieldHint,
+  BfInputNumber,
+  BfInputString,
+  BfSelect,
+} from "@components/properties/BehaviourFieldWrappers";
+import GeneralDescription from "@components/html/behaviourDescriptions/General";
 
 // Pixi v8 uses string blend modes; provide options for the dropdown
 const EDITOR_BLEND_MODES = [
@@ -25,11 +32,6 @@ const EDITOR_BLEND_MODES = [
   { key: "soft-light", value: "soft-light", displayName: "Soft Light" },
   { key: "none", value: "none", displayName: "None" },
 ];
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
-import InputString from "@components/html/InputString";
-import ColorPicker from "@components/html/ColorPicker";
-import GeneralDescription from "@components/html/behaviourDescriptions/General";
 
 // Sprite/Image effects shown in a separate section of the Particle Effects select
 const SPRITE_IMAGE_EFFECT_KEYS = [
@@ -53,7 +55,7 @@ const GeneralProperties = ({
   handlePredefinedEffectChange,
 }) => {
   const [bgColor, setBgColor] = useState({ r: 0, g: 0, b: 0, a: 1 });
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("");
+  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
   const fileParticleImagesInputRef = useRef(null);
   const fileParticleFinishingInputRef = useRef(null);
   const fileParticleBackgroundImageRef = useRef(null);
@@ -187,16 +189,18 @@ const GeneralProperties = ({
     useState(false);
 
   useEffect(() => {
-    const tv = defaultConfig.emitterConfig.textureVariants;
+    const ec = defaultConfig?.emitterConfig;
+    const tv = ec?.textureVariants;
     setTextureVariantsJson(
       tv && tv.length ? JSON.stringify(tv, null, 2) : "[]",
     );
-    const w = defaultConfig.emitterConfig.variantWeights;
-    setVariantWeightsJson(
-      w && w.length ? JSON.stringify(w) : "",
-    );
+    const w = ec?.variantWeights;
+    setVariantWeightsJson(w && w.length ? JSON.stringify(w) : "");
     setTextureVariantsJsonError(false);
-  }, [defaultConfig.emitterConfig.textureVariants, defaultConfig.emitterConfig.variantWeights]);
+  }, [
+    defaultConfig?.emitterConfig?.textureVariants,
+    defaultConfig?.emitterConfig?.variantWeights,
+  ]);
 
   const textureVariantsTextarea = useAutoResizeTextarea(textureVariantsJson);
 
@@ -234,7 +238,7 @@ const GeneralProperties = ({
 
     return (
       <>
-        <InputString
+        <BfInputString
           label="Animated Sprite Name"
           id="animated-sprite-name"
           value={
@@ -248,7 +252,7 @@ const GeneralProperties = ({
             )
           }
         />
-        <InputNumber
+        <BfInputNumber
           label="Animated Sprite Frame Rate"
           id="animated-sprite-frame-rate"
           value={defaultConfig.emitterConfig.animatedSprite.frameRate ?? 0.25}
@@ -257,7 +261,7 @@ const GeneralProperties = ({
             updateProps("emitterConfig.animatedSprite.frameRate", value)
           }
         />
-        <InputNumber
+        <BfInputNumber
           label="Animated Sprite Index To Start"
           id="animated-sprite-index-to-start"
           value={
@@ -272,7 +276,7 @@ const GeneralProperties = ({
             )
           }
         />
-        <InputNumber
+        <BfInputNumber
           label="Animated Sprite Zero Pad"
           id="animated-sprite-zero-pad"
           value={
@@ -287,7 +291,7 @@ const GeneralProperties = ({
             )
           }
         />
-        <Checkbox
+        <BfCheckbox
           label="Animated Sprite Loop"
           id="animated-sprite-loop"
           onChange={(value) => {
@@ -295,7 +299,7 @@ const GeneralProperties = ({
           }}
           checked={defaultConfig.emitterConfig.animatedSprite.loop ?? false}
         />
-        <Checkbox
+        <BfCheckbox
           label="Random Frame Start"
           id="random-frame-start"
           onChange={(value) => {
@@ -335,6 +339,7 @@ const GeneralProperties = ({
             spellCheck={false}
             style={{ resize: "none", overflow: "hidden" }}
           />
+          <BfFieldHint id="texture-variants-json" />
           {textureVariantsJsonError && (
             <span className="text-danger" style={{ fontSize: "12px" }}>
               Invalid JSON
@@ -356,6 +361,7 @@ const GeneralProperties = ({
             onBlur={applyTextureVariantsFromJson}
             spellCheck={false}
           />
+          <BfFieldHint id="variant-weights-json" />
         </div>
       </div>
     </>
@@ -376,12 +382,12 @@ const GeneralProperties = ({
     defaultConfig.particlePredefinedEffect === "meltEffect"
   )
     return (
-      <>
+      <div className="editor-sidebar-section">
         <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
         <div className={`${isSubmenuVisible}`}>
           <GeneralDescription />
           {/* Follow Mouse Toggle */}
-          <Select
+          <BfSelect
             label="Particle Effects"
             defaultValue={
               defaultConfig.particlePredefinedEffect || "coffeeShop"
@@ -390,11 +396,11 @@ const GeneralProperties = ({
             groups={particleEffectsGrouped}
           />
         </div>
-      </>
+      </div>
     );
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       {/* General Properties Section */}
       <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
       <div className={`${isSubmenuVisible}`}>
@@ -402,7 +408,7 @@ const GeneralProperties = ({
         {/* Follow Mouse Toggle */}
         {defaultConfig.particlePredefinedEffect !== "coffeeShop" && (
           <>
-            <Checkbox
+            <BfCheckbox
               label="Follow Mouse"
               id="follow-mouse"
               onChange={(value) => {
@@ -415,7 +421,7 @@ const GeneralProperties = ({
         )}
 
         {/* Particle Effects Dropdown */}
-        <Select
+        <BfSelect
           label="Particle Effects"
           defaultValue={defaultConfig.particlePredefinedEffect || "coffeeShop"}
           onChange={handleEffectChange}
@@ -425,7 +431,7 @@ const GeneralProperties = ({
         {defaultConfig.particlePredefinedEffect !== "coffeeShop" && (
           <>
             <hr />
-            <Select
+            <BfSelect
               label="Predefined Particle Image"
               defaultValue={
                 defaultConfig.particlePredefinedImage ||
@@ -450,6 +456,7 @@ const GeneralProperties = ({
               onClick={() => fileParticleImagesInputRef.current?.click()}
               ref={fileParticleImagesInputRef}
             />
+            <BfFieldHint id="load-particle-images" />
             <File
               label="Particle Finishing Images"
               buttonText="Add Finishing Images"
@@ -464,8 +471,9 @@ const GeneralProperties = ({
               onClick={() => fileParticleFinishingInputRef.current?.click()}
               ref={fileParticleFinishingInputRef}
             />
+            <BfFieldHint id="load-particle-finishing-images" />
             <hr />
-            <Checkbox
+            <BfCheckbox
               label="Animated Sprite"
               id="animated-sprite"
               onChange={(value) => {
@@ -488,8 +496,10 @@ const GeneralProperties = ({
               onClick={() => fileParticleBackgroundImageRef.current?.click()}
               ref={fileParticleBackgroundImageRef}
             />
+            <BfFieldHint id="load-particle-background-image" />
             <hr />
-            <ColorPicker
+            <BfColorPicker
+              id="general-background-color"
               label="Background Color"
               color={{
                 r: bgColor.r,
@@ -502,7 +512,7 @@ const GeneralProperties = ({
                 updateProps("noConfig.BackgroundColor", color);
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Alpha"
               id="alpha"
               value={defaultConfig.emitterConfig.alpha ?? 1}
@@ -511,7 +521,7 @@ const GeneralProperties = ({
                 updateProps("emitterConfig.alpha", value, undefined, true)
               }
             />
-            <InputNumber
+            <BfInputNumber
               label="Anchor"
               id="anchor"
               params={["x", "y"]}
@@ -524,7 +534,7 @@ const GeneralProperties = ({
                 updateProps("emitterConfig.anchor", value, id, true)
               }
             />
-            <Select
+            <BfSelect
               label="Blend Mode"
               defaultValue={normalizeBlendModeForPixiV8(
                 defaultConfig.emitterConfig.blendMode
@@ -537,7 +547,7 @@ const GeneralProperties = ({
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

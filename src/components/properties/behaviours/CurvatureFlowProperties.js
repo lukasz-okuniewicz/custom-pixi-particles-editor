@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import CurvatureFlowDescription from "@components/html/behaviourDescriptions/CurvatureFlow";
 
 export default function CurvatureFlowProperties({ defaultConfig, index }) {
@@ -54,7 +56,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <CurvatureFlowDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="curvatureflow-enabled"
           onChange={(value) => {
@@ -63,7 +65,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="curvatureflow-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -73,7 +75,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Radius"
           id="curvatureflow-radius"
           value={behaviour.radius ?? keysToInitialize.radius}
@@ -84,7 +86,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="curvatureflow-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -94,7 +96,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Speed"
           id="curvatureflow-maxSpeed"
           value={behaviour.maxSpeed ?? keysToInitialize.maxSpeed}
@@ -104,7 +106,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Density For Color"
           id="curvatureflow-writeDensityForColor"
           onChange={(value) => {
@@ -113,7 +115,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writeDensityForColor ?? keysToInitialize.writeDensityForColor}
         />
-        <Checkbox
+        <BfCheckbox
           label="Scale By Density"
           id="curvatureflow-scaleByDensity"
           onChange={(value) => {
@@ -122,7 +124,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.scaleByDensity ?? keysToInitialize.scaleByDensity}
         />
-        <InputNumber
+        <BfInputNumber
           label="Density Scale Min"
           id="curvatureflow-densityScaleMin"
           value={behaviour.densityScaleMin ?? keysToInitialize.densityScaleMin}
@@ -132,7 +134,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Density Scale Max"
           id="curvatureflow-densityScaleMax"
           value={behaviour.densityScaleMax ?? keysToInitialize.densityScaleMax}
@@ -142,7 +144,7 @@ export default function CurvatureFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Density Normalize Count"
           id="curvatureflow-densityNormalizeCount"
           value={behaviour.densityNormalizeCount ?? keysToInitialize.densityNormalizeCount}

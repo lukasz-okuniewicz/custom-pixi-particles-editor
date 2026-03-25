@@ -8,6 +8,18 @@ import { updateProps } from "@utils";
 import { METABALL_PASS_DEFAULTS as MB_DEFAULTS } from "@config/metaballPassDefaults";
 import MetaballPassDescription from "@components/html/behaviourDescriptions/MetaballPass";
 
+const METABALL_HINTS = {
+  enabled: "Enables or disables the metaball post-processing pass.",
+  width: "Internal metaball buffer width in pixels.",
+  height: "Internal metaball buffer height in pixels.",
+  resolutionScale:
+    "Scales render resolution for the pass (lower is faster, higher is sharper).",
+  blurStrength: "Blur amount applied before thresholding.",
+  threshold:
+    "Alpha cutoff used to merge nearby particles into smooth metaball shapes.",
+  edgeSoftness: "Softens hard edges after thresholding for smoother blobs.",
+};
+
 /**
  * Collapsible “Metaball Pass” section: enable toggle + post-process controls.
  */
@@ -88,6 +100,7 @@ export default function MetaballPassProperties({ defaultConfig }) {
         <Checkbox
           label="Enable"
           id="metaball-pass-enable"
+          tooltipText={METABALL_HINTS.enabled}
           onChange={(checked) => {
             if (checked) {
               updateProps(
@@ -112,6 +125,7 @@ export default function MetaballPassProperties({ defaultConfig }) {
         <InputNumber
           label="Buffer width"
           id="metaball-width"
+          tooltipText={METABALL_HINTS.width}
           value={mb.width}
           step="1"
           min="64"
@@ -120,6 +134,7 @@ export default function MetaballPassProperties({ defaultConfig }) {
         <InputNumber
           label="Buffer height"
           id="metaball-height"
+          tooltipText={METABALL_HINTS.height}
           value={mb.height}
           step="1"
           min="64"
@@ -128,6 +143,7 @@ export default function MetaballPassProperties({ defaultConfig }) {
         <InputNumber
           label="Resolution scale"
           id="metaball-resolutionScale"
+          tooltipText={METABALL_HINTS.resolutionScale}
           value={mb.resolutionScale}
           step="0.05"
           min="0.1"
@@ -137,6 +153,7 @@ export default function MetaballPassProperties({ defaultConfig }) {
         <InputNumber
           label="Blur strength"
           id="metaball-blurStrength"
+          tooltipText={METABALL_HINTS.blurStrength}
           value={mb.blurStrength}
           step="1"
           min="0"
@@ -145,6 +162,7 @@ export default function MetaballPassProperties({ defaultConfig }) {
         <InputNumber
           label="Alpha threshold"
           id="metaball-threshold"
+          tooltipText={METABALL_HINTS.threshold}
           value={mb.threshold}
           step="0.01"
           min="0"
@@ -154,6 +172,7 @@ export default function MetaballPassProperties({ defaultConfig }) {
         <InputNumber
           label="Edge softness"
           id="metaball-edgeSoftness"
+          tooltipText={METABALL_HINTS.edgeSoftness}
           value={mb.edgeSoftness}
           step="0.01"
           min="0"

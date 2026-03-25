@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
-import ColorPicker from "@components/html/ColorPicker";
-import Select from "@components/html/Select";
+import {
+  BfSelect,
+  BfInputNumber,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { GhostEffect } from "custom-pixi-particles";
@@ -291,7 +293,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={toggleSubmenuVisibility}>Ghost Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <GhostEffectDescription />
@@ -326,7 +328,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
           <div className="col-xs-12">
             {!isTracking ? (
               <button
-                className="btn btn-primary btn-block"
+                className="btn btn-default btn-block"
                 onClick={startTracking}
                 disabled={!ghostSprite}
               >
@@ -334,7 +336,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
               </button>
             ) : (
               <button
-                className="btn btn-danger btn-block"
+                className="btn btn-default btn-block"
                 onClick={stopTracking}
               >
                 Stop Tracking
@@ -344,7 +346,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
         </div>
         <hr />
 
-        <InputNumber
+        <BfInputNumber
           label="Spawn Interval"
           id="spawnInterval"
           value={ghostConfig.spawnInterval}
@@ -353,7 +355,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
           max="1"
           onChange={(v) => updateGhostConfig({ spawnInterval: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Ghost Lifetime"
           id="ghostLifetime"
           value={ghostConfig.ghostLifetime}
@@ -362,7 +364,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
           max="5"
           onChange={(v) => updateGhostConfig({ ghostLifetime: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Start Alpha"
           id="startAlpha"
           value={ghostConfig.startAlpha}
@@ -371,7 +373,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
           max="1"
           onChange={(v) => updateGhostConfig({ startAlpha: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="End Alpha"
           id="endAlpha"
           value={ghostConfig.endAlpha}
@@ -380,7 +382,8 @@ export default function GhostEffectProperties({ defaultConfig }) {
           max="1"
           onChange={(v) => updateGhostConfig({ endAlpha: v })}
         />
-        <ColorPicker
+        <BfColorPicker
+          id="ghost-startTint"
           label="Start Tint"
           color={hexToRgb(ghostConfig.startTint)}
           colorChanged={(color) => {
@@ -389,7 +392,8 @@ export default function GhostEffectProperties({ defaultConfig }) {
             });
           }}
         />
-        <ColorPicker
+        <BfColorPicker
+          id="ghost-endTint"
           label="End Tint"
           color={hexToRgb(ghostConfig.endTint)}
           colorChanged={(color) => {
@@ -398,13 +402,13 @@ export default function GhostEffectProperties({ defaultConfig }) {
             });
           }}
         />
-        <Select
+        <BfSelect
           label="Blend Mode"
           defaultValue={ghostConfig.blendMode.toString()}
           onChange={(v) => updateGhostConfig({ blendMode: parseInt(v) })}
           elements={blendModeOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Ghosts"
           id="maxGhosts"
           value={ghostConfig.maxGhosts}
@@ -414,6 +418,6 @@ export default function GhostEffectProperties({ defaultConfig }) {
           onChange={(v) => updateGhostConfig({ maxGhosts: v })}
         />
       </div>
-    </>
+    </div>
   );
 }

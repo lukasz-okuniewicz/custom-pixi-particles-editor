@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import GravityWellDescription from "@components/html/behaviourDescriptions/GravityWell";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -72,7 +74,7 @@ export default function GravityWellProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Gravity Well Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <GravityWellDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="gravityWell-enabled"
           onChange={(value) => {
@@ -81,7 +83,7 @@ export default function GravityWellProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="gravityWell-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -91,7 +93,7 @@ export default function GravityWellProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Well center"
           id="gravityWell-center"
           params={["x", "y"]}
@@ -119,7 +121,7 @@ export default function GravityWellProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="gravityWell-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -129,7 +131,7 @@ export default function GravityWellProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Falloff Exponent"
           id="gravityWell-falloffExponent"
           value={behaviour.falloffExponent ?? keysToInitialize.falloffExponent}
@@ -139,7 +141,7 @@ export default function GravityWellProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Speed"
           id="gravityWell-maxSpeed"
           value={behaviour.maxSpeed ?? keysToInitialize.maxSpeed}
@@ -150,7 +152,7 @@ export default function GravityWellProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Kill Radius"
           id="gravityWell-killRadius"
           value={behaviour.killRadius ?? keysToInitialize.killRadius}
@@ -161,7 +163,7 @@ export default function GravityWellProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Kill On Enter"
           id="gravityWell-killOnEnter"
           onChange={(value) => {
@@ -170,7 +172,7 @@ export default function GravityWellProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.killOnEnter ?? keysToInitialize.killOnEnter}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min Distance"
           id="gravityWell-minDistance"
           value={behaviour.minDistance ?? keysToInitialize.minDistance}

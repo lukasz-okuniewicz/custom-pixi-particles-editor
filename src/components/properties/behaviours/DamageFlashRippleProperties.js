@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import DamageFlashRippleDescription from "@components/html/behaviourDescriptions/DamageFlashRipple";
 
 export default function DamageFlashRippleProperties({ defaultConfig, index }) {
@@ -53,7 +55,7 @@ export default function DamageFlashRippleProperties({ defaultConfig, index }) {
           Set triggerRipple true (or tick below) to fire an expanding ring
           impulse from center.
         </p>
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="dfr-enabled"
           onChange={(value) => {
@@ -62,7 +64,7 @@ export default function DamageFlashRippleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <Checkbox
+        <BfCheckbox
           label="Trigger ripple"
           id="dfr-trigger"
           onChange={(value) => {
@@ -71,7 +73,7 @@ export default function DamageFlashRippleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.triggerRipple ?? keysToInitialize.triggerRipple}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="dfr-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -81,7 +83,7 @@ export default function DamageFlashRippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Center"
           id="dfr-center"
           params={["x", "y"]}
@@ -96,7 +98,7 @@ export default function DamageFlashRippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Wave speed"
           id="dfr-speed"
           value={behaviour.waveSpeed ?? keysToInitialize.waveSpeed}
@@ -106,7 +108,7 @@ export default function DamageFlashRippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Wave thickness"
           id="dfr-thick"
           value={behaviour.waveThickness ?? keysToInitialize.waveThickness}
@@ -116,7 +118,7 @@ export default function DamageFlashRippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="dfr-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -126,7 +128,7 @@ export default function DamageFlashRippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Duration"
           id="dfr-duration"
           value={behaviour.duration ?? keysToInitialize.duration}
@@ -137,7 +139,7 @@ export default function DamageFlashRippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write radial phase"
           id="dfr-write"
           onChange={(value) => {

@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import StretchDescription from "@components/html/behaviourDescriptions/Stretch";
 
 export default function StretchProperties({ defaultConfig, index }) {
@@ -46,7 +48,7 @@ export default function StretchProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Stretch Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <StretchDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="emit-enabled"
           onChange={(value) => {
@@ -55,7 +57,7 @@ export default function StretchProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? false}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="emit-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -66,7 +68,7 @@ export default function StretchProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Base Scale"
           id="baseScale"
           value={behaviour.baseScale ?? keysToInitialize.baseScale}
@@ -76,7 +78,7 @@ export default function StretchProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Stretch Factor"
           id="stretchFactor"
           value={behaviour.stretchFactor ?? keysToInitialize.stretchFactor}
@@ -86,7 +88,7 @@ export default function StretchProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min Stretch"
           id="minStretch"
           value={behaviour.minStretch ?? keysToInitialize.minStretch}
@@ -96,7 +98,7 @@ export default function StretchProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Stretch"
           id="maxStretch"
           value={behaviour.maxStretch ?? keysToInitialize.maxStretch}

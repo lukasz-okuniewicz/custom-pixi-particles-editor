@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import LissajousHarmonicLatticeDescription from "@components/html/behaviourDescriptions/LissajousHarmonicLattice";
 
 export default function LissajousHarmonicLatticeProperties({ defaultConfig, index }) {
@@ -57,7 +59,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <LissajousHarmonicLatticeDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="lissajous-enabled"
           onChange={(value) => {
@@ -66,7 +68,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="lissajous-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -76,7 +78,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Freq X"
           id="lissajous-freqX"
           value={behaviour.freqX ?? keysToInitialize.freqX}
@@ -86,7 +88,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Freq Y"
           id="lissajous-freqY"
           value={behaviour.freqY ?? keysToInitialize.freqY}
@@ -96,7 +98,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Freq Z"
           id="lissajous-freqZ"
           value={behaviour.freqZ ?? keysToInitialize.freqZ}
@@ -106,7 +108,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Amplitude"
           id="lissajous-amplitude"
           value={behaviour.amplitude ?? keysToInitialize.amplitude}
@@ -116,7 +118,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="lissajous-speed"
           value={behaviour.speed ?? keysToInitialize.speed}
@@ -126,7 +128,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Phase Scale"
           id="lissajous-phaseScale"
           value={behaviour.phaseScale ?? keysToInitialize.phaseScale}
@@ -136,7 +138,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale XY"
           id="lissajous-scaleXY"
           value={behaviour.scaleXY ?? keysToInitialize.scaleXY}
@@ -146,7 +148,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Restoration For Alpha"
           id="lissajous-writeRestorationForAlpha"
           onChange={(value) => {
@@ -155,7 +157,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
           }}
           checked={behaviour.writeRestorationForAlpha ?? keysToInitialize.writeRestorationForAlpha}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Density For Scale"
           id="lissajous-writeDensityForScale"
           onChange={(value) => {
@@ -164,7 +166,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
           }}
           checked={behaviour.writeDensityForScale ?? keysToInitialize.writeDensityForScale}
         />
-        <InputNumber
+        <BfInputNumber
           label="Restoration Normalize"
           id="lissajous-restorationNormalize"
           value={behaviour.restorationNormalize ?? keysToInitialize.restorationNormalize}
@@ -174,7 +176,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Alpha Scale"
           id="lissajous-alphaScale"
           value={behaviour.alphaScale ?? keysToInitialize.alphaScale}
@@ -184,7 +186,7 @@ export default function LissajousHarmonicLatticeProperties({ defaultConfig, inde
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale From Density"
           id="lissajous-scaleFromDensity"
           value={behaviour.scaleFromDensity ?? keysToInitialize.scaleFromDensity}

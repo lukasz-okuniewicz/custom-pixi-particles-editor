@@ -57,7 +57,6 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "TemperatureBehaviour",
   "MoveToPointBehaviour",
   "FormPatternBehaviour",
-  "Wireframe3DBehaviour",
   "VortexBehaviour",
   "PulseBehaviour",
   "RippleBehaviour",
@@ -95,6 +94,7 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "ScreenSpaceFlowMapBehaviour",
   "BeatPhaseLockBehaviour",
   "DamageFlashRippleBehaviour",
+  "RecursiveFireworkBehaviour",
 ];
 
 export const camelCaseToNormal = (text) => {
@@ -428,7 +428,20 @@ export const updateProps = (name, value, id, refresh) => {
         eventBus.emit("newBgImage", value);
         break;
       case "noConfig.load-config":
-        eventBus.emit("loadConfig", JSON.parse(value));
+        try {
+          const parsed = typeof value === "string" ? JSON.parse(value) : value;
+          eventBus.emit("loadConfig", parsed);
+          eventBus.emit("uiNotice", {
+            type: "success",
+            message: "Config loaded successfully.",
+          });
+        } catch (error) {
+          eventBus.emit("loadConfigError", {
+            message:
+              "Could not parse JSON file. Please verify the file content and try again.",
+            details: error instanceof Error ? error.message : String(error),
+          });
+        }
         break;
       case "noConfig.download-config":
         eventBus.emit("downloadConfig");
@@ -468,13 +481,20 @@ export const initializeProperty = (obj, key, defaultValue = {}) => {
 export const mergeObjectsWithDefaults = (defaults, target) => {
   if (Array.isArray(defaults)) {
     if (Array.isArray(target)) {
-      // `flowData: []` + numeric array — do not merge element-wise (would turn each number into {})
+      const isPrimitiveArrayElt = (x) =>
+        x === null ||
+        typeof x === "number" ||
+        typeof x === "boolean" ||
+        typeof x === "string";
+
+      // Empty default `[]` + authored primitive list — return as-is. Element-wise merge would call
+      // merge({}, string) and corrupt entries (e.g. RecursiveFirework texture key lists).
       if (
         defaults.length === 0 &&
         target.length > 0 &&
-        target.every((x) => typeof x === "number")
+        target.every(isPrimitiveArrayElt)
       ) {
-        return target;
+        return [...target];
       }
       // Previous buggy merge: 128 empty objects — treat as empty
       if (
@@ -489,12 +509,37 @@ export const mergeObjectsWithDefaults = (defaults, target) => {
       ) {
         return [];
       }
+
+      const defaultsArePrimitiveTuple =
+        defaults.length > 0 && defaults.every(isPrimitiveArrayElt);
+      const targetArePrimitiveTuple =
+        target.length > 0 && target.every(isPrimitiveArrayElt);
+
+      // Numeric / primitive tuples (e.g. depth lists). Avoid `defaults[i] || {}` which breaks on 0.
+      // If target is shorter than the template, repeat the last authored value (same semantics as
+      // RecursiveFireworkBehaviour.getByDepth). Padding with template defaults breaks presets that
+      // intentionally use a single entry for all depths (e.g. palm: spreadByDepth [0]).
+      if (
+        defaultsArePrimitiveTuple &&
+        (target.length === 0 || targetArePrimitiveTuple)
+      ) {
+        const maxLen = Math.max(defaults.length, target.length);
+        if (target.length === 0) {
+          return [...defaults];
+        }
+        const tail = target[target.length - 1];
+        return Array.from({ length: maxLen }, (_, i) => {
+          if (target[i] !== undefined) return target[i];
+          if (target.length < defaults.length) return tail;
+          return defaults[i];
+        });
+      }
     }
     if (!Array.isArray(target)) {
       return defaults;
     }
     return target.map((targetItem, index) => {
-      const defaultItem = defaults[index] || {};
+      const defaultItem = defaults[index] ?? {};
       return mergeObjectsWithDefaults(defaultItem, targetItem);
     });
   }

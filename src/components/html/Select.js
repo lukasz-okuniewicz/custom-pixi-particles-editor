@@ -15,7 +15,9 @@ const Select = ({
   elements,
   groups,
   tooltipText,
+  id,
 }) => {
+  const selectId = id || `select-${String(label).replace(/\s+/g, "-").toLowerCase()}`;
   const hasGroups = groups && groups.length > 0;
   const hasElements = elements && elements.length > 0;
   const totalOptions = hasGroups
@@ -57,20 +59,22 @@ const Select = ({
 
   return (
     <div className="form-group">
-      <label className="col-xs-4 form-label" htmlFor={label}>
+      <label className="col-xs-4 form-label" htmlFor={selectId}>
         {label}
       </label>
       <div className="col-xs-8">
         <select
-          id={label}
+          id={selectId}
           className="form-control"
           value={defaultValue}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
+          aria-label={label}
+          aria-describedby={tooltipText ? `${selectId}-tooltip` : undefined}
         >
           {renderOptions()}
         </select>
-        {tooltipText && <span className="tooltiptext">{tooltipText}</span>}
+        {tooltipText && <span className="tooltiptext" id={`${selectId}-tooltip`}>{tooltipText}</span>}
       </div>
     </div>
   );
@@ -87,6 +91,7 @@ Select.propTypes = {
       options: PropTypes.arrayOf(optionShape),
     }),
   ),
+  id: PropTypes.string,
 };
 
 Select.defaultProps = {

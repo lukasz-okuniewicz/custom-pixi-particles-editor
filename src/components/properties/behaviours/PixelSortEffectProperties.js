@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
-import Select from "@components/html/Select";
+import {
+  BfSelect,
+  BfInputNumber,
+} from "@components/properties/BehaviourFieldWrappers";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { PixelSortEffect } from "custom-pixi-particles";
@@ -242,7 +244,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={toggleSubmenuVisibility}>
         Pixel Sort Effect Properties
       </legend>
@@ -276,7 +278,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
         <div className="form-group">
           <div className="col-xs-12">
             <button
-              className="btn btn-primary btn-block"
+              className="btn btn-default btn-block"
               onClick={triggerPixelSort}
               disabled={isSortingRef.current}
             >
@@ -286,25 +288,25 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
         </div>
         <hr />
 
-        <Select
+        <BfSelect
           label="Direction"
           defaultValue={pixelSortConfig.direction}
           onChange={(v) => updatePixelSortConfig({ direction: v })}
           elements={directionOptions}
         />
-        <Select
+        <BfSelect
           label="Sort Mode"
           defaultValue={pixelSortConfig.sortMode}
           onChange={(v) => updatePixelSortConfig({ sortMode: v })}
           elements={sortModeOptions}
         />
-        <Select
+        <BfSelect
           label="Sort Order"
           defaultValue={pixelSortConfig.sortOrder}
           onChange={(v) => updatePixelSortConfig({ sortOrder: v })}
           elements={sortOrderOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Threshold Low"
           id="thresholdLow"
           value={pixelSortConfig.thresholdLow}
@@ -313,7 +315,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
           max="1"
           onChange={(v) => updatePixelSortConfig({ thresholdLow: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Threshold High"
           id="thresholdHigh"
           value={pixelSortConfig.thresholdHigh}
@@ -322,7 +324,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
           max="1"
           onChange={(v) => updatePixelSortConfig({ thresholdHigh: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Duration"
           id="duration"
           value={pixelSortConfig.duration}
@@ -330,7 +332,7 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
           min="0.1"
           onChange={(v) => updatePixelSortConfig({ duration: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Row Step"
           id="rowStep"
           value={pixelSortConfig.rowStep}
@@ -340,6 +342,6 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
           onChange={(v) => updatePixelSortConfig({ rowStep: v })}
         />
       </div>
-    </>
+    </div>
   );
 }
