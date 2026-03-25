@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import RVOAvoidanceDescription from "@components/html/behaviourDescriptions/RVOAvoidance";
 
 export default function RVOAvoidanceProperties({ defaultConfig, index }) {
@@ -50,7 +52,7 @@ export default function RVOAvoidanceProperties({ defaultConfig, index }) {
           Neighbour avoidance; particle list is wired automatically from the
           emitter.
         </p>
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="rvo-enabled"
           onChange={(value) => {
@@ -59,7 +61,7 @@ export default function RVOAvoidanceProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="rvo-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -69,7 +71,7 @@ export default function RVOAvoidanceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Neighbor radius"
           id="rvo-neighborRadius"
           value={behaviour.neighborRadius ?? keysToInitialize.neighborRadius}
@@ -79,7 +81,7 @@ export default function RVOAvoidanceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Time horizon"
           id="rvo-timeHorizon"
           value={behaviour.timeHorizon ?? keysToInitialize.timeHorizon}
@@ -90,7 +92,7 @@ export default function RVOAvoidanceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max accel"
           id="rvo-maxAccel"
           value={behaviour.maxAccel ?? keysToInitialize.maxAccel}
@@ -100,7 +102,7 @@ export default function RVOAvoidanceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Weight"
           id="rvo-weight"
           value={behaviour.weight ?? keysToInitialize.weight}
@@ -110,7 +112,7 @@ export default function RVOAvoidanceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min separation"
           id="rvo-minSep"
           value={behaviour.minSeparation ?? keysToInitialize.minSeparation}

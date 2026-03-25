@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import PhaseFieldFlowDescription from "@components/html/behaviourDescriptions/PhaseFieldFlow";
 
 export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
@@ -55,7 +57,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <PhaseFieldFlowDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="phasefield-enabled"
           onChange={(value) => {
@@ -64,7 +66,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="phasefield-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -74,7 +76,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="phasefield-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -84,7 +86,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale X"
           id="phasefield-scaleX"
           value={behaviour.scaleX ?? keysToInitialize.scaleX}
@@ -94,7 +96,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale Y"
           id="phasefield-scaleY"
           value={behaviour.scaleY ?? keysToInitialize.scaleY}
@@ -104,7 +106,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Time Scale"
           id="phasefield-timeScale"
           value={behaviour.timeScale ?? keysToInitialize.timeScale}
@@ -114,7 +116,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength 2"
           id="phasefield-strength2"
           value={behaviour.strength2 ?? keysToInitialize.strength2}
@@ -124,7 +126,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale X2"
           id="phasefield-scaleX2"
           value={behaviour.scaleX2 ?? keysToInitialize.scaleX2}
@@ -134,7 +136,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale Y2"
           id="phasefield-scaleY2"
           value={behaviour.scaleY2 ?? keysToInitialize.scaleY2}
@@ -144,7 +146,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Time Scale 2"
           id="phasefield-timeScale2"
           value={behaviour.timeScale2 ?? keysToInitialize.timeScale2}
@@ -154,7 +156,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Speed For Color"
           id="phasefield-writeSpeedForColor"
           onChange={(value) => {
@@ -163,7 +165,7 @@ export default function PhaseFieldFlowProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writeSpeedForColor ?? keysToInitialize.writeSpeedForColor}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Phase For Visual"
           id="phasefield-writePhaseForVisual"
           onChange={(value) => {

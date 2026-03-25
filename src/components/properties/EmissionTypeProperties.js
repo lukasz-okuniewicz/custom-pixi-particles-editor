@@ -6,6 +6,20 @@ import { updateProps } from "@utils";
 import InputNumber from "@components/html/InputNumber";
 import EmissionTypeDescription from "@components/html/behaviourDescriptions/EmissionType";
 
+const EMISSION_HINTS = {
+  emissionType:
+    "Chooses how particles are emitted over time (uniform, random, standard, or persistent fill).",
+  emitPerSecond: "How many particles are spawned each second.",
+  maxParticles:
+    "Maximum number of live particles this emitter can keep at once.",
+  duration:
+    "How long emission runs in seconds. Use -1 for effectively continuous emission.",
+  emissionRate:
+    "Base emission intensity used by Standard/Random emission controllers.",
+  burstPerFrame:
+    "Particles spawned per frame while filling to max capacity.",
+};
+
 export default function EmissionTypeProperties({ defaultConfig }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
 
@@ -38,6 +52,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <InputNumber
           label="Emit/Sec"
           id="emit-sec"
+          tooltipText={EMISSION_HINTS.emitPerSecond}
           value={
             defaultConfig.emitterConfig.emitController._emitPerSecond ?? 10
           }
@@ -49,6 +64,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <InputNumber
           label="Max Particles"
           id="max-particles"
+          tooltipText={EMISSION_HINTS.maxParticles}
           value={defaultConfig.emitterConfig.emitController._maxParticles ?? 10}
           step="1"
           onChange={(value) =>
@@ -58,6 +74,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <InputNumber
           label="Duration"
           id="duration"
+          tooltipText={EMISSION_HINTS.duration}
           value={defaultConfig.emitterConfig.duration ?? 1}
           step="1"
           onChange={(value) => updateProps("emitterConfig.duration", value)}
@@ -72,6 +89,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <InputNumber
           label="Max Particles"
           id="persistent-max-particles"
+          tooltipText={EMISSION_HINTS.maxParticles}
           value={
             defaultConfig.emitterConfig.emitController._maxParticles > 0
               ? defaultConfig.emitterConfig.emitController._maxParticles
@@ -85,6 +103,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <InputNumber
           label="Burst Per Frame"
           id="persistent-burst"
+          tooltipText={EMISSION_HINTS.burstPerFrame}
           value={
             defaultConfig.emitterConfig.emitController._burstPerFrame > 0
               ? defaultConfig.emitterConfig.emitController._burstPerFrame
@@ -99,6 +118,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <InputNumber
           label="Duration"
           id="duration-persistent"
+          tooltipText={EMISSION_HINTS.duration}
           value={defaultConfig.emitterConfig.duration ?? -1}
           step="1"
           onChange={(value) => updateProps("emitterConfig.duration", value)}
@@ -113,6 +133,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <InputNumber
           label="Max Particles"
           id="max-particles"
+          tooltipText={EMISSION_HINTS.maxParticles}
           value={
             defaultConfig.emitterConfig.emitController._maxParticles > 0
               ? defaultConfig.emitterConfig.emitController._maxParticles
@@ -126,6 +147,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <InputNumber
           label="Emission Rate"
           id="emission-rate"
+          tooltipText={EMISSION_HINTS.emissionRate}
           value={
             defaultConfig.emitterConfig.emitController._emissionRate ?? 100
           }
@@ -137,6 +159,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <InputNumber
           label="Duration"
           id="duration"
+          tooltipText={EMISSION_HINTS.duration}
           value={defaultConfig.emitterConfig.duration ?? 1}
           step="1"
           onChange={(value) => updateProps("emitterConfig.duration", value)}
@@ -154,6 +177,7 @@ export default function EmissionTypeProperties({ defaultConfig }) {
         <EmissionTypeDescription />
         <Select
           label="Emission Type"
+          tooltipText={EMISSION_HINTS.emissionType}
           defaultValue={
             defaultConfig.emitterConfig.emitController.name || "UniformEmission"
           }

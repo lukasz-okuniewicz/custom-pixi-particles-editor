@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import WobbleDescription from "@components/html/behaviourDescriptions/Wobble";
 
 export default function WobbleProperties({ defaultConfig, index }) {
@@ -48,7 +50,7 @@ export default function WobbleProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <WobbleDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="wobble-enabled"
           onChange={(value) => {
@@ -57,7 +59,7 @@ export default function WobbleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="wobble-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -67,7 +69,7 @@ export default function WobbleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Frequency"
           id="wobble-frequency"
           value={behaviour.frequency ?? keysToInitialize.frequency}
@@ -77,7 +79,7 @@ export default function WobbleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Amplitude X"
           id="wobble-amplitudeX"
           value={behaviour.amplitudeX ?? keysToInitialize.amplitudeX}
@@ -87,7 +89,7 @@ export default function WobbleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Amplitude Y"
           id="wobble-amplitudeY"
           value={behaviour.amplitudeY ?? keysToInitialize.amplitudeY}
@@ -97,7 +99,7 @@ export default function WobbleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Wobble Rotation"
           id="wobble-wobbleRotation"
           onChange={(value) => {
@@ -106,7 +108,7 @@ export default function WobbleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.wobbleRotation ?? keysToInitialize.wobbleRotation}
         />
-        <InputNumber
+        <BfInputNumber
           label="Rotation Amplitude"
           id="wobble-rotationAmplitude"
           value={behaviour.rotationAmplitude ?? keysToInitialize.rotationAmplitude}

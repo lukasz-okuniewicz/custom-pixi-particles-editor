@@ -1,6 +1,12 @@
 "use client";
 
 import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
+import {
   Fragment,
   useCallback,
   useEffect,
@@ -9,9 +15,6 @@ import {
   useState,
 } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
-import Checkbox from "@components/html/Checkbox";
-import Select from "@components/html/Select";
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
 import ForceFieldsDescription from "@components/html/behaviourDescriptions/ForceFields";
@@ -157,7 +160,7 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Force Fields Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <ForceFieldsDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="attraction-enabled"
           onChange={(value) => {
@@ -166,7 +169,7 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? false}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="attraction-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -182,12 +185,13 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
             <Fragment key={index}>
               <hr />
               <h1>Field {index + 1}</h1>
-              <InputNumber
+              <BfInputNumber
                 label={`Position`}
                 id={`field-${index + 1}-position`}
                 params={["x", "y"]}
                 value={[field.position.x, field.position.y]}
                 step="1"
+                tooltipText={propertyHint("force-field-position")}
                 onChange={(value, id) => updatePosition(index, value, id)}
               />
               <button
@@ -200,33 +204,36 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
               >
                 Select Position
               </button>
-              <InputNumber
+              <BfInputNumber
                 label={`Radius`}
                 id={`field-${index + 1}-radius`}
                 value={field.radius}
                 step="10"
+                tooltipText={propertyHint("force-field-radius")}
                 onChange={(value) => updateRadius(index, value)}
               />
-              <InputNumber
+              <BfInputNumber
                 label={`Strength`}
                 id={`field-${index + 1}-strength`}
                 value={field.strength}
                 step="10"
+                tooltipText={propertyHint("force-field-strength")}
                 onChange={(value) => updateStrength(index, value)}
               />
-              <Select
+              <BfSelect
                 label="Type"
                 defaultValue={field.type || keysToInitialize.type}
                 onChange={(value) => updateType(index, value)}
                 elements={predefinedType}
               />
               {field.type === "wind" && (
-                <InputNumber
+                <BfInputNumber
                   label={`Direction`}
                   id={`field-${index + 1}-direction`}
                   params={["x", "y"]}
                   value={[field.direction.x, field.direction.y]}
                   step="1"
+                  tooltipText={propertyHint("force-field-direction")}
                   onChange={(value, id) => updateDirection(index, value, id)}
                 />
               )}

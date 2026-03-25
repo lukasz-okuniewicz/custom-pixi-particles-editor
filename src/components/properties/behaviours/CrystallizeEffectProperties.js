@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
-import Checkbox from "@components/html/Checkbox";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { CrystallizeEffect } from "custom-pixi-particles";
@@ -157,7 +159,7 @@ export default function CrystallizeEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Crystallize Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <CrystallizeEffectDescription />
@@ -171,17 +173,17 @@ export default function CrystallizeEffectProperties({ defaultConfig }) {
         )}
         <div className="form-group">
           <div className="col-xs-12">
-            <button className="btn btn-primary btn-block" onClick={triggerEffect} disabled={isRunningRef.current}>{isRunningRef.current ? "Running..." : "Trigger Crystallize"}</button>
+            <button className="btn btn-default btn-block" onClick={triggerEffect} disabled={isRunningRef.current}>{isRunningRef.current ? "Running..." : "Trigger Crystallize"}</button>
           </div>
         </div>
         <hr />
-        <InputNumber label="Cell Scale" id="cellScale" value={config.cellScale} step="1" min="2" max="64" onChange={(v) => updateConfig({ cellScale: v })} />
-        <InputNumber label="Jitter" id="jitter" value={config.jitter} step="0.1" min="0" max="1" onChange={(v) => updateConfig({ jitter: v })} />
-        <InputNumber label="Highlight Strength" id="highlightStrength" value={config.highlightStrength} step="0.1" min="0" max="1" onChange={(v) => updateConfig({ highlightStrength: v })} />
-        <InputNumber label="Edge Softness" id="edgeSoftness" value={config.edgeSoftness} step="0.1" min="0" max="1" onChange={(v) => updateConfig({ edgeSoftness: v })} />
-        <Checkbox label="Tint By Cell" id="tintByCell" onChange={(v) => updateConfig({ tintByCell: v })} checked={config.tintByCell} />
-        <InputNumber label="Duration" id="duration" value={config.duration} step="0.1" min="0.1" max="5" onChange={(v) => updateConfig({ duration: v })} />
+        <BfInputNumber label="Cell Scale" id="cellScale" value={config.cellScale} step="1" min="2" max="64" onChange={(v) => updateConfig({ cellScale: v })} />
+        <BfInputNumber label="Jitter" id="jitter" value={config.jitter} step="0.1" min="0" max="1" onChange={(v) => updateConfig({ jitter: v })} />
+        <BfInputNumber label="Highlight Strength" id="highlightStrength" value={config.highlightStrength} step="0.1" min="0" max="1" onChange={(v) => updateConfig({ highlightStrength: v })} />
+        <BfInputNumber label="Edge Softness" id="edgeSoftness" value={config.edgeSoftness} step="0.1" min="0" max="1" onChange={(v) => updateConfig({ edgeSoftness: v })} />
+        <BfCheckbox label="Tint By Cell" id="tintByCell" onChange={(v) => updateConfig({ tintByCell: v })} checked={config.tintByCell} />
+        <BfInputNumber label="Duration" id="duration" value={config.duration} step="0.1" min="0.1" max="5" onChange={(v) => updateConfig({ duration: v })} />
       </div>
-    </>
+    </div>
   );
 }

@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import AizawaAttractorDescription from "@components/html/behaviourDescriptions/AizawaAttractor";
 
 export default function AizawaAttractorProperties({ defaultConfig, index }) {
@@ -57,7 +59,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <AizawaAttractorDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="aizawa-enabled"
           onChange={(value) => {
@@ -66,7 +68,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="aizawa-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -76,7 +78,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="aizawa-speed"
           value={behaviour.speed ?? keysToInitialize.speed}
@@ -86,7 +88,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale XY"
           id="aizawa-scaleXY"
           value={behaviour.scaleXY ?? keysToInitialize.scaleXY}
@@ -96,7 +98,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="a"
           id="aizawa-a"
           value={behaviour.a ?? keysToInitialize.a}
@@ -106,7 +108,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="b"
           id="aizawa-b"
           value={behaviour.b ?? keysToInitialize.b}
@@ -116,7 +118,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="c"
           id="aizawa-c"
           value={behaviour.c ?? keysToInitialize.c}
@@ -126,7 +128,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="d"
           id="aizawa-d"
           value={behaviour.d ?? keysToInitialize.d}
@@ -136,7 +138,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="e"
           id="aizawa-e"
           value={behaviour.e ?? keysToInitialize.e}
@@ -146,7 +148,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="f"
           id="aizawa-f"
           value={behaviour.f ?? keysToInitialize.f}
@@ -156,7 +158,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Distance For Color"
           id="aizawa-writeDistanceForColor"
           onChange={(value) => {
@@ -165,7 +167,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writeDistanceForColor ?? keysToInitialize.writeDistanceForColor}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Speed For Scale"
           id="aizawa-writeSpeedForScale"
           onChange={(value) => {
@@ -174,7 +176,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writeSpeedForScale ?? keysToInitialize.writeSpeedForScale}
         />
-        <InputNumber
+        <BfInputNumber
           label="Distance Normalize"
           id="aizawa-distanceNormalize"
           value={behaviour.distanceNormalize ?? keysToInitialize.distanceNormalize}
@@ -184,7 +186,7 @@ export default function AizawaAttractorProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed Normalize"
           id="aizawa-speedNormalize"
           value={behaviour.speedNormalize ?? keysToInitialize.speedNormalize}

@@ -1,11 +1,14 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
 import { Fragment, useCallback, useState } from "react";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import ColorPicker from "@components/html/ColorPicker";
 import ColorDescription from "@components/html/behaviourDescriptions/Color";
-import InputNumber from "@components/html/InputNumber";
 
 export default function ColorProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -74,7 +77,7 @@ export default function ColorProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Color Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <ColorDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="color-enabled"
           onChange={(value) => {
@@ -83,7 +86,7 @@ export default function ColorProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="color-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -97,7 +100,7 @@ export default function ColorProperties({ defaultConfig, index }) {
 
         {!behaviour.fadeToTransparent && (
           <>
-            <Checkbox
+            <BfCheckbox
               label="Fade In and Out"
               id="fade-in-out"
               onChange={(value) => {
@@ -111,7 +114,8 @@ export default function ColorProperties({ defaultConfig, index }) {
 
         {!behaviour.colorStops.length && (
           <>
-            <ColorPicker
+            <BfColorPicker
+              id="color-start"
               label="Starting Color"
               color={{
                 r: behaviour.start._r ?? keysToInitialize.start._r,
@@ -127,7 +131,8 @@ export default function ColorProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <ColorPicker
+            <BfColorPicker
+              id="color-start-variance"
               label="Starting Color Variance"
               color={{
                 r:
@@ -151,7 +156,8 @@ export default function ColorProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <ColorPicker
+            <BfColorPicker
+              id="color-end"
               label="Ending Color"
               color={{
                 r: behaviour.end._r ?? keysToInitialize.end._r,
@@ -167,7 +173,8 @@ export default function ColorProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <ColorPicker
+            <BfColorPicker
+              id="color-end-variance"
               label="Ending Color Variance"
               color={{
                 r: behaviour.endVariance._r ?? keysToInitialize.endVariance._r,
@@ -185,7 +192,7 @@ export default function ColorProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Checkbox
+            <BfCheckbox
               label="Use Perlin"
               id="usePerlin"
               onChange={(value) => {
@@ -194,7 +201,7 @@ export default function ColorProperties({ defaultConfig, index }) {
               }}
               checked={behaviour.usePerlin ?? keysToInitialize.usePerlin}
             />
-            <Checkbox
+            <BfCheckbox
               label="Mirror Transition"
               id="mirrorTransition"
               onChange={(value) => {
@@ -205,7 +212,7 @@ export default function ColorProperties({ defaultConfig, index }) {
                 behaviour.mirrorTransition ?? keysToInitialize.mirrorTransition
               }
             />
-            <Checkbox
+            <BfCheckbox
               label="Fade To Gray"
               id="fadeToGray"
               onChange={(value) => {
@@ -216,7 +223,7 @@ export default function ColorProperties({ defaultConfig, index }) {
             />
             {!behaviour.sinus && (
               <>
-                <Checkbox
+                <BfCheckbox
                   label="Fade To Transparent"
                   id="fadeToTransparent"
                   onChange={(value) => {
@@ -231,7 +238,7 @@ export default function ColorProperties({ defaultConfig, index }) {
               </>
             )}
 
-            <InputNumber
+            <BfInputNumber
               label={`Flicker Intensity`}
               id={`flickerIntensity`}
               value={behaviour.flickerIntensity}
@@ -241,7 +248,7 @@ export default function ColorProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label={`Pulse Intensity`}
               id={`pulseIntensity`}
               value={behaviour.pulseIntensity}
@@ -251,7 +258,7 @@ export default function ColorProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label={`Pulse Speed`}
               id={`pulseSpeed`}
               value={behaviour.pulseSpeed}
@@ -269,8 +276,10 @@ export default function ColorProperties({ defaultConfig, index }) {
             <Fragment key={index}>
               <hr />
               <h1>Color Stop {index + 1}</h1>
-              <ColorPicker
+              <BfColorPicker
+                id={`color-stop-${index}`}
                 label="Stop"
+                tooltipText={propertyHint("color-gradient-stop")}
                 color={{
                   r: colorStop.r,
                   g: colorStop.g,

@@ -1,8 +1,8 @@
 import { Loader as PixiLoader } from "pixi.js-legacy";
 
 export default class Loader {
-  static load() {
-    return new Promise((resolve) => {
+  static load(onProgress, onError) {
+    return new Promise((resolve, reject) => {
       const loader = PixiLoader.shared;
       // Already loading (e.g. React Strict Mode double-mount): wait for completion
       if (loader.loading) {
@@ -34,6 +34,15 @@ export default class Loader {
       loader.add("relaxingInstrumental", "audio/relaxingInstrumental.mp3");
       loader.add("relaxingMusic", "audio/relaxingMusic.mp3");
       loader.add("instrumentalMusic", "audio/instrumentalMusic.mp3");
+      loader.onProgress.add((instance) => {
+        if (typeof onProgress === "function") {
+          onProgress(Math.round(instance.progress || 0));
+        }
+      });
+      loader.onError.once((err) => {
+        if (typeof onError === "function") onError(err);
+        reject(err);
+      });
       loader.load();
       loader.onComplete.once(() => resolve(true));
     });

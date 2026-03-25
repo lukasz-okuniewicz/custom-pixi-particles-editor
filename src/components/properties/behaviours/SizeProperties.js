@@ -1,11 +1,13 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { Fragment, useCallback, useMemo, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import SizeDescription from "@components/html/behaviourDescriptions/Size";
-import Select from "@components/html/Select";
 
 export default function SizeProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -93,7 +95,7 @@ export default function SizeProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Size Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <SizeDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="size-enabled"
           onChange={(value) => {
@@ -102,7 +104,7 @@ export default function SizeProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="size-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -115,7 +117,7 @@ export default function SizeProperties({ defaultConfig, index }) {
         />
         {!behaviour.sizeSteps.length && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Size Start"
               id="size-start"
               params={["x", "y"]}
@@ -130,7 +132,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Start Variance"
               id="size-start-variance"
               value={behaviour.startVariance ?? keysToInitialize.startVariance}
@@ -141,7 +143,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Checkbox
+            <BfCheckbox
               label="End matches start (per particle)"
               id="size-end-matches-start"
               onChange={(value) => {
@@ -154,7 +156,7 @@ export default function SizeProperties({ defaultConfig, index }) {
             />
             {!behaviour.endMatchesStart && (
               <>
-                <InputNumber
+                <BfInputNumber
                   label="Size End"
                   id="size-end"
                   params={["x", "y"]}
@@ -169,7 +171,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <InputNumber
+                <BfInputNumber
                   label="End Variance"
                   id="size-end-variance"
                   value={behaviour.endVariance ?? keysToInitialize.endVariance}
@@ -182,7 +184,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 />
               </>
             )}
-            <InputNumber
+            <BfInputNumber
               label="Max Size"
               id="maxSize"
               params={["x", "y"]}
@@ -197,7 +199,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Checkbox
+            <BfCheckbox
               label="Uniform Scaling"
               id="uniformScaling"
               onChange={(value) => {
@@ -208,7 +210,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 behaviour.uniformScaling ?? keysToInitialize.uniformScaling
               }
             />
-            <Checkbox
+            <BfCheckbox
               label="Pulsate"
               id="pulsate"
               onChange={(value) => {
@@ -219,7 +221,7 @@ export default function SizeProperties({ defaultConfig, index }) {
             />
             {behaviour.pulsate && (
               <>
-                <InputNumber
+                <BfInputNumber
                   label="Pulsation Speed"
                   id="pulsationSpeed"
                   value={
@@ -231,7 +233,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Pulsation Amplitude"
                   id="pulsationAmplitude"
                   value={
@@ -246,7 +248,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 />
               </>
             )}
-            <Checkbox
+            <BfCheckbox
               label="Use Noise"
               id="useNoise"
               onChange={(value) => {
@@ -257,7 +259,7 @@ export default function SizeProperties({ defaultConfig, index }) {
             />
             {behaviour.useNoise && (
               <>
-                <InputNumber
+                <BfInputNumber
                   label="Noise Scale"
                   id="noiseScale"
                   value={behaviour.noiseScale ?? keysToInitialize.noiseScale}
@@ -269,7 +271,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 />
               </>
             )}
-            <Checkbox
+            <BfCheckbox
               label="Invert At Midpoint"
               id="invertAtMidpoint"
               onChange={(value) => {
@@ -280,7 +282,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 behaviour.invertAtMidpoint ?? keysToInitialize.invertAtMidpoint
               }
             />
-            <InputNumber
+            <BfInputNumber
               label="Time Offset"
               id="timeOffset"
               value={behaviour.timeOffset ?? keysToInitialize.timeOffset}
@@ -291,7 +293,7 @@ export default function SizeProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <Select
+            <BfSelect
               label="X Scaling Function"
               defaultValue={
                 behaviour.xScalingFunction || keysToInitialize.xScalingFunction
@@ -302,7 +304,7 @@ export default function SizeProperties({ defaultConfig, index }) {
               }}
               elements={predefinedEasingFunctions}
             />
-            <Select
+            <BfSelect
               label="Y Scaling Function"
               defaultValue={
                 behaviour.yScalingFunction || keysToInitialize.yScalingFunction
@@ -313,7 +315,7 @@ export default function SizeProperties({ defaultConfig, index }) {
               }}
               elements={predefinedEasingFunctions}
             />
-            <Checkbox
+            <BfCheckbox
               label="Size Alpha Dependency"
               id="sizeAlphaDependency"
               onChange={(value) => {
@@ -332,7 +334,7 @@ export default function SizeProperties({ defaultConfig, index }) {
             <Fragment key={index}>
               <hr />
               <h1>Step {index + 1}</h1>
-              <InputNumber
+              <BfInputNumber
                 label="Size"
                 id="size"
                 params={["x", "y"]}

@@ -1,9 +1,12 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import BezierFlowTubeDescription from "@components/html/behaviourDescriptions/BezierFlowTube";
 
 export default function BezierFlowTubeProperties({ defaultConfig, index }) {
@@ -45,7 +48,7 @@ export default function BezierFlowTubeProperties({ defaultConfig, index }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return <></>;
 
   const pt = (key, label) => (
-    <InputNumber
+    <BfInputNumber
       label={label}
       id={`bezier-${key}`}
       params={["x", "y"]}
@@ -54,6 +57,7 @@ export default function BezierFlowTubeProperties({ defaultConfig, index }) {
         behaviour[key]?.y ?? keysToInitialize[key].y,
       ]}
       step="5"
+      tooltipText={propertyHint(`bezier-${key}`)}
       onChange={(value, id) => {
         behaviour[key] = behaviour[key] || { ...keysToInitialize[key] };
         behaviour[key][id] = value;
@@ -70,7 +74,7 @@ export default function BezierFlowTubeProperties({ defaultConfig, index }) {
         <p className="text-xs opacity-80 mb-2">
           Particles follow a cubic Bezier; runs after Position (priority -58).
         </p>
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="bezier-enabled"
           onChange={(value) => {
@@ -79,7 +83,7 @@ export default function BezierFlowTubeProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="bezier-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -93,7 +97,7 @@ export default function BezierFlowTubeProperties({ defaultConfig, index }) {
         {pt("p1", "P1")}
         {pt("p2", "P2")}
         {pt("p3", "P3")}
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="bezier-speed"
           value={behaviour.speed ?? keysToInitialize.speed}
@@ -103,7 +107,7 @@ export default function BezierFlowTubeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Noise amplitude"
           id="bezier-noise"
           value={behaviour.noiseAmp ?? keysToInitialize.noiseAmp}
@@ -113,7 +117,7 @@ export default function BezierFlowTubeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Loop t"
           id="bezier-loop"
           onChange={(value) => {
@@ -122,7 +126,7 @@ export default function BezierFlowTubeProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.loop ?? keysToInitialize.loop}
         />
-        <Checkbox
+        <BfCheckbox
           label="Align rotation to tangent"
           id="bezier-align"
           onChange={(value) => {

@@ -1,9 +1,12 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
 import CollisionDescription from "@components/html/behaviourDescriptions/Collision";
@@ -125,7 +128,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Collision Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <CollisionDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="collision-enabled"
           onChange={(value) => {
@@ -134,7 +137,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="collision-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -145,7 +148,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Show Line"
           id="collision-show-lines"
           onChange={(value) => {
@@ -154,7 +157,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.showLines ?? keysToInitialize.showLines}
         />
-        <InputNumber
+        <BfInputNumber
           label="Distance"
           id="collision-distance"
           value={behaviour.distance ?? keysToInitialize.distance}
@@ -169,12 +172,13 @@ export default function CollisionProperties({ defaultConfig, index }) {
           behaviour.lines.map((line, index) => (
             <Fragment key={index}>
               <h1>Line {index + 1}</h1>
-              <InputNumber
+              <BfInputNumber
                 label={`Line ${index + 1} - Point 1`}
                 id={`line-${index + 1}-point-1`}
                 params={["x", "y"]}
                 value={[line.point1.x, line.point1.y]}
                 step="1"
+                tooltipText={propertyHint("collision-line-point")}
                 onChange={(value, id) =>
                   updateLinePoint(index, "point1", value, id)
                 }
@@ -189,12 +193,13 @@ export default function CollisionProperties({ defaultConfig, index }) {
               >
                 Select Point 1
               </button>
-              <InputNumber
+              <BfInputNumber
                 label={`Line ${index + 1} - Point 2`}
                 id={`line-${index + 1}-point-2`}
                 params={["x", "y"]}
                 value={[line.point2.x, line.point2.y]}
                 step="1"
+                tooltipText={propertyHint("collision-line-point")}
                 onChange={(value, id) =>
                   updateLinePoint(index, "point2", value, id)
                 }
@@ -231,7 +236,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
         </button>
         <br />
         <hr />
-        <Checkbox
+        <BfCheckbox
           label="Skip Position On Collision"
           id="collision-skip-position"
           onChange={(value) => {
@@ -243,7 +248,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
             keysToInitialize.skipPositionBehaviourOnCollision
           }
         />
-        <Checkbox
+        <BfCheckbox
           label="Skip Angular Velocity On Collision"
           id="collision-skip-velocity"
           onChange={(value) => {
@@ -255,7 +260,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
             keysToInitialize.skipAngularVelocityBehaviourOnCollision
           }
         />
-        <Checkbox
+        <BfCheckbox
           label="Skip Color On Collision"
           id="collision-skip-color"
           onChange={(value) => {
@@ -267,7 +272,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
             keysToInitialize.skipColorBehaviourOnCollision
           }
         />
-        <Checkbox
+        <BfCheckbox
           label="Skip Emit Direction On Collision"
           id="collision-skip-emit"
           onChange={(value) => {
@@ -279,7 +284,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
             keysToInitialize.skipEmitDirectionBehaviourOnCollision
           }
         />
-        <Checkbox
+        <BfCheckbox
           label="Skip Rotation On Collision"
           id="collision-skip-rotation"
           onChange={(value) => {
@@ -291,7 +296,7 @@ export default function CollisionProperties({ defaultConfig, index }) {
             keysToInitialize.skipRotationBehaviourOnCollision
           }
         />
-        <Checkbox
+        <BfCheckbox
           label="Skip Size On Collision"
           id="collision-skip-size"
           onChange={(value) => {

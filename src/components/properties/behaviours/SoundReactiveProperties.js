@@ -1,12 +1,14 @@
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getConfigByName, mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import SoundReactiveDescription from "@components/html/behaviourDescriptions/SoundReactive";
 import { Loader as PixiLoader } from "pixi.js-legacy";
 import { playMusic, stopMusic, updateContext } from "@utils/audio";
-import ColorPicker from "@components/html/ColorPicker";
-import Select from "@components/html/Select";
 
 let lastParticlePredefinedEffect = null;
 
@@ -173,7 +175,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
       <div className={`${isSubmenuVisible}`}>
         <SoundReactiveDescription />
 
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="sound-reactive-enabled"
           onChange={(value) => {
@@ -195,7 +197,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -206,7 +208,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Select
+        <BfSelect
           label="Sample"
           defaultValue={predefinedMusic}
           onChange={(value) => {
@@ -224,7 +226,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           elements={predefinedType}
         />
         <hr />
-        <InputNumber
+        <BfInputNumber
           label="Frequency Factor"
           id="frequencyFactor"
           value={behaviour.frequencyFactor ?? keysToInitialize.frequencyFactor}
@@ -234,7 +236,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Beat Sensitivity"
           id="beatSensitivity"
           value={behaviour.beatSensitivity ?? keysToInitialize.beatSensitivity}
@@ -245,7 +247,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           }}
         />
 
-        <Checkbox
+        <BfCheckbox
           label="Use Color"
           id="useColor"
           onChange={(value) => {
@@ -257,7 +259,8 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
 
         {!behaviour.useRandomColor && behaviour.useColor && (
           <>
-            <ColorPicker
+            <BfColorPicker
+              id="soundReactive-beatColor"
               label="Beat Color"
               color={{
                 r: behaviour.beatColor._r ?? keysToInitialize.beatColor._r,
@@ -278,7 +281,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           </>
         )}
 
-        <Checkbox
+        <BfCheckbox
           label="Use Random Color"
           id="useRandomColor"
           onChange={(value) => {
@@ -287,7 +290,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.useRandomColor ?? keysToInitialize.useRandomColor}
         />
-        <Checkbox
+        <BfCheckbox
           label="Use Size"
           id="useSize"
           onChange={(value) => {
@@ -299,7 +302,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
 
         {behaviour.useSize && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Amplitude Factor"
               id="amplitudeFactor"
               value={
@@ -314,7 +317,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
           </>
         )}
 
-        <Checkbox
+        <BfCheckbox
           label="Use Velocity"
           id="useVelocity"
           onChange={(value) => {
@@ -325,7 +328,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
         />
         {behaviour.useVelocity && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Velocity Factor"
               id="velocityFactor"
               params={["x", "y"]}
@@ -341,7 +344,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <Checkbox
+        <BfCheckbox
           label="Use Rotation"
           id="useRotation"
           onChange={(value) => {
@@ -352,7 +355,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
         />
         {behaviour.useRotation && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Rotation Factor"
               id="rotationFactor"
               value={

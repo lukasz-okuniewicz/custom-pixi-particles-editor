@@ -1,9 +1,12 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+  BfJsonTextarea,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import ObstacleSDFSteerDescription from "@components/html/behaviourDescriptions/ObstacleSDFSteer";
 
 const defaultPrimitives = [
@@ -54,7 +57,7 @@ export default function ObstacleSDFSteerProperties({ defaultConfig, index }) {
           Union of circles and axis-aligned boxes (JSON array). Gradient push
           when inside/near surface.
         </p>
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="obstacleSdf-enabled"
           onChange={(value) => {
@@ -63,7 +66,7 @@ export default function ObstacleSDFSteerProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="obstacleSdf-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -73,27 +76,17 @@ export default function ObstacleSDFSteerProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <label className="block text-sm mt-2" htmlFor="obstacleSdf-primitives">
-          Primitives JSON
-        </label>
-        <textarea
+        <BfJsonTextarea
           id="obstacleSdf-primitives"
+          label="Primitives JSON"
+          value={behaviour.primitives ?? keysToInitialize.primitives}
           className="w-full font-mono text-xs p-2 bg-[#1e2122] border border-[#444] rounded min-h-[100px]"
-          defaultValue={JSON.stringify(
-            behaviour.primitives ?? keysToInitialize.primitives,
-            null,
-            2,
-          )}
-          onBlur={(e) => {
-            try {
-              behaviour.primitives = JSON.parse(e.target.value || "[]");
-              updateBehaviours();
-            } catch {
-              /* keep invalid JSON until valid */
-            }
+          onValidJson={(parsed) => {
+            behaviour.primitives = parsed;
+            updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Margin"
           id="obstacleSdf-margin"
           value={behaviour.margin ?? keysToInitialize.margin}
@@ -103,7 +96,7 @@ export default function ObstacleSDFSteerProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Push strength"
           id="obstacleSdf-push"
           value={behaviour.pushStrength ?? keysToInitialize.pushStrength}
@@ -113,7 +106,7 @@ export default function ObstacleSDFSteerProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Slip factor"
           id="obstacleSdf-slip"
           value={behaviour.slipFactor ?? keysToInitialize.slipFactor}
@@ -125,7 +118,7 @@ export default function ObstacleSDFSteerProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max push / frame"
           id="obstacleSdf-maxPush"
           value={behaviour.maxPushPerFrame ?? keysToInitialize.maxPushPerFrame}

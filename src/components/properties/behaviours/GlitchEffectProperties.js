@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { GlitchEffect } from "custom-pixi-particles";
@@ -222,7 +224,7 @@ export default function GlitchEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={toggleSubmenuVisibility}>Glitch Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <GlitchEffectDescription />
@@ -252,7 +254,7 @@ export default function GlitchEffectProperties({ defaultConfig }) {
         <div className="form-group">
           <div className="col-xs-12">
             <button
-              className="btn btn-primary btn-block"
+              className="btn btn-default btn-block"
               onClick={triggerGlitch}
               disabled={isGlitchingRef.current}
             >
@@ -262,35 +264,35 @@ export default function GlitchEffectProperties({ defaultConfig }) {
         </div>
         <hr />
 
-        <InputNumber
+        <BfInputNumber
           label="Slices"
           id="slices"
           value={glitchConfig.slices}
           step="1" min="1" max="50"
           onChange={(v) => updateGlitchConfig({ slices: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Offset Range"
           id="offsetRange"
           value={glitchConfig.offsetRange}
           step="1" min="0" max="200"
           onChange={(v) => updateGlitchConfig({ offsetRange: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Flicker Intensity"
           id="flickerIntensity"
           value={glitchConfig.flickerIntensity}
           step="0.1" min="0" max="1"
           onChange={(v) => updateGlitchConfig({ flickerIntensity: v })}
         />
-        <Checkbox
+        <BfCheckbox
           label="RGB Split"
           id="rgbSplit"
           onChange={(v) => updateGlitchConfig({ rgbSplit: v })}
           checked={glitchConfig.rgbSplit}
         />
         {glitchConfig.rgbSplit && (
-          <InputNumber
+          <BfInputNumber
             label="RGB Offset"
             id="rgbOffset"
             value={glitchConfig.rgbOffset}
@@ -298,14 +300,14 @@ export default function GlitchEffectProperties({ defaultConfig }) {
             onChange={(v) => updateGlitchConfig({ rgbOffset: v })}
           />
         )}
-        <InputNumber
+        <BfInputNumber
           label="Duration"
           id="duration"
           value={glitchConfig.duration}
           step="0.1" min="0.1" max="5"
           onChange={(v) => updateGlitchConfig({ duration: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Refresh Rate"
           id="refreshRate"
           value={glitchConfig.refreshRate}
@@ -313,6 +315,6 @@ export default function GlitchEffectProperties({ defaultConfig }) {
           onChange={(v) => updateGlitchConfig({ refreshRate: v })}
         />
       </div>
-    </>
+    </div>
   );
 }

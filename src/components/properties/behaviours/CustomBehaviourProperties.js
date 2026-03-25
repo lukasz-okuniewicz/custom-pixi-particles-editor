@@ -1,25 +1,33 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+  BfFieldHint,
+} from "@components/properties/BehaviourFieldWrappers";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
 import { useCallback, useState } from "react";
 import { useAutoResizeTextarea } from "@hooks/useAutoResizeTextarea";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import { updateProps } from "@utils";
 import CustomBehavioursDescription from "@components/html/behaviourDescriptions/CustomBehaviours";
 
-function BehaviourJsonTextarea({ defaultValue, onBlur }) {
+function BehaviourJsonTextarea({ id, defaultValue, onBlur }) {
   const { ref, onInput } = useAutoResizeTextarea();
   return (
-    <textarea
-      ref={ref}
-      className="form-control"
-      rows={1}
-      defaultValue={defaultValue}
-      onInput={onInput}
-      onBlur={onBlur}
-      spellCheck={false}
-      style={{ resize: "none", overflow: "hidden" }}
-    />
+    <>
+      <textarea
+        id={id}
+        ref={ref}
+        className="form-control"
+        rows={1}
+        defaultValue={defaultValue}
+        onInput={onInput}
+        onBlur={onBlur}
+        spellCheck={false}
+        style={{ resize: "none", overflow: "hidden" }}
+      />
+      <BfFieldHint id={id} hintKey="custom-behaviour-raw-json" />
+    </>
   );
 }
 
@@ -124,19 +132,21 @@ export default function CustomBehaviourProperties({
             </div>
             {isExpanded && (
               <div>
-                <Checkbox
+                <BfCheckbox
                   label="Enabled"
                   id={`custom-${index}-enabled`}
+                  tooltipText={propertyHint("custom-behaviour-enabled")}
                   checked={behaviour.enabled !== false}
                   onChange={(value) =>
                     updateBehaviourAt(index, { enabled: value })
                   }
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Priority"
                   id={`custom-${index}-priority`}
                   value={behaviour.priority ?? 0}
                   step="10"
+                  tooltipText={propertyHint("custom-behaviour-priority")}
                   onChange={(value) =>
                     updateBehaviourAt(index, { priority: value })
                   }
@@ -145,6 +155,7 @@ export default function CustomBehaviourProperties({
                   <label className="form-label">Raw JSON</label>
                   <BehaviourJsonTextarea
                     key={`${index}-${name}-json`}
+                    id={`custom-${index}-raw-json`}
                     defaultValue={JSON.stringify(behaviour, null, 2)}
                     onBlur={(e) => handleJsonChange(index, e.target.value)}
                   />

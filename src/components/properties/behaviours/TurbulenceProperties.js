@@ -1,10 +1,12 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
-import Select from "@components/html/Select";
 import TurbulenceDescription from "@components/html/behaviourDescriptions/Turbulence";
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
@@ -121,7 +123,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Turbulence Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <TurbulenceDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="turbulence-enabled"
           onChange={(value) => {
@@ -130,7 +132,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="turbulence-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -141,7 +143,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Show Vertices"
           id="show-vertices"
           onChange={(value) => {
@@ -150,7 +152,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.showVortices ?? keysToInitialize.showVortices}
         />
-        <Select
+        <BfSelect
           label="Turbulence Version"
           defaultValue={behaviour.effect || 0}
           onChange={(value) => {
@@ -159,7 +161,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
           }}
           elements={predefinedVersion}
         />
-        <InputNumber
+        <BfInputNumber
           label="Position"
           id="turbulence-position"
           params={["x", "y"]}
@@ -183,7 +185,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Position Variance"
           id="turbulence-position-variance"
           params={["x", "y"]}
@@ -197,7 +199,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Velocity"
           id="turbulence-velocity"
           params={["x", "y"]}
@@ -211,7 +213,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Velocity Variance"
           id="turbulence-velocity-variance"
           params={["x", "y"]}
@@ -225,7 +227,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Acceleration"
           id="turbulence-acceleration"
           params={["x", "y"]}
@@ -239,7 +241,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Acceleration Variance"
           id="turbulence-acceleration-variance"
           params={["x", "y"]}
@@ -255,7 +257,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Size Start"
           id="turbulence-size-start"
           params={["x", "y"]}
@@ -270,7 +272,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Size Start Variance"
           id="turbulence-size-start-variance"
           value={behaviour.startVariance ?? keysToInitialize.startVariance}
@@ -280,7 +282,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Size End"
           id="turbulence-size-end"
           params={["x", "y"]}
@@ -295,7 +297,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Size End Variance"
           id="turbulence-size-end-variance"
           value={behaviour.endVariance ?? keysToInitialize.endVariance}
@@ -305,7 +307,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Emit/sec"
           id="turbulence-emit-sec"
           value={behaviour.emitPerSecond ?? keysToInitialize.emitPerSecond}
@@ -315,7 +317,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Duration"
           id="turbulence-duration"
           value={behaviour.duration ?? keysToInitialize.duration}
@@ -325,7 +327,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours(true);
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Life Time"
           id="turbulence-max-life-time"
           value={behaviour.maxLifeTime ?? keysToInitialize.maxLifeTime}
@@ -335,7 +337,7 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Vortile Size"
           id="turbulence-vortileSize"
           value={behaviour.vortileSize ?? keysToInitialize.vortileSize}

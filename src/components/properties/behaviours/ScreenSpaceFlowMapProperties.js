@@ -1,14 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
+import {
+  BfInputNumber,
+  BfCheckbox,
+  BfJsonTextarea,
+} from "@components/properties/BehaviourFieldWrappers";
+import { useCallback, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import ScreenSpaceFlowMapDescription from "@components/html/behaviourDescriptions/ScreenSpaceFlowMap";
 
 export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [flowJson, setFlowJson] = useState("[]");
 
   if (index === -1) {
     const x = JSON.parse(JSON.stringify(defaultConfig));
@@ -31,16 +33,6 @@ export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
     bilinear: true,
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
-
-  const rawBehaviour = defaultConfig.emitterConfig.behaviours[index] || {};
-  const flowDataSnapshot = JSON.stringify(rawBehaviour.flowData ?? null);
-
-  useEffect(() => {
-    const raw = defaultConfig.emitterConfig.behaviours[index] || {};
-    const merged = mergeObjectsWithDefaults(keysToInitialize, raw);
-    const fd = merged.flowData;
-    setFlowJson(JSON.stringify(Array.isArray(fd) ? fd : []));
-  }, [defaultConfig.particlePredefinedEffect, index, flowDataSnapshot]);
 
   const toggleSubmenuVisibility = useCallback(() => {
     setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
@@ -65,7 +57,7 @@ export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
           CPU grid [vx,vy] pairs row-major. Populate flowData from code or paste
           a JSON number array (length = width×height×2).
         </p>
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="ssfm-enabled"
           onChange={(value) => {
@@ -74,7 +66,7 @@ export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="ssfm-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -84,7 +76,7 @@ export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Grid width"
           id="ssfm-gw"
           value={behaviour.gridWidth ?? keysToInitialize.gridWidth}
@@ -95,7 +87,7 @@ export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Grid height"
           id="ssfm-gh"
           value={behaviour.gridHeight ?? keysToInitialize.gridHeight}
@@ -106,7 +98,7 @@ export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="World min"
           id="ssfm-wmin"
           params={["x", "y"]}
@@ -121,7 +113,7 @@ export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="World max"
           id="ssfm-wmax"
           params={["x", "y"]}
@@ -136,25 +128,16 @@ export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <label className="block text-sm mt-2" htmlFor="ssfm-flowData">
-          flowData (JSON array)
-        </label>
-        <textarea
+        <BfJsonTextarea
           id="ssfm-flowData"
-          className="w-full font-mono text-xs p-2 bg-[#1e2122] border border-[#444] rounded min-h-[80px]"
-          value={flowJson}
-          onChange={(e) => setFlowJson(e.target.value)}
-          onBlur={(e) => {
-            try {
-              behaviour.flowData = JSON.parse(e.target.value || "[]");
-              updateBehaviours();
-            } catch {
-              /* invalid — keep editing */
-            }
+          label="flowData (JSON array)"
+          value={behaviour.flowData ?? []}
+          onValidJson={(parsed) => {
+            behaviour.flowData = parsed;
+            updateBehaviours();
           }}
-          spellCheck={false}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="ssfm-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -164,7 +147,7 @@ export default function ScreenSpaceFlowMapProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Bilinear"
           id="ssfm-bilinear"
           onChange={(value) => {

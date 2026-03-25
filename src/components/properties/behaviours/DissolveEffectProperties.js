@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
-import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { DissolveEffect } from "custom-pixi-particles";
@@ -253,7 +255,7 @@ export default function DissolveEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={toggleSubmenuVisibility}>Dissolve Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <DissolveEffectDescription />
@@ -283,7 +285,7 @@ export default function DissolveEffectProperties({ defaultConfig }) {
         <div className="form-group">
           <div className="col-xs-12">
             <button
-              className="btn btn-primary btn-block"
+              className="btn btn-default btn-block"
               onClick={triggerDissolve}
               disabled={isDissolvingRef.current}
             >
@@ -293,55 +295,55 @@ export default function DissolveEffectProperties({ defaultConfig }) {
         </div>
         <hr />
 
-        <InputNumber
+        <BfInputNumber
           label="Pixel Size"
           id="pixelSize"
           value={dissolveConfig.pixelSize}
           step="1" min="1" max="10"
           onChange={(v) => updateDissolveConfig({ pixelSize: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Edge Softness"
           id="edgeSoftness"
           value={dissolveConfig.edgeSoftness}
           step="0.1" min="0" max="1"
           onChange={(v) => updateDissolveConfig({ edgeSoftness: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Drift Strength"
           id="driftStrength"
           value={dissolveConfig.driftStrength}
           step="10" min="0"
           onChange={(v) => updateDissolveConfig({ driftStrength: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Noise Intensity"
           id="noiseIntensity"
           value={dissolveConfig.noiseIntensity}
           step="5" min="0"
           onChange={(v) => updateDissolveConfig({ noiseIntensity: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Lifetime"
           id="lifetime"
           value={dissolveConfig.lifetime}
           step="0.1" min="0.1"
           onChange={(v) => updateDissolveConfig({ lifetime: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Fade Out Duration"
           id="fadeOutDuration"
           value={dissolveConfig.fadeOutDuration}
           step="0.1" min="0"
           onChange={(v) => updateDissolveConfig({ fadeOutDuration: v })}
         />
-        <Select
+        <BfSelect
           label="Direction"
           defaultValue={dissolveConfig.direction}
           onChange={(v) => updateDissolveConfig({ direction: v })}
           elements={directionOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Wind Angle (radians)"
           id="windAngle"
           value={dissolveConfig.windAngle}
@@ -349,6 +351,6 @@ export default function DissolveEffectProperties({ defaultConfig }) {
           onChange={(v) => updateDissolveConfig({ windAngle: v })}
         />
       </div>
-    </>
+    </div>
   );
 }

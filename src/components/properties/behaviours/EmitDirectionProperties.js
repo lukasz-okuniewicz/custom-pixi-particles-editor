@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import EmitDirectionDescription from "@components/html/behaviourDescriptions/EmitDirection";
 
 export default function EmitDirectionProperties({ defaultConfig, index }) {
@@ -52,7 +54,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <EmitDirectionDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="emit-enabled"
           onChange={(value) => {
@@ -61,7 +63,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? false}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="emit-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -72,7 +74,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Angle"
           id="angle"
           value={behaviour.angle ?? keysToInitialize.angle}
@@ -82,7 +84,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Variance"
           id="angle-variance"
           value={behaviour.variance ?? keysToInitialize.variance}
@@ -92,7 +94,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Oscillate"
           id="oscillate"
           onChange={(value) => {
@@ -103,7 +105,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
         />
         {behaviour.oscillate && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Oscillation Speed"
               id="oscillationSpeed"
               value={
@@ -115,7 +117,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Oscillation Amplitude"
               id="oscillationAmplitude"
               value={
@@ -130,7 +132,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <Checkbox
+        <BfCheckbox
           label="Use Noise"
           id="useNoise"
           onChange={(value) => {
@@ -141,7 +143,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
         />
         {behaviour.useNoise && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Noise Scale"
               id="noiseScale"
               value={behaviour.noiseScale ?? keysToInitialize.noiseScale}
@@ -153,7 +155,7 @@ export default function EmitDirectionProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <Checkbox
+        <BfCheckbox
           label="Velocity Scaling"
           id="velocityScaling"
           onChange={(value) => {

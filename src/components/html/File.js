@@ -13,6 +13,7 @@ const File = ({ label, buttonText, onChange, onClick, id, ref }) => {
           type="button"
           className={`btn btn-default btn-block`}
           onClick={onClick}
+          aria-controls={id}
         >
           {buttonText}
         </button>

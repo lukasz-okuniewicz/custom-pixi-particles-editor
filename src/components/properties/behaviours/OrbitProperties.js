@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import OrbitDescription from "@components/html/behaviourDescriptions/Orbit";
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
@@ -73,7 +75,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <OrbitDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="orbit-enabled"
           onChange={(value) => {
@@ -82,7 +84,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="orbit-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -92,7 +94,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Orbit center"
           id="orbit-center"
           params={["x", "y"]}
@@ -120,7 +122,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Base Radius"
           id="orbit-baseRadius"
           value={behaviour.baseRadius ?? keysToInitialize.baseRadius}
@@ -130,7 +132,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Radius Variance"
           id="orbit-radiusVariance"
           value={behaviour.radiusVariance ?? keysToInitialize.radiusVariance}
@@ -141,7 +143,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Angular Speed"
           id="orbit-angularSpeed"
           value={behaviour.angularSpeed ?? keysToInitialize.angularSpeed}
@@ -151,7 +153,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Spiral Rate"
           id="orbit-spiralRate"
           value={behaviour.spiralRate ?? keysToInitialize.spiralRate}
@@ -161,7 +163,7 @@ export default function OrbitProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Angle Variance"
           id="orbit-angleVariance"
           value={behaviour.angleVariance ?? keysToInitialize.angleVariance}

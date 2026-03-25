@@ -1,6 +1,12 @@
 "use client";
 
 import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+  BfInputString,
+} from "@components/properties/BehaviourFieldWrappers";
+import {
   Fragment,
   useCallback,
   useEffect,
@@ -9,10 +15,6 @@ import {
   useState,
 } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
-import Select from "@components/html/Select";
-import InputString from "@components/html/InputString";
 import SpawnDescription from "@components/html/behaviourDescriptions/Spawn";
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
@@ -290,7 +292,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Spawn Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <SpawnDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="position-enabled"
           onChange={(value) => {
@@ -299,7 +301,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="position-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -313,7 +315,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
         <hr />
         {!shouldHideTrailing && (
           <>
-            <Checkbox
+            <BfCheckbox
               label="Trailing Enabled"
               id="trailingEnabled"
               onChange={(value) => {
@@ -326,7 +328,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
             />
             {behaviour.trailingEnabled && (
               <>
-                <Checkbox
+                <BfCheckbox
                   label="Trailing Repeat"
                   id="trailRepeat"
                   onChange={(value) => {
@@ -337,7 +339,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     behaviour.trailRepeat ?? keysToInitialize.trailRepeat
                   }
                 />
-                <Checkbox
+                <BfCheckbox
                   label="Spawn Along Trail"
                   id="spawnAlongTrail"
                   onChange={(value) => {
@@ -349,7 +351,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     keysToInitialize.spawnAlongTrail
                   }
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Trail Speed"
                   id="trailSpeed"
                   value={behaviour.trailSpeed ?? keysToInitialize.trailSpeed}
@@ -359,7 +361,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Trail Start 0-1"
                   id="trailStart"
                   value={behaviour.trailStart ?? keysToInitialize.trailStart}
@@ -371,7 +373,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 />
                 {behaviour.trailingEnabled && (
                   <>
-                    <InputNumber
+                    <BfInputNumber
                       label="Trail Range Segments"
                       id="trailRangeSegments"
                       value={
@@ -385,7 +387,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Trail Range Weight Factor"
                       id="trailRangeWeightFactor"
                       value={
@@ -398,7 +400,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Trail Range Length"
                       id="trailRangeLength"
                       value={
@@ -429,7 +431,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
               <div
                 className={isCustomPointSubmenuVisible[index] ? "" : "collapse"}
               >
-                <InputNumber
+                <BfInputNumber
                   label="Perspective"
                   id="perspective"
                   value={
@@ -442,7 +444,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Max Z"
                   id="maxZ"
                   value={
@@ -454,7 +456,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     updateBehaviours();
                   }}
                 />
-                <InputNumber
+                <BfInputNumber
                   label="Position"
                   className={customPoint.spawnType === "Path" ? "alert" : ""}
                   id="position"
@@ -482,7 +484,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 >
                   Select Position
                 </button>
-                <InputNumber
+                <BfInputNumber
                   label="Position Variance"
                   id="position-variance"
                   params={["x", "y"]}
@@ -499,7 +501,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   }}
                 />
                 <hr />
-                <Select
+                <BfSelect
                   label="Spawn Type"
                   defaultValue={
                     customPoint.spawnType ||
@@ -549,7 +551,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   customPoint.spawnType === "Spring" ||
                   customPoint.spawnType === "Lissajous" ||
                   customPoint.spawnType === "Ring") && (
-                  <InputNumber
+                  <BfInputNumber
                     label="Radius"
                     id="radius"
                     value={
@@ -564,7 +566,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   />
                 )}
                 {customPoint.spawnType === "Frame" && (
-                  <InputNumber
+                  <BfInputNumber
                     label="Area"
                     id="radius"
                     value={
@@ -582,7 +584,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   customPoint.pathPoints &&
                   customPoint.pathPoints.map((pathPoint, pathIndex) => (
                     <Fragment key={"pathPoint" + pathIndex}>
-                      <InputNumber
+                      <BfInputNumber
                         label="Path Point"
                         id="point"
                         params={["x", "y", "z"]}
@@ -637,7 +639,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 )}
                 {customPoint.spawnType === "Lissajous" && (
                   <>
-                    <InputNumber
+                    <BfInputNumber
                       label="Frequency"
                       id="frequency"
                       params={["x", "y"]}
@@ -653,7 +655,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Delta"
                       id="delta"
                       value={
@@ -670,7 +672,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 )}
                 {customPoint.spawnType === "Bezier" && (
                   <>
-                    <InputNumber
+                    <BfInputNumber
                       label="Start"
                       id="start"
                       params={["x", "y"]}
@@ -686,7 +688,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="End"
                       id="end"
                       params={["x", "y"]}
@@ -702,7 +704,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Control 1"
                       id="control1"
                       params={["x", "y"]}
@@ -718,7 +720,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Control 2"
                       id="control2"
                       params={["x", "y"]}
@@ -737,7 +739,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   </>
                 )}
                 {customPoint.spawnType === "FrameRectangle" && (
-                  <InputNumber
+                  <BfInputNumber
                     label="Width"
                     id="radiusx"
                     value={
@@ -752,7 +754,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   />
                 )}
                 {customPoint.spawnType === "Oval" && (
-                  <InputNumber
+                  <BfInputNumber
                     label="Radius X"
                     id="radiusx"
                     value={
@@ -767,7 +769,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   />
                 )}
                 {customPoint.spawnType === "Oval" && (
-                  <InputNumber
+                  <BfInputNumber
                     label="Radius Y"
                     id="radiusy"
                     value={
@@ -783,7 +785,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 )}
                 {(customPoint.spawnType === "FrameRectangle" ||
                   customPoint.spawnType === "Helix") && (
-                  <InputNumber
+                  <BfInputNumber
                     label="Height"
                     id="radiusy"
                     value={
@@ -800,7 +802,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 {(customPoint.spawnType === "Helix" ||
                   customPoint.spawnType === "Spring") && (
                   <>
-                    <InputNumber
+                    <BfInputNumber
                       label="Pitch"
                       id="pitch"
                       value={
@@ -813,7 +815,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Turns"
                       id="turns"
                       value={
@@ -830,7 +832,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 )}
                 {customPoint.spawnType === "Cone" && (
                   <>
-                    <InputNumber
+                    <BfInputNumber
                       label="Base Radius"
                       id="baseRadius"
                       value={
@@ -843,7 +845,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Angle"
                       id="coneAngle"
                       value={
@@ -856,7 +858,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Direction"
                       id="coneDirection"
                       value={
@@ -869,7 +871,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Height"
                       id="height"
                       value={
@@ -882,7 +884,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Apex"
                       id="apex"
                       params={["x", "y", "z"]}
@@ -904,7 +906,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 )}
                 {customPoint.spawnType === "Grid" && (
                   <>
-                    <InputNumber
+                    <BfInputNumber
                       label="Rows"
                       id="rows"
                       value={
@@ -917,7 +919,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Columns"
                       id="columns"
                       value={
@@ -930,7 +932,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Cell Size"
                       id="cellSize"
                       value={
@@ -947,7 +949,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 )}
                 {customPoint.spawnType === "Sphere" && (
                   <>
-                    <InputNumber
+                    <BfInputNumber
                       label="Spread"
                       id="spread"
                       value={
@@ -960,7 +962,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Center"
                       id="center"
                       params={["x", "y", "z"]}
@@ -981,7 +983,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   </>
                 )}
                 {customPoint.spawnType === "Star" && (
-                  <InputNumber
+                  <BfInputNumber
                     label="Points"
                     id="starPoints"
                     value={
@@ -997,7 +999,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                 )}
                 {customPoint.spawnType === "Word" && (
                   <>
-                    <InputString
+                    <BfInputString
                       label="Word"
                       id="word"
                       value={
@@ -1009,7 +1011,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Font Size"
                       id="fontSize"
                       value={
@@ -1022,7 +1024,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Font Spacing"
                       id="fontSpacing"
                       value={
@@ -1035,7 +1037,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Particle Density"
                       id="particleDensity"
                       value={
@@ -1048,7 +1050,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Font Max Width"
                       id="fontMaxWidth"
                       value={
@@ -1061,7 +1063,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <InputNumber
+                    <BfInputNumber
                       label="Font Max Height"
                       id="fontMaxHeight"
                       value={
@@ -1074,7 +1076,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                         updateBehaviours();
                       }}
                     />
-                    <Select
+                    <BfSelect
                       label="Text Align"
                       defaultValue={
                         customPoint.textAlign ||
@@ -1086,7 +1088,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                       }}
                       elements={predefinedTextAlign}
                     />
-                    <Select
+                    <BfSelect
                       label="Text Baseline"
                       defaultValue={
                         customPoint.textBaseline ||

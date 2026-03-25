@@ -1,3 +1,5 @@
+import { getCustomBehaviourEntries } from "@utils";
+
 /**
  * Default `enabled` when the field is omitted from config (matches each panel’s keysToInitialize).
  * PositionBehaviour has no enabled flag — always counts as on when present.
@@ -24,7 +26,6 @@ export const BEHAVIOUR_DEFAULT_ENABLED = {
   TemperatureBehaviour: false,
   MoveToPointBehaviour: true,
   FormPatternBehaviour: true,
-  Wireframe3DBehaviour: false,
   VortexBehaviour: false,
   PulseBehaviour: false,
   RippleBehaviour: false,
@@ -62,6 +63,7 @@ export const BEHAVIOUR_DEFAULT_ENABLED = {
   ScreenSpaceFlowMapBehaviour: false,
   BeatPhaseLockBehaviour: false,
   DamageFlashRippleBehaviour: false,
+  RecursiveFireworkBehaviour: false,
 };
 
 /** Sidebar section label → behaviour class name (must match Menu.js ordering labels). */
@@ -109,6 +111,7 @@ export const BEHAVIOUR_NAME_TO_LABEL = {
   ProximityTriggeredPhaseBehaviour: "Proximity Triggered Phase",
   PulseBehaviour: "Pulse",
   RippleBehaviour: "Ripple",
+  RecursiveFireworkBehaviour: "Recursive Firework",
   RVOAvoidanceBehaviour: "RVO Avoidance",
   RotationBehaviour: "Rotation",
   SizeBehaviour: "Size",
@@ -123,7 +126,6 @@ export const BEHAVIOUR_NAME_TO_LABEL = {
   TrailBehaviour: "Trail",
   TurbulenceBehaviour: "Turbulence",
   VortexBehaviour: "Vortex",
-  Wireframe3DBehaviour: "Wireframe 3D",
   WobbleBehaviour: "Wobble",
 };
 
@@ -135,6 +137,104 @@ export function menuLabelToPanelId(label) {
     .replace(/^-+|-+$/g, "")
     .toLowerCase();
   return `behaviour-panel-${slug || "section"}`;
+}
+
+/** Always shown in the sidebar summary; not a behaviour row in config. */
+export const EMISSION_TYPE_SUMMARY = {
+  label: "Emission Type",
+  panelId: menuLabelToPanelId("Emission Type"),
+  key: "_emission-type",
+};
+
+/**
+ * Sidebar section titles from Menu.js (default particle sidebar). Order here is arbitrary;
+ * {@link getAllSidebarNavItems} sorts by label like the menu.
+ */
+export const SIDEBAR_SECTION_LABELS = [
+  "Aizawa Attractor",
+  "Angular Velocity",
+  "Attraction Repulsion",
+  "Beat Phase Lock",
+  "Bezier Flow Tube",
+  "Boids Flocking",
+  "Bounce",
+  "Collision",
+  "Color",
+  "Color Cycle",
+  "Constrain To Shape",
+  "Conversion Cascade",
+  "Curvature Flow",
+  "Custom Behaviour",
+  "Damage Flash Ripple",
+  "Emit Direction",
+  "Emission Type",
+  "Emitter Attractor Link",
+  "Flicker",
+  "Float Up",
+  "Force Fields",
+  "Form Pattern",
+  "Gravity Well",
+  "Grouping",
+  "Homing",
+  "Jacobian Curl-Field",
+  "Kelvin Wake",
+  "Life",
+  "Light Effect",
+  "Limit Cycle",
+  "Lissajous Harmonic Lattice",
+  "Magnet",
+  "Metaball Pass",
+  "Move To Point",
+  "Near Miss Dispersion",
+  "Noise Based Motion",
+  "Obstacle SDF Steer",
+  "Orbit",
+  "Particle links (mesh)",
+  "Particles List",
+  "Phase Coherence",
+  "Phase Field Flow",
+  "Position",
+  "Proximity State",
+  "Proximity Triggered Phase",
+  "Pulse",
+  "Recursive Firework",
+  "Ripple",
+  "Rotation",
+  "RVO Avoidance",
+  "Screen Space Flow Map",
+  "Shear Flow",
+  "Size",
+  "Sound Reactive",
+  "Spawn",
+  "Stretch",
+  "Temperature",
+  "Timeline",
+  "Toroidal Flow",
+  "Toroidal Wrap",
+  "Trail",
+  "Turbulence",
+  "Vortex",
+  "Wobble",
+];
+
+/**
+ * Every navigable sidebar row: built-in sections plus one entry per custom behaviour name.
+ * @returns {{ label: string, panelId: string, key: string }[]}
+ */
+export function getAllSidebarNavItems(config) {
+  const rows = SIDEBAR_SECTION_LABELS.map((label) => {
+    const panelId = menuLabelToPanelId(label);
+    return { label, panelId, key: panelId };
+  });
+  for (const { index, name } of getCustomBehaviourEntries(config)) {
+    rows.push({
+      label: `Custom: ${name}`,
+      panelId: menuLabelToPanelId("Custom Behaviour"),
+      key: `custom-all-${String(name)}-${index}`,
+    });
+  }
+  rows.sort((a, b) => a.label.localeCompare(b.label));
+  return rows;
 }
 
 export function getEffectiveBehaviourEnabled(behaviour, name) {

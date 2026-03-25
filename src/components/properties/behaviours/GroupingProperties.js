@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import GroupingDescription from "@components/html/behaviourDescriptions/Grouping";
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
@@ -121,7 +123,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Grouping Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <GroupingDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="collision-enabled"
           onChange={(value) => {
@@ -130,7 +132,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="collision-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -142,7 +144,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
-        <InputNumber
+        <BfInputNumber
           label="Group Center"
           id="groupCenter"
           params={["x", "y"]}
@@ -163,7 +165,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Group Radius"
           id="groupRadius"
           value={behaviour.groupRadius}
@@ -173,7 +175,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Attraction Strength"
           id="attractionStrength"
           value={behaviour.attractionStrength}
@@ -183,7 +185,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Repulsion Strength"
           id="repulsionStrength"
           value={behaviour.repulsionStrength}
@@ -193,7 +195,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Orbit Speed"
           id="orbitSpeed"
           value={behaviour.orbitSpeed}
@@ -203,7 +205,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Randomness"
           id="randomness"
           value={behaviour.randomness}
@@ -213,7 +215,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Dynamic Radius Speed"
           id="dynamicRadiusSpeed"
           value={behaviour.dynamicRadiusSpeed}
@@ -223,7 +225,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Radius"
           id="maxRadius"
           value={behaviour.maxRadius}
@@ -233,7 +235,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min Radius"
           id="minRadius"
           value={behaviour.minRadius}
@@ -248,7 +250,7 @@ export default function GroupingProperties({ defaultConfig, index }) {
           behaviour.clusterPoints.map((point, index) => (
             <Fragment key={index}>
               <h1>Point {index + 1}</h1>
-              <InputNumber
+              <BfInputNumber
                 label="Point"
                 id="point"
                 params={["x", "y"]}
