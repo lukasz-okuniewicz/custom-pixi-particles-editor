@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import ShearFlowDescription from "@components/html/behaviourDescriptions/ShearFlow";
 
 export default function ShearFlowProperties({ defaultConfig, index }) {
@@ -51,7 +53,7 @@ export default function ShearFlowProperties({ defaultConfig, index }) {
           Spatial shear on velocity (streaky flow). Higher priority runs before
           Position integration.
         </p>
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="shearFlow-enabled"
           onChange={(value) => {
@@ -60,7 +62,7 @@ export default function ShearFlowProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="shearFlow-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -70,7 +72,7 @@ export default function ShearFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Pivot"
           id="shearFlow-pivot"
           params={["x", "y"]}
@@ -85,7 +87,7 @@ export default function ShearFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Shear Y→X (shearYX)"
           id="shearFlow-shearYX"
           value={behaviour.shearYX ?? keysToInitialize.shearYX}
@@ -95,7 +97,7 @@ export default function ShearFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Shear X→Y (shearXY)"
           id="shearFlow-shearXY"
           value={behaviour.shearXY ?? keysToInitialize.shearXY}
@@ -105,7 +107,7 @@ export default function ShearFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Radius (0 = global)"
           id="shearFlow-radius"
           value={behaviour.radius ?? keysToInitialize.radius}
@@ -116,7 +118,7 @@ export default function ShearFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Oscillation Hz"
           id="shearFlow-oscillationHz"
           value={behaviour.oscillationHz ?? keysToInitialize.oscillationHz}
@@ -127,7 +129,7 @@ export default function ShearFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Blend with velocity"
           id="shearFlow-blend"
           value={behaviour.blendWithVelocity ?? keysToInitialize.blendWithVelocity}

@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import RotationDescription from "@components/html/behaviourDescriptions/Rotation";
 
 export default function RotationProperties({ defaultConfig, index }) {
@@ -51,7 +53,7 @@ export default function RotationProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Rotation Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <RotationDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="rotation-enabled"
           onChange={(value) => {
@@ -60,7 +62,7 @@ export default function RotationProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="rotation-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -71,7 +73,7 @@ export default function RotationProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Rotation"
           id="rotation"
           value={behaviour.rotation ?? keysToInitialize.rotation}
@@ -81,7 +83,7 @@ export default function RotationProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Variance"
           id="rotation-variance"
           value={behaviour.variance ?? keysToInitialize.variance}
@@ -91,7 +93,7 @@ export default function RotationProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Oscillate"
           id="oscillate"
           onChange={(value) => {
@@ -102,7 +104,7 @@ export default function RotationProperties({ defaultConfig, index }) {
         />
         {behaviour.oscillate && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Oscillation Speed"
               id="oscillationSpeed"
               value={
@@ -114,7 +116,7 @@ export default function RotationProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Oscillation Amplitude"
               id="oscillationAmplitude"
               value={
@@ -129,7 +131,7 @@ export default function RotationProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <Checkbox
+        <BfCheckbox
           label="Use Noise"
           id="useNoise"
           onChange={(value) => {
@@ -140,7 +142,7 @@ export default function RotationProperties({ defaultConfig, index }) {
         />
         {behaviour.useNoise && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Noise Scale"
               id="noiseScale"
               value={behaviour.noiseScale ?? keysToInitialize.noiseScale}
@@ -152,7 +154,7 @@ export default function RotationProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <InputNumber
+        <BfInputNumber
           label="Acceleration"
           id="acceleration"
           value={behaviour.acceleration ?? keysToInitialize.acceleration}
@@ -162,7 +164,7 @@ export default function RotationProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Clockwise"
           id="clockwise"
           onChange={(value) => {

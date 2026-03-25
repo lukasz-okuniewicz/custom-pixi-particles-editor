@@ -1,11 +1,14 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import Select from "@components/html/Select";
-import ColorPicker from "@components/html/ColorPicker";
 import ColorCycleDescription from "@components/html/behaviourDescriptions/ColorCycle";
 
 export default function ColorCycleProperties({ defaultConfig, index }) {
@@ -76,7 +79,7 @@ export default function ColorCycleProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <ColorCycleDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="colorCycle-enabled"
           onChange={(value) => {
@@ -85,7 +88,7 @@ export default function ColorCycleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="colorCycle-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -95,7 +98,7 @@ export default function ColorCycleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Select
+        <BfSelect
           label="Mode"
           defaultValue={behaviour.mode ?? keysToInitialize.mode}
           onChange={(value) => {
@@ -104,7 +107,7 @@ export default function ColorCycleProperties({ defaultConfig, index }) {
           }}
           elements={modeOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Cycle Speed"
           id="colorCycle-cycleSpeed"
           value={behaviour.cycleSpeed ?? keysToInitialize.cycleSpeed}
@@ -116,26 +119,29 @@ export default function ColorCycleProperties({ defaultConfig, index }) {
         />
         <div>
           <span>Color Stops</span>
-          <button type="button" onClick={addStop}>
+          <button type="button" className="btn btn-default btn-block" onClick={addStop}>
             Add stop
           </button>
         </div>
         {(behaviour.colorStops || []).map((stop, i) => (
           <div key={i} style={{ marginLeft: 8, marginTop: 4 }}>
-            <InputNumber
+            <BfInputNumber
               label={`Stop ${i + 1} (t)`}
               id={`colorCycle-stop-t-${i}`}
               value={stop.t}
               step="0.05"
               min="0"
               max="1"
+              tooltipText={propertyHint("colorCycle-stop-t")}
               onChange={(value) => {
                 behaviour.colorStops[i].t = value;
                 updateBehaviours();
               }}
             />
-            <ColorPicker
+            <BfColorPicker
+              id={`colorCycle-stop-color-${i}`}
               label={`Stop ${i + 1} color`}
+              tooltipText={propertyHint("colorCycle-stop-color")}
               value={{
                 _r: stop.r ?? 255,
                 _g: stop.g ?? 255,
@@ -150,7 +156,7 @@ export default function ColorCycleProperties({ defaultConfig, index }) {
               }}
             />
             {behaviour.colorStops.length > 2 && (
-              <button type="button" onClick={(e) => removeStop(i, e)}>
+              <button type="button" className="btn btn-default btn-block" onClick={(e) => removeStop(i, e)}>
                 Remove
               </button>
             )}

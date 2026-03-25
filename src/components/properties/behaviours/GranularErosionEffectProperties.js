@@ -1,8 +1,10 @@
 "use client";
 
+import {
+  BfInputNumber,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { getTextureByName, mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { GranularErosionEffect } from "custom-pixi-particles";
@@ -154,7 +156,7 @@ export default function GranularErosionEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Granular Erosion Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <GranularErosionEffectDescription />
@@ -168,16 +170,16 @@ export default function GranularErosionEffectProperties({ defaultConfig }) {
         )}
         <div className="form-group">
           <div className="col-xs-12">
-            <button className="btn btn-primary btn-block" onClick={triggerEffect} disabled={isRunningRef.current}>{isRunningRef.current ? "Running..." : "Trigger Granular Erosion"}</button>
+            <button className="btn btn-default btn-block" onClick={triggerEffect} disabled={isRunningRef.current}>{isRunningRef.current ? "Running..." : "Trigger Granular Erosion"}</button>
           </div>
         </div>
         <hr />
-        <InputNumber label="Erosion Progress" id="erosionProgress" value={config.erosionProgress} step="0.05" min="0" max="1" onChange={(v) => updateConfig({ erosionProgress: v })} />
-        <InputNumber label="Gravity Scale" id="gravityScale" value={config.gravityScale} step="10" min="0" max="500" onChange={(v) => updateConfig({ gravityScale: v })} />
-        <InputNumber label="Wind Turbulence" id="windTurbulence" value={config.windTurbulence} step="1" min="0" max="100" onChange={(v) => updateConfig({ windTurbulence: v })} />
-        <InputNumber label="Grain Size" id="grainSize" value={config.grainSize} step="0.01" min="0.01" max="0.5" onChange={(v) => updateConfig({ grainSize: v })} />
-        <InputNumber label="Duration" id="duration" value={config.duration} step="0.1" min="0.1" max="10" onChange={(v) => updateConfig({ duration: v })} />
+        <BfInputNumber label="Erosion Progress" id="erosionProgress" value={config.erosionProgress} step="0.05" min="0" max="1" onChange={(v) => updateConfig({ erosionProgress: v })} />
+        <BfInputNumber label="Gravity Scale" id="gravityScale" value={config.gravityScale} step="10" min="0" max="500" onChange={(v) => updateConfig({ gravityScale: v })} />
+        <BfInputNumber label="Wind Turbulence" id="windTurbulence" value={config.windTurbulence} step="1" min="0" max="100" onChange={(v) => updateConfig({ windTurbulence: v })} />
+        <BfInputNumber label="Grain Size" id="grainSize" value={config.grainSize} step="0.01" min="0.01" max="0.5" onChange={(v) => updateConfig({ grainSize: v })} />
+        <BfInputNumber label="Duration" id="duration" value={config.duration} step="0.1" min="0.1" max="10" onChange={(v) => updateConfig({ duration: v })} />
       </div>
-    </>
+    </div>
   );
 }

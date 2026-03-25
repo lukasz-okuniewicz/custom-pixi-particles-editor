@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import RippleDescription from "@components/html/behaviourDescriptions/Ripple";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -73,7 +75,7 @@ export default function RippleProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <RippleDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="ripple-enabled"
           onChange={(value) => {
@@ -82,7 +84,7 @@ export default function RippleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="ripple-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -92,7 +94,7 @@ export default function RippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Origin"
           id="ripple-origin"
           params={["x", "y"]}
@@ -120,7 +122,7 @@ export default function RippleProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Wave Speed"
           id="ripple-waveSpeed"
           value={behaviour.waveSpeed ?? keysToInitialize.waveSpeed}
@@ -130,7 +132,7 @@ export default function RippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Wavelength"
           id="ripple-wavelength"
           value={behaviour.wavelength ?? keysToInitialize.wavelength}
@@ -140,7 +142,7 @@ export default function RippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Amplitude"
           id="ripple-amplitude"
           value={behaviour.amplitude ?? keysToInitialize.amplitude}
@@ -150,7 +152,7 @@ export default function RippleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Decay With Distance"
           id="ripple-decayWithDistance"
           onChange={(value) => {
@@ -159,7 +161,7 @@ export default function RippleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.decayWithDistance ?? keysToInitialize.decayWithDistance}
         />
-        <InputNumber
+        <BfInputNumber
           label="Decay Factor"
           id="ripple-decayFactor"
           value={behaviour.decayFactor ?? keysToInitialize.decayFactor}

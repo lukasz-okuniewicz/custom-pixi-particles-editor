@@ -13,7 +13,6 @@ import AngularVelocityProperties from "@components/properties/behaviours/Angular
 import EmitDirectionProperties from "@components/properties/behaviours/EmitDirectionProperties";
 import TurbulenceProperties from "@components/properties/behaviours/TurbulenceProperties";
 import { getConfigIndexByName, getCustomBehaviourEntries } from "@utils";
-import React from "react";
 import ParticlesList from "@components/particlesList";
 import AttractionRepulsionProperties from "@components/properties/behaviours/AttractionRepulsionProperties";
 import NoiseBasedMotionProperties from "@components/properties/behaviours/NoiseBasedMotionBehaviour";
@@ -27,7 +26,6 @@ import StretchProperties from "@components/properties/behaviours/StretchProperti
 import TemperatureProperties from "@components/properties/behaviours/TemperatureProperties";
 import MoveToPointProperties from "@components/properties/behaviours/MoveToPointProperties";
 import FormPatternProperties from "@components/properties/behaviours/FormPatternProperties";
-import Wireframe3DProperties from "@components/properties/behaviours/Wireframe3DProperties";
 import VortexProperties from "@components/properties/behaviours/VortexProperties";
 import PulseProperties from "@components/properties/behaviours/PulseProperties";
 import RippleProperties from "@components/properties/behaviours/RippleProperties";
@@ -78,18 +76,27 @@ import BezierFlowTubeProperties from "@components/properties/behaviours/BezierFl
 import ScreenSpaceFlowMapProperties from "@components/properties/behaviours/ScreenSpaceFlowMapProperties";
 import BeatPhaseLockProperties from "@components/properties/behaviours/BeatPhaseLockProperties";
 import DamageFlashRippleProperties from "@components/properties/behaviours/DamageFlashRippleProperties";
+import RecursiveFireworkProperties from "@components/properties/behaviours/RecursiveFireworkProperties";
 import MetaballPassProperties from "@components/properties/MetaballPassProperties";
 import ParticleLinksProperties from "@components/properties/ParticleLinksProperties";
 import ActiveBehavioursSummary from "@components/ActiveBehavioursSummary";
+import { useMemo } from "react";
 import {
   getEffectiveBehaviourEnabled,
   menuLabelToPanelId,
 } from "@utils/behaviourSummary";
 
+function isEmissionTypeItem(item) {
+  return item.Component === EmissionTypeProperties;
+}
+
 const sidebarBaseClass =
   "editor-sidebar fixed right-0 top-0 bottom-0 overflow-y-auto overflow-x-hidden block p-5 z-20 bg-[#181a1b] border-l border-l-[rgba(140,130,115,0.5)]";
 
 function isBehaviourSectionHighlighted(defaultConfig, item) {
+  if (isEmissionTypeItem(item)) {
+    return true;
+  }
   if (item.customBehaviours) {
     const customs = getCustomBehaviourEntries(defaultConfig);
     return customs.some(({ index }) => {
@@ -104,14 +111,41 @@ function isBehaviourSectionHighlighted(defaultConfig, item) {
   return getEffectiveBehaviourEnabled(b || {}, item.behaviourName);
 }
 
+const PREDEFINED_EFFECT_COMPONENTS = {
+  shatterEffect: ShatterEffectProperties,
+  dissolveEffect: DissolveEffectProperties,
+  magneticAssemblyEffect: MagneticAssemblyEffectProperties,
+  ghostEffect: GhostEffectProperties,
+  glitchEffect: GlitchEffectProperties,
+  meltEffect: MeltEffectProperties,
+  pixelSortEffect: PixelSortEffectProperties,
+  prismRefractionEffect: PrismRefractionEffectProperties,
+  crystallizeEffect: CrystallizeEffectProperties,
+  slitScanEffect: SlitScanEffectProperties,
+  granularErosionEffect: GranularErosionEffectProperties,
+  liquidMercuryEffect: LiquidMercuryEffectProperties,
+};
+
 const Menu = ({
   defaultConfig,
   fullConfig,
   handlePredefinedEffectChange,
+  isDirty = false,
+  validationWarnings = [],
   isMobileMenuOpen = false,
   onCloseMenu,
 }) => {
-  const sidebarClass = `${sidebarBaseClass}${isMobileMenuOpen ? " editor-sidebar--open" : ""}`;
+  const sidebarClass = `${sidebarBaseClass}${isMobileMenuOpen ? " editor-sidebar--open" : ""} editor-sidebar--compact`;
+  const warningsCard = validationWarnings?.length ? (
+    <div className="editor-warnings-card">
+      <div className="editor-onboarding-card__title">Validation warnings</div>
+      <ul className="editor-onboarding-card__list">
+        {validationWarnings.map((w) => (
+          <li key={w}>{w}</li>
+        ))}
+      </ul>
+    </div>
+  ) : null;
   const closeButton = onCloseMenu ? (
     <button
       type="button"
@@ -122,212 +156,10 @@ const Menu = ({
       ×
     </button>
   ) : null;
-
-  if (defaultConfig.particlePredefinedEffect === "shatterEffect")
-    return (
-      <div
-        className={sidebarClass}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-      <GeneralProperties
-        defaultConfig={defaultConfig}
-        fullConfig={fullConfig}
-        handlePredefinedEffectChange={handlePredefinedEffectChange}
-      />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
-      <ShatterEffectProperties defaultConfig={defaultConfig} />
-    </div>
-  )
-
-  if (defaultConfig.particlePredefinedEffect === "dissolveEffect")
-    return (
-      <div
-        className={sidebarClass}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties
-        defaultConfig={defaultConfig}
-        fullConfig={fullConfig}
-        handlePredefinedEffectChange={handlePredefinedEffectChange}
-      />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
-      <DissolveEffectProperties defaultConfig={defaultConfig} />
-    </div>
-  )
-
-  if (defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect")
-    return (
-      <div
-        className={sidebarClass}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties
-        defaultConfig={defaultConfig}
-        fullConfig={fullConfig}
-        handlePredefinedEffectChange={handlePredefinedEffectChange}
-      />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
-      <MagneticAssemblyEffectProperties defaultConfig={defaultConfig} />
-    </div>
-  )
-
-  if (defaultConfig.particlePredefinedEffect === "ghostEffect")
-    return (
-      <div
-        className={sidebarClass}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties
-        defaultConfig={defaultConfig}
-        fullConfig={fullConfig}
-        handlePredefinedEffectChange={handlePredefinedEffectChange}
-      />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
-      <GhostEffectProperties defaultConfig={defaultConfig} />
-    </div>
-  )
-
-  if (defaultConfig.particlePredefinedEffect === "glitchEffect")
-    return (
-      <div
-        className={sidebarClass}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties
-        defaultConfig={defaultConfig}
-        fullConfig={fullConfig}
-        handlePredefinedEffectChange={handlePredefinedEffectChange}
-      />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
-      <GlitchEffectProperties defaultConfig={defaultConfig} />
-    </div>
-  )
-
-  if (defaultConfig.particlePredefinedEffect === "meltEffect")
-    return (
-      <div
-        className={sidebarClass}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties
-        defaultConfig={defaultConfig}
-        fullConfig={fullConfig}
-        handlePredefinedEffectChange={handlePredefinedEffectChange}
-      />
-      <ParticleLinksProperties defaultConfig={defaultConfig} />
-      <MeltEffectProperties defaultConfig={defaultConfig} />
-    </div>
-  )
-
-  if (defaultConfig.particlePredefinedEffect === "pixelSortEffect")
-    return (
-      <div
-        className={sidebarClass}
-        onClick={(e) => { e.stopPropagation(); }}
-      >
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
-        <PixelSortEffectProperties defaultConfig={defaultConfig} />
-      </div>
-    )
-
-  if (defaultConfig.particlePredefinedEffect === "prismRefractionEffect")
-    return (
-      <div className={sidebarClass} onClick={(e) => { e.stopPropagation(); }}>
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
-        <PrismRefractionEffectProperties defaultConfig={defaultConfig} />
-      </div>
-    )
-
-  if (defaultConfig.particlePredefinedEffect === "crystallizeEffect")
-    return (
-      <div className={sidebarClass} onClick={(e) => { e.stopPropagation(); }}>
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
-        <CrystallizeEffectProperties defaultConfig={defaultConfig} />
-      </div>
-    )
-
-  if (defaultConfig.particlePredefinedEffect === "slitScanEffect")
-    return (
-      <div className={sidebarClass} onClick={(e) => { e.stopPropagation(); }}>
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
-        <SlitScanEffectProperties defaultConfig={defaultConfig} />
-      </div>
-    )
-
-  if (defaultConfig.particlePredefinedEffect === "granularErosionEffect")
-    return (
-      <div className={sidebarClass} onClick={(e) => { e.stopPropagation(); }}>
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
-        <GranularErosionEffectProperties defaultConfig={defaultConfig} />
-      </div>
-    )
-
-  if (defaultConfig.particlePredefinedEffect === "liquidMercuryEffect")
-    return (
-      <div className={sidebarClass} onClick={(e) => { e.stopPropagation(); }}>
-        {closeButton}
-        <LoadAndSaveProperties defaultConfig={defaultConfig} />
-        <GeneralProperties defaultConfig={defaultConfig} fullConfig={fullConfig} handlePredefinedEffectChange={handlePredefinedEffectChange} />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
-        <LiquidMercuryEffectProperties defaultConfig={defaultConfig} />
-      </div>
-    )
-
-  return (
-    <div
-      className={sidebarClass}
-      onClick={(e) => {
-        e.stopPropagation();
-      }}
-    >
-      {closeButton}
-      <LoadAndSaveProperties defaultConfig={defaultConfig} />
-      <GeneralProperties
-        defaultConfig={defaultConfig}
-        fullConfig={fullConfig}
-        handlePredefinedEffectChange={handlePredefinedEffectChange}
-      />
-      <ActiveBehavioursSummary defaultConfig={defaultConfig} />
-      {[
+  const EffectPanel = PREDEFINED_EFFECT_COMPONENTS[defaultConfig.particlePredefinedEffect];
+  const dynamicSections = useMemo(
+    () =>
+      [
         { label: "Aizawa Attractor", Component: AizawaAttractorProperties, behaviourName: "AizawaAttractorBehaviour", getIndex: () => getConfigIndexByName("AizawaAttractorBehaviour", defaultConfig) },
         { label: "Angular Velocity", Component: AngularVelocityProperties, behaviourName: "AngularVelocityBehaviour", getIndex: () => getConfigIndexByName("AngularVelocityBehaviour", defaultConfig) },
         { label: "Beat Phase Lock", Component: BeatPhaseLockProperties, behaviourName: "BeatPhaseLockBehaviour", getIndex: () => getConfigIndexByName("BeatPhaseLockBehaviour", defaultConfig) },
@@ -357,11 +189,7 @@ const Menu = ({
         { label: "Life", Component: LifeProperties, behaviourName: "LifeBehaviour", getIndex: () => getConfigIndexByName("LifeBehaviour", defaultConfig) },
         { label: "Light Effect", Component: LightEffectProperties, behaviourName: "LightEffectBehaviour", getIndex: () => getConfigIndexByName("LightEffectBehaviour", defaultConfig) },
         { label: "Magnet", Component: MagnetProperties, behaviourName: "MagnetBehaviour", getIndex: () => getConfigIndexByName("MagnetBehaviour", defaultConfig) },
-        {
-          label: "Metaball Pass",
-          Component: MetaballPassProperties,
-          metaball: true,
-        },
+        { label: "Metaball Pass", Component: MetaballPassProperties, metaball: true },
         { label: "Move To Point", Component: MoveToPointProperties, behaviourName: "MoveToPointBehaviour", getIndex: () => getConfigIndexByName("MoveToPointBehaviour", defaultConfig) },
         { label: "Form Pattern", Component: FormPatternProperties, behaviourName: "FormPatternBehaviour", getIndex: () => getConfigIndexByName("FormPatternBehaviour", defaultConfig) },
         { label: "Noise Based Motion", Component: NoiseBasedMotionProperties, behaviourName: "NoiseBasedMotionBehaviour", getIndex: () => getConfigIndexByName("NoiseBasedMotionBehaviour", defaultConfig) },
@@ -380,6 +208,7 @@ const Menu = ({
         { label: "Proximity Triggered Phase", Component: ProximityTriggeredPhaseProperties, behaviourName: "ProximityTriggeredPhaseBehaviour", getIndex: () => getConfigIndexByName("ProximityTriggeredPhaseBehaviour", defaultConfig) },
         { label: "Pulse", Component: PulseProperties, behaviourName: "PulseBehaviour", getIndex: () => getConfigIndexByName("PulseBehaviour", defaultConfig) },
         { label: "Ripple", Component: RippleProperties, behaviourName: "RippleBehaviour", getIndex: () => getConfigIndexByName("RippleBehaviour", defaultConfig) },
+        { label: "Recursive Firework", Component: RecursiveFireworkProperties, behaviourName: "RecursiveFireworkBehaviour", getIndex: () => getConfigIndexByName("RecursiveFireworkBehaviour", defaultConfig) },
         { label: "RVO Avoidance", Component: RVOAvoidanceProperties, behaviourName: "RVOAvoidanceBehaviour", getIndex: () => getConfigIndexByName("RVOAvoidanceBehaviour", defaultConfig) },
         { label: "Rotation", Component: RotationProperties, behaviourName: "RotationBehaviour", getIndex: () => getConfigIndexByName("RotationBehaviour", defaultConfig) },
         { label: "Size", Component: SizeProperties, behaviourName: "SizeBehaviour", getIndex: () => getConfigIndexByName("SizeBehaviour", defaultConfig) },
@@ -394,13 +223,64 @@ const Menu = ({
         { label: "Trail", Component: TrailProperties, behaviourName: "TrailBehaviour", getIndex: () => getConfigIndexByName("TrailBehaviour", defaultConfig) },
         { label: "Turbulence", Component: TurbulenceProperties, behaviourName: "TurbulenceBehaviour", getIndex: () => getConfigIndexByName("TurbulenceBehaviour", defaultConfig) },
         { label: "Vortex", Component: VortexProperties, behaviourName: "VortexBehaviour", getIndex: () => getConfigIndexByName("VortexBehaviour", defaultConfig) },
-        { label: "Wireframe 3D", Component: Wireframe3DProperties, behaviourName: "Wireframe3DBehaviour", getIndex: () => getConfigIndexByName("Wireframe3DBehaviour", defaultConfig) },
         { label: "Wobble", Component: WobbleProperties, behaviourName: "WobbleBehaviour", getIndex: () => getConfigIndexByName("WobbleBehaviour", defaultConfig) },
-      ]
-        .sort((a, b) => a.label.localeCompare(b.label))
-        .map((item) => {
+      ].sort((a, b) => a.label.localeCompare(b.label)),
+    [defaultConfig],
+  );
+  const topControls = (
+    <>
+      <p className="editor-shortcuts-hint">
+        Shortcuts: <kbd className="editor-kbd">Ctrl/Cmd+S</kbd> save, <kbd className="editor-kbd">Ctrl/Cmd+F</kbd> search, <kbd className="editor-kbd">M</kbd> menu, <kbd className="editor-kbd">/</kbd> focus search.
+      </p>
+      {warningsCard}
+    </>
+  );
+  if (EffectPanel) {
+    return (
+      <div
+        className={sidebarClass}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        {closeButton}
+        {topControls}
+        <LoadAndSaveProperties defaultConfig={defaultConfig} isDirty={isDirty} />
+        <GeneralProperties
+          defaultConfig={defaultConfig}
+          fullConfig={fullConfig}
+          handlePredefinedEffectChange={handlePredefinedEffectChange}
+        />
+        <ParticleLinksProperties defaultConfig={defaultConfig} />
+        <EffectPanel defaultConfig={defaultConfig} />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={sidebarClass}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      {closeButton}
+      {topControls}
+      <LoadAndSaveProperties defaultConfig={defaultConfig} isDirty={isDirty} />
+      <ActiveBehavioursSummary defaultConfig={defaultConfig} />
+      <GeneralProperties
+        defaultConfig={defaultConfig}
+        fullConfig={fullConfig}
+        handlePredefinedEffectChange={handlePredefinedEffectChange}
+      />
+      {/** When adding sidebar sections, sync `SIDEBAR_SECTION_LABELS` in `@utils/behaviourSummary`. */}
+      {dynamicSections.map((item) => {
           const { label, Component, getIndex, customBehaviours, metaball } =
             item;
+          if (customBehaviours) {
+            const customEntries = getCustomBehaviourEntries(defaultConfig);
+            if (customEntries.length === 0) return null;
+          }
           const panelId = menuLabelToPanelId(label);
           const behaviourOn = isBehaviourSectionHighlighted(defaultConfig, item);
           const inner =

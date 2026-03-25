@@ -35,11 +35,9 @@ If you find this editor useful, consider supporting the project:
 - **Behaviour descriptions** – Inline "Show Description" for each behaviour with property documentation
 - **Export / import** – Save and load emitter configurations as JSON
 - **Sprite / image effects** – Shatter, Dissolve, Ghost, Glitch, Melt, Magnetic Assembly, Pixel Sort, Prism Refraction, Crystallize, Slit Scan, Granular Erosion, Liquid Mercury
-- **3D wireframes** – Cube, sphere, torus, and other wireframe shapes with motion options
-
 ### Supported Behaviours
 
-Life, Position, Spawn, Size, Color, Rotation, Angular Velocity, Emit Direction, Turbulence, Collision, Attraction/Repulsion, Noise-Based Motion, Force Fields, Timeline, Grouping, Sound Reactive, Light Effect, Stretch, Temperature, Move To Point, Form Pattern, Wireframe 3D, Aizawa Attractor, Boids Flocking, Bounce, Color Cycle, Constrain To Shape, Conversion Cascade, Curvature Flow, Flicker, Float Up, Gravity Well, Homing, Jacobian Curl-Field, Lissajous Harmonic Lattice, Limit Cycle, Magnet, Near Miss Dispersion, Orbit, Phase Coherence, Phase Field Flow, Proximity State, Proximity Triggered Phase, Pulse, Ripple, Trail, Toroidal Flow, Toroidal Wrap, Vortex, Wobble, Shear Flow, Obstacle SDF Steer, RVO Avoidance, Emitter Attractor Link, Kelvin Wake, Bezier Flow Tube, Screen Space Flow Map, Beat Phase Lock, Damage Flash Ripple.
+Life, Position, Spawn, Size, Color, Rotation, Angular Velocity, Emit Direction, Turbulence, Collision, Attraction/Repulsion, Noise-Based Motion, Force Fields, Timeline, Grouping, Sound Reactive, Light Effect, Stretch, Temperature, Move To Point, Form Pattern, Aizawa Attractor, Boids Flocking, Bounce, Color Cycle, Constrain To Shape, Conversion Cascade, Curvature Flow, Flicker, Float Up, Gravity Well, Homing, Jacobian Curl-Field, Lissajous Harmonic Lattice, Limit Cycle, Magnet, Near Miss Dispersion, Orbit, Phase Coherence, Phase Field Flow, Proximity State, Proximity Triggered Phase, Pulse, Ripple, Trail, Toroidal Flow, Toroidal Wrap, Vortex, Wobble, Shear Flow, Obstacle SDF Steer, RVO Avoidance, Emitter Attractor Link, Kelvin Wake, Bezier Flow Tube, Screen Space Flow Map, Beat Phase Lock, Damage Flash Ripple.
 
 ---
 

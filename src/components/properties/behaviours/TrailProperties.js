@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import TrailDescription from "@components/html/behaviourDescriptions/Trail";
 
 export default function TrailProperties({ defaultConfig, index }) {
@@ -49,7 +51,7 @@ export default function TrailProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <TrailDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="trail-enabled"
           onChange={(value) => {
@@ -58,7 +60,7 @@ export default function TrailProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="trail-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -68,7 +70,7 @@ export default function TrailProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min Alpha"
           id="trail-minAlpha"
           value={behaviour.minAlpha ?? keysToInitialize.minAlpha}
@@ -80,7 +82,7 @@ export default function TrailProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Alpha"
           id="trail-maxAlpha"
           value={behaviour.maxAlpha ?? keysToInitialize.maxAlpha}
@@ -92,7 +94,7 @@ export default function TrailProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed For Max Alpha"
           id="trail-speedForMaxAlpha"
           value={behaviour.speedForMaxAlpha ?? keysToInitialize.speedForMaxAlpha}
@@ -102,7 +104,7 @@ export default function TrailProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Scale By Speed"
           id="trail-scaleBySpeed"
           onChange={(value) => {
@@ -111,7 +113,7 @@ export default function TrailProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.scaleBySpeed ?? keysToInitialize.scaleBySpeed}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min Scale"
           id="trail-minScale"
           value={behaviour.minScale ?? keysToInitialize.minScale}
@@ -122,7 +124,7 @@ export default function TrailProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Scale"
           id="trail-maxScale"
           value={behaviour.maxScale ?? keysToInitialize.maxScale}

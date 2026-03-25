@@ -11,18 +11,32 @@ import Content from "@components/Content";
  */
 export default function EditorWithLoader() {
   const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [loadError, setLoadError] = useState("");
+
+  const loadResources = async () => {
+    try {
+      setLoadError("");
+      setProgress(0);
+      await Loader.load(
+        (value) => setProgress(value),
+        () =>
+          setLoadError(
+            "A resource failed to load. Check network/files and retry.",
+          ),
+      );
+      setIsLoading(false);
+    } catch {
+      setLoadError("A resource failed to load. Check network/files and retry.");
+    }
+  };
 
   useEffect(() => {
-    const loadResources = async () => {
-      await Loader.load();
-      setIsLoading(false);
-    };
-
     loadResources();
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading progress={progress} error={loadError} onRetry={loadResources} />;
   }
 
   return <Content />;

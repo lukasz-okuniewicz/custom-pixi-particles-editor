@@ -1,10 +1,12 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import Select from "@components/html/Select";
 import ConstrainToShapeDescription from "@components/html/behaviourDescriptions/ConstrainToShape";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -80,7 +82,7 @@ export default function ConstrainToShapeProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <ConstrainToShapeDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="constrain-enabled"
           onChange={(value) => {
@@ -89,7 +91,7 @@ export default function ConstrainToShapeProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="constrain-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -99,7 +101,7 @@ export default function ConstrainToShapeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Select
+        <BfSelect
           label="Shape Type"
           defaultValue={behaviour.shapeType ?? keysToInitialize.shapeType}
           onChange={(value) => {
@@ -108,7 +110,7 @@ export default function ConstrainToShapeProperties({ defaultConfig, index }) {
           }}
           elements={shapeOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Shape center"
           id="constrain-center"
           params={["x", "y"]}
@@ -137,7 +139,7 @@ export default function ConstrainToShapeProperties({ defaultConfig, index }) {
           Select Position
         </button>
         {behaviour.shapeType === "circle" && (
-          <InputNumber
+          <BfInputNumber
             label="Radius"
             id="constrain-radius"
             value={behaviour.radius ?? keysToInitialize.radius}
@@ -150,7 +152,7 @@ export default function ConstrainToShapeProperties({ defaultConfig, index }) {
         )}
         {behaviour.shapeType === "rectangle" && (
           <>
-            <InputNumber
+            <BfInputNumber
               label="Half Width"
               id="constrain-halfWidth"
               value={behaviour.halfWidth ?? keysToInitialize.halfWidth}
@@ -160,7 +162,7 @@ export default function ConstrainToShapeProperties({ defaultConfig, index }) {
                 updateBehaviours();
               }}
             />
-            <InputNumber
+            <BfInputNumber
               label="Half Height"
               id="constrain-halfHeight"
               value={behaviour.halfHeight ?? keysToInitialize.halfHeight}
@@ -172,7 +174,7 @@ export default function ConstrainToShapeProperties({ defaultConfig, index }) {
             />
           </>
         )}
-        <InputNumber
+        <BfInputNumber
           label="Softness"
           id="constrain-softness"
           value={behaviour.softness ?? keysToInitialize.softness}
@@ -184,7 +186,7 @@ export default function ConstrainToShapeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Bounce"
           id="constrain-bounce"
           onChange={(value) => {

@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { Fragment, useCallback, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
 import NoiseBasedMotionDescription from "@components/html/behaviourDescriptions/NoiseBasedMotion";
 
 export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
@@ -48,7 +50,7 @@ export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <NoiseBasedMotionDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="noise-enabled"
           onChange={(value) => {
@@ -57,7 +59,7 @@ export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="noise-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -68,7 +70,7 @@ export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Noise Scale"
           id="noiseScale"
           value={behaviour.noiseScale ?? keysToInitialize.noiseScale}
@@ -78,7 +80,7 @@ export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Noise Intensity"
           id="noiseIntensity"
           value={behaviour.noiseIntensity ?? keysToInitialize.noiseIntensity}
@@ -88,7 +90,7 @@ export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Noise Speed"
           id="noiseSpeed"
           value={behaviour.noiseSpeed ?? keysToInitialize.noiseSpeed}
@@ -98,7 +100,7 @@ export default function NoiseBasedMotionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Noise Direction"
           id="noiseDirection"
           params={["x", "y"]}

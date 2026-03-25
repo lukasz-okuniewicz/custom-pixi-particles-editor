@@ -1,11 +1,13 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { getTextureByName, mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import InputNumber from "@components/html/InputNumber";
-import ColorPicker from "@components/html/ColorPicker";
-import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { ShatterEffect } from "custom-pixi-particles";
@@ -241,7 +243,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={toggleSubmenuVisibility}>Shatter Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <ShatterEffectDescription />
@@ -269,7 +271,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
         <div className="form-group">
           <div className="col-xs-12">
             <button
-              className="btn btn-primary btn-block"
+              className="btn btn-default btn-block"
               onClick={triggerExplosion}
               disabled={isExplodingRef.current}
             >
@@ -280,7 +282,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
         <hr />
 
         {/* Rotation Controls */}
-        <Checkbox
+        <BfCheckbox
           label="Enable Rotation"
           id="enableRotation"
           onChange={(v) => updateShatterConfig({ enableRotation: v })}
@@ -288,7 +290,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
         />
 
         {shatterConfig.enableRotation && (
-          <InputNumber
+          <BfInputNumber
             label="Rotation Strength"
             id="rotationStrength"
             value={shatterConfig.rotationStrength}
@@ -299,69 +301,69 @@ export default function ShatterEffectProperties({ defaultConfig }) {
 
         <hr />
 
-        <InputNumber
+        <BfInputNumber
           label="Grid Columns"
           id="gridCols"
           value={shatterConfig.gridCols}
           step="1" min="1" max="50"
           onChange={(v) => updateShatterConfig({ gridCols: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Grid Rows"
           id="gridRows"
           value={shatterConfig.gridRows}
           step="1" min="1" max="50"
           onChange={(v) => updateShatterConfig({ gridRows: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Explosion Power"
           id="explosionPower"
           value={shatterConfig.explosionPower}
           step="100" min="0"
           onChange={(v) => updateShatterConfig({ explosionPower: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Friction"
           id="friction"
           value={shatterConfig.friction}
           step="0.01" min="0" max="1"
           onChange={(v) => updateShatterConfig({ friction: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Gravity"
           id="gravity"
           value={shatterConfig.gravity}
           step="50" min="0"
           onChange={(v) => updateShatterConfig({ gravity: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Turbulence"
           id="turbulence"
           value={shatterConfig.turbulence}
           step="0.1" min="0" max="2"
           onChange={(v) => updateShatterConfig({ turbulence: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Lifetime"
           id="lifetime"
           value={shatterConfig.lifetime}
           step="0.1" min="0.1"
           onChange={(v) => updateShatterConfig({ lifetime: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Fade Out Duration"
           id="fadeOutDuration"
           value={shatterConfig.fadeOutDuration}
           step="0.1" min="0"
           onChange={(v) => updateShatterConfig({ fadeOutDuration: v })}
         />
-        <Select
+        <BfSelect
           label="Mode"
           defaultValue={shatterConfig.mode}
           onChange={(v) => updateShatterConfig({ mode: v })}
           elements={modeOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Explosion Origin"
           id="explosionOrigin"
           params={["x", "y"]}
@@ -373,7 +375,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
           }}
         />
         {shatterConfig.mode === "directional" && (
-          <InputNumber
+          <BfInputNumber
             label="Blast Direction"
             id="blastDirection"
             value={shatterConfig.blastDirection}
@@ -382,7 +384,7 @@ export default function ShatterEffectProperties({ defaultConfig }) {
           />
         )}
         {shatterConfig.mode === "swirl" && (
-          <InputNumber
+          <BfInputNumber
             label="Swirl Strength"
             id="swirlStrength"
             value={shatterConfig.swirlStrength}
@@ -390,13 +392,14 @@ export default function ShatterEffectProperties({ defaultConfig }) {
             onChange={(v) => updateShatterConfig({ swirlStrength: v })}
           />
         )}
-        <Checkbox
+        <BfCheckbox
           label="Randomize Scale"
           id="randomizeScale"
           onChange={(v) => updateShatterConfig({ randomizeScale: v })}
           checked={shatterConfig.randomizeScale}
         />
-        <ColorPicker
+        <BfColorPicker
+          id="shatter-endTint"
           label="End Tint"
           color={hexToRgb(shatterConfig.endTint)}
           colorChanged={(color) => {
@@ -404,6 +407,6 @@ export default function ShatterEffectProperties({ defaultConfig }) {
           }}
         />
       </div>
-    </>
+    </div>
   );
 }

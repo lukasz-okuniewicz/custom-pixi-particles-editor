@@ -34,12 +34,10 @@ const ASSET_URLS = {
   campFire: `${BASE}/backgrounds/campfire.jpg`,
   birds: `${BASE}/backgrounds/birds.jpg`,
   cigarette: `${BASE}/backgrounds/cigarette.jpg`,
-  blackHole: `${BASE}/backgrounds/blackHole.jpg`,
   face: `${BASE}/backgrounds/face.jpeg`,
   office1: `${BASE}/backgrounds/office1.png`,
   office2: `${BASE}/backgrounds/office2.png`,
   house: `${BASE}/backgrounds/house.jpg`,
-  earth: `${BASE}/backgrounds/earth.jpg`,
 };
 const AUDIO_URLS = {
   mainTheme: `${BASE}/audio/mainTheme.mp3`,
@@ -100,7 +98,7 @@ export default class Loader {
     const [loadedArray, ...audioResults] = await Promise.all([
       Assets.load(ASSET_IDS),
       ...AUDIO_IDS.map((id) =>
-        loadAudioBuffer(AUDIO_URLS[id]).then((r) => ({ id, ...r }))
+        loadAudioBuffer(AUDIO_URLS[id]).then((r) => ({ id, ...r })),
       ),
     ]);
     ASSET_IDS.forEach((id, i) => {

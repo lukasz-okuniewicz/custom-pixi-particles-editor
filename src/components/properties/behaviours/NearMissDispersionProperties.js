@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import NearMissDispersionDescription from "@components/html/behaviourDescriptions/NearMissDispersion";
 
 export default function NearMissDispersionProperties({ defaultConfig, index }) {
@@ -47,7 +49,7 @@ export default function NearMissDispersionProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <NearMissDispersionDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="nearMiss-enabled"
           onChange={(value) => {
@@ -56,7 +58,7 @@ export default function NearMissDispersionProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <Checkbox
+        <BfCheckbox
           label="Triggered (Simulate)"
           id="nearMiss-triggered"
           onChange={(value) => {
@@ -65,7 +67,7 @@ export default function NearMissDispersionProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.triggered ?? keysToInitialize.triggered}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scatter Angle (rad)"
           id="nearMiss-scatterAngle"
           value={behaviour.scatterAngle ?? keysToInitialize.scatterAngle}
@@ -75,7 +77,7 @@ export default function NearMissDispersionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scatter Strength"
           id="nearMiss-scatterStrength"
           value={behaviour.scatterStrength ?? keysToInitialize.scatterStrength}
@@ -85,7 +87,7 @@ export default function NearMissDispersionProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scatter Variance"
           id="nearMiss-scatterVariance"
           value={behaviour.scatterVariance ?? keysToInitialize.scatterVariance}

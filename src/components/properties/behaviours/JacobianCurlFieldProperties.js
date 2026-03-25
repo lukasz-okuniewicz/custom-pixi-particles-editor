@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import JacobianCurlFieldDescription from "@components/html/behaviourDescriptions/JacobianCurlField";
 
 export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
@@ -53,7 +55,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <JacobianCurlFieldDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="curl-enabled"
           onChange={(value) => {
@@ -62,7 +64,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="curl-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -72,7 +74,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Noise Scale"
           id="curl-noiseScale"
           value={behaviour.noiseScale ?? keysToInitialize.noiseScale}
@@ -82,7 +84,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="curl-speed"
           value={behaviour.speed ?? keysToInitialize.speed}
@@ -92,7 +94,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Scale XY"
           id="curl-scaleXY"
           value={behaviour.scaleXY ?? keysToInitialize.scaleXY}
@@ -102,7 +104,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Curl Magnitude Normalize"
           id="curl-curlMagnitudeNormalize"
           value={behaviour.curlMagnitudeNormalize ?? keysToInitialize.curlMagnitudeNormalize}
@@ -112,7 +114,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Curl Magnitude For Hue"
           id="curl-writeCurlMagnitudeForHue"
           onChange={(value) => {
@@ -121,7 +123,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writeCurlMagnitudeForHue ?? keysToInitialize.writeCurlMagnitudeForHue}
         />
-        <Checkbox
+        <BfCheckbox
           label="Apply Hue To Color"
           id="curl-applyHueToColor"
           onChange={(value) => {
@@ -130,7 +132,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.applyHueToColor ?? keysToInitialize.applyHueToColor}
         />
-        <InputNumber
+        <BfInputNumber
           label="Hue Straight (blue)"
           id="curl-hueStraight"
           value={behaviour.hueStraight ?? keysToInitialize.hueStraight}
@@ -140,7 +142,7 @@ export default function JacobianCurlFieldProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Hue Eddy (red)"
           id="curl-hueEddy"
           value={behaviour.hueEddy ?? keysToInitialize.hueEddy}

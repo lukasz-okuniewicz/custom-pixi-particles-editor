@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { getTextureByName, mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
-import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { SlitScanEffect } from "custom-pixi-particles";
@@ -159,7 +161,7 @@ export default function SlitScanEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Slit-Scan Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <SlitScanEffectDescription />
@@ -173,17 +175,17 @@ export default function SlitScanEffectProperties({ defaultConfig }) {
         )}
         <div className="form-group">
           <div className="col-xs-12">
-            <button className="btn btn-primary btn-block" onClick={triggerEffect} disabled={isRunningRef.current}>{isRunningRef.current ? "Running..." : "Trigger Slit-Scan"}</button>
+            <button className="btn btn-default btn-block" onClick={triggerEffect} disabled={isRunningRef.current}>{isRunningRef.current ? "Running..." : "Trigger Slit-Scan"}</button>
           </div>
         </div>
         <hr />
-        <Select label="Mode" defaultValue={config.mode} onChange={(v) => updateConfig({ mode: v })} elements={modeOptions} />
-        <InputNumber label="Speed" id="speed" value={config.speed} step="0.5" min="0" max="20" onChange={(v) => updateConfig({ speed: v })} />
-        <InputNumber label="Amplitude" id="amplitude" value={config.amplitude} step="1" min="0" max="100" onChange={(v) => updateConfig({ amplitude: v })} />
-        <InputNumber label="Frequency" id="frequency" value={config.frequency} step="0.01" min="0" max="0.2" onChange={(v) => updateConfig({ frequency: v })} />
-        <Select label="Direction" defaultValue={config.direction} onChange={(v) => updateConfig({ direction: v })} elements={directionOptions} />
-        <InputNumber label="Duration" id="duration" value={config.duration} step="0.1" min="0.1" max="10" onChange={(v) => updateConfig({ duration: v })} />
+        <BfSelect label="Mode" defaultValue={config.mode} onChange={(v) => updateConfig({ mode: v })} elements={modeOptions} />
+        <BfInputNumber label="Speed" id="speed" value={config.speed} step="0.5" min="0" max="20" onChange={(v) => updateConfig({ speed: v })} />
+        <BfInputNumber label="Amplitude" id="amplitude" value={config.amplitude} step="1" min="0" max="100" onChange={(v) => updateConfig({ amplitude: v })} />
+        <BfInputNumber label="Frequency" id="frequency" value={config.frequency} step="0.01" min="0" max="0.2" onChange={(v) => updateConfig({ frequency: v })} />
+        <BfSelect label="Direction" defaultValue={config.direction} onChange={(v) => updateConfig({ direction: v })} elements={directionOptions} />
+        <BfInputNumber label="Duration" id="duration" value={config.duration} step="0.1" min="0.1" max="10" onChange={(v) => updateConfig({ duration: v })} />
       </div>
-    </>
+    </div>
   );
 }

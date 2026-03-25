@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import ToroidalFlowDescription from "@components/html/behaviourDescriptions/ToroidalFlow";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -79,7 +81,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <ToroidalFlowDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="toroidal-enabled"
           onChange={(value) => {
@@ -88,7 +90,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="toroidal-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -98,7 +100,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Torus center"
           id="toroidal-center"
           params={["x", "y"]}
@@ -123,7 +125,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Major Radius"
           id="toroidal-majorRadius"
           value={behaviour.majorRadius ?? keysToInitialize.majorRadius}
@@ -134,7 +136,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Minor Radius"
           id="toroidal-minorRadius"
           value={behaviour.minorRadius ?? keysToInitialize.minorRadius}
@@ -145,7 +147,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Major Speed"
           id="toroidal-majorSpeed"
           value={behaviour.majorSpeed ?? keysToInitialize.majorSpeed}
@@ -155,7 +157,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Minor Speed"
           id="toroidal-minorSpeed"
           value={behaviour.minorSpeed ?? keysToInitialize.minorSpeed}
@@ -165,7 +167,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="toroidal-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -175,7 +177,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Surface Dist For Visual"
           id="toroidal-writeSurfaceDistForVisual"
           onChange={(value) => {
@@ -184,7 +186,7 @@ export default function ToroidalFlowProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writeSurfaceDistForVisual ?? keysToInitialize.writeSurfaceDistForVisual}
         />
-        <InputNumber
+        <BfInputNumber
           label="Surface Dist Falloff"
           id="toroidal-surfaceDistFalloff"
           value={behaviour.surfaceDistFalloff ?? keysToInitialize.surfaceDistFalloff}

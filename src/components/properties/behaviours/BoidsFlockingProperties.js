@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import BoidsFlockingDescription from "@components/html/behaviourDescriptions/BoidsFlocking";
 
 export default function BoidsFlockingProperties({ defaultConfig, index }) {
@@ -58,7 +60,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <BoidsFlockingDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="boids-enabled"
           onChange={(value) => {
@@ -67,7 +69,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="boids-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -77,7 +79,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Separation Radius"
           id="boids-separationRadius"
           value={behaviour.separationRadius ?? keysToInitialize.separationRadius}
@@ -88,7 +90,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Separation Strength"
           id="boids-separationStrength"
           value={behaviour.separationStrength ?? keysToInitialize.separationStrength}
@@ -98,7 +100,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Alignment Radius"
           id="boids-alignmentRadius"
           value={behaviour.alignmentRadius ?? keysToInitialize.alignmentRadius}
@@ -109,7 +111,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Alignment Strength"
           id="boids-alignmentStrength"
           value={behaviour.alignmentStrength ?? keysToInitialize.alignmentStrength}
@@ -119,7 +121,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Cohesion Radius"
           id="boids-cohesionRadius"
           value={behaviour.cohesionRadius ?? keysToInitialize.cohesionRadius}
@@ -130,7 +132,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Cohesion Strength"
           id="boids-cohesionStrength"
           value={behaviour.cohesionStrength ?? keysToInitialize.cohesionStrength}
@@ -140,7 +142,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Speed"
           id="boids-maxSpeed"
           value={behaviour.maxSpeed ?? keysToInitialize.maxSpeed}
@@ -150,7 +152,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Steer Force"
           id="boids-maxSteerForce"
           value={behaviour.maxSteerForce ?? keysToInitialize.maxSteerForce}
@@ -160,7 +162,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Scale By Density"
           id="boids-scaleByDensity"
           onChange={(value) => {
@@ -169,7 +171,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.scaleByDensity ?? keysToInitialize.scaleByDensity}
         />
-        <InputNumber
+        <BfInputNumber
           label="Density Scale Min"
           id="boids-densityScaleMin"
           value={behaviour.densityScaleMin ?? keysToInitialize.densityScaleMin}
@@ -179,7 +181,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Density Scale Max"
           id="boids-densityScaleMax"
           value={behaviour.densityScaleMax ?? keysToInitialize.densityScaleMax}
@@ -189,7 +191,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Density Radius"
           id="boids-densityRadius"
           value={behaviour.densityRadius ?? keysToInitialize.densityRadius}
@@ -200,7 +202,7 @@ export default function BoidsFlockingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Speed For Color"
           id="boids-writeSpeedForColor"
           onChange={(value) => {

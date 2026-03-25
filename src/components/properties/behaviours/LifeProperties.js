@@ -1,7 +1,9 @@
 "use client";
 
+import {
+  BfInputNumber,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import LifeDescription from "@components/html/behaviourDescriptions/Life";
 
@@ -44,7 +46,7 @@ export default function LifeProperties({ defaultConfig, index }) {
       <legend onClick={toggleSubmenuVisibility}>Life Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <LifeDescription />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="color-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -56,7 +58,7 @@ export default function LifeProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
-        <InputNumber
+        <BfInputNumber
           label="Max Life Time (-1 = infinite)"
           id="max-life-time"
           value={behaviour.maxLifeTime ?? keysToInitialize.maxLifeTime}
@@ -66,7 +68,7 @@ export default function LifeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Time Variance"
           id="time-variance"
           value={behaviour.timeVariance ?? keysToInitialize.timeVariance}
@@ -76,7 +78,7 @@ export default function LifeProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Infinite life: visual period (sec)"
           id="infinite-life-visual-period"
           value={

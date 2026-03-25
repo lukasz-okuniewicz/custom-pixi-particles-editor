@@ -1,10 +1,12 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
-import Select from "@components/html/Select";
 import VortexDescription from "@components/html/behaviourDescriptions/Vortex";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -80,7 +82,7 @@ export default function VortexProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <VortexDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="vortex-enabled"
           onChange={(value) => {
@@ -89,7 +91,7 @@ export default function VortexProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="vortex-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -99,7 +101,7 @@ export default function VortexProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Vortex center"
           id="vortex-center"
           params={["x", "y"]}
@@ -127,7 +129,7 @@ export default function VortexProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="vortex-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -137,7 +139,7 @@ export default function VortexProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Select
+        <BfSelect
           label="Spiral Direction"
           defaultValue={behaviour.spiralDirection ?? keysToInitialize.spiralDirection}
           onChange={(value) => {
@@ -146,7 +148,7 @@ export default function VortexProperties({ defaultConfig, index }) {
           }}
           elements={spiralOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Spiral Strength"
           id="vortex-spiralStrength"
           value={behaviour.spiralStrength ?? keysToInitialize.spiralStrength}
@@ -156,7 +158,7 @@ export default function VortexProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Falloff Power"
           id="vortex-falloffPower"
           value={behaviour.falloffPower ?? keysToInitialize.falloffPower}
@@ -166,7 +168,7 @@ export default function VortexProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Min Distance"
           id="vortex-minDistance"
           value={behaviour.minDistance ?? keysToInitialize.minDistance}

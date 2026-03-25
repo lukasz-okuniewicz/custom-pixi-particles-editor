@@ -1,11 +1,13 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useMemo, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import MoveToPointDescription from "@components/html/behaviourDescriptions/MoveToPoint";
-import Select from "@components/html/Select";
 
 export default function MoveToPointProperties({ defaultConfig, index }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
@@ -18,7 +20,8 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
   const keysToInitialize = {
     name: "MoveToPointBehaviour",
-    enabled: true, // Behaviour is enabled
+    // false when behaviour is not in preset; presets with this behaviour set enabled explicitly (see ToroidalWrapProperties).
+    enabled: false,
     active: false, // Initially not active (particles move normally)
     targetPoint: { x: 0, y: 0 }, // Default target, can be updated later
     speed: 200, // Speed of movement towards the target
@@ -92,7 +95,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <MoveToPointDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="move-to-point-enabled"
           onChange={(value) => {
@@ -101,7 +104,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="color-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -113,7 +116,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
-        <Checkbox
+        <BfCheckbox
           label="Active"
           id="move-to-point-active"
           onChange={(value) => {
@@ -122,7 +125,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.active ?? keysToInitialize.active}
         />
-        <Checkbox
+        <BfCheckbox
           label="Kill On Arrival"
           id="move-to-point-killOnArrival"
           onChange={(value) => {
@@ -131,7 +134,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.killOnArrival ?? keysToInitialize.killOnArrival}
         />
-        <Checkbox
+        <BfCheckbox
           label="Reset Max Life Time on Kill"
           id="move-to-point-resetMaxLifeTime"
           onChange={(value) => {
@@ -143,7 +146,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           }
         />
 
-        <Select
+        <BfSelect
           label="Path Type"
           defaultValue={behaviour.pathType || keysToInitialize.pathType}
           onChange={(value) => {
@@ -152,7 +155,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           }}
           elements={predefinedPathType}
         />
-        <InputNumber
+        <BfInputNumber
           label="Sinusoidal Amplitude"
           id="color-sinusoidalAmplitude"
           value={
@@ -166,7 +169,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Sinusoidal Frequency"
           id="color-sinusoidalFrequency"
           value={
@@ -180,7 +183,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Select
+        <BfSelect
           label="Ease"
           defaultValue={behaviour.pathEasing || keysToInitialize.pathEasing}
           onChange={(value) => {
@@ -189,7 +192,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
           }}
           elements={predefinedEase}
         />
-        <InputNumber
+        <BfInputNumber
           label="Speed"
           id="speed"
           value={behaviour.speed ?? keysToInitialize.speed}
@@ -199,7 +202,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Arrival Threshold"
           id="arrivalThreshold"
           value={
@@ -211,7 +214,7 @@ export default function MoveToPointProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Target Point"
           id="targetPoint"
           params={["x", "y"]}

@@ -4,6 +4,7 @@ let audioContext = null;
 let analyser = null;
 let frequencyData = null;
 let currentPlayingAudio = null;
+/** @type {AudioNode | null} MediaElementAudioSourceNode or AudioBufferSourceNode */
 let source = null;
 
 // Get the last played index from localStorage or default to -1
@@ -11,6 +12,43 @@ const getLastPlayedIndex = () => {
   const savedIndex = localStorage.getItem("lastPlayedAudioIndex");
   return savedIndex ? parseInt(savedIndex, 10) : -1;
 };
+
+function stopPlaybackNodes() {
+  if (source) {
+    if (source instanceof AudioBufferSourceNode) {
+      try {
+        source.stop(0);
+      } catch {
+        /* already stopped */
+      }
+    }
+    try {
+      source.disconnect();
+    } catch {
+      /* */
+    }
+    source = null;
+  }
+  if (analyser) {
+    try {
+      analyser.disconnect();
+    } catch {
+      /* */
+    }
+    analyser = null;
+  }
+}
+
+/**
+ * @param {HTMLAudioElement | AudioBuffer} raw
+ * @returns {HTMLAudioElement | AudioBuffer}
+ */
+function resolveAudioPayload(raw) {
+  if (!raw) return raw;
+  if (raw instanceof AudioBuffer) return raw;
+  if (typeof raw.cloneNode === "function") return raw;
+  return raw;
+}
 
 export const playMusic = ({
   audioSources,
@@ -20,50 +58,73 @@ export const playMusic = ({
   mainSource,
 }) => {
   const lastPlayedIndex = getLastPlayedIndex();
-  const nextIndex = (lastPlayedIndex + 1) % audioSources.length;
+  const len = Array.isArray(audioSources) ? audioSources.length : 0;
+  const nextIndex =
+    len > 0 ? (lastPlayedIndex + 1) % len : 0;
 
   // Stop and reset the currently playing audio
   if (currentPlayingAudio) {
     currentPlayingAudio.pause();
     currentPlayingAudio.currentTime = 0;
 
-    if (source) {
-      source.disconnect();
-      source = null;
+    if (currentPlayingAudio.parentNode) {
+      currentPlayingAudio.parentNode.removeChild(currentPlayingAudio);
     }
-    if (analyser) {
-      analyser.disconnect();
-      analyser = null;
-    }
+    currentPlayingAudio = null;
   }
+
+  stopPlaybackNodes();
 
   let currentAudio;
   if (mainSource) {
-    currentAudio = mainSource;
+    currentAudio = resolveAudioPayload(mainSource);
   } else {
-    currentAudio = audioSources[nextIndex];
+    currentAudio = resolveAudioPayload(audioSources[nextIndex]);
   }
 
-  // Clone the audio element to reset its connection state
-  currentAudio = currentAudio.cloneNode(true);
-  document.body.appendChild(currentAudio); // Add the cloned audio to DOM if needed
-  currentAudio.loop = true;
-  currentAudio.play();
-  currentPlayingAudio = currentAudio;
+  if (!currentAudio) {
+    return nextIndex;
+  }
 
-  // Reuse or create AudioContext
   if (!audioContext) {
     audioContext = new AudioContext();
   }
+  if (audioContext.state === "suspended") {
+    void audioContext.resume();
+  }
 
-  // Create a new MediaElementSourceNode
-  source = audioContext.createMediaElementSource(currentAudio);
   analyser = audioContext.createAnalyser();
-  source.connect(analyser);
-  analyser.connect(audioContext.destination);
-
-  analyser.fftSize = 256; // Size of the Fast Fourier Transform
+  analyser.fftSize = 256;
   frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+  if (currentAudio instanceof AudioBuffer) {
+    const bufSrc = audioContext.createBufferSource();
+    bufSrc.buffer = currentAudio;
+    bufSrc.loop = true;
+    bufSrc.connect(analyser);
+    analyser.connect(audioContext.destination);
+    bufSrc.start(0);
+    source = bufSrc;
+    currentPlayingAudio = null;
+  } else if (typeof currentAudio.cloneNode === "function") {
+    currentAudio = currentAudio.cloneNode(true);
+    document.body.appendChild(currentAudio);
+    currentAudio.loop = true;
+    currentAudio.play();
+    currentPlayingAudio = currentAudio;
+
+    source = audioContext.createMediaElementSource(currentAudio);
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    currentAudio.addEventListener("ended", () => {
+      if (currentAudio.parentNode) {
+        currentAudio.parentNode.removeChild(currentAudio);
+      }
+    });
+  } else {
+    return nextIndex;
+  }
 
   behaviour.audioContext = audioContext;
   behaviour.analyser = analyser;
@@ -81,11 +142,6 @@ export const playMusic = ({
     defaultConfig.emitterConfig.behaviours,
   );
 
-  // Clean up the cloned audio element when no longer needed
-  currentAudio.addEventListener("ended", () => {
-    document.body.removeChild(currentAudio);
-  });
-
   return nextIndex;
 };
 
@@ -99,14 +155,7 @@ export const stopMusic = ({ behaviour, defaultConfig, index }) => {
     currentPlayingAudio = null;
   }
 
-  if (source) {
-    source.disconnect();
-    source = null;
-  }
-  if (analyser) {
-    analyser.disconnect();
-    analyser = null;
-  }
+  stopPlaybackNodes();
 
   behaviour.audioContext = null;
   behaviour.analyser = null;

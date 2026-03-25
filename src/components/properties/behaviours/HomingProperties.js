@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useEffect, useRef, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import HomingDescription from "@components/html/behaviourDescriptions/Homing";
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
@@ -71,7 +73,7 @@ export default function HomingProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <HomingDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="homing-enabled"
           onChange={(value) => {
@@ -80,7 +82,7 @@ export default function HomingProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="homing-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -90,7 +92,7 @@ export default function HomingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Target"
           id="homing-target"
           params={["x", "y"]}
@@ -118,7 +120,7 @@ export default function HomingProperties({ defaultConfig, index }) {
         >
           Select Position
         </button>
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="homing-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -128,7 +130,7 @@ export default function HomingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Speed"
           id="homing-maxSpeed"
           value={behaviour.maxSpeed ?? keysToInitialize.maxSpeed}
@@ -139,7 +141,7 @@ export default function HomingProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Delay (s)"
           id="homing-delay"
           value={behaviour.delay ?? keysToInitialize.delay}

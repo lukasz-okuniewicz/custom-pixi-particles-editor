@@ -1,10 +1,12 @@
 "use client";
 
+import {
+  BfSelect,
+  BfInputNumber,
+  BfColorPicker,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { getTextureByName, mergeObjectsWithDefaults, updateProps } from "@utils";
-import InputNumber from "@components/html/InputNumber";
-import ColorPicker from "@components/html/ColorPicker";
-import Select from "@components/html/Select";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { GhostEffect } from "custom-pixi-particles";
@@ -274,7 +276,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return null;
 
   return (
-    <>
+    <div className="editor-sidebar-section">
       <legend onClick={toggleSubmenuVisibility}>Ghost Effect Properties</legend>
       <div className={`${isSubmenuVisible}`}>
         <GhostEffectDescription />
@@ -305,7 +307,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
           <div className="col-xs-12">
             {!isTracking ? (
               <button
-                className="btn btn-primary btn-block"
+                className="btn btn-default btn-block"
                 onClick={startTracking}
                 disabled={!ghostSprite}
               >
@@ -313,7 +315,7 @@ export default function GhostEffectProperties({ defaultConfig }) {
               </button>
             ) : (
               <button
-                className="btn btn-danger btn-block"
+                className="btn btn-default btn-block"
                 onClick={stopTracking}
               >
                 Stop Tracking
@@ -323,55 +325,57 @@ export default function GhostEffectProperties({ defaultConfig }) {
         </div>
         <hr />
 
-        <InputNumber
+        <BfInputNumber
           label="Spawn Interval"
           id="spawnInterval"
           value={ghostConfig.spawnInterval}
           step="0.01" min="0.01" max="1"
           onChange={(v) => updateGhostConfig({ spawnInterval: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Ghost Lifetime"
           id="ghostLifetime"
           value={ghostConfig.ghostLifetime}
           step="0.1" min="0.1" max="5"
           onChange={(v) => updateGhostConfig({ ghostLifetime: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="Start Alpha"
           id="startAlpha"
           value={ghostConfig.startAlpha}
           step="0.1" min="0" max="1"
           onChange={(v) => updateGhostConfig({ startAlpha: v })}
         />
-        <InputNumber
+        <BfInputNumber
           label="End Alpha"
           id="endAlpha"
           value={ghostConfig.endAlpha}
           step="0.1" min="0" max="1"
           onChange={(v) => updateGhostConfig({ endAlpha: v })}
         />
-        <ColorPicker
+        <BfColorPicker
+          id="ghost-startTint"
           label="Start Tint"
           color={hexToRgb(ghostConfig.startTint)}
           colorChanged={(color) => {
             updateGhostConfig({ startTint: rgbToHex(color.rgb.r, color.rgb.g, color.rgb.b) });
           }}
         />
-        <ColorPicker
+        <BfColorPicker
+          id="ghost-endTint"
           label="End Tint"
           color={hexToRgb(ghostConfig.endTint)}
           colorChanged={(color) => {
             updateGhostConfig({ endTint: rgbToHex(color.rgb.r, color.rgb.g, color.rgb.b) });
           }}
         />
-        <Select
+        <BfSelect
           label="Blend Mode"
           defaultValue={ghostConfig.blendMode.toString()}
           onChange={(v) => updateGhostConfig({ blendMode: parseInt(v) })}
           elements={blendModeOptions}
         />
-        <InputNumber
+        <BfInputNumber
           label="Max Ghosts"
           id="maxGhosts"
           value={ghostConfig.maxGhosts}
@@ -379,6 +383,6 @@ export default function GhostEffectProperties({ defaultConfig }) {
           onChange={(v) => updateGhostConfig({ maxGhosts: v })}
         />
       </div>
-    </>
+    </div>
   );
 }

@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import LimitCycleDescription from "@components/html/behaviourDescriptions/LimitCycle";
 
 export default function LimitCycleProperties({ defaultConfig, index }) {
@@ -56,7 +58,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <LimitCycleDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="limitcycle-enabled"
           onChange={(value) => {
@@ -65,7 +67,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="limitcycle-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -75,7 +77,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Angular Frequency"
           id="limitcycle-angularFrequency"
           value={behaviour.angularFrequency ?? keysToInitialize.angularFrequency}
@@ -85,7 +87,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Target Radius"
           id="limitcycle-targetRadius"
           value={behaviour.targetRadius ?? keysToInitialize.targetRadius}
@@ -96,7 +98,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Relaxation Rate"
           id="limitcycle-relaxationRate"
           value={behaviour.relaxationRate ?? keysToInitialize.relaxationRate}
@@ -106,7 +108,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Strength"
           id="limitcycle-strength"
           value={behaviour.strength ?? keysToInitialize.strength}
@@ -116,7 +118,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Phase Spread"
           id="limitcycle-phaseSpread"
           onChange={(value) => {
@@ -125,7 +127,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.phaseSpread ?? keysToInitialize.phaseSpread}
         />
-        <InputNumber
+        <BfInputNumber
           label="Initial Radius Fraction"
           id="limitcycle-initialRadiusFraction"
           value={behaviour.initialRadiusFraction ?? keysToInitialize.initialRadiusFraction}
@@ -137,7 +139,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Phase For Color"
           id="limitcycle-writePhaseForColor"
           onChange={(value) => {
@@ -146,7 +148,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writePhaseForColor ?? keysToInitialize.writePhaseForColor}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Radius For Visual"
           id="limitcycle-writeRadiusForVisual"
           onChange={(value) => {
@@ -155,7 +157,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writeRadiusForVisual ?? keysToInitialize.writeRadiusForVisual}
         />
-        <Checkbox
+        <BfCheckbox
           label="Scale By Radius"
           id="limitcycle-scaleByRadius"
           onChange={(value) => {
@@ -164,7 +166,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.scaleByRadius ?? keysToInitialize.scaleByRadius}
         />
-        <InputNumber
+        <BfInputNumber
           label="Radius Scale Min"
           id="limitcycle-radiusScaleMin"
           value={behaviour.radiusScaleMin ?? keysToInitialize.radiusScaleMin}
@@ -174,7 +176,7 @@ export default function LimitCycleProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Radius Scale Max"
           id="limitcycle-radiusScaleMax"
           value={behaviour.radiusScaleMax ?? keysToInitialize.radiusScaleMax}

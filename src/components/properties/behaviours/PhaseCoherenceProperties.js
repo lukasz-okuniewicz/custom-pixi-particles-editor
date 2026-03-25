@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  BfInputNumber,
+  BfCheckbox,
+} from "@components/properties/BehaviourFieldWrappers";
 import { useCallback, useState } from "react";
-import InputNumber from "@components/html/InputNumber";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import Checkbox from "@components/html/Checkbox";
 import PhaseCoherenceDescription from "@components/html/behaviourDescriptions/PhaseCoherence";
 
 export default function PhaseCoherenceProperties({ defaultConfig, index }) {
@@ -54,7 +56,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
       </legend>
       <div className={`${isSubmenuVisible}`}>
         <PhaseCoherenceDescription />
-        <Checkbox
+        <BfCheckbox
           label="Enabled"
           id="phasecoherence-enabled"
           onChange={(value) => {
@@ -63,7 +65,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.enabled ?? keysToInitialize.enabled}
         />
-        <InputNumber
+        <BfInputNumber
           label="Priority"
           id="phasecoherence-priority"
           value={behaviour.priority ?? keysToInitialize.priority}
@@ -73,7 +75,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Natural Frequency"
           id="phasecoherence-naturalFrequency"
           value={behaviour.naturalFrequency ?? keysToInitialize.naturalFrequency}
@@ -83,7 +85,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Coupling Strength"
           id="phasecoherence-couplingStrength"
           value={behaviour.couplingStrength ?? keysToInitialize.couplingStrength}
@@ -93,7 +95,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Radius"
           id="phasecoherence-radius"
           value={behaviour.radius ?? keysToInitialize.radius}
@@ -104,7 +106,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Drift Strength"
           id="phasecoherence-driftStrength"
           value={behaviour.driftStrength ?? keysToInitialize.driftStrength}
@@ -114,7 +116,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Phase For Color"
           id="phasecoherence-writePhaseForColor"
           onChange={(value) => {
@@ -123,7 +125,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writePhaseForColor ?? keysToInitialize.writePhaseForColor}
         />
-        <Checkbox
+        <BfCheckbox
           label="Write Order For Visual"
           id="phasecoherence-writeOrderForVisual"
           onChange={(value) => {
@@ -132,7 +134,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.writeOrderForVisual ?? keysToInitialize.writeOrderForVisual}
         />
-        <Checkbox
+        <BfCheckbox
           label="Scale By Order"
           id="phasecoherence-scaleByOrder"
           onChange={(value) => {
@@ -141,7 +143,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
           }}
           checked={behaviour.scaleByOrder ?? keysToInitialize.scaleByOrder}
         />
-        <InputNumber
+        <BfInputNumber
           label="Order Scale Min"
           id="phasecoherence-orderScaleMin"
           value={behaviour.orderScaleMin ?? keysToInitialize.orderScaleMin}
@@ -151,7 +153,7 @@ export default function PhaseCoherenceProperties({ defaultConfig, index }) {
             updateBehaviours();
           }}
         />
-        <InputNumber
+        <BfInputNumber
           label="Order Scale Max"
           id="phasecoherence-orderScaleMax"
           value={behaviour.orderScaleMax ?? keysToInitialize.orderScaleMax}
