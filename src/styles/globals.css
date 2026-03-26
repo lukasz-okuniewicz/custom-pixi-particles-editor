@@ -267,6 +267,92 @@ textarea:focus-visible {
   display: none !important;
 }
 
+/* Autosave draft restore — centered modal */
+.editor-draft-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--editor-space-4);
+  pointer-events: none;
+}
+
+.editor-draft-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 8, 14, 0.78);
+  backdrop-filter: blur(4px);
+  pointer-events: auto;
+}
+
+.editor-draft-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  padding: var(--editor-space-5);
+  border-radius: var(--editor-radius-md);
+  background: linear-gradient(160deg, rgba(23, 44, 78, 0.72), rgba(19, 31, 50, 0.94));
+  border: 1px solid var(--editor-border-soft);
+  box-shadow: var(--editor-shadow-md);
+  pointer-events: auto;
+}
+
+.editor-draft-modal__title {
+  margin: 0 0 var(--editor-space-2);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--editor-accent);
+  line-height: 1.25;
+}
+
+.editor-draft-modal__text {
+  margin: 0 0 var(--editor-space-5);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--editor-text-muted);
+}
+
+.editor-draft-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--editor-space-2);
+  justify-content: flex-end;
+}
+
+.editor-draft-modal__btn {
+  padding: var(--editor-space-2) var(--editor-space-4);
+  border-radius: var(--editor-radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.editor-draft-modal__btn--secondary {
+  background: rgba(20, 31, 49, 0.86);
+  border-color: var(--editor-border-soft);
+  color: var(--editor-text-muted);
+}
+
+.editor-draft-modal__btn--secondary:hover {
+  border-color: var(--editor-border-strong);
+  color: var(--editor-text);
+}
+
+.editor-draft-modal__btn--primary {
+  background: linear-gradient(160deg, rgba(51, 84, 143, 0.95), rgba(28, 52, 88, 0.98));
+  border-color: rgba(103, 212, 255, 0.55);
+  color: #eaf8ff;
+}
+
+.editor-draft-modal__btn--primary:hover {
+  border-color: var(--editor-accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

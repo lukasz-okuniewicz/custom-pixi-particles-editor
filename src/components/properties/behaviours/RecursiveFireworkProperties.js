@@ -641,6 +641,9 @@ export default function RecursiveFireworkProperties({ defaultConfig, index }) {
     explosionAlphaEnd: 0,
     spreadDegrees: 360,
     explosionDirectionDegrees: -90,
+    explosionOriginAlongVelocityPx: 0,
+    burstOriginAlongVelocityAutoScale: 1,
+    burstOriginAlongVelocityFallbackHalfExtentPx: 64,
     directionByDepth: [-90, -90, -90],
     spreadByDepth: [360, 300, 220],
     burstStaggerMs: 0,
@@ -3674,6 +3677,53 @@ export default function RecursiveFireworkProperties({ defaultConfig, index }) {
               updateBehaviours();
             }}
           />
+        )}
+        {advanced && (
+          <>
+            <RfInputNumber
+              label="Burst auto (× half texture span, root; 0=off)"
+              id="recursive-firework-origin-auto-scale"
+              value={
+                behaviour.burstOriginAlongVelocityAutoScale ??
+                keysToInitialize.burstOriginAlongVelocityAutoScale
+              }
+              step="0.05"
+              min="0"
+              max="2"
+              onChange={(value) => {
+                behaviour.burstOriginAlongVelocityAutoScale = value;
+                updateBehaviours();
+              }}
+            />
+            <RfInputNumber
+              label="Burst auto fallback half-extent (px × scale, no sprite)"
+              id="recursive-firework-origin-fallback-half-extent"
+              value={
+                behaviour.burstOriginAlongVelocityFallbackHalfExtentPx ??
+                keysToInitialize.burstOriginAlongVelocityFallbackHalfExtentPx
+              }
+              step="1"
+              min="8"
+              max="256"
+              onChange={(value) => {
+                behaviour.burstOriginAlongVelocityFallbackHalfExtentPx = value;
+                updateBehaviours();
+              }}
+            />
+            <RfInputNumber
+              label="Extra burst origin along velocity (px, root)"
+              id="recursive-firework-origin-along-velocity"
+              value={
+                behaviour.explosionOriginAlongVelocityPx ??
+                keysToInitialize.explosionOriginAlongVelocityPx
+              }
+              step="1"
+              onChange={(value) => {
+                behaviour.explosionOriginAlongVelocityPx = value;
+                updateBehaviours();
+              }}
+            />
+          </>
         )}
         {triggerMode === "lifeProgress" && (
           <>
