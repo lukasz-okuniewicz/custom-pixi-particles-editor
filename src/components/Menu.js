@@ -157,6 +157,9 @@ const Menu = ({
     </button>
   ) : null;
   const EffectPanel = PREDEFINED_EFFECT_COMPONENTS[defaultConfig.particlePredefinedEffect];
+  /** Landing preset: behaviour panels intentionally render nothing but were still wrapped in empty sections. */
+  const hideParticleBehaviourSidebar =
+    defaultConfig.particlePredefinedEffect === "coffeeShop";
   const dynamicSections = useMemo(
     () =>
       [
@@ -267,14 +270,17 @@ const Menu = ({
       {closeButton}
       {topControls}
       <LoadAndSaveProperties defaultConfig={defaultConfig} isDirty={isDirty} />
-      <ActiveBehavioursSummary defaultConfig={defaultConfig} />
+      {!hideParticleBehaviourSidebar ? (
+        <ActiveBehavioursSummary defaultConfig={defaultConfig} />
+      ) : null}
       <GeneralProperties
         defaultConfig={defaultConfig}
         fullConfig={fullConfig}
         handlePredefinedEffectChange={handlePredefinedEffectChange}
       />
       {/** When adding sidebar sections, sync `SIDEBAR_SECTION_LABELS` in `@utils/behaviourSummary`. */}
-      {dynamicSections.map((item) => {
+      {!hideParticleBehaviourSidebar
+        ? dynamicSections.map((item) => {
           const { label, Component, getIndex, customBehaviours, metaball } =
             item;
           if (customBehaviours) {
@@ -315,7 +321,8 @@ const Menu = ({
               {inner}
             </div>
           );
-        })}
+        })
+        : null}
     </div>
   );
 };

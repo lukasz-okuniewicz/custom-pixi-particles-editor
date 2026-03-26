@@ -77,7 +77,17 @@ function registerSpritesheetFrames() {
   });
 }
 
+function reportAssetProgress(onProgress, progress) {
+  if (typeof onProgress !== "function") return;
+  const n = typeof progress === "number" ? progress : progress?.progress;
+  if (n === undefined || n === null) return;
+  const pct = n <= 1 ? Math.round(n * 100) : Math.round(n);
+  onProgress(pct);
+}
+
 export default class Loader {
+  static #loadPromise = null;
+
   static get shared() {
     return shared;
   }
@@ -86,28 +96,50 @@ export default class Loader {
     registerSpritesheetFrames();
   }
 
-  static async load() {
+  /**
+   * @param {(pct: number) => void} [onProgress] — 0–100
+   * @param {(err: unknown) => void} [onError]
+   */
+  static load(onProgress, onError) {
     if (shared.resources.mainTheme) {
-      return;
+      return Promise.resolve(true);
     }
-    Object.entries(ASSET_URLS).forEach(([id, url]) => {
-      if (!Assets.resolver.hasKey(id)) {
-        Assets.add({ alias: id, src: url });
-      }
-    });
-    const [loadedArray, ...audioResults] = await Promise.all([
-      Assets.load(ASSET_IDS),
-      ...AUDIO_IDS.map((id) =>
-        loadAudioBuffer(AUDIO_URLS[id]).then((r) => ({ id, ...r })),
-      ),
-    ]);
-    ASSET_IDS.forEach((id, i) => {
-      shared.resources[id] = loadedArray[i];
-    });
-    audioResults.forEach(({ id, data }) => {
-      shared.resources[id] = { data };
-    });
+    if (Loader.#loadPromise) {
+      return Loader.#loadPromise;
+    }
 
-    registerSpritesheetFrames();
+    Loader.#loadPromise = (async () => {
+      try {
+        Object.entries(ASSET_URLS).forEach(([id, url]) => {
+          if (!Assets.resolver.hasKey(id)) {
+            Assets.add({ alias: id, src: url });
+          }
+        });
+        const [loaded, ...audioResults] = await Promise.all([
+          Assets.load(ASSET_IDS, (progress) =>
+            reportAssetProgress(onProgress, progress),
+          ),
+          ...AUDIO_IDS.map((id) =>
+            loadAudioBuffer(AUDIO_URLS[id]).then((r) => ({ id, ...r })),
+          ),
+        ]);
+        ASSET_IDS.forEach((id) => {
+          shared.resources[id] = loaded[id];
+        });
+        audioResults.forEach(({ id, data }) => {
+          shared.resources[id] = { data };
+        });
+
+        registerSpritesheetFrames();
+        return true;
+      } catch (err) {
+        console.error("[Loader] load failed", err);
+        Loader.#loadPromise = null;
+        if (typeof onError === "function") onError(err);
+        throw err;
+      }
+    })();
+
+    return Loader.#loadPromise;
   }
 }

@@ -14,20 +14,33 @@ export default function EditorWithLoader() {
   const [progress, setProgress] = useState(0);
   const [loadError, setLoadError] = useState("");
 
+  const formatLoaderError = (err) => {
+    if (!err) return "Unknown error";
+    if (err instanceof Error) {
+      return err.stack || err.message;
+    }
+    const msg = err?.message ? String(err.message) : null;
+    return msg || String(err);
+  };
+
   const loadResources = async () => {
     try {
       setLoadError("");
       setProgress(0);
       await Loader.load(
         (value) => setProgress(value),
-        () =>
+        (err) => {
           setLoadError(
-            "A resource failed to load. Check network/files and retry.",
-          ),
+            `A resource failed to load:\n${formatLoaderError(err)}`,
+          );
+        },
       );
       setIsLoading(false);
-    } catch {
-      setLoadError("A resource failed to load. Check network/files and retry.");
+    } catch (err) {
+      console.error("[EditorWithLoader] loadResources catch", err);
+      setLoadError(
+        `A resource failed to load:\n${formatLoaderError(err)}`,
+      );
     }
   };
 
