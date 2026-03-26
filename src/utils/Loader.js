@@ -50,7 +50,17 @@ function loadAudio(id, src) {
   });
 }
 
+function reportAssetProgress(onProgress, progress) {
+  if (typeof onProgress !== "function") return;
+  const n = typeof progress === "number" ? progress : progress?.progress;
+  if (n === undefined || n === null) return;
+  const pct = n <= 1 ? Math.round(n * 100) : Math.round(n);
+  onProgress(pct);
+}
+
 export default class Loader {
+  static #loadPromise = null;
+
   /**
    * Register spritesheet frame keys as Assets aliases so Texture.from(frameName) resolves in the editor runtime.
    */
@@ -76,13 +86,36 @@ export default class Loader {
     }
   }
 
-  static async load() {
+  /**
+   * @param {(pct: number) => void} [onProgress] — 0–100
+   * @param {(err: unknown) => void} [onError]
+   */
+  static load(onProgress, onError) {
     if (audioCache.mainTheme) {
-      return;
+      return Promise.resolve(true);
     }
-    await Promise.all([
-      ...PIXI_ASSET_PATHS.map((item) => Assets.load(item)),
-      ...AUDIO_PATHS.map(({ id, src }) => loadAudio(id, src)),
-    ]);
+    if (Loader.#loadPromise) {
+      return Loader.#loadPromise;
+    }
+
+    Loader.#loadPromise = (async () => {
+      try {
+        await Promise.all([
+          Assets.load(PIXI_ASSET_PATHS, (progress) =>
+            reportAssetProgress(onProgress, progress),
+          ),
+          ...AUDIO_PATHS.map(({ id, src }) => loadAudio(id, src)),
+        ]);
+        Loader.registerSpritesheetFrames();
+        return true;
+      } catch (err) {
+        console.error("[Loader] load failed", err);
+        Loader.#loadPromise = null;
+        if (typeof onError === "function") onError(err);
+        throw err;
+      }
+    })();
+
+    return Loader.#loadPromise;
   }
 }

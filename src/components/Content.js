@@ -1,7 +1,7 @@
 "use client";
 
 import Menu from "@components/Menu";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import pixiRefs from "@pixi/pixiRefs";
 import {
   detectMouseMove,
@@ -27,6 +27,31 @@ import { bgImage } from "@utils/updatePropsLoogic";
 import { saveAs } from "file-saver";
 import Loader from "@utils/Loader";
 
+const DRAFT_STORAGE_KEY = "particleEditor.autosaveDraft.v1";
+const LAST_SELECTED_EFFECT_STORAGE_KEY = "particleEditor.lastSelectedEffect.v1";
+
+function sortObjectKeysDeep(value) {
+  if (value === null || typeof value !== "object") return value;
+  if (Array.isArray(value)) return value.map(sortObjectKeysDeep);
+  const sorted = {};
+  for (const key of Object.keys(value).sort()) {
+    sorted[key] = sortObjectKeysDeep(value[key]);
+  }
+  return sorted;
+}
+
+/** Stable compare for autosave draft: ignores transient `refresh` and key order. */
+function configSnapshotForDraftCompare(config) {
+  if (!config || typeof config !== "object") return "";
+  try {
+    const clone = JSON.parse(JSON.stringify(config));
+    delete clone.refresh;
+    return JSON.stringify(sortObjectKeysDeep(clone));
+  } catch {
+    return "";
+  }
+}
+
 export default function Content() {
   const [defaultConfig, setDefaultConfig2] = useState(null);
   const [containerReady, setContainerReady] = useState(false);
@@ -35,13 +60,17 @@ export default function Content() {
   const [uiNotice, setUiNotice] = useState(null);
   const [isDirty, setIsDirty] = useState(false);
   const [validationWarnings, setValidationWarnings] = useState([]);
+  const [autosaveDraftPrompt, setAutosaveDraftPrompt] = useState(null);
   const contentRef = useRef(null);
   const isApplyingHistoryRef = useRef(false);
   const lastSnapshotRef = useRef("");
   const baselineSnapshotRef = useRef("");
   const didAttemptDraftRestoreRef = useRef(false);
-  const fullConfig = JSON.parse(JSON.stringify(particlesDefaultConfig));
-  const DRAFT_STORAGE_KEY = "particleEditor.autosaveDraft.v1";
+  // Keep stable reference: rebuilding this object on every render can retrigger effects.
+  const fullConfig = useMemo(
+    () => JSON.parse(JSON.stringify(particlesDefaultConfig)),
+    [],
+  );
 
   const setContentRef = useCallback((el) => {
     contentRef.current = el;
@@ -639,6 +668,14 @@ export default function Content() {
   }, [defaultConfig, DRAFT_STORAGE_KEY]);
 
   useEffect(() => {
+    const id = defaultConfig?.particlePredefinedEffect;
+    if (!id) return;
+    try {
+      window.localStorage.setItem(LAST_SELECTED_EFFECT_STORAGE_KEY, id);
+    } catch {}
+  }, [defaultConfig?.particlePredefinedEffect]);
+
+  useEffect(() => {
     if (!defaultConfig || didAttemptDraftRestoreRef.current) return;
     didAttemptDraftRestoreRef.current = true;
     baselineSnapshotRef.current = JSON.stringify(defaultConfig);
@@ -646,14 +683,22 @@ export default function Content() {
       const draftRaw = window.localStorage.getItem(DRAFT_STORAGE_KEY);
       if (!draftRaw) return;
       const draft = JSON.parse(draftRaw);
-      const draftSnapshot = JSON.stringify(draft);
-      if (draftSnapshot === baselineSnapshotRef.current) return;
-      if (!window.confirm("A local autosave draft was found. Restore it?")) return;
-      isApplyingHistoryRef.current = true;
-      setDefaultConfig(draft);
-      pushNotice({ type: "info", message: "Autosave draft restored." });
+      if (configSnapshotForDraftCompare(draft) === configSnapshotForDraftCompare(defaultConfig)) return;
+      setAutosaveDraftPrompt({ draft });
     } catch {}
-  }, [defaultConfig, pushNotice, DRAFT_STORAGE_KEY]);
+  }, [defaultConfig, DRAFT_STORAGE_KEY]);
+
+  const dismissAutosaveDraftPrompt = useCallback(() => {
+    setAutosaveDraftPrompt(null);
+  }, []);
+
+  const restoreAutosaveDraft = useCallback(() => {
+    if (!autosaveDraftPrompt?.draft) return;
+    isApplyingHistoryRef.current = true;
+    setDefaultConfig(autosaveDraftPrompt.draft);
+    pushNotice({ type: "info", message: "Autosave draft restored." });
+    setAutosaveDraftPrompt(null);
+  }, [autosaveDraftPrompt, pushNotice]);
 
   useEffect(() => {
     const eventHandlers = {
@@ -1243,12 +1288,17 @@ export default function Content() {
         setMobileMenuOpen((prev) => !prev);
       }
       if (e.key === "Escape") {
+        if (autosaveDraftPrompt) {
+          e.preventDefault();
+          setAutosaveDraftPrompt(null);
+          return;
+        }
         setMobileMenuOpen(false);
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [autosaveDraftPrompt]);
 
   return (
     <>
@@ -1303,6 +1353,37 @@ export default function Content() {
           onCloseMenu={() => setMobileMenuOpen(false)}
         />
       )}
+      {autosaveDraftPrompt ? (
+        <div className="editor-draft-modal" role="presentation">
+          <div
+            className="editor-draft-modal__backdrop"
+            aria-hidden="true"
+            onClick={dismissAutosaveDraftPrompt}
+          />
+          <div
+            className="editor-draft-modal__panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="editor-draft-modal-title"
+          >
+            <h2 id="editor-draft-modal-title" className="editor-draft-modal__title">
+              Restore autosave draft?
+            </h2>
+            <p className="editor-draft-modal__text">
+              A local autosave draft was found that differs from what you have open. You can restore it or keep the
+              current configuration.
+            </p>
+            <div className="editor-draft-modal__actions">
+              <button type="button" className="editor-draft-modal__btn editor-draft-modal__btn--secondary" onClick={dismissAutosaveDraftPrompt}>
+                Keep current
+              </button>
+              <button type="button" className="editor-draft-modal__btn editor-draft-modal__btn--primary" onClick={restoreAutosaveDraft}>
+                Restore draft
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       {uiNotice ? (
         <div
           className={`editor-ui-notice editor-ui-notice--${uiNotice.type || "info"}`}
