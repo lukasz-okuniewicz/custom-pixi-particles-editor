@@ -97,6 +97,9 @@ function isBehaviourSectionHighlighted(defaultConfig, item) {
   if (isEmissionTypeItem(item)) {
     return true;
   }
+  if (item.Component === ParticleLinksProperties) {
+    return defaultConfig.particleLinks?.enabled === true;
+  }
   if (item.customBehaviours) {
     const customs = getCustomBehaviourEntries(defaultConfig);
     return customs.some(({ index }) => {
@@ -254,7 +257,6 @@ const Menu = ({
           fullConfig={fullConfig}
           handlePredefinedEffectChange={handlePredefinedEffectChange}
         />
-        <ParticleLinksProperties defaultConfig={defaultConfig} />
         <EffectPanel defaultConfig={defaultConfig} />
       </div>
     );
