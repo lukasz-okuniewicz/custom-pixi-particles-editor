@@ -1,8 +1,10 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAutoResizeTextarea } from "@hooks/useAutoResizeTextarea";
-import { camelCaseToNormal, updateProps } from "@utils";
+import { updateProps } from "@utils";
 import File from "@components/html/File";
 import { BLEND_MODES } from "pixi.js";
 import Loader from "@utils/Loader";
@@ -15,71 +17,22 @@ import {
   BfSelect,
 } from "@components/properties/BehaviourFieldWrappers";
 import GeneralDescription from "@components/html/behaviourDescriptions/General";
-
-// Sprite/Image effects shown in a separate section of the Particle Effects select
-const SPRITE_IMAGE_EFFECT_KEYS = [
-  "dissolveEffect",
-  "ghostEffect",
-  "glitchEffect",
-  "magneticAssemblyEffect",
-  "meltEffect",
-  "pixelSortEffect",
-  "prismRefractionEffect",
-  "crystallizeEffect",
-  "slitScanEffect",
-  "granularErosionEffect",
-  "liquidMercuryEffect",
-  "shatterEffect",
-];
+import { GENERAL_PROPERTIES_PANEL_ID } from "@utils/editorNav";
 
 const GeneralProperties = ({
   defaultConfig,
   fullConfig,
-  handlePredefinedEffectChange,
+  accordionPanelId,
+  wrapInSection = true,
 }) => {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(
+    accordionPanelId ?? GENERAL_PROPERTIES_PANEL_ID,
+  );
   const [bgColor, setBgColor] = useState({ r: 0, g: 0, b: 0, a: 1 });
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+  const [fileFeedback, setFileFeedback] = useState("");
   const fileParticleImagesInputRef = useRef(null);
   const fileParticleFinishingInputRef = useRef(null);
   const fileParticleBackgroundImageRef = useRef(null);
-
-  // Memoized particle effects grouped: Particle Effects + Sprite / Image Effects
-  const particleEffectsGrouped = useMemo(() => {
-    const keys = Object.keys(fullConfig || {}).filter(
-      (key) => !fullConfig[key].hide,
-    );
-    const particleKeys = keys
-      .filter((key) => !SPRITE_IMAGE_EFFECT_KEYS.includes(key))
-      .sort();
-    const spriteKeys = keys
-      .filter((key) => SPRITE_IMAGE_EFFECT_KEYS.includes(key))
-      .sort(
-        (a, b) =>
-          SPRITE_IMAGE_EFFECT_KEYS.indexOf(a) -
-          SPRITE_IMAGE_EFFECT_KEYS.indexOf(b),
-      );
-
-    const groups = [];
-    if (particleKeys.length > 0) {
-      groups.push({
-        label: "Particle Effects",
-        options: particleKeys.map((key) => ({
-          key,
-          displayName: camelCaseToNormal(key),
-        })),
-      });
-    }
-    if (spriteKeys.length > 0) {
-      groups.push({
-        label: "Sprite / Image Effects",
-        options: spriteKeys.map((key) => ({
-          key,
-          displayName: camelCaseToNormal(key),
-        })),
-      });
-    }
-    return groups;
-  }, [fullConfig]);
 
   // Memoized blend modes list
   const blendModes = useMemo(() => {
@@ -113,23 +66,13 @@ const GeneralProperties = ({
       }));
   }, []);
 
-  // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
-  // Handle effect selection change
-  const handleEffectChange = useCallback(
-    (value) => handlePredefinedEffectChange(value),
-    [handlePredefinedEffectChange],
-  );
-
   // Generic file handling
   const handleFileChange = useCallback((e, ref, propName) => {
     const images = [];
     const files = ref.current?.files;
 
     if (!files || files.length === 0) return;
+    setFileFeedback(`Loading ${files.length} file(s)...`);
     const promises = [];
     Array.from(files).forEach((file) => {
       promises.push(
@@ -146,17 +89,20 @@ const GeneralProperties = ({
           };
           reader.onerror = () => {
             console.error(`Failed to read file: ${file.name}`);
+            setFileFeedback(`Failed to read ${file.name}`);
           };
           reader.readAsDataURL(file);
         }),
       );
     });
     Promise.all(promises).then(() => {
+      setFileFeedback(`Loaded ${files.length} file(s)`);
       e.target.value = "";
     });
   }, []);
 
   const bgImageChange = useCallback((e) => {
+    setFileFeedback("Loading background image...");
     const reader = new FileReader();
     reader.onload = () => {
       const file = fileParticleBackgroundImageRef.current.files[0];
@@ -164,8 +110,10 @@ const GeneralProperties = ({
         fileName: file.name,
         result: reader.result,
       });
+      setFileFeedback(`Loaded ${file.name}`);
       e.target.value = "";
     };
+    reader.onerror = () => setFileFeedback("Failed to read background image");
 
     reader.readAsDataURL(fileParticleBackgroundImageRef.current.files[0]);
   }, []);
@@ -368,26 +316,24 @@ const GeneralProperties = ({
     defaultConfig.particlePredefinedEffect === "glitchEffect" ||
     defaultConfig.particlePredefinedEffect === "meltEffect"
   )
-    return (
-      <div className="editor-sidebar-section">
+    return wrapInSection ? (
+      <div id={GENERAL_PROPERTIES_PANEL_ID} className="editor-sidebar-section">
         <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
         <div className={`${isSubmenuVisible}`}>
           <GeneralDescription />
-          {/* Follow Mouse Toggle */}
-          <BfSelect
-            label="Particle Effects"
-            defaultValue={
-              defaultConfig.particlePredefinedEffect || "coffeeShop"
-            }
-            onChange={handleEffectChange}
-            groups={particleEffectsGrouped}
-          />
         </div>
       </div>
+    ) : (
+      <>
+        <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
+        <div className={`${isSubmenuVisible}`}>
+          <GeneralDescription />
+        </div>
+      </>
     );
 
-  return (
-    <div className="editor-sidebar-section">
+  return wrapInSection ? (
+    <div id={GENERAL_PROPERTIES_PANEL_ID} className="editor-sidebar-section">
       {/* General Properties Section */}
       <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
       <div className={`${isSubmenuVisible}`}>
@@ -407,16 +353,13 @@ const GeneralProperties = ({
           </>
         )}
 
-        {/* Particle Effects Dropdown */}
-        <BfSelect
-          label="Particle Effects"
-          defaultValue={defaultConfig.particlePredefinedEffect || "coffeeShop"}
-          onChange={handleEffectChange}
-          groups={particleEffectsGrouped}
-        />
-
         {defaultConfig.particlePredefinedEffect !== "coffeeShop" && (
           <>
+            {fileFeedback ? (
+              <p className="editor-op-status" role="status" aria-live="polite">
+                {fileFeedback}
+              </p>
+            ) : null}
             <hr />
             <BfSelect
               label="Predefined Particle Image"
@@ -533,6 +476,167 @@ const GeneralProperties = ({
         )}
       </div>
     </div>
+  ) : (
+    <>
+      <legend onClick={toggleSubmenuVisibility}>General Properties</legend>
+      <div className={`${isSubmenuVisible}`}>
+        <GeneralDescription />
+        {defaultConfig.particlePredefinedEffect !== "coffeeShop" && (
+          <>
+            <BfCheckbox
+              label="Follow Mouse"
+              id="follow-mouse"
+              onChange={(value) => {
+                updateProps("noConfig.followMouse", value);
+              }}
+              checked={defaultConfig.followMouse || false}
+            />
+            <hr />
+          </>
+        )}
+
+        {defaultConfig.particlePredefinedEffect !== "coffeeShop" && (
+          <>
+            <hr />
+            <BfSelect
+              label="Predefined Particle Image"
+              defaultValue={
+                defaultConfig.particlePredefinedImage ||
+                defaultConfig.textures?.[0]
+              }
+              onChange={(value) =>
+                updateProps("noConfig.predefinedImage", value)
+              }
+              elements={predefinedImages}
+            />
+            <File
+              label="Particle Images"
+              buttonText="Add Images"
+              id="load-particle-images"
+              onChange={(e) =>
+                handleFileChange(
+                  e,
+                  fileParticleImagesInputRef,
+                  "noConfig.images",
+                )
+              }
+              onClick={() => fileParticleImagesInputRef.current?.click()}
+              ref={fileParticleImagesInputRef}
+            />
+            <BfFieldHint id="load-particle-images" />
+            <File
+              label="Particle Finishing"
+              buttonText="Add Images"
+              id="load-particle-finishing"
+              onChange={(e) =>
+                handleFileChange(
+                  e,
+                  fileParticleFinishingInputRef,
+                  "noConfig.finishing",
+                )
+              }
+              onClick={() => fileParticleFinishingInputRef.current?.click()}
+              ref={fileParticleFinishingInputRef}
+            />
+            <BfFieldHint id="load-particle-finishing" />
+            <BfInputNumber
+              label="Particle Start Scale"
+              id="particle-start-scale"
+              value={defaultConfig.particleStartScale ?? 1}
+              step="0.1"
+              onChange={(value) =>
+                updateProps("noConfig.particle-start-scale", value)
+              }
+            />
+            <BfInputNumber
+              label="Particle End Scale"
+              id="particle-end-scale"
+              value={defaultConfig.particleEndScale ?? 1}
+              step="0.1"
+              onChange={(value) =>
+                updateProps("noConfig.particle-end-scale", value)
+              }
+            />
+            <BfInputNumber
+              label="Speed Scale"
+              id="speed-scale"
+              value={defaultConfig.speedScale ?? 1}
+              step="0.1"
+              onChange={(value) => updateProps("noConfig.speed-scale", value)}
+            />
+            <BfCheckbox
+              label="Particle Add Back"
+              id="particle-add-back"
+              onChange={(value) =>
+                updateProps("noConfig.particle-add-back", value)
+              }
+              checked={defaultConfig.particleAddBack || false}
+            />
+            <BfCheckbox
+              label="Animate"
+              id="emitter-animate"
+              onChange={(value) => updateProps("noConfig.emitter-animate", value)}
+              checked={defaultConfig.emitterAnimate || false}
+            />
+            {renderAnimatedSprite()}
+            <BfInputNumber
+              label="FPS"
+              id="fps"
+              value={defaultConfig.fps ?? 60}
+              step="1"
+              onChange={(value) => updateProps("noConfig.fps", value)}
+            />
+            <BfColorPicker
+              label="Background Color"
+              id="background-color"
+              color={bgColor}
+              onChange={(value) => {
+                setBgColor(value.rgb);
+                updateProps("noConfig.bg-color", value.rgb);
+              }}
+              hideAlpha={false}
+            />
+            <File
+              label="Background Image"
+              buttonText="Add Image"
+              id="load-bg-image"
+              onChange={bgImageChange}
+              onClick={() => fileParticleBackgroundImageRef.current?.click()}
+              ref={fileParticleBackgroundImageRef}
+            />
+            <BfInputNumber
+              label="Mouse Radius"
+              id="mouse-radius"
+              value={defaultConfig.mouseRadius || 40}
+              step="1"
+              onChange={(value) => updateProps("noConfig.mouse-radius", value)}
+            />
+            <BfInputNumber
+              label="Max Particles"
+              id="max-particles"
+              value={defaultConfig.maxParticles || 100}
+              step="10"
+              onChange={(value) => updateProps("noConfig.max-particles", value)}
+            />
+            <BfSelect
+              label="Blend Mode"
+              defaultValue={defaultConfig.blendMode || "NORMAL"}
+              onChange={(value) => updateProps("noConfig.blend-mode", value)}
+              elements={blendModes}
+            />
+            <BfCheckbox
+              label="Composite Parent"
+              id="composite-parent"
+              onChange={(value) =>
+                updateProps("noConfig.composite-parent", value)
+              }
+              checked={defaultConfig.compositeParent || false}
+            />
+            {renderTextureVariantsEditor()}
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

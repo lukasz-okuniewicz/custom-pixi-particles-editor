@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -12,9 +14,9 @@ import { GlitchEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js";
 import GlitchEffectDescription from "@components/html/behaviourDescriptions/GlitchEffect";
 
-export default function GlitchEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [glitchEffectInstance, setGlitchEffectInstance] = useState(null);
+export default function GlitchEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [glitchEffectInstance, setGlitchEffectInstance] = useState(null);
   const [glitchSprite, setGlitchSprite] = useState(null);
 
   const triggerTimeoutRef = useRef(null);
@@ -35,10 +37,6 @@ export default function GlitchEffectProperties({ defaultConfig }) {
   const glitchConfig = useMemo(() => {
     return mergeObjectsWithDefaults(keysToInitialize, defaultConfig.glitchEffect || {});
   }, [defaultConfig.glitchEffect]);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateGlitchConfig = (updatedFields) => {
     const newConfig = { ...glitchConfig, ...updatedFields };

@@ -13,7 +13,12 @@ const ColorCycleDescription = () => {
 
   return (
     <>
-      <div className="showContent" onClick={toggleContent} ref={buttonRef}>
+      <div
+        className="showContent"
+        onClick={toggleContent}
+        ref={buttonRef}
+        title="Show or hide Color Cycle behaviour description"
+      >
         Show Description
       </div>
       <div className="explanation" ref={contentRef}>
@@ -53,6 +58,10 @@ const ColorCycleDescription = () => {
           <li><b>colorStops</b> — Array of t (0-1), r, g, b; gradient positions and colors.</li>
           <li><b>mode</b> — &quot;life&quot; (gradient over particle life) or &quot;time&quot; (global time, looping).</li>
           <li><b>cycleSpeed</b> — When mode is time, cycles per second.</li>
+          <li><b>interpolationMode</b> — Blend space for color interpolation (rgb, hsv, hsl).</li>
+          <li><b>segmentEasing</b> — Easing function for each stop-to-stop transition.</li>
+          <li><b>blendMode</b>, <b>blendStrength</b> — How cycle output mixes with current color.</li>
+          <li><b>perParticlePhaseOffset</b> — Random per-particle offset to avoid synchronized cycling.</li>
         </ul>
         <h4>Use Cases:</h4>
         <ul>

@@ -3,9 +3,23 @@ import pixiRefs from "@pixi/pixiRefs";
 import { getConfigSafeForLibrary } from "@utils";
 import { METABALL_PASS_DEFAULTS } from "@config/metaballPassDefaults";
 
+const dedupeBehavioursByName = (emitterConfig) => {
+  if (!emitterConfig || !Array.isArray(emitterConfig.behaviours)) return emitterConfig;
+  const seen = new Set();
+  emitterConfig.behaviours = emitterConfig.behaviours.filter((b) => {
+    const name = b?.name;
+    if (!name) return false;
+    if (seen.has(name)) return false;
+    seen.add(name);
+    return true;
+  });
+  return emitterConfig;
+};
+
 export const createParticles = (defaultConfig) => {
   if (!defaultConfig) return;
   const safeConfig = getConfigSafeForLibrary(defaultConfig);
+  dedupeBehavioursByName(safeConfig.emitterConfig);
   const particles = _customPixiParticlesEditorOnly.create({
     ...safeConfig,
     canvasSizeProvider: () => ({
@@ -47,6 +61,7 @@ export const createParticles = (defaultConfig) => {
 export const updateParticles = (defaultConfig) => {
   if (!defaultConfig) return;
   const safeConfig = getConfigSafeForLibrary(defaultConfig);
+  dedupeBehavioursByName(safeConfig.emitterConfig);
   pixiRefs.particles.updateConfig(safeConfig.emitterConfig);
 
   const links = safeConfig.particleLinks;
@@ -70,6 +85,7 @@ export const createAndAddParticles = (config, parent, options = {}) => {
   const safeConfig = getConfigSafeForLibrary(
     JSON.parse(JSON.stringify(config)),
   );
+  dedupeBehavioursByName(safeConfig.emitterConfig);
   const particles = _customPixiParticlesEditorOnly.create({
     ...safeConfig,
     canvasSizeProvider: () => ({

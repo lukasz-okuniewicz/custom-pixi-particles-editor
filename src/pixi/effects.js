@@ -8,7 +8,7 @@ import {
 } from "./particles";
 import { getBehaviourByName, getConfigIndexByName, resize } from "@utils";
 import { _customPixiParticlesEditorOnly } from "custom-pixi-particles";
-import { animateTween, animateWarp, killTween } from "@animations";
+import { animateTween, animateWarp, stopAllAnimationsNow } from "@animations";
 
 let lastPredefinedEffect = null;
 
@@ -17,13 +17,21 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
 
   // Skip particle creation for sprite/image effects
   const spriteEffectKeys = [
-    "shatterEffect", "dissolveEffect", "magneticAssemblyEffect", "ghostEffect",
-    "glitchEffect", "meltEffect", "pixelSortEffect", "prismRefractionEffect",
-    "crystallizeEffect", "slitScanEffect", "granularErosionEffect",
+    "shatterEffect",
+    "dissolveEffect",
+    "magneticAssemblyEffect",
+    "ghostEffect",
+    "glitchEffect",
+    "meltEffect",
+    "pixelSortEffect",
+    "prismRefractionEffect",
+    "crystallizeEffect",
+    "slitScanEffect",
+    "granularErosionEffect",
     "liquidMercuryEffect",
   ];
   if (spriteEffectKeys.includes(defaultConfig.particlePredefinedEffect)) {
-    killTween();
+    stopAllAnimationsNow();
     resetPixiContainers();
     stopAllParticlesArr();
     lastPredefinedEffect = defaultConfig.particlePredefinedEffect;
@@ -38,7 +46,7 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
     updateParticles(defaultConfig);
     reloadEverything(defaultConfig, fullConfig);
   } else {
-    killTween();
+    stopAllAnimationsNow();
     resetPixiContainers();
     stopAllParticlesArr();
     reloadEverything(defaultConfig, fullConfig);
@@ -69,21 +77,27 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
       animateWarp({ defaultConfig });
     },
     warpWithEffect: () => {
-      const position = getBehaviourByName("PositionBehaviour", defaultConfig);
-      if (position) {
+      const warp = getBehaviourByName("WarpBehaviour", defaultConfig);
+      if (warp) {
         // Keep this preset visibly animated even when authored with tiny warp speeds.
-        position.warp = true;
-        position.warpBaseSpeed = Math.max(position.warpBaseSpeed || 0, 0.01);
-        position.cameraZConverter = Math.max(position.cameraZConverter || 0, 10);
+        warp.enabled = true;
+        warp.warpBaseSpeed = Math.max(warp.warpBaseSpeed || 0, 0.01);
+        warp.cameraZConverter = Math.max(
+          warp.cameraZConverter || 0,
+          10,
+        );
       }
       animateWarp({ defaultConfig });
     },
     warpWithEffectV2: () => {
-      const position = getBehaviourByName("PositionBehaviour", defaultConfig);
-      if (position) {
-        position.warp = true;
-        position.warpBaseSpeed = Math.max(position.warpBaseSpeed || 0, 0.01);
-        position.cameraZConverter = Math.max(position.cameraZConverter || 0, 10);
+      const warp = getBehaviourByName("WarpBehaviour", defaultConfig);
+      if (warp) {
+        warp.enabled = true;
+        warp.warpBaseSpeed = Math.max(warp.warpBaseSpeed || 0, 0.01);
+        warp.cameraZConverter = Math.max(
+          warp.cameraZConverter || 0,
+          10,
+        );
       }
       animateWarp({ defaultConfig });
     },
@@ -121,6 +135,11 @@ const createCoffeeShop = ({ fullConfig }) => {
   createAndAddParticles(fullConfig.trail2, particlesContainer);
   createAndAddParticles(fullConfig.campFire2, particlesContainer);
   createAndAddParticles(fullConfig.campFireSparkles2, particlesContainer);
+  createAndAddParticles(
+    fullConfig.recursiveFireworkClassic2,
+    particlesContainer,
+    { position: { x: -400, y: -255 } },
+  );
 
   // Create positioned particles
   const campFireConfigs = [

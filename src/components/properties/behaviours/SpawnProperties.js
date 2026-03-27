@@ -14,13 +14,15 @@ import {
   useRef,
   useState,
 } from "react";
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import SpawnDescription from "@components/html/behaviourDescriptions/Spawn";
 import { Point } from "pixi.js";
+import { getSpawnTypeCapability } from "@config/spawnTypeCapabilities";
 import pixiRefs from "@pixi/pixiRefs";
 
-export default function SpawnProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+export default function SpawnProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
   const [isCustomPointSubmenuVisible, setIsCustomPointSubmenuVisible] =
     useState({});
   const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
@@ -30,8 +32,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
   const selectedPathPositionIndexRef = useRef(null);
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -46,6 +47,9 @@ export default function SpawnProperties({ defaultConfig, index }) {
     trailRangeSegments: 20, // Segments for trail range (higher = finer distribution)
     trailRangeWeightFactor: 4, // Weight decay toward trail end
     trailRangeLength: 1, // Length of trail to spawn along (0-1); <1 avoids particles at path start
+    randomSeed: null,
+    compositionMode: "random",
+    maxSpawnCalcMs: 4,
     customPoints: [
       {
         spawnType: "Rectangle",
@@ -84,6 +88,16 @@ export default function SpawnProperties({ defaultConfig, index }) {
         pitch: 50,
         turns: 5,
         pathPoints: [{ x: 0, y: 0, z: 0 }],
+        distribution: "uniform",
+        emissionArea: "edge",
+        weight: 1,
+        polygonSides: 6,
+        innerRadius: 40,
+        startAngle: 0,
+        endAngle: 180,
+        closedPath: false,
+        pathInterpolation: "linear",
+        pathSampling: "bySegment",
       },
     ],
     name: "PositionBehaviour",
@@ -108,6 +122,9 @@ export default function SpawnProperties({ defaultConfig, index }) {
       Spring: true,
       Path: true,
       Oval: true,
+      Polygon: true,
+      Arc: true,
+      Sector: true,
     };
     return Object.keys(names)
       .sort()
@@ -133,6 +150,51 @@ export default function SpawnProperties({ defaultConfig, index }) {
       }));
   }, []);
 
+  const predefinedDistribution = useMemo(
+    () =>
+      ["uniform", "gaussian-center", "gaussian-edge", "weighted"].map((key) => ({
+        key,
+        displayName: key,
+      })),
+    [],
+  );
+
+  const predefinedEmissionArea = useMemo(
+    () =>
+      ["edge", "fill"].map((key) => ({
+        key,
+        displayName: key,
+      })),
+    [],
+  );
+
+  const predefinedCompositionMode = useMemo(
+    () =>
+      ["random", "weighted", "sequence", "burstCycle"].map((key) => ({
+        key,
+        displayName: key,
+      })),
+    [],
+  );
+
+  const predefinedPathInterpolation = useMemo(
+    () =>
+      ["linear", "catmullRom"].map((key) => ({
+        key,
+        displayName: key,
+      })),
+    [],
+  );
+
+  const predefinedPathSampling = useMemo(
+    () =>
+      ["bySegment", "byDistance"].map((key) => ({
+        key,
+        displayName: key,
+      })),
+    [],
+  );
+
   const predefinedTextBaseline = useMemo(() => {
     const names = {
       Alphabetic: "alphabetic",
@@ -157,25 +219,11 @@ export default function SpawnProperties({ defaultConfig, index }) {
     if (!customPoints || customPoints.length === 0) {
       return false;
     }
-    const restrictedSpawnTypes = [
-      "Word",
-      "Sphere",
-      "Rectangle",
-      "Helix",
-      "Grid",
-      "Cone",
-      "Spring",
-    ];
     return customPoints.some(
       (point) =>
-        point.spawnType && restrictedSpawnTypes.includes(point.spawnType),
+        point.spawnType && !getSpawnTypeCapability(point.spawnType).supportsTrail,
     );
   }, [defaultConfig, index]);
-
-  // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const toggleCustomPointSubmenuVisibility = useCallback((customPointIndex) => {
     setIsCustomPointSubmenuVisible((prev) => ({
@@ -309,6 +357,36 @@ export default function SpawnProperties({ defaultConfig, index }) {
           min="0"
           onChange={(value) => {
             behaviour.priority = value;
+            updateBehaviours();
+          }}
+        />
+        <BfInputNumber
+          label="Random Seed"
+          id="randomSeed"
+          value={behaviour.randomSeed ?? ""}
+          step="1"
+          onChange={(value) => {
+            behaviour.randomSeed = value === "" ? null : value;
+            updateBehaviours();
+          }}
+        />
+        <BfSelect
+          label="Composition Mode"
+          defaultValue={behaviour.compositionMode ?? keysToInitialize.compositionMode}
+          onChange={(value) => {
+            behaviour.compositionMode = value;
+            updateBehaviours();
+          }}
+          elements={predefinedCompositionMode}
+        />
+        <BfInputNumber
+          label="Max Spawn Calc ms"
+          id="maxSpawnCalcMs"
+          value={behaviour.maxSpawnCalcMs ?? keysToInitialize.maxSpawnCalcMs}
+          step="0.5"
+          min="0"
+          onChange={(value) => {
+            behaviour.maxSpawnCalcMs = value;
             updateBehaviours();
           }}
         />
@@ -514,17 +592,7 @@ export default function SpawnProperties({ defaultConfig, index }) {
                     // Reset trail state when spawn type changes
                     // This prevents issues when switching between spawn types with trailing enabled
                     if (behaviour.trailingEnabled) {
-                      // Check if new spawn type is restricted (doesn't support trailing)
-                      const restrictedSpawnTypes = [
-                        "Word",
-                        "Sphere",
-                        "Rectangle",
-                        "Helix",
-                        "Grid",
-                        "Cone",
-                        "Spring",
-                      ];
-                      if (restrictedSpawnTypes.includes(value)) {
+                      if (!getSpawnTypeCapability(value).supportsTrail) {
                         // Disable trailing for restricted types
                         behaviour.trailingEnabled = false;
                         behaviour.trailProgress = 0;
@@ -542,6 +610,43 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   }}
                   elements={predefinedSpawnType}
                 />
+                <BfInputNumber
+                  label="Weight"
+                  id="weight"
+                  value={customPoint.weight ?? keysToInitialize.customPoints[0].weight}
+                  step="0.1"
+                  min="0"
+                  onChange={(value) => {
+                    customPoint.weight = value;
+                    updateBehaviours();
+                  }}
+                />
+                <BfSelect
+                  label="Distribution"
+                  defaultValue={
+                    customPoint.distribution ||
+                    keysToInitialize.customPoints[0].distribution
+                  }
+                  onChange={(value) => {
+                    customPoint.distribution = value;
+                    updateBehaviours();
+                  }}
+                  elements={predefinedDistribution}
+                />
+                {getSpawnTypeCapability(customPoint.spawnType).supportsFill && (
+                  <BfSelect
+                    label="Emission Area"
+                    defaultValue={
+                      customPoint.emissionArea ||
+                      keysToInitialize.customPoints[0].emissionArea
+                    }
+                    onChange={(value) => {
+                      customPoint.emissionArea = value;
+                      updateBehaviours();
+                    }}
+                    elements={predefinedEmissionArea}
+                  />
+                )}
 
                 {(customPoint.spawnType === "Star" ||
                   customPoint.spawnType === "Sphere" ||
@@ -550,7 +655,10 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   customPoint.spawnType === "Heart" ||
                   customPoint.spawnType === "Spring" ||
                   customPoint.spawnType === "Lissajous" ||
-                  customPoint.spawnType === "Ring") && (
+                  customPoint.spawnType === "Ring" ||
+                  customPoint.spawnType === "Polygon" ||
+                  customPoint.spawnType === "Arc" ||
+                  customPoint.spawnType === "Sector") && (
                   <BfInputNumber
                     label="Radius"
                     id="radius"
@@ -564,6 +672,70 @@ export default function SpawnProperties({ defaultConfig, index }) {
                       updateBehaviours();
                     }}
                   />
+                )}
+                {(customPoint.spawnType === "Star" ||
+                  customPoint.spawnType === "Arc" ||
+                  customPoint.spawnType === "Sector") && (
+                  <BfInputNumber
+                    label="Inner Radius"
+                    id="innerRadius"
+                    value={
+                      customPoint.innerRadius ??
+                      keysToInitialize.customPoints[0].innerRadius
+                    }
+                    step="1"
+                    onChange={(value) => {
+                      customPoint.innerRadius = value;
+                      updateBehaviours();
+                    }}
+                  />
+                )}
+                {customPoint.spawnType === "Polygon" && (
+                  <BfInputNumber
+                    label="Sides"
+                    id="polygonSides"
+                    value={
+                      customPoint.polygonSides ??
+                      keysToInitialize.customPoints[0].polygonSides
+                    }
+                    step="1"
+                    min={3}
+                    onChange={(value) => {
+                      customPoint.polygonSides = value;
+                      updateBehaviours();
+                    }}
+                  />
+                )}
+                {(customPoint.spawnType === "Arc" ||
+                  customPoint.spawnType === "Sector") && (
+                  <>
+                    <BfInputNumber
+                      label="Start Angle"
+                      id="startAngle"
+                      value={
+                        customPoint.startAngle ??
+                        keysToInitialize.customPoints[0].startAngle
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.startAngle = value;
+                        updateBehaviours();
+                      }}
+                    />
+                    <BfInputNumber
+                      label="End Angle"
+                      id="endAngle"
+                      value={
+                        customPoint.endAngle ??
+                        keysToInitialize.customPoints[0].endAngle
+                      }
+                      step="1"
+                      onChange={(value) => {
+                        customPoint.endAngle = value;
+                        updateBehaviours();
+                      }}
+                    />
+                  </>
                 )}
                 {customPoint.spawnType === "Frame" && (
                   <BfInputNumber
@@ -629,6 +801,42 @@ export default function SpawnProperties({ defaultConfig, index }) {
                   ))}
                 {customPoint.spawnType === "Path" && (
                   <>
+                    <BfSelect
+                      label="Path Interpolation"
+                      defaultValue={
+                        customPoint.pathInterpolation ||
+                        keysToInitialize.customPoints[0].pathInterpolation
+                      }
+                      onChange={(value) => {
+                        customPoint.pathInterpolation = value;
+                        updateBehaviours();
+                      }}
+                      elements={predefinedPathInterpolation}
+                    />
+                    <BfSelect
+                      label="Path Sampling"
+                      defaultValue={
+                        customPoint.pathSampling ||
+                        keysToInitialize.customPoints[0].pathSampling
+                      }
+                      onChange={(value) => {
+                        customPoint.pathSampling = value;
+                        updateBehaviours();
+                      }}
+                      elements={predefinedPathSampling}
+                    />
+                    <BfCheckbox
+                      label="Closed Path"
+                      id="closedPath"
+                      onChange={(value) => {
+                        customPoint.closedPath = value;
+                        updateBehaviours();
+                      }}
+                      checked={
+                        customPoint.closedPath ??
+                        keysToInitialize.customPoints[0].closedPath
+                      }
+                    />
                     <button
                       className="btn btn-default btn-block"
                       onClick={(e) => addPathPoint(e, index)}

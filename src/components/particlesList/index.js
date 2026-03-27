@@ -1,24 +1,22 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import { Fragment, useCallback, useEffect, useState } from "react";
 import pixiRefs from "@pixi/pixiRefs";
 import { createAndAddParticles } from "@pixi/particles";
 import InputNumber from "@components/html/InputNumber";
 import ParticleEmittersDescription from "@components/html/behaviourDescriptions/ParticleEmitters";
 
-export default function ParticlesList({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [particlesConfig, setParticlesConfig] = useState(() =>
+export default function ParticlesList({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [particlesConfig, setParticlesConfig] = useState(() =>
     pixiRefs.particlesArr.map((emitter) => ({
       position: { x: emitter.position.x, y: emitter.position.y },
       angle: emitter.angle,
       emitter,
     })),
   );
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const duplicate = () => {
     createAndAddParticles(defaultConfig, pixiRefs.particlesContainer);

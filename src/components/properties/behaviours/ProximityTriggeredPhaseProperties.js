@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -10,14 +12,13 @@ import ProximityTriggeredPhaseDescription from "@components/html/behaviourDescri
 import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 
-export default function ProximityTriggeredPhaseProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [isSelectingPosition, setIsSelectingPosition] = useState(false);
+export default function ProximityTriggeredPhaseProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [isSelectingPosition, setIsSelectingPosition] = useState(false);
   const isSelectingPositionRef = useRef(false);
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -35,10 +36,6 @@ export default function ProximityTriggeredPhaseProperties({ defaultConfig, index
     writeStateForColor: true,
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   useEffect(() => {
     const handleWindowClick = (event) => {

@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import { useCallback, useEffect, useState } from "react";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
@@ -23,12 +25,8 @@ const METABALL_HINTS = {
 /**
  * Collapsible “Metaball Pass” section: enable toggle + post-process controls.
  */
-export default function MetaballPassProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
+export default function MetaballPassProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
 
   const mb = { ...MB_DEFAULTS, ...(defaultConfig.metaballPass || {}) };
   const mbCfg = defaultConfig.metaballPass;

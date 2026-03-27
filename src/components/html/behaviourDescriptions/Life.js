@@ -41,6 +41,30 @@ const LifeDescription = () => {
             <b>Time Variance</b>: Adds randomness to the lifetime, allowing for
             variation between particles and enhancing realism.
           </li>
+          <li>
+            <b>Progress Mode</b>: Controls normalized progress mapping
+            (linear/loop/ping-pong).
+          </li>
+          <li>
+            <b>Start Delay</b> + <b>Start Delay Variance</b>: Delay life start
+            per particle.
+          </li>
+          <li>
+            <b>Time Scale</b> + <b>Time Scale Variance</b>: Speed up or slow
+            down life progression per particle.
+          </li>
+          <li>
+            <b>Infinite life phase offset</b>: Desynchronizes infinite-life
+            cycling.
+          </li>
+          <li>
+            <b>Kill At Progress</b>: Optional early death at a progress
+            threshold.
+          </li>
+          <li>
+            <b>Timeline uses life progress for infinite life</b>: Opt-in
+            compatibility mode for TimelineBehaviour.
+          </li>
         </ul>
 
         <h4>How It Works:</h4>
@@ -60,6 +84,15 @@ const LifeDescription = () => {
           <li><b>priority</b> — Execution order (higher runs first).</li>
           <li><b>maxLifeTime</b> — Maximum particle lifetime (seconds).</li>
           <li><b>timeVariance</b> — Random variation added to lifetime.</li>
+          <li><b>progressMode</b> — linear / loop / pingPong.</li>
+          <li><b>startDelay</b> — Delay before life starts.</li>
+          <li><b>startDelayVariance</b> — Random delay spread.</li>
+          <li><b>timeScale</b> — Life progression multiplier.</li>
+          <li><b>timeScaleVariance</b> — Random time-scale spread.</li>
+          <li><b>infiniteLifeVisualPeriod</b> — Infinite-life progress cycle period.</li>
+          <li><b>infiniteLifePhaseOffset</b> — Infinite-life phase offset base.</li>
+          <li><b>killAtProgress</b> — Optional early-death threshold.</li>
+          <li><b>useLifeProgressForInfiniteTimeline</b> — Timeline infinite fallback toggle.</li>
         </ul>
         <h4>Use Cases:</h4>
         <ul>

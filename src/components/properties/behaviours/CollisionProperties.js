@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -11,17 +13,16 @@ import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 import CollisionDescription from "@components/html/behaviourDescriptions/Collision";
 
-export default function CollisionProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [selectedLineIndex, setSelectedLineIndex] = useState(null);
+export default function CollisionProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [selectedLineIndex, setSelectedLineIndex] = useState(null);
   const [pointKey, setPointKey] = useState("");
 
   const selectedLineIndexRef = useRef(null);
   const pointKeyRef = useRef("");
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -79,10 +80,6 @@ export default function CollisionProperties({ defaultConfig, index }) {
   }, [defaultConfig]);
 
   // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
   const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
     updateProps(

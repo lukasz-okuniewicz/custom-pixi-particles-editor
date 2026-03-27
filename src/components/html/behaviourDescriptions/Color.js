@@ -13,7 +13,12 @@ const ColorDescription = () => {
 
   return (
     <>
-      <div className="showContent" onClick={toggleContent} ref={buttonRef}>
+      <div
+        className="showContent"
+        onClick={toggleContent}
+        ref={buttonRef}
+        title="Show or hide Color behaviour description"
+      >
         Show Description
       </div>
       <div className="explanation" ref={contentRef}>
@@ -87,6 +92,10 @@ const ColorDescription = () => {
           <li><b>flickerIntensity</b> — Random brightness variation.</li>
           <li><b>pulseIntensity</b>, <b>pulseSpeed</b> — Pulsing color effect.</li>
           <li><b>colorStops</b> — Multi-step gradient (array of r, g, b, alpha).</li>
+          <li><b>interpolationMode</b> — Blend space for color transitions (rgb, hsv, hsl).</li>
+          <li><b>segmentEasing</b> — Easing curve used inside each gradient segment.</li>
+          <li><b>blendMode</b>, <b>blendStrength</b> — How this behaviour combines with current color.</li>
+          <li><b>perParticlePhaseOffset</b> — Random phase shift per particle to break synchronized color motion.</li>
         </ul>
         <h4>Practical Applications:</h4>
         <ul>

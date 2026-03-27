@@ -9,12 +9,10 @@ const ASSET_IDS = [
   "campFire",
   "birds",
   "cigarette",
-  "blackHole",
   "face",
   "office1",
   "office2",
   "house",
-  "earth",
 ];
 const AUDIO_IDS = [
   "mainTheme",

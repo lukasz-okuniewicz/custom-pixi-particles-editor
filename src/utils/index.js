@@ -30,6 +30,7 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "LifeBehaviour",
   "ColorBehaviour",
   "PositionBehaviour",
+  "WarpBehaviour",
   "SizeBehaviour",
   "EmitDirectionBehaviour",
   "RotationBehaviour",
@@ -46,6 +47,7 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "StretchBehaviour",
   "TemperatureBehaviour",
   "MoveToPointBehaviour",
+  "PointToPointBehaviour",
   "FormPatternBehaviour",
   "VortexBehaviour",
   "PulseBehaviour",
@@ -85,6 +87,11 @@ export const BUILT_IN_BEHAVIOUR_NAMES = [
   "BeatPhaseLockBehaviour",
   "DamageFlashRippleBehaviour",
   "RecursiveFireworkBehaviour",
+  "FlockingBehaviour",
+  "FlowFieldDriftBehaviour",
+  "TemperatureSimulationBehaviour",
+  "PredatorPreyBehaviour",
+  "GlitchBehaviour",
 ];
 
 export const camelCaseToNormal = (text) => {
@@ -109,6 +116,14 @@ export const getConfigIndexByName = (name, config) => {
   return config.emitterConfig?.behaviours?.findIndex(
     (behaviour) => behaviour.name === name,
   );
+};
+
+export const ensureBehaviourIndexByName = (name, config) => {
+  const existing = getConfigIndexByName(name, config);
+  if (existing !== -1) return existing;
+  const target = config?.emitterConfig?.behaviours || config?.behaviours;
+  if (!Array.isArray(target)) return -1;
+  return target.push({ name }) - 1;
 };
 
 export const updateNewBehaviour = (name, key, props, config) => {
@@ -255,27 +270,34 @@ export const getConfigSafeForLibrary = (config) => {
     delete stripped.metaballPass;
     return stripped;
   }
-  const safe = JSON.parse(JSON.stringify(config));
-  safe.emitterConfig.behaviours = safe.emitterConfig.behaviours.filter(
-    (b) => b?.name && BUILT_IN_BEHAVIOUR_NAMES.includes(b.name),
-  );
-  const origSoundIndex = config.emitterConfig.behaviours.findIndex(
+  const origBehaviours = Array.isArray(config.emitterConfig.behaviours)
+    ? config.emitterConfig.behaviours
+    : [];
+  const safeBehaviours = origBehaviours
+    .filter((b) => b?.name && BUILT_IN_BEHAVIOUR_NAMES.includes(b.name))
+    .map((b) => ({ ...b }));
+  const origSound = origBehaviours.find(
     (b) => b?.name === "SoundReactiveBehaviour",
   );
-  const safeSoundIndex = safe.emitterConfig.behaviours.findIndex(
+  const safeSound = safeBehaviours.find(
     (b) => b?.name === "SoundReactiveBehaviour",
   );
-  if (origSoundIndex !== -1 && safeSoundIndex !== -1) {
-    const orig = config.emitterConfig.behaviours[origSoundIndex];
-    const safeBehaviour = safe.emitterConfig.behaviours[safeSoundIndex];
-    if (orig.analyser != null) safeBehaviour.analyser = orig.analyser;
-    if (orig.audioContext != null)
-      safeBehaviour.audioContext = orig.audioContext;
-    if (orig.frequencyData != null)
-      safeBehaviour.frequencyData = orig.frequencyData;
-    if (typeof orig.isPlaying === "boolean")
-      safeBehaviour.isPlaying = orig.isPlaying;
+  if (origSound && safeSound) {
+    if (origSound.analyser != null) safeSound.analyser = origSound.analyser;
+    if (origSound.audioContext != null)
+      safeSound.audioContext = origSound.audioContext;
+    if (origSound.frequencyData != null)
+      safeSound.frequencyData = origSound.frequencyData;
+    if (typeof origSound.isPlaying === "boolean")
+      safeSound.isPlaying = origSound.isPlaying;
   }
+  const safe = {
+    ...config,
+    emitterConfig: {
+      ...config.emitterConfig,
+      behaviours: safeBehaviours,
+    },
+  };
   // Keep emitterConfig.blendMode as stored (number or string); library resolves for Pixi v7 WebGL.
   if (Object.prototype.hasOwnProperty.call(safe, "metaballPass")) {
     delete safe.metaballPass;
@@ -465,7 +487,32 @@ export const updateProps = (name, value, id, refresh) => {
         break;
     }
   } else {
-    eventBus.emit("updateConfig", { value, id, arrayName, refresh });
+    // Coalesce high-frequency input updates to one event per animation frame.
+    if (refresh) {
+      eventBus.emit("updateConfig", { value, id, arrayName, refresh });
+      return;
+    }
+    if (typeof window === "undefined") {
+      eventBus.emit("updateConfig", { value, id, arrayName, refresh });
+      return;
+    }
+    window.__particleEditorPendingUpdateConfig = {
+      value,
+      id,
+      arrayName,
+      refresh,
+    };
+    if (window.__particleEditorUpdateConfigRafId) return;
+    window.__particleEditorUpdateConfigRafId = window.requestAnimationFrame(
+      () => {
+        const payload = window.__particleEditorPendingUpdateConfig;
+        window.__particleEditorPendingUpdateConfig = null;
+        window.__particleEditorUpdateConfigRafId = 0;
+        if (payload) {
+          eventBus.emit("updateConfig", payload);
+        }
+      },
+    );
   }
 };
 

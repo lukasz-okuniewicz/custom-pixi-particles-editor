@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -12,9 +14,9 @@ import { CrystallizeEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js";
 import CrystallizeEffectDescription from "@components/html/behaviourDescriptions/CrystallizeEffect";
 
-export default function CrystallizeEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [effectInstance, setEffectInstance] = useState(null);
+export default function CrystallizeEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [effectInstance, setEffectInstance] = useState(null);
   const [sprite, setSprite] = useState(null);
   const isRunningRef = useRef(false);
   const spriteRef = useRef(null);
@@ -159,7 +161,7 @@ export default function CrystallizeEffectProperties({ defaultConfig }) {
 
   return (
     <div className="editor-sidebar-section">
-      <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Crystallize Effect Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>Crystallize Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <CrystallizeEffectDescription />
         <File label="Custom Sprite" buttonText={config.customSprite ? "Replace Sprite" : "Upload Sprite"} id="crystallize-sprite-upload" onChange={handleUpload} onClick={() => fileInputRef.current?.click()} ref={fileInputRef} />

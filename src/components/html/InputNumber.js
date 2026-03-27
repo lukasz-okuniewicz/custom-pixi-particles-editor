@@ -1,6 +1,17 @@
 import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 
+function getNumericIssue(rawValue, min, max) {
+  if (rawValue === "" || rawValue === null || rawValue === undefined) {
+    return "Value is required.";
+  }
+  const n = Number(rawValue);
+  if (Number.isNaN(n)) return "Enter a valid number.";
+  if (typeof min === "number" && n < min) return `Must be at least ${min}.`;
+  if (typeof max === "number" && n > max) return `Must be at most ${max}.`;
+  return "";
+}
+
 const InputNumber = forwardRef(
   (
     {
@@ -17,7 +28,7 @@ const InputNumber = forwardRef(
     },
     ref,
   ) => {
-    const fieldClassName = className ? `form-control ${className}` : "form-control";
+    const baseFieldClassName = className ? `form-control ${className}` : "form-control";
     const handleInputChange = (value, newValue) => {
       if (typeof onChange === "function") {
         onChange(newValue, value);
@@ -27,10 +38,16 @@ const InputNumber = forwardRef(
     const renderInput = (inputValue, index, paramKey) => (
       <div className="editor-input-number-param" key={index}>
         <span className="editor-input-number-param-key">{paramKey}</span>
+        {(() => {
+          const issue = getNumericIssue(inputValue, min, max);
+          const invalid = Boolean(issue);
+          const inputId = `${id}-${index}`;
+          const issueId = `${inputId}-issue`;
+          return (
         <input
-          className={fieldClassName}
+          className={`${baseFieldClassName}${invalid ? " editor-input-invalid" : ""}`}
           type="number"
-          id={`${id}-${index}`}
+          id={inputId}
           step={step}
           min={min}
           max={max}
@@ -44,10 +61,15 @@ const InputNumber = forwardRef(
             }
           }}
           aria-label={params ? `${label} (${paramKey})` : label}
+          aria-invalid={invalid}
           aria-describedby={
-            tooltipText && params ? `${id}-tooltip` : undefined
+            [tooltipText && params ? `${id}-tooltip` : null, invalid ? issueId : null]
+              .filter(Boolean)
+              .join(" ") || undefined
           }
         />
+          );
+        })()}
       </div>
     );
 
@@ -69,10 +91,16 @@ const InputNumber = forwardRef(
           </div>
         ) : (
           <div className="col-xs-8">
+            {(() => {
+              const issue = getNumericIssue(value, min, max);
+              const invalid = Boolean(issue);
+              const issueId = `${id}-issue`;
+              return (
+                <>
             <input
               ref={ref}
               id={id}
-              className={fieldClassName}
+              className={`${baseFieldClassName}${invalid ? " editor-input-invalid" : ""}`}
               type="number"
               step={step}
               min={min}
@@ -86,14 +114,27 @@ const InputNumber = forwardRef(
                   handleInputChange(null, e.target.value);
                 }
               }}
-              aria-describedby={tooltipText ? `${id}-tooltip` : undefined}
+              aria-invalid={invalid}
+              aria-describedby={
+                [tooltipText ? `${id}-tooltip` : null, invalid ? issueId : null]
+                  .filter(Boolean)
+                  .join(" ") || undefined
+              }
               inputMode="decimal"
             />
+            {invalid ? (
+              <span className="editor-input-issue" id={issueId} role="alert">
+                {issue}
+              </span>
+            ) : null}
             {tooltipText && (
               <span className="tooltiptext" id={`${id}-tooltip`}>
                 {tooltipText}
               </span>
             )}
+                </>
+              );
+            })()}
           </div>
         )}
       </div>

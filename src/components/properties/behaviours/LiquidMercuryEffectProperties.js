@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
 } from "@components/properties/BehaviourFieldWrappers";
@@ -11,9 +13,9 @@ import { LiquidMercuryEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js";
 import LiquidMercuryEffectDescription from "@components/html/behaviourDescriptions/LiquidMercuryEffect";
 
-export default function LiquidMercuryEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [effectInstance, setEffectInstance] = useState(null);
+export default function LiquidMercuryEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [effectInstance, setEffectInstance] = useState(null);
   const [sprite, setSprite] = useState(null);
   const isRunningRef = useRef(false);
   const spriteRef = useRef(null);
@@ -157,7 +159,7 @@ export default function LiquidMercuryEffectProperties({ defaultConfig }) {
 
   return (
     <div className="editor-sidebar-section">
-      <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Liquid Mercury Effect Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>Liquid Mercury Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <LiquidMercuryEffectDescription />
         <File label="Custom Sprite" buttonText={config.customSprite ? "Replace Sprite" : "Upload Sprite"} id="liquid-mercury-sprite-upload" onChange={handleUpload} onClick={() => fileInputRef.current?.click()} ref={fileInputRef} />

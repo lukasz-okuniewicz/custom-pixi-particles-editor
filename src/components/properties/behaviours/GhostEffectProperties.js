@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfSelect,
   BfInputNumber,
@@ -13,9 +15,9 @@ import { GhostEffect } from "custom-pixi-particles";
 import { Sprite, Texture, BLEND_MODES } from "pixi.js";
 import GhostEffectDescription from "@components/html/behaviourDescriptions/GhostEffect";
 
-export default function GhostEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [ghostEffectInstance, setGhostEffectInstance] = useState(null);
+export default function GhostEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [ghostEffectInstance, setGhostEffectInstance] = useState(null);
   const [ghostSprite, setGhostSprite] = useState(null);
   const [isTracking, setIsTracking] = useState(false);
 
@@ -36,10 +38,6 @@ export default function GhostEffectProperties({ defaultConfig }) {
   const ghostConfig = useMemo(() => {
     return mergeObjectsWithDefaults(keysToInitialize, defaultConfig.ghostEffect || {});
   }, [defaultConfig.ghostEffect]);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateGhostConfig = (updatedFields) => {
     const newConfig = { ...ghostConfig, ...updatedFields };
