@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
 import {
   BfSelect,
   BfInputNumber,
@@ -12,10 +13,9 @@ import { MagneticAssemblyEffect } from "custom-pixi-particles";
 import { Assets, Sprite, Texture } from "pixi.js";
 import MagneticAssemblyEffectDescription from "@components/html/behaviourDescriptions/MagneticAssemblyEffect";
 
-export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [magneticAssemblyEffectInstance, setMagneticAssemblyEffectInstance] =
-    useState(null);
+export default function MagneticAssemblyEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+  const [magneticAssemblyEffectInstance, setMagneticAssemblyEffectInstance] = useState(null);
   const [magneticAssemblySprite, setMagneticAssemblySprite] = useState(null);
 
   const triggerTimeoutRef = useRef(null);
@@ -40,10 +40,6 @@ export default function MagneticAssemblyEffectProperties({ defaultConfig }) {
       defaultConfig.magneticAssemblyEffect || {},
     );
   }, [defaultConfig.magneticAssemblyEffect]);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateMagneticAssemblyConfig = (updatedFields) => {
     const newConfig = { ...magneticAssemblyConfig, ...updatedFields };

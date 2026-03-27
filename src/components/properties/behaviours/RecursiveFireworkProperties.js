@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Assets } from "pixi.js";
 import {
@@ -595,8 +597,8 @@ function RfTextureKeyPickerList({ id, label, value, elements, onChange, hintId }
   );
 }
 
-export default function RecursiveFireworkProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+export default function RecursiveFireworkProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
   const [advanced, setAdvanced] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState("");
   const [presetLocks, setPresetLocks] = useState({
@@ -609,8 +611,7 @@ export default function RecursiveFireworkProperties({ defaultConfig, index }) {
   const [listDrafts, setListDrafts] = useState({});
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -984,10 +985,6 @@ export default function RecursiveFireworkProperties({ defaultConfig, index }) {
   };
 
   sanitizeBehaviourLists();
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateBehaviours = () => {
     sanitizeBehaviourLists();
@@ -2412,19 +2409,35 @@ export default function RecursiveFireworkProperties({ defaultConfig, index }) {
           }}
         />
         <div className="form-group">
-          <label className="col-xs-4 form-label">Preset</label>
+          <label className="col-xs-4 form-label" htmlFor="rf-preset">Preset</label>
           <div className="col-xs-8">
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("classic")}>Classic (Cinematic)</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("palm")}>Palm</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("chainReaction")}>Chain Reaction</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("saturnRing")}>Saturn Ring</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("dnaSpiralBurst")}>DNA Spiral Burst</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("ideationMinefield")}>Ideation: Proximity minefield</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("ideationMagneticPull")}>Ideation: Magnetic mouse pull</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("reactiveBeatBurst")}>Reactive: Beat burst</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("reactiveMultiSourceMix")}>Reactive: Multi-source mix</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("depthCathedral")}>Depth Narrative: Cathedral</button>
-            <button className="btn btn-default btn-block" onClick={() => applyPreset("depthFractalRain")}>Depth Narrative: Fractal Rain</button>
+            <select
+              id="rf-preset"
+              className="form-control"
+              value={selectedPreset || "custom"}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "custom") {
+                  setSelectedPreset("");
+                  return;
+                }
+                applyPreset(value);
+              }}
+            >
+              <option value="custom">Custom</option>
+              <option value="classic">Classic (Cinematic)</option>
+              <option value="palm">Palm</option>
+              <option value="chainReaction">Chain Reaction</option>
+              <option value="saturnRing">Saturn Ring</option>
+              <option value="dnaSpiralBurst">DNA Spiral Burst</option>
+              <option value="ideationMinefield">Ideation: Proximity minefield</option>
+              <option value="ideationMagneticPull">Ideation: Magnetic mouse pull</option>
+              <option value="reactiveBeatBurst">Reactive: Beat burst</option>
+              <option value="reactiveMultiSourceMix">Reactive: Multi-source mix</option>
+              <option value="depthCathedral">Depth Narrative: Cathedral</option>
+              <option value="depthFractalRain">Depth Narrative: Fractal Rain</option>
+            </select>
+            <RfSelectHint id="rf-preset" />
           </div>
         </div>
         <div className="form-group">

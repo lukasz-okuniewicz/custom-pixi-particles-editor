@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -8,12 +10,10 @@ import { useCallback, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import WobbleDescription from "@components/html/behaviourDescriptions/Wobble";
 
-export default function WobbleProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-
-  if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+export default function WobbleProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    if (index === -1) {
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -28,10 +28,6 @@ export default function WobbleProperties({ defaultConfig, index }) {
     rotationAmplitude: 0.2,
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;

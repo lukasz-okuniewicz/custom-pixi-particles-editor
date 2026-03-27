@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
 import {
   BfSelect,
   BfInputNumber,
@@ -14,8 +15,8 @@ import { ShatterEffect } from "custom-pixi-particles";
 import { Assets, Sprite, Texture } from "pixi.js";
 import ShatterEffectDescription from "@components/html/behaviourDescriptions/ShatterEffect";
 
-export default function ShatterEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+export default function ShatterEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
   const [shatterEffectInstance, setShatterEffectInstance] = useState(null);
   const [shatterSprite, setShatterSprite] = useState(null);
 
@@ -50,10 +51,6 @@ export default function ShatterEffectProperties({ defaultConfig }) {
       defaultConfig.shatterEffect || {},
     );
   }, [defaultConfig.shatterEffect]);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateShatterConfig = (updatedFields) => {
     const newConfig = { ...shatterConfig, ...updatedFields };

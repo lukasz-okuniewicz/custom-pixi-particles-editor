@@ -1,17 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+import {
+  BfInputNumber,
+} from "@components/properties/BehaviourFieldWrappers";
+import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import { BfInputNumber } from "@components/properties/BehaviourFieldWrappers";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { PrismRefractionEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js";
 import PrismRefractionEffectDescription from "@components/html/behaviourDescriptions/PrismRefractionEffect";
 
-export default function PrismRefractionEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [effectInstance, setEffectInstance] = useState(null);
+export default function PrismRefractionEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [effectInstance, setEffectInstance] = useState(null);
   const [sprite, setSprite] = useState(null);
   const isRunningRef = useRef(false);
   const spriteRef = useRef(null);
@@ -178,7 +181,7 @@ export default function PrismRefractionEffectProperties({ defaultConfig }) {
 
   return (
     <div className="editor-sidebar-section">
-      <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Prism Refraction Effect Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>Prism Refraction Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <PrismRefractionEffectDescription />
         <File

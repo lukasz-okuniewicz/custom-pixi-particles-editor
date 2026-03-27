@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
 import {
   BfSelect,
   BfInputNumber,
@@ -12,9 +13,9 @@ import { PixelSortEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js";
 import PixelSortEffectDescription from "@components/html/behaviourDescriptions/PixelSortEffect";
 
-export default function PixelSortEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [pixelSortEffectInstance, setPixelSortEffectInstance] = useState(null);
+export default function PixelSortEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [pixelSortEffectInstance, setPixelSortEffectInstance] = useState(null);
   const [pixelSortSprite, setPixelSortSprite] = useState(null);
 
   const isSortingRef = useRef(false);
@@ -38,10 +39,6 @@ export default function PixelSortEffectProperties({ defaultConfig }) {
       defaultConfig.pixelSortEffect || {},
     );
   }, [defaultConfig.pixelSortEffect]);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updatePixelSortConfig = (updatedFields) => {
     const newConfig = { ...pixelSortConfig, ...updatedFields };

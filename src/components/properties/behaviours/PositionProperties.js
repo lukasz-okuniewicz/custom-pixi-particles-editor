@@ -1,20 +1,20 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfSelect,
   BfInputNumber,
   BfCheckbox,
 } from "@components/properties/BehaviourFieldWrappers";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import PositionDescription from "@components/html/behaviourDescriptions/Position";
 
-export default function PositionProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-
-  if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+export default function PositionProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    if (index === -1) {
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -22,9 +22,6 @@ export default function PositionProperties({ defaultConfig, index }) {
     priority: 100,
     spawnType: "Rectangle",
     radius: 200,
-    warp: false,
-    warpSpeed: 0.001,
-    warpBaseSpeed: 0.001,
     sinX: false,
     sinY: false,
     sinXVal: { x: 50, y: 10 },
@@ -37,71 +34,29 @@ export default function PositionProperties({ defaultConfig, index }) {
     velocityVariance: { x: 50, y: 50 },
     acceleration: { x: 0, y: 0 },
     accelerationVariance: { x: 0, y: 0 },
-    cameraZConverter: 4,
-    warpFov: 13,
-    warpStretch: 3,
-    warpDistanceScaleConverter: 7,
-    warpDistanceToCenter: false,
-    fromAtoB: false,
-    fromAtoBTwoWays: false,
-    pointA: { x: -300, y: 0 },
-    pointB: { x: 300, y: 0 },
-    thereDuration: { min: 7, max: 7 },
-    thereAmplitude: { min: 220, max: 330 },
-    backDuration: { min: 7, max: 7 },
-    backAmplitude: { min: -220, max: -320 },
-    there: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-    back: { x: "Sin", y: "Tan", ease: "power1.inOut" },
-    fromAtoBOneWay: false,
+    drag: 0,
+    dragVariance: 0,
+    maxSpeed: -1,
+    maxSpeedVariance: 0,
+    boundsMode: "none",
+    boundsMin: { x: -1000, y: -1000 },
+    boundsMax: { x: 1000, y: 1000 },
+    bounceDamping: 1,
     name: "PositionBehaviour",
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
+  const boundsModes = useMemo(
+    () => [
+      { key: "none", displayName: "None" },
+      { key: "wrap", displayName: "Wrap" },
+      { key: "bounce", displayName: "Bounce" },
+      { key: "clamp", displayName: "Clamp" },
+    ],
+    [],
+  );
 
-  const predefinedThereBack = useMemo(() => {
-    const names = {
-      None: true,
-      Sin: true,
-      Cos: true,
-      Tan: true,
-    };
-    return Object.keys(names)
-      .sort()
-      .map((key) => ({
-        key,
-        displayName: key,
-      }));
-  }, []);
-
-  const predefinedEase = useMemo(() => {
-    const names = {
-      None: true,
-      "back.in": true,
-      "back.out": true,
-      "back.inOut": true,
-      "power1.in": true,
-      "power1.out": true,
-      "power1.inOut": true,
-      "bounce.in": true,
-      "bounce.out": true,
-      "bounce.inOut": true,
-      "elastic.in": true,
-      "elastic.out": true,
-      "elastic.inOut": true,
-      steps: true,
-    };
-    return Object.keys(names)
-      .sort()
-      .map((key) => ({
-        key,
-        displayName: key,
-      }));
-  }, []);
 
   // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
   const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
     updateProps(
@@ -115,7 +70,7 @@ export default function PositionProperties({ defaultConfig, index }) {
     return (
       <>
         <BfInputNumber
-          label="Sin X Value"
+          label="Horizontal Oscillation (Amp/Freq)"
           id="sin-x-value"
           params={["x", "y"]}
           value={[
@@ -129,7 +84,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
         />
         <BfInputNumber
-          label="Sin X Variance"
+          label="Horizontal Oscillation Variance"
           id="sin-x-variance"
           params={["x", "y"]}
           value={[
@@ -151,7 +106,7 @@ export default function PositionProperties({ defaultConfig, index }) {
     return (
       <>
         <BfInputNumber
-          label="Sin Y Value"
+          label="Vertical Oscillation (Amp/Freq)"
           id="sin-y-value"
           params={["x", "y"]}
           value={[
@@ -165,7 +120,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
         />
         <BfInputNumber
-          label="Sin Y Variance"
+          label="Vertical Oscillation Variance"
           id="sin-y-variance"
           params={["x", "y"]}
           value={[
@@ -177,104 +132,6 @@ export default function PositionProperties({ defaultConfig, index }) {
             behaviour.sinYValVariance[id] = value;
             updateBehaviours();
           }}
-        />
-      </>
-    );
-  };
-
-  const renderWarp = () => {
-    return (
-      <>
-        <BfInputNumber
-          label="Position Variance"
-          id="position-variance"
-          params={["x", "y"]}
-          value={[
-            behaviour.positionVariance.x ?? keysToInitialize.positionVariance.x,
-            behaviour.positionVariance.y ?? keysToInitialize.positionVariance.y,
-          ]}
-          step="1"
-          onChange={(value, id) => {
-            behaviour.positionVariance[id] = value;
-            updateBehaviours();
-          }}
-        />
-        <BfInputNumber
-          label="Speed"
-          id="speed"
-          value={behaviour.warpSpeed ?? keysToInitialize.warpSpeed}
-          step="1"
-          onChange={(value) => {
-            behaviour.warpSpeed = value;
-            updateBehaviours();
-          }}
-        />
-        <BfInputNumber
-          label="Base Speed"
-          id="base-speed"
-          value={behaviour.warpBaseSpeed ?? keysToInitialize.warpBaseSpeed}
-          step="0.01"
-          onChange={(value) => {
-            behaviour.warpBaseSpeed = value;
-            updateBehaviours();
-          }}
-        />
-        <BfInputNumber
-          label="Camera Z Converter"
-          id="camera-z"
-          value={
-            behaviour.cameraZConverter ?? keysToInitialize.cameraZConverter
-          }
-          step="1"
-          onChange={(value) => {
-            behaviour.cameraZConverter = value;
-            updateBehaviours();
-          }}
-        />
-        <BfInputNumber
-          label="FOV"
-          id="fov"
-          value={behaviour.warpFov ?? keysToInitialize.warpFov}
-          step="1"
-          onChange={(value) => {
-            behaviour.warpFov = value;
-            updateBehaviours();
-          }}
-        />
-        <BfInputNumber
-          label="Stretch"
-          id="stretch"
-          value={behaviour.warpStretch ?? keysToInitialize.warpStretch}
-          step="1"
-          onChange={(value) => {
-            behaviour.warpStretch = value;
-            updateBehaviours();
-          }}
-        />
-        <BfInputNumber
-          label="Distance Scale Converter"
-          id="warpDistanceScaleConverter"
-          value={
-            behaviour.warpDistanceScaleConverter ??
-            keysToInitialize.warpDistanceScaleConverter
-          }
-          step="1"
-          onChange={(value) => {
-            behaviour.warpDistanceScaleConverter = value;
-            updateBehaviours();
-          }}
-        />
-        <BfCheckbox
-          label="Closer to Center"
-          id="closer-to-center"
-          onChange={(value) => {
-            behaviour.warpDistanceToCenter = value;
-            updateBehaviours();
-          }}
-          checked={
-            behaviour.warpDistanceToCenter ??
-            keysToInitialize.warpDistanceToCenter
-          }
         />
       </>
     );
@@ -343,8 +200,114 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
+        <BfInputNumber
+          label="Drag"
+          id="position-drag"
+          value={behaviour.drag ?? keysToInitialize.drag}
+          step="0.01"
+          min="0"
+          onChange={(value) => {
+            behaviour.drag = value;
+            updateBehaviours();
+          }}
+          tooltipText="Linear damping applied to velocity each second."
+        />
+        <BfInputNumber
+          label="Drag Variance"
+          id="position-drag-variance"
+          value={behaviour.dragVariance ?? keysToInitialize.dragVariance}
+          step="0.01"
+          min="0"
+          onChange={(value) => {
+            behaviour.dragVariance = value;
+            updateBehaviours();
+          }}
+          tooltipText="Per-particle random variation for drag."
+        />
+        <BfInputNumber
+          label="Max Speed (-1 disabled)"
+          id="position-max-speed"
+          value={behaviour.maxSpeed ?? keysToInitialize.maxSpeed}
+          step="1"
+          onChange={(value) => {
+            behaviour.maxSpeed = value;
+            updateBehaviours();
+          }}
+          tooltipText="Caps particle speed magnitude. Use -1 to disable."
+        />
+        <BfInputNumber
+          label="Max Speed Variance"
+          id="position-max-speed-variance"
+          value={behaviour.maxSpeedVariance ?? keysToInitialize.maxSpeedVariance}
+          step="1"
+          min="0"
+          onChange={(value) => {
+            behaviour.maxSpeedVariance = value;
+            updateBehaviours();
+          }}
+          tooltipText="Per-particle random variation for max speed."
+        />
+        <BfSelect
+          label="Bounds Mode"
+          id="position-bounds-mode"
+          defaultValue={behaviour.boundsMode ?? keysToInitialize.boundsMode}
+          onChange={(value) => {
+            behaviour.boundsMode = value;
+            updateBehaviours();
+          }}
+          elements={boundsModes}
+        />
+        {behaviour.boundsMode !== "none" && (
+          <>
+            <BfInputNumber
+              label="Bounds Min"
+              id="position-bounds-min"
+              params={["x", "y"]}
+              value={[
+                behaviour.boundsMin.x ?? keysToInitialize.boundsMin.x,
+                behaviour.boundsMin.y ?? keysToInitialize.boundsMin.y,
+              ]}
+              step="1"
+              onChange={(value, id) => {
+                behaviour.boundsMin[id] = value;
+                updateBehaviours();
+              }}
+              tooltipText="Lower X/Y limit for bounds mode."
+            />
+            <BfInputNumber
+              label="Bounds Max"
+              id="position-bounds-max"
+              params={["x", "y"]}
+              value={[
+                behaviour.boundsMax.x ?? keysToInitialize.boundsMax.x,
+                behaviour.boundsMax.y ?? keysToInitialize.boundsMax.y,
+              ]}
+              step="1"
+              onChange={(value, id) => {
+                behaviour.boundsMax[id] = value;
+                updateBehaviours();
+              }}
+              tooltipText="Upper X/Y limit for bounds mode."
+            />
+            {behaviour.boundsMode === "bounce" && (
+              <BfInputNumber
+                label="Bounce Damping"
+                id="position-bounce-damping"
+                value={behaviour.bounceDamping ?? keysToInitialize.bounceDamping}
+                step="0.1"
+                min="0"
+                onChange={(value) => {
+                  behaviour.bounceDamping = value;
+                  updateBehaviours();
+                }}
+                tooltipText="Velocity multiplier after each bounce (1 = full energy)."
+              />
+            )}
+          </>
+        )}
+        <hr />
         <BfCheckbox
-          label="Sin X"
+          label="Horizontal Oscillation"
           id="sin-x"
           onChange={(value) => {
             behaviour.sinX = value;
@@ -354,7 +317,7 @@ export default function PositionProperties({ defaultConfig, index }) {
         />
         {behaviour.sinX === true && renderSinX()}
         <BfCheckbox
-          label="Sin Y"
+          label="Vertical Oscillation"
           id="sin-y"
           onChange={(value) => {
             behaviour.sinY = value;
@@ -363,186 +326,10 @@ export default function PositionProperties({ defaultConfig, index }) {
           checked={behaviour.sinY ?? keysToInitialize.sinY}
         />
         {behaviour.sinY === true && renderSinY()}
-        <hr />
-        <BfCheckbox
-          label="Warp Effect"
-          id="warp"
-          onChange={(value) => {
-            behaviour.warp = value;
-            updateBehaviours();
-          }}
-          checked={behaviour.warp ?? keysToInitialize.warp}
-        />
-        {behaviour.warp === true && renderWarp()}
       </>
     );
   };
 
-  const renderFromAtoB = () => {
-    return (
-      <>
-        <BfCheckbox
-          label="Two Ways"
-          id="fromAtoBTwoWays"
-          onChange={(value) => {
-            behaviour.fromAtoBTwoWays = value;
-            updateBehaviours();
-          }}
-          checked={
-            behaviour.fromAtoBTwoWays ?? keysToInitialize.fromAtoBTwoWays
-          }
-        />
-        <BfSelect
-          label="There X"
-          defaultValue={behaviour.there.x || keysToInitialize.there.x}
-          onChange={(value) => {
-            behaviour.there.x = value;
-            updateBehaviours();
-          }}
-          elements={predefinedThereBack}
-        />
-        <BfSelect
-          label="There Y"
-          defaultValue={behaviour.there.y || keysToInitialize.there.y}
-          onChange={(value) => {
-            behaviour.there.y = value;
-            updateBehaviours();
-          }}
-          elements={predefinedThereBack}
-        />
-        <BfSelect
-          label="There Ease"
-          defaultValue={behaviour.there.ease || keysToInitialize.there.ease}
-          onChange={(value) => {
-            behaviour.there.ease = value;
-            updateBehaviours();
-          }}
-          elements={predefinedEase}
-        />
-        <BfInputNumber
-          label="There Duration"
-          id="there-duration"
-          params={["min", "max"]}
-          value={[
-            behaviour.thereDuration.min ?? keysToInitialize.thereDuration.min,
-            behaviour.thereDuration.max ?? keysToInitialize.thereDuration.max,
-          ]}
-          step="0.1"
-          onChange={(value, id) => {
-            behaviour.thereDuration[id] = value;
-            updateBehaviours();
-          }}
-        />
-        <BfInputNumber
-          label="There Amplitude"
-          id="there-duration"
-          params={["min", "max"]}
-          value={[
-            behaviour.thereAmplitude.min ?? keysToInitialize.thereAmplitude.min,
-            behaviour.thereAmplitude.max ?? keysToInitialize.thereAmplitude.max,
-          ]}
-          step="0.1"
-          onChange={(value, id) => {
-            behaviour.thereAmplitude[id] = value;
-            updateBehaviours();
-          }}
-        />
-        {behaviour.fromAtoBTwoWays === true && renderSecondWay()}
-        <hr />
-        <BfInputNumber
-          label="Point A"
-          id="point-a"
-          params={["x", "y"]}
-          value={[
-            behaviour.pointA.x ?? keysToInitialize.pointA.x,
-            behaviour.pointA.y ?? keysToInitialize.pointA.y,
-          ]}
-          step="0.1"
-          onChange={(value, id) => {
-            behaviour.pointA[id] = value;
-            updateBehaviours();
-          }}
-        />
-        <BfInputNumber
-          label="Point B"
-          id="point-b"
-          params={["x", "y"]}
-          value={[
-            behaviour.pointB.x ?? keysToInitialize.pointB.x,
-            behaviour.pointB.y ?? keysToInitialize.pointB.y,
-          ]}
-          step="0.1"
-          onChange={(value, id) => {
-            behaviour.pointB[id] = value;
-            updateBehaviours();
-          }}
-        />
-      </>
-    );
-  };
-
-  const renderSecondWay = () => {
-    return (
-      <>
-        <hr />
-        <BfSelect
-          label="Back X"
-          defaultValue={behaviour.back.x || keysToInitialize.back.x}
-          onChange={(value) => {
-            behaviour.back.x = value;
-            updateBehaviours();
-          }}
-          elements={predefinedThereBack}
-        />
-        <BfSelect
-          label="Back Y"
-          defaultValue={behaviour.back.y || keysToInitialize.back.y}
-          onChange={(value) => {
-            behaviour.back.y = value;
-            updateBehaviours();
-          }}
-          elements={predefinedThereBack}
-        />
-        <BfSelect
-          label="Back Ease"
-          defaultValue={behaviour.back.ease || keysToInitialize.back.ease}
-          onChange={(value) => {
-            behaviour.back.ease = value;
-            updateBehaviours();
-          }}
-          elements={predefinedEase}
-        />
-        <BfInputNumber
-          label="Back Duration"
-          id="back-duration"
-          params={["min", "max"]}
-          value={[
-            behaviour.backDuration.min ?? keysToInitialize.backDuration.min,
-            behaviour.backDuration.max ?? keysToInitialize.backDuration.max,
-          ]}
-          step="0.1"
-          onChange={(value, id) => {
-            behaviour.backDuration[id] = value;
-            updateBehaviours();
-          }}
-        />
-        <BfInputNumber
-          label="Back Amplitude"
-          id="back-duration"
-          params={["min", "max"]}
-          value={[
-            behaviour.backAmplitude.min ?? keysToInitialize.backAmplitude.min,
-            behaviour.backAmplitude.max ?? keysToInitialize.backAmplitude.max,
-          ]}
-          step="0.1"
-          onChange={(value, id) => {
-            behaviour.backAmplitude[id] = value;
-            updateBehaviours();
-          }}
-        />
-      </>
-    );
-  };
 
   return (
     <>
@@ -561,18 +348,7 @@ export default function PositionProperties({ defaultConfig, index }) {
           }}
         />
         <hr />
-        <BfCheckbox
-          label="From Point A to Point B"
-          id="fromAtoB"
-          onChange={(value) => {
-            behaviour.fromAtoB = value;
-            updateBehaviours();
-          }}
-          checked={behaviour.fromAtoB ?? keysToInitialize.fromAtoB}
-        />
-        <hr />
-        {!behaviour.fromAtoB && renderNormal()}
-        {behaviour.fromAtoB === true && renderFromAtoB()}
+        {renderNormal()}
       </div>
     </>
   );

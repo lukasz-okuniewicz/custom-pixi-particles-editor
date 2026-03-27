@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -11,17 +13,16 @@ import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 import AttractionRepulsionDescription from "@components/html/behaviourDescriptions/AttractionRepulsion";
 
-export default function AttractionRepulsionProperties({
-  defaultConfig,
+export default function AttractionRepulsionProperties({ defaultConfig,
   index,
+  accordionPanelId,
 }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [selectedPointIndex, setSelectedPointIndex] = useState(null);
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [selectedPointIndex, setSelectedPointIndex] = useState(null);
   const selectedPointIndexRef = useRef(null);
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -67,10 +68,6 @@ export default function AttractionRepulsionProperties({
   }, [defaultConfig]);
 
   // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
   const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
     updateProps(

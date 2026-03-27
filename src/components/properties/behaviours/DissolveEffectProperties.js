@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
 import {
   BfSelect,
   BfInputNumber,
@@ -12,9 +13,9 @@ import { DissolveEffect } from "custom-pixi-particles";
 import { Assets, Sprite, Texture } from "pixi.js";
 import DissolveEffectDescription from "@components/html/behaviourDescriptions/DissolveEffect";
 
-export default function DissolveEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [dissolveEffectInstance, setDissolveEffectInstance] = useState(null);
+export default function DissolveEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [dissolveEffectInstance, setDissolveEffectInstance] = useState(null);
   const [dissolveSprite, setDissolveSprite] = useState(null);
 
   const triggerTimeoutRef = useRef(null);
@@ -40,10 +41,6 @@ export default function DissolveEffectProperties({ defaultConfig }) {
       defaultConfig.dissolveEffect || {},
     );
   }, [defaultConfig.dissolveEffect]);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateDissolveConfig = (updatedFields) => {
     const newConfig = { ...dissolveConfig, ...updatedFields };

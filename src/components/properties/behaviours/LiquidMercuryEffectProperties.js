@@ -1,17 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+import {
+  BfInputNumber,
+} from "@components/properties/BehaviourFieldWrappers";
+import { useCallback, useState, useEffect, useRef, useMemo } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
-import { BfInputNumber } from "@components/properties/BehaviourFieldWrappers";
 import File from "@components/html/File";
 import pixiRefs from "@pixi/pixiRefs";
 import { LiquidMercuryEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js";
 import LiquidMercuryEffectDescription from "@components/html/behaviourDescriptions/LiquidMercuryEffect";
 
-export default function LiquidMercuryEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [effectInstance, setEffectInstance] = useState(null);
+export default function LiquidMercuryEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [effectInstance, setEffectInstance] = useState(null);
   const [sprite, setSprite] = useState(null);
   const isRunningRef = useRef(false);
   const spriteRef = useRef(null);
@@ -178,7 +181,7 @@ export default function LiquidMercuryEffectProperties({ defaultConfig }) {
 
   return (
     <div className="editor-sidebar-section">
-      <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Liquid Mercury Effect Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>Liquid Mercury Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <LiquidMercuryEffectDescription />
         <File

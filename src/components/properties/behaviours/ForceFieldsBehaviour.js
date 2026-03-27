@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfSelect,
   BfInputNumber,
@@ -19,14 +21,13 @@ import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 import ForceFieldsDescription from "@components/html/behaviourDescriptions/ForceFields";
 
-export default function ForceFieldsProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
+export default function ForceFieldsProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
   const selectedPositionIndexRef = useRef(null);
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -39,10 +40,6 @@ export default function ForceFieldsProperties({ defaultConfig, index }) {
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
   const predefinedType = useMemo(() => {
     const names = {
       Wind: "wind",

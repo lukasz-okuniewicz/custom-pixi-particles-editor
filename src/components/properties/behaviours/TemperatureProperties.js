@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -12,14 +14,13 @@ import { Point } from "pixi.js";
 import pixiRefs from "@pixi/pixiRefs";
 import TemperatureDescription from "@components/html/behaviourDescriptions/Temperature";
 
-export default function TemperatureProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [selectedPointIndex, setSelectedPointIndex] = useState(null);
+export default function TemperatureProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [selectedPointIndex, setSelectedPointIndex] = useState(null);
   const selectedPointIndexRef = useRef(null);
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -39,10 +40,6 @@ export default function TemperatureProperties({ defaultConfig, index }) {
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
   const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
     updateProps(
