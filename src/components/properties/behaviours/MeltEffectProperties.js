@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
 } from "@components/properties/BehaviourFieldWrappers";
@@ -12,9 +14,9 @@ import { Sprite, Texture } from "pixi.js-legacy";
 import { Loader as PixiLoader } from "@pixi/loaders";
 import MeltEffectDescription from "@components/html/behaviourDescriptions/MeltEffect";
 
-export default function MeltEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [meltEffectInstance, setMeltEffectInstance] = useState(null);
+export default function MeltEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [meltEffectInstance, setMeltEffectInstance] = useState(null);
   const [meltSprite, setMeltSprite] = useState(null);
 
   const triggerTimeoutRef = useRef(null);
@@ -37,10 +39,6 @@ export default function MeltEffectProperties({ defaultConfig }) {
   const meltConfig = useMemo(() => {
     return mergeObjectsWithDefaults(keysToInitialize, defaultConfig.meltEffect || {});
   }, [defaultConfig.meltEffect]);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateMeltConfig = (updatedFields) => {
     const newConfig = { ...meltConfig, ...updatedFields };

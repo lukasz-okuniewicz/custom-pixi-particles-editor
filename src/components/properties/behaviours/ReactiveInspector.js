@@ -55,8 +55,7 @@ export default function ReactiveInspector({ behaviour, onCalibrate }) {
   const [signals, setSignals] = useState(null);
 
   useEffect(() => {
-    let raf = 0;
-    const tick = () => {
+    const update = () => {
       try {
         // Best-effort: library may expose Model on emitter.
         const model =
@@ -65,10 +64,10 @@ export default function ReactiveInspector({ behaviour, onCalibrate }) {
       } catch {
         setSignals(null);
       }
-      raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    update();
+    const interval = window.setInterval(update, 100);
+    return () => window.clearInterval(interval);
   }, []);
 
   const rows = useMemo(() => {

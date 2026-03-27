@@ -17,7 +17,7 @@ const propsToReloadEverything = [
   'global-animatedSpriteRandomFrameStart',
   'bg-image',
   'global-blendMode',
-  'positionProperties-warpDistanceToCenter',
+  'warp-distance-to-center',
   'global-animatedSpriteIndexToStart',
   'global-animatedSpriteZeroPad',
   'dissolveEffect-pixelSize',

@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import { useCallback, useState } from "react";
 import Checkbox from "@components/html/Checkbox";
 import InputNumber from "@components/html/InputNumber";
@@ -58,12 +60,8 @@ const BLEND_ELEMENTS = [
  * Proximity line mesh between particles (`particleLinks` in config).
  * Updates renderer via `setParticleLinks` without full emitter refresh.
  */
-export default function ParticleLinksProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
+export default function ParticleLinksProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
 
   if (defaultConfig.particlePredefinedEffect === "coffeeShop") return <></>;
 

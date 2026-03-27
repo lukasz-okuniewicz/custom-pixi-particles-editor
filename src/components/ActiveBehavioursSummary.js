@@ -1,11 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   EMISSION_TYPE_SUMMARY,
   getAllSidebarNavItems,
   getEnabledBehaviourSummaries,
+  menuLabelToPanelId,
+  SIDEBAR_FAVOURITES_STORAGE_KEY,
 } from "@utils/behaviourSummary";
+import { scrollToSidebarPanel } from "@utils/editorNav";
+import { filterPropertyHintsForSearch } from "@utils/propertyHintNavIndex";
+import { bestFuzzyScore } from "@utils/navSearch";
 
 const SEARCH_ALIAS_TOKENS = {
   color: ["colour", "hue", "tint"],
@@ -15,10 +20,38 @@ const SEARCH_ALIAS_TOKENS = {
   life: ["lifetime", "duration"],
 };
 
+const SIDEBAR_FAVOURITES_CHANGED_EVENT = "editor-sidebar-favourites-changed";
+const SIDEBAR_RECENT_STORAGE_KEY = "particleEditor.sidebarRecentNav.v1";
+const MAX_RECENTS = 8;
+
+function loadStoredLabels(key) {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(key);
+    const parsed = JSON.parse(raw || "[]");
+    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveStoredLabels(key, labels) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(key, JSON.stringify(labels));
+  } catch {
+    /* ignore */
+  }
+}
+
 export default function ActiveBehavioursSummary({ defaultConfig }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [pinned, setPinned] = useState([]);
-  const [recentLabels, setRecentLabels] = useState([]);
+  const [showFavouritesOnly, setShowFavouritesOnly] = useState(false);
+  const [pinned, setPinned] = useState(() => loadStoredLabels(SIDEBAR_FAVOURITES_STORAGE_KEY));
+  const [recentLabels, setRecentLabels] = useState(() =>
+    loadStoredLabels(SIDEBAR_RECENT_STORAGE_KEY),
+  );
+  const [activeSearchIndex, setActiveSearchIndex] = useState(0);
 
   const behaviourItems = useMemo(
     () => getEnabledBehaviourSummaries(defaultConfig),
@@ -48,14 +81,38 @@ export default function ActiveBehavioursSummary({ defaultConfig }) {
   const displayedChips = useMemo(() => {
     const q = normalizedQuery;
     if (!q) return enabledChips;
-    return allNavItems.filter((row) => {
-      const labelLower = row.label.toLowerCase();
-      if (labelLower.includes(q)) return true;
-      return Object.entries(SEARCH_ALIAS_TOKENS).some(
-        ([key, aliases]) =>
-          labelLower.includes(key) && aliases.some((a) => a.includes(q)),
-      );
+    const sectionMatches = allNavItems
+      .map((row) => {
+        const aliasScore = Object.entries(SEARCH_ALIAS_TOKENS).some(
+          ([key, aliases]) =>
+            row.label.toLowerCase().includes(key) && aliases.some((a) => a.includes(q)),
+        )
+          ? 120
+          : 0;
+        const score = bestFuzzyScore(q, [row.label, row.key]) + aliasScore;
+        return score > 0 ? { ...row, score, resultType: "section" } : null;
+      })
+      .filter(Boolean);
+    const hintMatches = filterPropertyHintsForSearch(q, 40).map((h) => {
+      const score = bestFuzzyScore(q, [h.sectionLabel, h.hintKey, h.snippet || ""]);
+      return {
+        label: `${h.sectionLabel} · ${h.snippet}`,
+        panelId: h.panelId,
+        key: `hint-${h.hintKey}`,
+        score,
+        resultType: "property",
+      };
     });
+    const merged = [...sectionMatches];
+    const keys = new Set(sectionMatches.map((r) => r.key));
+    for (const h of hintMatches) {
+      if (!keys.has(h.key)) {
+        keys.add(h.key);
+        merged.push(h);
+      }
+    }
+    merged.sort((a, b) => b.score - a.score || a.label.localeCompare(b.label));
+    return merged;
   }, [normalizedQuery, enabledChips, allNavItems]);
 
   const togglePin = (label) => {
@@ -65,25 +122,52 @@ export default function ActiveBehavioursSummary({ defaultConfig }) {
   };
 
   const pinnedRows = displayedChips.filter((row) => pinned.includes(row.label));
-  const recentRows = allNavItems.filter((row) => recentLabels.includes(row.label));
+  const pinnedLabelSet = useMemo(() => new Set(pinned), [pinned]);
+  const favouritesOnlyRows = useMemo(
+    () => displayedChips.filter((row) => pinnedLabelSet.has(row.label)),
+    [displayedChips, pinnedLabelSet],
+  );
+  const listRows = useMemo(
+    () =>
+      showFavouritesOnly
+        ? favouritesOnlyRows
+        : displayedChips.filter((row) => !pinnedLabelSet.has(row.label)),
+    [displayedChips, pinnedLabelSet, showFavouritesOnly, favouritesOnlyRows],
+  );
 
   const registerRecent = (label) => {
     if (!label) return;
-    setRecentLabels((prev) => [label, ...prev.filter((item) => item !== label)].slice(0, 5));
+    setRecentLabels((prev) => [label, ...prev.filter((item) => item !== label)].slice(0, MAX_RECENTS));
   };
 
-  const scrollToPanel = (panelId, label) => {
-    const el = document.getElementById(panelId);
-    if (!el) return;
+  const scrollToPanel = (panelId, label, key) => {
+    const hintKey =
+      typeof key === "string" && key.startsWith("hint-")
+        ? key.slice("hint-".length)
+        : undefined;
+    scrollToSidebarPanel(panelId, {
+      expandCollapsed: true,
+      highlightHintKey: hintKey,
+    });
     registerRecent(label);
-    const reduceMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-    el.classList.add("editor-panel-flash");
-    window.setTimeout(() => el.classList.remove("editor-panel-flash"), 520);
   };
+
+  useEffect(() => {
+    saveStoredLabels(SIDEBAR_FAVOURITES_STORAGE_KEY, pinned);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event(SIDEBAR_FAVOURITES_CHANGED_EVENT));
+    }
+  }, [pinned]);
+
+  useEffect(() => {
+    saveStoredLabels(SIDEBAR_RECENT_STORAGE_KEY, recentLabels);
+  }, [recentLabels]);
+
+  useEffect(() => {
+    setActiveSearchIndex(0);
+  }, [normalizedQuery]);
+
+  const searchResults = isFiltering ? displayedChips : [];
 
   return (
     <div
@@ -109,9 +193,8 @@ export default function ActiveBehavioursSummary({ defaultConfig }) {
         </span>
       </div>
       <p className="enabled-behaviours-summary__sub">
-        Chips list enabled behaviours. Search matches sidebar
-        section titles; dimmed rows are not enabled yet. Click
-        to jump. Shortcuts:
+        Chips list enabled behaviours. Search matches section titles and
+        property hints; dimmed rows are not enabled yet. Click to jump. Shortcuts:
         {" "}
         <kbd className="editor-kbd">/</kbd>
         {" "}focus,
@@ -120,25 +203,44 @@ export default function ActiveBehavioursSummary({ defaultConfig }) {
         {" "}clear.
       </p>
       <p className="enabled-behaviours-summary__meta">
-        {pinned.length > 0 ? `${pinned.length} pinned` : "No pins yet"}
+        {pinned.length > 0 ? `${pinned.length} favourites` : "No favourites yet"}
         {" · "}
-        Click the pin button on any row.
+        Click the favourite button on any row.
       </p>
       <input
         id="sidebar-behaviour-search"
         type="search"
         className="enabled-behaviours-summary__search"
-        placeholder="Search sidebar sections…"
+        placeholder="Search sections & property hints…"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Escape") setSearchQuery("");
+          if (!isFiltering || searchResults.length === 0) return;
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setActiveSearchIndex((i) => Math.min(i + 1, searchResults.length - 1));
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setActiveSearchIndex((i) => Math.max(i - 1, 0));
+          } else if (e.key === "Enter") {
+            e.preventDefault();
+            const row = searchResults[activeSearchIndex];
+            if (row) scrollToPanel(row.panelId, row.label, row.key);
+          }
         }}
         autoComplete="off"
         spellCheck={false}
-        aria-label="Search sidebar section names"
+        aria-label="Search sidebar sections and property hints"
       />
       <div className="enabled-behaviours-summary__actions">
+        <button
+          type="button"
+          className="enabled-behaviours-summary__action-btn"
+          onClick={() => scrollToPanel(menuLabelToPanelId("General Properties"), "General Properties")}
+        >
+          Jump to General
+        </button>
         <button
           type="button"
           className="enabled-behaviours-summary__action-btn"
@@ -153,7 +255,15 @@ export default function ActiveBehavioursSummary({ defaultConfig }) {
           onClick={() => setPinned([])}
           disabled={pinned.length === 0}
         >
-          Clear pinned
+          Clear favourites
+        </button>
+        <button
+          type="button"
+          className={`enabled-behaviours-summary__action-btn ${showFavouritesOnly ? "enabled-behaviours-summary__action-btn--active" : ""}`}
+          onClick={() => setShowFavouritesOnly((v) => !v)}
+          disabled={pinned.length === 0}
+        >
+          {showFavouritesOnly ? "Show all" : "Favourites only"}
         </button>
       </div>
       {behaviourItems.length === 0 ? (
@@ -162,10 +272,10 @@ export default function ActiveBehavioursSummary({ defaultConfig }) {
           behaviour section to turn others on or load a preset.
         </p>
       ) : null}
-      {pinnedRows.length > 0 ? (
+      {pinnedRows.length > 0 && !showFavouritesOnly ? (
         <>
           <p className="enabled-behaviours-summary__sub enabled-behaviours-summary__sub--split">
-            Pinned
+            Favourites
           </p>
           <div className="enabled-behaviours-summary__chips" role="list">
             {pinnedRows.map(({ label, panelId, key }) => (
@@ -173,7 +283,7 @@ export default function ActiveBehavioursSummary({ defaultConfig }) {
                 <button
                   type="button"
                   className="enabled-behaviours-summary__chip enabled-behaviours-summary__chip--pinned"
-                  onClick={() => scrollToPanel(panelId, label)}
+                  onClick={() => scrollToPanel(panelId, label, key)}
                 >
                   {label}
                 </button>
@@ -181,64 +291,58 @@ export default function ActiveBehavioursSummary({ defaultConfig }) {
                   type="button"
                   className="enabled-behaviours-summary__pin-btn"
                   onClick={() => togglePin(label)}
-                  title="Unpin"
-                  aria-label={`Unpin ${label}`}
+                  title="Remove from favourites"
+                  aria-label={`Remove ${label} from favourites`}
                 >
-                  Unpin
+                  Remove
                 </button>
               </div>
             ))}
           </div>
         </>
       ) : null}
-      {recentRows.length > 0 ? (
-        <>
-          <p className="enabled-behaviours-summary__sub enabled-behaviours-summary__sub--split">
-            Recent jumps
-          </p>
-          <div className="enabled-behaviours-summary__chips" role="list">
-            {recentRows.map(({ label, panelId, key }) => (
-              <button
-                key={`recent-${key}`}
-                type="button"
-                role="listitem"
-                className="enabled-behaviours-summary__chip enabled-behaviours-summary__chip--recent"
-                onClick={() => scrollToPanel(panelId, label)}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </>
-      ) : null}
       <p className="enabled-behaviours-summary__sub enabled-behaviours-summary__sub--split">
-        {isFiltering ? "Search results" : "Enabled list"}
+        {showFavouritesOnly ? "Favourites" : isFiltering ? "Search results" : "Enabled list"}
       </p>
       <div className="enabled-behaviours-summary__chips" role="list">
-        {displayedChips.length === 0 && isFiltering ? (
+        {listRows.length === 0 && isFiltering ? (
           <p className="enabled-behaviours-summary__no-match" role="status">
             {`No behaviours match "${searchQuery.trim()}".`}
           </p>
         ) : (
-          displayedChips.map(({ label, panelId, key }) => {
-            const dimmed = isFiltering && !enabledLabelSet.has(label);
+          listRows.map(({ label, panelId, key, resultType }, index) => {
+            const fromHintSearch = typeof key === "string" && key.startsWith("hint-");
+            const dimmed =
+              isFiltering && !fromHintSearch && !enabledLabelSet.has(label);
+            const isActiveSearch = isFiltering && index === activeSearchIndex;
             return (
               <div key={key} className="enabled-behaviours-summary__chip-row" role="listitem">
                 <button
                   type="button"
                   className={
-                    dimmed
+                    `${dimmed
                       ? "enabled-behaviours-summary__chip enabled-behaviours-summary__chip--inactive"
-                      : "enabled-behaviours-summary__chip"
+                      : "enabled-behaviours-summary__chip"}${isActiveSearch ? " enabled-behaviours-summary__chip--active-search" : ""}`
                   }
                   title={
                     dimmed
                       ? "Not in the enabled list — open the section to turn on"
-                      : undefined
+                      : fromHintSearch
+                        ? "Property hint — expand section, scroll, and highlight field"
+                        : undefined
                   }
-                  onClick={() => scrollToPanel(panelId, label)}
+                  onClick={() => scrollToPanel(panelId, label, key)}
                 >
-                  {label}
+                  {isFiltering ? (
+                    <span className="enabled-behaviours-summary__chip-content">
+                      <span className="enabled-behaviours-summary__chip-label">{label}</span>
+                      <span className="enabled-behaviours-summary__chip-type">
+                        {resultType === "property" ? "Property" : "Section"}
+                      </span>
+                    </span>
+                  ) : (
+                    label
+                  )}
                 </button>
                 <button
                   type="button"
@@ -246,10 +350,10 @@ export default function ActiveBehavioursSummary({ defaultConfig }) {
                     pinned.includes(label) ? "enabled-behaviours-summary__pin-btn--active" : ""
                   }`}
                   onClick={() => togglePin(label)}
-                  aria-label={`${pinned.includes(label) ? "Unpin" : "Pin"} ${label}`}
-                  title={pinned.includes(label) ? "Unpin" : "Pin"}
+                  aria-label={`${pinned.includes(label) ? "Remove from favourites" : "Add to favourites"} ${label}`}
+                  title={pinned.includes(label) ? "Remove from favourites" : "Add to favourites"}
                 >
-                  {pinned.includes(label) ? "Pinned" : "Pin"}
+                  {pinned.includes(label) ? "Favourite" : "Add"}
                 </button>
               </div>
             );

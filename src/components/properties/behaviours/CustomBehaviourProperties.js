@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -36,17 +38,13 @@ function BehaviourJsonTextarea({ id, defaultValue, onBlur }) {
  * built-in list). Allows editing enabled, priority, and raw JSON.
  * Used when a config contains behaviours registered via BehaviourRegistry.
  */
-export default function CustomBehaviourProperties({
-  defaultConfig,
+export default function CustomBehaviourProperties({ defaultConfig,
   customBehaviours,
+  accordionPanelId,
 }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [expandedIndex, setExpandedIndex] = useState(null);
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [expandedIndex, setExpandedIndex] = useState(null);
   const [jsonErrorByIndex, setJsonErrorByIndex] = useState({});
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateBehaviourAt = useCallback(
     (index, patch) => {

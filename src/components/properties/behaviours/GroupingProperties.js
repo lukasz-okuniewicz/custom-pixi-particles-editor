@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -10,14 +12,13 @@ import GroupingDescription from "@components/html/behaviourDescriptions/Grouping
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
 
-export default function GroupingProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
+export default function GroupingProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
   const selectedPositionIndexRef = useRef(null);
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -40,10 +41,6 @@ export default function GroupingProperties({ defaultConfig, index }) {
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
   // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
   useEffect(() => {
     const handleWindowClick = (event) => {
       if (selectedPositionIndexRef.current !== null) {

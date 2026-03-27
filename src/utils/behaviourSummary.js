@@ -9,6 +9,7 @@ export const BEHAVIOUR_DEFAULT_ENABLED = {
   LifeBehaviour: true,
   ColorBehaviour: false,
   PositionBehaviour: true,
+  WarpBehaviour: false,
   SizeBehaviour: false,
   EmitDirectionBehaviour: false,
   RotationBehaviour: false,
@@ -25,6 +26,7 @@ export const BEHAVIOUR_DEFAULT_ENABLED = {
   StretchBehaviour: false,
   TemperatureBehaviour: false,
   MoveToPointBehaviour: true,
+  PointToPointBehaviour: false,
   FormPatternBehaviour: true,
   VortexBehaviour: false,
   PulseBehaviour: false,
@@ -64,6 +66,11 @@ export const BEHAVIOUR_DEFAULT_ENABLED = {
   BeatPhaseLockBehaviour: false,
   DamageFlashRippleBehaviour: false,
   RecursiveFireworkBehaviour: false,
+  FlockingBehaviour: false,
+  FlowFieldDriftBehaviour: false,
+  TemperatureSimulationBehaviour: false,
+  PredatorPreyBehaviour: false,
+  GlitchBehaviour: false,
 };
 
 /** Sidebar section label → behaviour class name (must match Menu.js ordering labels). */
@@ -73,6 +80,9 @@ export const BEHAVIOUR_NAME_TO_LABEL = {
   BeatPhaseLockBehaviour: "Beat Phase Lock",
   BezierFlowTubeBehaviour: "Bezier Flow Tube",
   DamageFlashRippleBehaviour: "Damage Flash Ripple",
+  FlockingBehaviour: "Flocking",
+  FlowFieldDriftBehaviour: "Flow Field Drift",
+  GlitchBehaviour: "Glitch (Emergent)",
   EmitterAttractorLinkBehaviour: "Emitter Attractor Link",
   JacobianCurlFieldBehaviour: "Jacobian Curl-Field",
   KelvinWakeBehaviour: "Kelvin Wake",
@@ -96,6 +106,7 @@ export const BEHAVIOUR_NAME_TO_LABEL = {
   LightEffectBehaviour: "Light Effect",
   MagnetBehaviour: "Magnet",
   MoveToPointBehaviour: "Move To Point",
+  PointToPointBehaviour: "Point To Point",
   FormPatternBehaviour: "Form Pattern",
   NoiseBasedMotionBehaviour: "Noise Based Motion",
   ObstacleSDFSteerBehaviour: "Obstacle SDF Steer",
@@ -105,6 +116,8 @@ export const BEHAVIOUR_NAME_TO_LABEL = {
   CurvatureFlowBehaviour: "Curvature Flow",
   LimitCycleBehaviour: "Limit Cycle",
   PositionBehaviour: "Position",
+  WarpBehaviour: "Warp",
+  PredatorPreyBehaviour: "Predator Prey",
   ConversionCascadeBehaviour: "Conversion Cascade",
   NearMissDispersionBehaviour: "Near Miss Dispersion",
   ProximityStateBehaviour: "Proximity State",
@@ -121,6 +134,7 @@ export const BEHAVIOUR_NAME_TO_LABEL = {
   SpawnBehaviour: "Spawn",
   StretchBehaviour: "Stretch",
   TemperatureBehaviour: "Temperature",
+  TemperatureSimulationBehaviour: "Temperature Simulation",
   TimelineBehaviour: "Timeline",
   ToroidalFlowBehaviour: "Toroidal Flow",
   TrailBehaviour: "Trail",
@@ -166,6 +180,9 @@ export const SIDEBAR_SECTION_LABELS = [
   "Curvature Flow",
   "Custom Behaviour",
   "Damage Flash Ripple",
+  "Flocking",
+  "Flow Field Drift",
+  "Glitch (Emergent)",
   "Emit Direction",
   "Emission Type",
   "Emitter Attractor Link",
@@ -185,6 +202,7 @@ export const SIDEBAR_SECTION_LABELS = [
   "Magnet",
   "Metaball Pass",
   "Move To Point",
+  "Point To Point",
   "Near Miss Dispersion",
   "Noise Based Motion",
   "Obstacle SDF Steer",
@@ -194,6 +212,8 @@ export const SIDEBAR_SECTION_LABELS = [
   "Phase Coherence",
   "Phase Field Flow",
   "Position",
+  "Warp",
+  "Predator Prey",
   "Proximity State",
   "Proximity Triggered Phase",
   "Pulse",
@@ -208,6 +228,7 @@ export const SIDEBAR_SECTION_LABELS = [
   "Spawn",
   "Stretch",
   "Temperature",
+  "Temperature Simulation",
   "Timeline",
   "Toroidal Flow",
   "Toroidal Wrap",
@@ -216,6 +237,17 @@ export const SIDEBAR_SECTION_LABELS = [
   "Vortex",
   "Wobble",
 ];
+
+/** Sidebar jump targets for the command palette (includes sections without behaviour rows). */
+export const COMMAND_PALETTE_SECTION_LABELS = [
+  ...new Set([...SIDEBAR_SECTION_LABELS, "General Properties"]),
+].sort((a, b) => a.localeCompare(b));
+
+/** Shared localStorage key for section favourites used by summary + menu ordering. */
+export const SIDEBAR_FAVOURITES_STORAGE_KEY = "particleEditor.sidebarPinnedNav.v1";
+/** Preference: when true, favourite behaviour sections are listed first in the main panel list. */
+export const SIDEBAR_FAVOURITES_FIRST_STORAGE_KEY =
+  "particleEditor.sidebarFavouritesFirst.v1";
 
 /**
  * Every navigable sidebar row: built-in sections plus one entry per custom behaviour name.

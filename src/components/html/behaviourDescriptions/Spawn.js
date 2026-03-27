@@ -18,10 +18,10 @@ const SpawnDescription = () => {
       </div>
       <div className="explanation" ref={contentRef}>
         <p>
-          <b>Spawn Behaviour</b> is a flexible and feature-rich framework for
-          creating dynamic particle systems. It supports a wide variety of spawn
-          types and patterns with advanced customization options to bring
-          animations to life.
+          <b>Spawn Behaviour</b> defines where particles appear at birth. It
+          supports shape-based emitters, trail emitters, deterministic seeded
+          randomness, and multi-point composition so you can build both stable
+          presets and expressive procedural looks.
         </p>
 
         <h4>Key Properties:</h4>
@@ -32,11 +32,10 @@ const SpawnDescription = () => {
           <li>
             <b>Priority</b>: Execution order relative to other behaviours.
           </li>
-          <li>
-            <b>Custom Points</b>: Array of spawn points; each defines spawn
-            type, position, and shape-specific parameters (radius, star points,
-            cone angle, path points, etc.).
-          </li>
+          <li><b>Random Seed</b>: Reproducible spawn randomness for export/preset parity.</li>
+          <li><b>Composition Mode</b>: Pick custom points by random, weighted, sequence, or burstCycle.</li>
+          <li><b>Max Spawn Calc ms</b>: Soft budget for expensive spawn math with a safe fallback.</li>
+          <li><b>Custom Points</b>: Per-point shape, position, distribution, emission area, and shape-specific params.</li>
         </ul>
 
         <h4>All properties</h4>
@@ -44,7 +43,10 @@ const SpawnDescription = () => {
           <li><b>enabled</b> — Turn the behaviour on or off.</li>
           <li><b>priority</b> — Execution order (higher runs first).</li>
           <li><b>trailingEnabled</b>, <b>spawnAlongTrail</b>, <b>trailSpeed</b>, <b>trailRepeat</b>, <b>trailStart</b>, <b>trailRangeSegments</b>, <b>trailRangeWeightFactor</b>, <b>trailRangeLength</b> — Trail spawning options.</li>
-          <li><b>customPoints</b> — Array of spawn points. Each point: spawnType (Rectangle, Frame, Ring, Star, Word, Sphere, Cone, Grid, Lissajous, Bezier, Heart, Helix, Spring, Path, Oval), plus shape-specific params (radius, center, position, positionVariance, pathPoints, etc.).</li>
+          <li><b>randomSeed</b> — Optional deterministic RNG seed.</li>
+          <li><b>compositionMode</b> — How custom points are selected: random, weighted, sequence, burstCycle.</li>
+          <li><b>maxSpawnCalcMs</b> — Soft cost guard for heavy spawn computations.</li>
+          <li><b>customPoints</b> — Each point includes <b>spawnType</b>, <b>weight</b>, <b>distribution</b>, <b>emissionArea</b>, and shape-specific fields.</li>
         </ul>
         <h4>Spawn Types (per Custom Point):</h4>
         <ul>
@@ -101,6 +103,18 @@ const SpawnDescription = () => {
               </li>
           <li>
             <b>Oval:</b> Elliptical particle distributions.
+          </li>
+          <li>
+            <b>Polygon:</b> N-gon emission with configurable side count.
+          </li>
+          <li>
+            <b>Arc:</b> Partial-circle perimeter emission between start/end angles.
+          </li>
+          <li>
+            <b>Sector:</b> Wedge emission with inner/outer radius and angle range.
+          </li>
+          <li>
+            <b>Distribution / Emission Area:</b> Choose uniform or weighted profiles, and edge-only vs fill sampling on supported shapes.
           </li>
           <li>
             <b>Trail Effects:</b> Animate a moving “head” along the spawn path
@@ -178,8 +192,7 @@ const SpawnDescription = () => {
           </li>
           <li>
             <b>Custom Paths:</b> Supports advanced motion paths, including
-            Bezier curves and user-defined point sequences for complex
-            animations.
+            Bezier curves and user-defined point sequences with <b>Path Interpolation</b> (linear/catmullRom), <b>Path Sampling</b> (bySegment/byDistance), and optional <b>Closed Path</b>.
           </li>
         </ul>
 

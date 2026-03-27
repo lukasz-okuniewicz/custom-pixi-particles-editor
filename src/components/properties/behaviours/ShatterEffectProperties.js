@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfSelect,
   BfInputNumber,
@@ -15,8 +17,8 @@ import { Sprite, Texture } from "pixi.js-legacy";
 import { Loader as PixiLoader } from "@pixi/loaders";
 import ShatterEffectDescription from "@components/html/behaviourDescriptions/ShatterEffect";
 
-export default function ShatterEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
+export default function ShatterEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
   const [shatterEffectInstance, setShatterEffectInstance] = useState(null);
   const [shatterSprite, setShatterSprite] = useState(null);
 
@@ -48,10 +50,6 @@ export default function ShatterEffectProperties({ defaultConfig }) {
   const shatterConfig = useMemo(() => {
     return mergeObjectsWithDefaults(keysToInitialize, defaultConfig.shatterEffect || {});
   }, [defaultConfig.shatterEffect]);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateShatterConfig = (updatedFields) => {
     const newConfig = { ...shatterConfig, ...updatedFields };

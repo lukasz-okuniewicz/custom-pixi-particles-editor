@@ -43,7 +43,6 @@ export const persistentWrapEmitterPreset = {
       {
         enabled: true,
         priority: 100,
-        warp: false,
         velocity: { x: 40, y: -20 },
         velocityVariance: { x: 30, y: 30 },
         acceleration: { x: 0, y: 0 },

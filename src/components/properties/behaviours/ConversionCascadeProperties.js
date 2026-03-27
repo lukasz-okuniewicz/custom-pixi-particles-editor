@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
   BfCheckbox,
@@ -10,14 +12,13 @@ import ConversionCascadeDescription from "@components/html/behaviourDescriptions
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
 
-export default function ConversionCascadeProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [selectingPosition, setSelectingPosition] = useState(null);
+export default function ConversionCascadeProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [selectingPosition, setSelectingPosition] = useState(null);
   const selectingPositionRef = useRef(null);
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -33,10 +34,6 @@ export default function ConversionCascadeProperties({ defaultConfig, index }) {
     arrivalThreshold: 5,
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   useEffect(() => {
     const handleWindowClick = (event) => {

@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfSelect,
   BfInputNumber,
@@ -12,9 +14,9 @@ import { SlitScanEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js-legacy";
 import SlitScanEffectDescription from "@components/html/behaviourDescriptions/SlitScanEffect";
 
-export default function SlitScanEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [effectInstance, setEffectInstance] = useState(null);
+export default function SlitScanEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [effectInstance, setEffectInstance] = useState(null);
   const [sprite, setSprite] = useState(null);
   const isRunningRef = useRef(false);
   const spriteRef = useRef(null);
@@ -163,7 +165,7 @@ export default function SlitScanEffectProperties({ defaultConfig }) {
 
   return (
     <div className="editor-sidebar-section">
-      <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Slit-Scan Effect Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>Slit-Scan Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <SlitScanEffectDescription />
         <File label="Custom Sprite" buttonText={config.customSprite ? "Replace Sprite" : "Upload Sprite"} id="slitscan-sprite-upload" onChange={handleUpload} onClick={() => fileInputRef.current?.click()} ref={fileInputRef} />

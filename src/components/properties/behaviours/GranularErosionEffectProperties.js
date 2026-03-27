@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfInputNumber,
 } from "@components/properties/BehaviourFieldWrappers";
@@ -11,9 +13,9 @@ import { GranularErosionEffect } from "custom-pixi-particles";
 import { Sprite, Texture } from "pixi.js-legacy";
 import GranularErosionEffectDescription from "@components/html/behaviourDescriptions/GranularErosionEffect";
 
-export default function GranularErosionEffectProperties({ defaultConfig }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [effectInstance, setEffectInstance] = useState(null);
+export default function GranularErosionEffectProperties({ defaultConfig, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [effectInstance, setEffectInstance] = useState(null);
   const [sprite, setSprite] = useState(null);
   const isRunningRef = useRef(false);
   const spriteRef = useRef(null);
@@ -158,7 +160,7 @@ export default function GranularErosionEffectProperties({ defaultConfig }) {
 
   return (
     <div className="editor-sidebar-section">
-      <legend onClick={() => setIsSubmenuVisible((p) => (p === "collapse" ? "" : "collapse"))}>Granular Erosion Effect Properties</legend>
+      <legend onClick={toggleSubmenuVisibility}>Granular Erosion Effect Properties</legend>
       <div className={isSubmenuVisible}>
         <GranularErosionEffectDescription />
         <File label="Custom Sprite" buttonText={config.customSprite ? "Replace Sprite" : "Upload Sprite"} id="granular-erosion-sprite-upload" onChange={handleUpload} onClick={() => fileInputRef.current?.click()} ref={fileInputRef} />

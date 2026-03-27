@@ -1,5 +1,6 @@
 "use client";
 
+import EditorCommandPalette from "@components/EditorCommandPalette";
 import Menu from "@components/Menu";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import pixiRefs from "@pixi/pixiRefs";
@@ -24,32 +25,11 @@ import {
   syncFollowMouseInteraction,
 } from "@pixi/handlers";
 import { bgImage } from "@utils/updatePropsLoogic";
+import { menuLabelToPanelId } from "@utils/behaviourSummary";
 import { saveAs } from "file-saver";
 
 const DRAFT_STORAGE_KEY = "particleEditor.autosaveDraft.v1";
 const LAST_SELECTED_EFFECT_STORAGE_KEY = "particleEditor.lastSelectedEffect.v1";
-
-function sortObjectKeysDeep(value) {
-  if (value === null || typeof value !== "object") return value;
-  if (Array.isArray(value)) return value.map(sortObjectKeysDeep);
-  const sorted = {};
-  for (const key of Object.keys(value).sort()) {
-    sorted[key] = sortObjectKeysDeep(value[key]);
-  }
-  return sorted;
-}
-
-/** Stable compare for autosave draft: ignores transient `refresh` and key order. */
-function configSnapshotForDraftCompare(config) {
-  if (!config || typeof config !== "object") return "";
-  try {
-    const clone = JSON.parse(JSON.stringify(config));
-    delete clone.refresh;
-    return JSON.stringify(sortObjectKeysDeep(clone));
-  } catch {
-    return "";
-  }
-}
 
 export default function Content() {
   const [defaultConfig, setDefaultConfig2] = useState(null);
@@ -58,23 +38,141 @@ export default function Content() {
   const [isDirty, setIsDirty] = useState(false);
   const [validationWarnings, setValidationWarnings] = useState([]);
   const [autosaveDraftPrompt, setAutosaveDraftPrompt] = useState(null);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [isNarrowViewport, setIsNarrowViewport] = useState(false);
   const contentRef = useRef(null);
   const isApplyingHistoryRef = useRef(false);
-  const lastSnapshotRef = useRef("");
-  const baselineSnapshotRef = useRef("");
+  const configRef = useRef(null);
+  const revisionRef = useRef(0);
+  const lastHandledRevisionRef = useRef(0);
+  const baselineRevisionRef = useRef(0);
   const didAttemptDraftRestoreRef = useRef(false);
+  const draftWorkerRef = useRef(null);
+  const workerRequestIdRef = useRef(0);
+  const workerListenersRef = useRef(new Map());
+  const lastCreateEffectKeyRef = useRef("");
+  const lastEmitterConfigRef = useRef(null);
   // Keep stable reference: rebuilding this object on every render can retrigger effects.
   const fullConfig = useMemo(
     () => JSON.parse(JSON.stringify(particlesDefaultConfig)),
     [],
   );
 
-  const setDefaultConfig = (conf) => {
-    setDefaultConfig2(conf);
-  };
+  const setDefaultConfig = useCallback((next) => {
+    setDefaultConfig2((prev) => {
+      const resolved = typeof next === "function" ? next(prev) : next;
+      if (resolved == null || resolved === prev) return prev;
+      revisionRef.current += 1;
+      return resolved;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof Worker === "undefined") return;
+    const worker = new Worker(
+      new URL("../workers/configSnapshot.worker.js", import.meta.url),
+    );
+    draftWorkerRef.current = worker;
+    worker.onmessage = (event) => {
+      const payload = event.data || {};
+      const listener = workerListenersRef.current.get(payload.id);
+      if (!listener) return;
+      workerListenersRef.current.delete(payload.id);
+      listener(payload);
+    };
+    return () => {
+      workerListenersRef.current.clear();
+      worker.terminate();
+      draftWorkerRef.current = null;
+    };
+  }, []);
+
+  const sanitizeWorkerPayload = useCallback((value) => {
+    const seen = new WeakSet();
+    const skipNodeNames = new Set([
+      "AudioContext",
+      "AnalyserNode",
+      "AudioNode",
+      "MediaElementAudioSourceNode",
+    ]);
+
+    const walk = (input) => {
+      if (input == null) return input;
+      const inputType = typeof input;
+      if (inputType === "function" || inputType === "symbol" || inputType === "bigint")
+        return undefined;
+      if (inputType !== "object") return input;
+      if (seen.has(input)) return undefined;
+
+      const ctorName = input?.constructor?.name;
+      if (ctorName && skipNodeNames.has(ctorName)) return undefined;
+      if (typeof AudioContext !== "undefined" && input instanceof AudioContext)
+        return undefined;
+      if (ArrayBuffer.isView(input)) return Array.from(input);
+      if (input instanceof ArrayBuffer) return Array.from(new Uint8Array(input));
+      if (input instanceof Date) return input.toISOString();
+
+      if (Array.isArray(input)) {
+        seen.add(input);
+        return input.map((entry) => walk(entry));
+      }
+
+      const proto = Object.getPrototypeOf(input);
+      if (proto !== Object.prototype && proto !== null) {
+        // Keep worker messages strictly plain and clone-safe.
+        return undefined;
+      }
+
+      seen.add(input);
+      const output = {};
+      for (const [key, val] of Object.entries(input)) {
+        const next = walk(val);
+        if (next !== undefined) output[key] = next;
+      }
+      return output;
+    };
+
+    const sanitized = walk(value);
+    return sanitized && typeof sanitized === "object" ? sanitized : {};
+  }, []);
+
+  const runWorkerTask = useCallback(
+    (type, payload) => {
+      const worker = draftWorkerRef.current;
+      if (!worker) return Promise.resolve(null);
+      workerRequestIdRef.current += 1;
+      const id = workerRequestIdRef.current;
+      return new Promise((resolve) => {
+        workerListenersRef.current.set(id, resolve);
+        const safePayload = sanitizeWorkerPayload(payload);
+        try {
+          worker.postMessage({ id, type, ...safePayload });
+        } catch {
+          workerListenersRef.current.delete(id);
+          resolve(null);
+        }
+      });
+    },
+    [sanitizeWorkerPayload],
+  );
 
   const pushNotice = useCallback((notice) => {
     setUiNotice(notice);
+  }, []);
+
+  const openMobileMenuAfterJump = useCallback(() => {
+    if (typeof window !== "undefined" && window.innerWidth <= 768) {
+      setMobileMenuOpen(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(max-width: 768px)");
+    const apply = () => setIsNarrowViewport(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
   }, []);
 
   const handleResize = useCallback(() => {
@@ -98,13 +196,23 @@ export default function Content() {
     const heavyMultiplier = heavyEffects.has(effectName) ? 0.7 : 1;
     const maxParticles = Number(emitter.maxParticles || 0);
     const emitRate = Number(emitter.emitRate || 0);
-    const lifeEnd = Number(life?.lifeEnd ?? 0);
-    const enabledBehavioursCount = behaviours.filter((b) => b && b.enabled !== false).length;
+    const lifeEnd = Number(life?.maxLifeTime ?? 0);
 
-    if (maxParticles > 12000 * heavyMultiplier) warnings.push("Very high maxParticles can degrade real-time editing performance.");
-    if (emitRate > 1500 * heavyMultiplier) warnings.push("High emitRate may cause visual instability and FPS drops.");
-    if (lifeEnd > 18 * heavyMultiplier) warnings.push("Long particle lifetime can create buildup and memory pressure.");
-    if (enabledBehavioursCount > 12) warnings.push("Many enabled behaviours can make tweaking harder; consider disabling non-critical ones.");
+    if (maxParticles > 12000 * heavyMultiplier)
+      warnings.push({
+        message: "Very high maxParticles can degrade real-time editing performance.",
+        panelId: menuLabelToPanelId("Emission Type"),
+      });
+    if (emitRate > 1500 * heavyMultiplier)
+      warnings.push({
+        message: "High emitRate may cause visual instability and FPS drops.",
+        panelId: menuLabelToPanelId("Emission Type"),
+      });
+    if (lifeEnd > 18 * heavyMultiplier)
+      warnings.push({
+        message: "Long particle lifetime can create buildup and memory pressure.",
+        panelId: menuLabelToPanelId("Life"),
+      });
     return warnings;
   }, []);
 
@@ -180,18 +288,6 @@ export default function Content() {
     );
 
     if (behaviour) {
-      if (!behaviour.warp) {
-        delete behaviour.warpStretch;
-        delete behaviour.warpSpeed;
-        delete behaviour.warpFov;
-        delete behaviour.warpDistanceScaleConverter;
-        delete behaviour.warpBaseSpeed;
-        delete behaviour.warp;
-        delete behaviour.cameraZConverter;
-        delete behaviour.warpDistanceToCenter;
-        delete behaviour.position;
-        delete behaviour.positionVariance;
-      }
       if (!behaviour.sinX) {
         delete behaviour.sinXVal;
         delete behaviour.sinX;
@@ -311,17 +407,88 @@ export default function Content() {
 
   const removeFromEmission = (downloadableObj) => {
     const emitController = downloadableObj.emitController;
-    if (emitController && emitController.name === "UniformEmission") {
+    if (!emitController) return;
+    if (emitController.name === "UniformEmission") {
       delete emitController._maxLife;
       delete emitController._emissionRate;
-    } else if (emitController && emitController.name === "StandardEmission") {
+      delete emitController._emitCounter;
+      delete emitController._burstPerFrame;
+      delete emitController._burstCount;
+      delete emitController._cooldown;
+      delete emitController._jitter;
+      delete emitController._duration;
+      delete emitController._loop;
+      delete emitController._curve;
+      delete emitController._timeUntilNextBurst;
+      delete emitController._pendingBurst;
+    } else if (emitController.name === "StandardEmission") {
+      delete emitController._emitPerSecond;
+      delete emitController._maxLife;
+      delete emitController._burstPerFrame;
+      delete emitController._burstCount;
+      delete emitController._cooldown;
+      delete emitController._jitter;
+      delete emitController._duration;
+      delete emitController._loop;
+      delete emitController._curve;
+      delete emitController._seed;
+      delete emitController._rngState;
+      delete emitController._timeUntilNextBurst;
+      delete emitController._pendingBurst;
+    } else if (emitController.name === "RandomEmission") {
       delete emitController._emitPerSecond;
       delete emitController._emitCounter;
       delete emitController._maxLife;
-    } else if (emitController && emitController.name === "RandomEmission") {
+      delete emitController._burstPerFrame;
+      delete emitController._burstCount;
+      delete emitController._cooldown;
+      delete emitController._jitter;
+      delete emitController._duration;
+      delete emitController._loop;
+      delete emitController._curve;
+      delete emitController._timeUntilNextBurst;
+      delete emitController._pendingBurst;
+    } else if (emitController.name === "PersistentFillEmission") {
       delete emitController._emitPerSecond;
       delete emitController._emitCounter;
       delete emitController._maxLife;
+      delete emitController._emissionRate;
+      delete emitController._burstCount;
+      delete emitController._cooldown;
+      delete emitController._jitter;
+      delete emitController._duration;
+      delete emitController._loop;
+      delete emitController._curve;
+      delete emitController._seed;
+      delete emitController._rngState;
+      delete emitController._timeUntilNextBurst;
+      delete emitController._pendingBurst;
+    } else if (emitController.name === "BurstScheduleEmission") {
+      delete emitController._emitPerSecond;
+      delete emitController._emitCounter;
+      delete emitController._maxLife;
+      delete emitController._emissionRate;
+      delete emitController._burstPerFrame;
+      delete emitController._duration;
+      delete emitController._loop;
+      delete emitController._curve;
+      delete emitController._seed;
+      delete emitController._rngState;
+    } else if (emitController.name === "CurveEmission") {
+      delete emitController._emitPerSecond;
+      delete emitController._emitCounter;
+      delete emitController._maxLife;
+      delete emitController._emissionRate;
+      delete emitController._burstPerFrame;
+      delete emitController._burstCount;
+      delete emitController._cooldown;
+      delete emitController._jitter;
+      delete emitController._seed;
+      delete emitController._rngState;
+      delete emitController._timeUntilNextBurst;
+      delete emitController._pendingBurst;
+      delete emitController._elapsed;
+      delete emitController._carry;
     }
   };
 
@@ -628,20 +795,24 @@ export default function Content() {
   }, [uiNotice]);
 
   useEffect(() => {
+    configRef.current = defaultConfig;
+  }, [defaultConfig]);
+
+  useEffect(() => {
     if (!defaultConfig) return;
-    const snapshot = JSON.stringify(defaultConfig);
-    if (!lastSnapshotRef.current) {
-      lastSnapshotRef.current = snapshot;
+    const revision = revisionRef.current;
+    if (!lastHandledRevisionRef.current) {
+      lastHandledRevisionRef.current = revision;
       return;
     }
-    if (snapshot === lastSnapshotRef.current) return;
+    if (revision === lastHandledRevisionRef.current) return;
     if (isApplyingHistoryRef.current) {
       isApplyingHistoryRef.current = false;
-      lastSnapshotRef.current = snapshot;
+      lastHandledRevisionRef.current = revision;
       return;
     }
-    lastSnapshotRef.current = snapshot;
-    setIsDirty(snapshot !== baselineSnapshotRef.current);
+    lastHandledRevisionRef.current = revision;
+    setIsDirty(revision !== baselineRevisionRef.current);
   }, [defaultConfig]);
 
   useEffect(() => {
@@ -652,12 +823,16 @@ export default function Content() {
   useEffect(() => {
     if (!defaultConfig) return;
     const draft = window.setTimeout(() => {
-      try {
-        window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(defaultConfig));
-      } catch {}
+      runWorkerTask("serialize", { config: defaultConfig }).then((result) => {
+        const serialized = result?.serialized;
+        if (typeof serialized !== "string") return;
+        try {
+          window.localStorage.setItem(DRAFT_STORAGE_KEY, serialized);
+        } catch {}
+      });
     }, 800);
     return () => window.clearTimeout(draft);
-  }, [defaultConfig, DRAFT_STORAGE_KEY]);
+  }, [defaultConfig, runWorkerTask]);
 
   useEffect(() => {
     const id = defaultConfig?.particlePredefinedEffect;
@@ -670,15 +845,17 @@ export default function Content() {
   useEffect(() => {
     if (!defaultConfig || didAttemptDraftRestoreRef.current) return;
     didAttemptDraftRestoreRef.current = true;
-    baselineSnapshotRef.current = JSON.stringify(defaultConfig);
+    baselineRevisionRef.current = revisionRef.current;
     try {
       const draftRaw = window.localStorage.getItem(DRAFT_STORAGE_KEY);
       if (!draftRaw) return;
       const draft = JSON.parse(draftRaw);
-      if (configSnapshotForDraftCompare(draft) === configSnapshotForDraftCompare(defaultConfig)) return;
-      setAutosaveDraftPrompt({ draft });
+      runWorkerTask("compare", { base: defaultConfig, draft }).then((result) => {
+        if (!result || result.equal) return;
+        setAutosaveDraftPrompt({ draft });
+      });
     } catch {}
-  }, [defaultConfig, DRAFT_STORAGE_KEY]);
+  }, [defaultConfig, runWorkerTask]);
 
   const dismissAutosaveDraftPrompt = useCallback(() => {
     setAutosaveDraftPrompt(null);
@@ -701,58 +878,67 @@ export default function Content() {
         }));
       },
       followMouse: (value) => followMouseHandler({ value, setDefaultConfig }),
-      refresh: () => refreshHandler({ setDefaultConfig, defaultConfig }),
+      refresh: () =>
+        refreshHandler({ setDefaultConfig, defaultConfig: configRef.current }),
       predefinedImage: (value) =>
         predefinedImageHandler({
           value,
-          defaultConfig,
+          defaultConfig: configRef.current,
           setDefaultConfig,
           handleResize,
         }),
       resize: handleResize,
       newImages: (value) => {
-        defaultConfig.textures = value;
-        defaultConfig.refresh = true;
+        const config = configRef.current;
+        if (!config) return;
+        config.textures = value;
+        config.refresh = true;
         // Defer so loader resources are fully committed before particle system reads them (fixes animated sprite needing multiple refresh)
         requestAnimationFrame(() => {
           setDefaultConfig(() => ({
-            ...defaultConfig,
+            ...config,
           }));
         });
       },
       finishingImages: (value) => {
-        defaultConfig.finishingTextures = value;
-        defaultConfig.refresh = true;
+        const config = configRef.current;
+        if (!config) return;
+        config.finishingTextures = value;
+        config.refresh = true;
         setDefaultConfig(() => ({
-          ...defaultConfig,
+          ...config,
         }));
       },
       newBgImage: (value) => {
+        const config = configRef.current;
+        if (!config) return;
         bgImage(value, () => {
-          defaultConfig.bgImage = value;
+          config.bgImage = value;
           setDefaultConfig(() => ({
-            ...defaultConfig,
+            ...config,
           }));
         });
       },
       loadConfig: (value) => {
+        const config = configRef.current;
+        if (!config) return;
         // Check if this is a shatter effect config file
         // Pure shatter effect config: { shatterEffect: {...} }
         if (value.shatterEffect !== undefined && !value.emitterConfig) {
-          defaultConfig.shatterEffect = value.shatterEffect;
-          defaultConfig.particlePredefinedEffect = "shatterEffect";
-          defaultConfig.refresh = true;
+          config.shatterEffect = value.shatterEffect;
+          config.particlePredefinedEffect = "shatterEffect";
+          config.refresh = true;
           setDefaultConfig(() => ({
-            ...defaultConfig,
+            ...config,
           }));
         } else if (value.dissolveEffect !== undefined && !value.emitterConfig) {
           // Check if this is a dissolve effect config file
           // Pure dissolve effect config: { dissolveEffect: {...} }
-          defaultConfig.dissolveEffect = value.dissolveEffect;
-          defaultConfig.particlePredefinedEffect = "dissolveEffect";
-          defaultConfig.refresh = true;
+          config.dissolveEffect = value.dissolveEffect;
+          config.particlePredefinedEffect = "dissolveEffect";
+          config.refresh = true;
           setDefaultConfig(() => ({
-            ...defaultConfig,
+            ...config,
           }));
         } else if (
           value.magneticAssemblyEffect !== undefined &&
@@ -760,139 +946,141 @@ export default function Content() {
         ) {
           // Check if this is a magnetic assembly effect config file
           // Pure magnetic assembly effect config: { magneticAssemblyEffect: {...} }
-          defaultConfig.magneticAssemblyEffect = value.magneticAssemblyEffect;
-          defaultConfig.particlePredefinedEffect = "magneticAssemblyEffect";
-          defaultConfig.refresh = true;
+          config.magneticAssemblyEffect = value.magneticAssemblyEffect;
+          config.particlePredefinedEffect = "magneticAssemblyEffect";
+          config.refresh = true;
           setDefaultConfig(() => ({
-            ...defaultConfig,
+            ...config,
           }));
         } else if (value.ghostEffect !== undefined && !value.emitterConfig) {
           // Check if this is a ghost effect config file
           // Pure ghost effect config: { ghostEffect: {...} }
-          defaultConfig.ghostEffect = value.ghostEffect;
-          defaultConfig.particlePredefinedEffect = "ghostEffect";
-          defaultConfig.refresh = true;
+          config.ghostEffect = value.ghostEffect;
+          config.particlePredefinedEffect = "ghostEffect";
+          config.refresh = true;
           setDefaultConfig(() => ({
-            ...defaultConfig,
+            ...config,
           }));
         } else if (value.glitchEffect !== undefined && !value.emitterConfig) {
           // Check if this is a glitch effect config file
           // Pure glitch effect config: { glitchEffect: {...} }
-          defaultConfig.glitchEffect = value.glitchEffect;
-          defaultConfig.particlePredefinedEffect = "glitchEffect";
-          defaultConfig.refresh = true;
+          config.glitchEffect = value.glitchEffect;
+          config.particlePredefinedEffect = "glitchEffect";
+          config.refresh = true;
           setDefaultConfig(() => ({
-            ...defaultConfig,
+            ...config,
           }));
         } else if (value.meltEffect !== undefined && !value.emitterConfig) {
           // Check if this is a melt effect config file
           // Pure melt effect config: { meltEffect: {...} }
-          defaultConfig.meltEffect = value.meltEffect;
-          defaultConfig.particlePredefinedEffect = "meltEffect";
-          defaultConfig.refresh = true;
+          config.meltEffect = value.meltEffect;
+          config.particlePredefinedEffect = "meltEffect";
+          config.refresh = true;
           setDefaultConfig(() => ({
-            ...defaultConfig,
+            ...config,
           }));
         } else if (value.pixelSortEffect !== undefined && !value.emitterConfig) {
-          defaultConfig.pixelSortEffect = value.pixelSortEffect;
-          defaultConfig.particlePredefinedEffect = "pixelSortEffect";
-          defaultConfig.refresh = true;
-          setDefaultConfig(() => ({ ...defaultConfig }));
+          config.pixelSortEffect = value.pixelSortEffect;
+          config.particlePredefinedEffect = "pixelSortEffect";
+          config.refresh = true;
+          setDefaultConfig(() => ({ ...config }));
         } else if (value.prismRefractionEffect !== undefined && !value.emitterConfig) {
-          defaultConfig.prismRefractionEffect = value.prismRefractionEffect;
-          defaultConfig.particlePredefinedEffect = "prismRefractionEffect";
-          defaultConfig.refresh = true;
-          setDefaultConfig(() => ({ ...defaultConfig }));
+          config.prismRefractionEffect = value.prismRefractionEffect;
+          config.particlePredefinedEffect = "prismRefractionEffect";
+          config.refresh = true;
+          setDefaultConfig(() => ({ ...config }));
         } else if (value.crystallizeEffect !== undefined && !value.emitterConfig) {
-          defaultConfig.crystallizeEffect = value.crystallizeEffect;
-          defaultConfig.particlePredefinedEffect = "crystallizeEffect";
-          defaultConfig.refresh = true;
-          setDefaultConfig(() => ({ ...defaultConfig }));
+          config.crystallizeEffect = value.crystallizeEffect;
+          config.particlePredefinedEffect = "crystallizeEffect";
+          config.refresh = true;
+          setDefaultConfig(() => ({ ...config }));
         } else if (value.slitScanEffect !== undefined && !value.emitterConfig) {
-          defaultConfig.slitScanEffect = value.slitScanEffect;
-          defaultConfig.particlePredefinedEffect = "slitScanEffect";
-          defaultConfig.refresh = true;
-          setDefaultConfig(() => ({ ...defaultConfig }));
+          config.slitScanEffect = value.slitScanEffect;
+          config.particlePredefinedEffect = "slitScanEffect";
+          config.refresh = true;
+          setDefaultConfig(() => ({ ...config }));
         } else if (value.granularErosionEffect !== undefined && !value.emitterConfig) {
-          defaultConfig.granularErosionEffect = value.granularErosionEffect;
-          defaultConfig.particlePredefinedEffect = "granularErosionEffect";
-          defaultConfig.refresh = true;
-          setDefaultConfig(() => ({ ...defaultConfig }));
+          config.granularErosionEffect = value.granularErosionEffect;
+          config.particlePredefinedEffect = "granularErosionEffect";
+          config.refresh = true;
+          setDefaultConfig(() => ({ ...config }));
         } else if (value.liquidMercuryEffect !== undefined && !value.emitterConfig) {
-          defaultConfig.liquidMercuryEffect = value.liquidMercuryEffect;
-          defaultConfig.particlePredefinedEffect = "liquidMercuryEffect";
-          defaultConfig.refresh = true;
-          setDefaultConfig(() => ({ ...defaultConfig }));
+          config.liquidMercuryEffect = value.liquidMercuryEffect;
+          config.particlePredefinedEffect = "liquidMercuryEffect";
+          config.refresh = true;
+          setDefaultConfig(() => ({ ...config }));
         } else {
           // Regular particle config (has emitterConfig or is particle config format)
           if (value.emitterConfig) {
-            defaultConfig.emitterConfig = value.emitterConfig;
+            config.emitterConfig = value.emitterConfig;
           } else {
             // Assume it's a particle config in the old format
-            defaultConfig.emitterConfig = value;
+            config.emitterConfig = value;
           }
           // Round-trip: downloaded JSON may omit textures; merge so load matches editor state
           if (Array.isArray(value.textures) && value.textures.length > 0) {
-            defaultConfig.textures = value.textures;
+            config.textures = value.textures;
           }
           if (Array.isArray(value.finishingTextures)) {
-            defaultConfig.finishingTextures = value.finishingTextures;
+            config.finishingTextures = value.finishingTextures;
           }
           if (value.particleLinks != null) {
-            defaultConfig.particleLinks = value.particleLinks;
+            config.particleLinks = value.particleLinks;
           }
           // Preserve shatterEffect if it exists in the loaded config
           if (value.shatterEffect) {
-            defaultConfig.shatterEffect = value.shatterEffect;
+            config.shatterEffect = value.shatterEffect;
           }
           // Preserve dissolveEffect if it exists in the loaded config
           if (value.dissolveEffect) {
-            defaultConfig.dissolveEffect = value.dissolveEffect;
+            config.dissolveEffect = value.dissolveEffect;
           }
           // Preserve magneticAssemblyEffect if it exists in the loaded config
           if (value.magneticAssemblyEffect) {
-            defaultConfig.magneticAssemblyEffect = value.magneticAssemblyEffect;
+            config.magneticAssemblyEffect = value.magneticAssemblyEffect;
           }
           // Preserve ghostEffect if it exists in the loaded config
           if (value.ghostEffect) {
-            defaultConfig.ghostEffect = value.ghostEffect;
+            config.ghostEffect = value.ghostEffect;
           }
           // Preserve glitchEffect if it exists in the loaded config
           if (value.glitchEffect) {
-            defaultConfig.glitchEffect = value.glitchEffect;
+            config.glitchEffect = value.glitchEffect;
           }
           // Preserve meltEffect if it exists in the loaded config
           if (value.meltEffect) {
-            defaultConfig.meltEffect = value.meltEffect;
+            config.meltEffect = value.meltEffect;
           }
           if (value.pixelSortEffect)
-            defaultConfig.pixelSortEffect = value.pixelSortEffect;
+            config.pixelSortEffect = value.pixelSortEffect;
           if (value.prismRefractionEffect)
-            defaultConfig.prismRefractionEffect = value.prismRefractionEffect;
+            config.prismRefractionEffect = value.prismRefractionEffect;
           if (value.crystallizeEffect)
-            defaultConfig.crystallizeEffect = value.crystallizeEffect;
+            config.crystallizeEffect = value.crystallizeEffect;
           if (value.slitScanEffect)
-            defaultConfig.slitScanEffect = value.slitScanEffect;
+            config.slitScanEffect = value.slitScanEffect;
           if (value.granularErosionEffect)
-            defaultConfig.granularErosionEffect = value.granularErosionEffect;
+            config.granularErosionEffect = value.granularErosionEffect;
           if (value.liquidMercuryEffect)
-            defaultConfig.liquidMercuryEffect = value.liquidMercuryEffect;
+            config.liquidMercuryEffect = value.liquidMercuryEffect;
           if (value.metaballPass !== undefined)
-            defaultConfig.metaballPass = value.metaballPass;
-          defaultConfig.particlePredefinedEffect = undefined;
-          defaultConfig.refresh = true;
+            config.metaballPass = value.metaballPass;
+          config.particlePredefinedEffect = undefined;
+          config.refresh = true;
           setDefaultConfig(() => ({
-            ...defaultConfig,
+            ...config,
           }));
-          baselineSnapshotRef.current = JSON.stringify({ ...defaultConfig });
+          baselineRevisionRef.current = revisionRef.current + 1;
           setIsDirty(false);
         }
       },
       downloadConfig: () => {
         // Check if shatter effect is selected
-        if (defaultConfig.particlePredefinedEffect === "shatterEffect") {
+        const config = configRef.current;
+        if (!config) return;
+        if (config.particlePredefinedEffect === "shatterEffect") {
           // Download only shatter effect config
-          const shatterConfig = defaultConfig.shatterEffect || {};
+          const shatterConfig = config.shatterEffect || {};
           const downloadableObj = {
             shatterEffect: shatterConfig,
           };
@@ -902,10 +1090,10 @@ export default function Content() {
           });
           saveAs(blob, "shatter_effect_config.json");
         } else if (
-          defaultConfig.particlePredefinedEffect === "dissolveEffect"
+          config.particlePredefinedEffect === "dissolveEffect"
         ) {
           // Download only dissolve effect config
-          const dissolveConfig = defaultConfig.dissolveEffect || {};
+          const dissolveConfig = config.dissolveEffect || {};
           const downloadableObj = {
             dissolveEffect: dissolveConfig,
           };
@@ -915,11 +1103,11 @@ export default function Content() {
           });
           saveAs(blob, "dissolve_effect_config.json");
         } else if (
-          defaultConfig.particlePredefinedEffect === "magneticAssemblyEffect"
+          config.particlePredefinedEffect === "magneticAssemblyEffect"
         ) {
           // Download only magnetic assembly effect config
           const magneticAssemblyConfig =
-            defaultConfig.magneticAssemblyEffect || {};
+            config.magneticAssemblyEffect || {};
           const downloadableObj = {
             magneticAssemblyEffect: magneticAssemblyConfig,
           };
@@ -928,9 +1116,9 @@ export default function Content() {
             type: "application/json",
           });
           saveAs(blob, "magnetic_assembly_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "ghostEffect") {
+        } else if (config.particlePredefinedEffect === "ghostEffect") {
           // Download only ghost effect config
-          const ghostConfig = defaultConfig.ghostEffect || {};
+          const ghostConfig = config.ghostEffect || {};
           const downloadableObj = {
             ghostEffect: ghostConfig,
           };
@@ -939,9 +1127,9 @@ export default function Content() {
             type: "application/json",
           });
           saveAs(blob, "ghost_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "glitchEffect") {
+        } else if (config.particlePredefinedEffect === "glitchEffect") {
           // Download only glitch effect config
-          const glitchConfig = defaultConfig.glitchEffect || {};
+          const glitchConfig = config.glitchEffect || {};
           const downloadableObj = {
             glitchEffect: glitchConfig,
           };
@@ -950,9 +1138,9 @@ export default function Content() {
             type: "application/json",
           });
           saveAs(blob, "glitch_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "meltEffect") {
+        } else if (config.particlePredefinedEffect === "meltEffect") {
           // Download only melt effect config
-          const meltConfig = defaultConfig.meltEffect || {};
+          const meltConfig = config.meltEffect || {};
           const downloadableObj = {
             meltEffect: meltConfig,
           };
@@ -961,23 +1149,23 @@ export default function Content() {
             type: "application/json",
           });
           saveAs(blob, "melt_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "pixelSortEffect") {
-          const pixelSortConfig = defaultConfig.pixelSortEffect || {};
+        } else if (config.particlePredefinedEffect === "pixelSortEffect") {
+          const pixelSortConfig = config.pixelSortEffect || {};
           saveAs(new Blob([JSON.stringify({ pixelSortEffect: pixelSortConfig }, null, 2)], { type: "application/json" }), "pixel_sort_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "prismRefractionEffect") {
-          const prismConfig = defaultConfig.prismRefractionEffect || {};
+        } else if (config.particlePredefinedEffect === "prismRefractionEffect") {
+          const prismConfig = config.prismRefractionEffect || {};
           saveAs(new Blob([JSON.stringify({ prismRefractionEffect: prismConfig }, null, 2)], { type: "application/json" }), "prism_refraction_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "crystallizeEffect") {
-          const crystallizeConfig = defaultConfig.crystallizeEffect || {};
+        } else if (config.particlePredefinedEffect === "crystallizeEffect") {
+          const crystallizeConfig = config.crystallizeEffect || {};
           saveAs(new Blob([JSON.stringify({ crystallizeEffect: crystallizeConfig }, null, 2)], { type: "application/json" }), "crystallize_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "slitScanEffect") {
-          const slitScanConfig = defaultConfig.slitScanEffect || {};
+        } else if (config.particlePredefinedEffect === "slitScanEffect") {
+          const slitScanConfig = config.slitScanEffect || {};
           saveAs(new Blob([JSON.stringify({ slitScanEffect: slitScanConfig }, null, 2)], { type: "application/json" }), "slit_scan_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "granularErosionEffect") {
-          const cfg = defaultConfig.granularErosionEffect || {};
+        } else if (config.particlePredefinedEffect === "granularErosionEffect") {
+          const cfg = config.granularErosionEffect || {};
           saveAs(new Blob([JSON.stringify({ granularErosionEffect: cfg }, null, 2)], { type: "application/json" }), "granular_erosion_effect_config.json");
-        } else if (defaultConfig.particlePredefinedEffect === "liquidMercuryEffect") {
-          const cfg = defaultConfig.liquidMercuryEffect || {};
+        } else if (config.particlePredefinedEffect === "liquidMercuryEffect") {
+          const cfg = config.liquidMercuryEffect || {};
           saveAs(new Blob([JSON.stringify({ liquidMercuryEffect: cfg }, null, 2)], { type: "application/json" }), "liquid_mercury_effect_config.json");
         } else {
           // Download particle config as usual
@@ -1002,17 +1190,17 @@ export default function Content() {
           removeFromAngular(downloadableObj);
           removeFromEmitDirectional(downloadableObj);
 
-          if (Array.isArray(defaultConfig.textures) && defaultConfig.textures.length > 0) {
-            downloadableObj.textures = [...defaultConfig.textures];
+          if (Array.isArray(config.textures) && config.textures.length > 0) {
+            downloadableObj.textures = [...config.textures];
           }
           if (
-            Array.isArray(defaultConfig.finishingTextures) &&
-            defaultConfig.finishingTextures.length > 0
+            Array.isArray(config.finishingTextures) &&
+            config.finishingTextures.length > 0
           ) {
-            downloadableObj.finishingTextures = [...defaultConfig.finishingTextures];
+            downloadableObj.finishingTextures = [...config.finishingTextures];
           }
-          if (defaultConfig.particleLinks != null) {
-            downloadableObj.particleLinks = defaultConfig.particleLinks;
+          if (config.particleLinks != null) {
+            downloadableObj.particleLinks = config.particleLinks;
           }
 
           const blob = new Blob([JSON.stringify(downloadableObj)], {
@@ -1021,7 +1209,7 @@ export default function Content() {
           saveAs(blob, "particle_config.json");
         }
         pushNotice({ type: "success", message: "Config downloaded." });
-        baselineSnapshotRef.current = JSON.stringify(defaultConfig);
+        baselineRevisionRef.current = revisionRef.current;
         setIsDirty(false);
       },
       loadConfigError: ({ message, details }) => {
@@ -1053,7 +1241,7 @@ export default function Content() {
         eventBus.off(event, handler),
       );
     };
-  }, [defaultConfig, fullConfig, handleResize, pushNotice, sanitizeTemplateConfig]);
+  }, [fullConfig, handleResize, pushNotice, sanitizeTemplateConfig, setDefaultConfig]);
 
   const handleMouseMove = useCallback(
     (e) => {
@@ -1088,7 +1276,17 @@ export default function Content() {
     initialize();
   }, []);
 
-  // Handle effects and events
+  useEffect(() => {
+    if (!pixiRefs.app?.stage) return;
+    pixiRefs.app.stage.on("pointermove", handleMouseMove);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      pixiRefs.app.stage.off("pointermove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleMouseMove, handleResize]);
+
+  // Handle effects and config updates
   useEffect(() => {
     if (!defaultConfig) return;
 
@@ -1124,8 +1322,26 @@ export default function Content() {
         defaultConfig.emitterConfig.animatedSprite.frameRate || 0.25;
     }
 
-    const runtimeConfig = normalizeRuntimeConfig(defaultConfig);
-    createEffect({ defaultConfig: runtimeConfig, fullConfig, contentRef });
+    const createEffectKey = [
+      defaultConfig.particlePredefinedEffect || "",
+      defaultConfig.refresh ? "1" : "0",
+      defaultConfig.bgImage?.fileName || "",
+      defaultConfig.followMouse ? "1" : "0",
+      defaultConfig.emitterConfig?.animatedSprite?.animatedSpriteName || "",
+      Array.isArray(defaultConfig.emitterConfig?.textureVariants)
+        ? defaultConfig.emitterConfig.textureVariants.length
+        : 0,
+      Array.isArray(defaultConfig.textures) ? defaultConfig.textures.join("|") : "",
+    ].join("::");
+    const shouldRecreateOrUpdate =
+      createEffectKey !== lastCreateEffectKeyRef.current ||
+      lastEmitterConfigRef.current !== defaultConfig.emitterConfig;
+    if (shouldRecreateOrUpdate) {
+      const runtimeConfig = normalizeRuntimeConfig(defaultConfig);
+      createEffect({ defaultConfig: runtimeConfig, fullConfig, contentRef });
+      lastCreateEffectKeyRef.current = createEffectKey;
+      lastEmitterConfigRef.current = defaultConfig.emitterConfig;
+    }
 
     // Clear refresh flag so repeated effect runs (e.g. from dependency changes) don't keep doing full reload
     if (defaultConfig.refresh) {
@@ -1137,19 +1353,8 @@ export default function Content() {
     }
 
     handleResize();
-
     syncFollowMouseInteraction(defaultConfig.followMouse);
-
-    // Add event listeners
-    pixiRefs.app.stage.on("pointermove", handleMouseMove);
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup on unmount
-    return () => {
-      pixiRefs.app.stage.off("pointermove", handleMouseMove);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [defaultConfig, fullConfig, handleResize, handleMouseMove, normalizeRuntimeConfig]);
+  }, [defaultConfig, fullConfig, handleResize, normalizeRuntimeConfig]);
 
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -1165,6 +1370,11 @@ export default function Content() {
         updateProps("noConfig.download-config");
         return;
       }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCommandPaletteOpen((o) => !o);
+        return;
+      }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "f") {
         e.preventDefault();
         const searchInput = document.getElementById("sidebar-behaviour-search");
@@ -1175,6 +1385,10 @@ export default function Content() {
         e.preventDefault();
         const searchInput = document.getElementById("sidebar-behaviour-search");
         if (searchInput && typeof searchInput.focus === "function") searchInput.focus();
+      }
+      if (!isTypingTarget && e.key === "?") {
+        e.preventDefault();
+        setCommandPaletteOpen(true);
       }
       if (!isTypingTarget && e.key.toLowerCase() === "m") {
         setMobileMenuOpen((prev) => !prev);
@@ -1224,6 +1438,16 @@ export default function Content() {
         </svg>
       </button>
 
+      <EditorCommandPalette
+        open={commandPaletteOpen && Boolean(defaultConfig)}
+        onClose={() => setCommandPaletteOpen(false)}
+        onAfterNavigate={openMobileMenuAfterJump}
+        isNarrowViewport={isNarrowViewport}
+        onTriggerLoad={() =>
+          document.getElementById("editor-load-config-input")?.click?.()
+        }
+        onToggleMobileMenu={() => setMobileMenuOpen((v) => !v)}
+      />
       {defaultConfig && (
         <Menu
           fullConfig={fullConfig}

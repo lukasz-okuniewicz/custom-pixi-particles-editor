@@ -1,3 +1,4 @@
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
 import {
   BfSelect,
   BfInputNumber,
@@ -12,9 +13,9 @@ import { playMusic, stopMusic, updateContext } from "@utils/audio";
 
 let lastParticlePredefinedEffect = null;
 
-export default function SoundReactiveProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [predefinedMusic, setPredefinedMusic] = useState("mainTheme");
+export default function SoundReactiveProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [predefinedMusic, setPredefinedMusic] = useState("mainTheme");
   const [isPlaying, setIsPlaying] = useState(false);
   const userHasInteractedRef = useRef(false);
 
@@ -37,8 +38,7 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   };
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -84,10 +84,6 @@ export default function SoundReactiveProperties({ defaultConfig, index }) {
   }, []);
 
   // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
   const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
     updateProps(

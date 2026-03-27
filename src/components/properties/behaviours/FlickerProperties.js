@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfSelect,
   BfInputNumber,
@@ -9,12 +11,10 @@ import { useCallback, useState } from "react";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import FlickerDescription from "@components/html/behaviourDescriptions/Flicker";
 
-export default function FlickerProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-
-  if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+export default function FlickerProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    if (index === -1) {
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -29,10 +29,6 @@ export default function FlickerProperties({ defaultConfig, index }) {
     mode: "noise",
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
-
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
 
   const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;

@@ -1,5 +1,7 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
   BfSelect,
   BfInputNumber,
@@ -11,14 +13,13 @@ import TurbulenceDescription from "@components/html/behaviourDescriptions/Turbul
 import { Point } from "pixi.js-legacy";
 import pixiRefs from "@pixi/pixiRefs";
 
-export default function TurbulenceProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-  const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
+export default function TurbulenceProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
   const selectedPositionIndexRef = useRef(null);
 
   if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -96,10 +97,6 @@ export default function TurbulenceProperties({ defaultConfig, index }) {
   }, []);
 
   // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
   const updateBehaviours = (refresh) => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
     updateProps(

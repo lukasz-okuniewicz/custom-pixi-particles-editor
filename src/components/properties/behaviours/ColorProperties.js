@@ -1,6 +1,9 @@
 "use client";
 
+import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionContext";
+
 import {
+  BfSelect,
   BfInputNumber,
   BfCheckbox,
   BfColorPicker,
@@ -10,12 +13,10 @@ import { propertyHint } from "@components/properties/behaviourPropertyHints";
 import { mergeObjectsWithDefaults, updateProps } from "@utils";
 import ColorDescription from "@components/html/behaviourDescriptions/Color";
 
-export default function ColorProperties({ defaultConfig, index }) {
-  const [isSubmenuVisible, setIsSubmenuVisible] = useState("collapse");
-
-  if (index === -1) {
-    const x = JSON.parse(JSON.stringify(defaultConfig));
-    index = x.emitterConfig.behaviours.push({}) - 1;
+export default function ColorProperties({ defaultConfig, index, accordionPanelId }) {
+  const { isSubmenuVisible, toggleSubmenuVisibility } = useBehaviourSectionCollapse(accordionPanelId);
+    if (index === -1) {
+    index = (defaultConfig.emitterConfig?.behaviours?.push({}) || 1) - 1;
   }
 
   let behaviour = defaultConfig.emitterConfig.behaviours[index] || {};
@@ -28,22 +29,42 @@ export default function ColorProperties({ defaultConfig, index }) {
     endVariance: { _r: 0, _g: 0, _b: 0, _alpha: 0 },
     sinus: false,
     usePerlin: false,
+    perParticlePhaseOffset: 0,
     mirrorTransition: false,
     fadeToGray: false,
     fadeToTransparent: false,
     flickerIntensity: 0,
     pulseIntensity: 0,
     pulseSpeed: 0,
+    interpolationMode: "rgb",
+    segmentEasing: "linear",
+    blendMode: "override",
+    blendStrength: 1,
     colorStops: [],
     name: "ColorBehaviour",
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
+  const interpolationOptions = [
+    { key: "rgb", displayName: "RGB" },
+    { key: "hsv", displayName: "HSV" },
+    { key: "hsl", displayName: "HSL" },
+  ];
+  const easingOptions = [
+    { key: "linear", displayName: "Linear" },
+    { key: "easeIn", displayName: "Ease In" },
+    { key: "easeOut", displayName: "Ease Out" },
+    { key: "easeInOut", displayName: "Ease In/Out" },
+    { key: "smoothstep", displayName: "Smoothstep" },
+  ];
+  const blendOptions = [
+    { key: "override", displayName: "Override" },
+    { key: "add", displayName: "Add" },
+    { key: "multiply", displayName: "Multiply" },
+    { key: "screen", displayName: "Screen" },
+    { key: "lerp", displayName: "Lerp" },
+  ];
 
   // Toggle submenu visibility
-  const toggleSubmenuVisibility = useCallback(() => {
-    setIsSubmenuVisible((prev) => (prev === "collapse" ? "" : "collapse"));
-  }, []);
-
   const updateBehaviours = () => {
     defaultConfig.emitterConfig.behaviours[index] = behaviour;
     updateProps(
@@ -194,16 +215,70 @@ export default function ColorProperties({ defaultConfig, index }) {
             />
             <BfCheckbox
               label="Use Perlin"
-              id="usePerlin"
+              id="color-usePerlin"
               onChange={(value) => {
                 behaviour.usePerlin = value;
                 updateBehaviours();
               }}
               checked={behaviour.usePerlin ?? keysToInitialize.usePerlin}
             />
+            <BfInputNumber
+              label="Per Particle Phase Offset"
+              id="color-perParticlePhaseOffset"
+              value={behaviour.perParticlePhaseOffset ?? keysToInitialize.perParticlePhaseOffset}
+              step="0.01"
+              min="0"
+              max="1"
+              onChange={(value) => {
+                behaviour.perParticlePhaseOffset = value;
+                updateBehaviours();
+              }}
+            />
+            <BfSelect
+              label="Interpolation Mode"
+              id="color-interpolationMode"
+              defaultValue={behaviour.interpolationMode ?? keysToInitialize.interpolationMode}
+              onChange={(value) => {
+                behaviour.interpolationMode = value;
+                updateBehaviours();
+              }}
+              elements={interpolationOptions}
+            />
+            <BfSelect
+              label="Segment Easing"
+              id="color-segmentEasing"
+              defaultValue={behaviour.segmentEasing ?? keysToInitialize.segmentEasing}
+              onChange={(value) => {
+                behaviour.segmentEasing = value;
+                updateBehaviours();
+              }}
+              elements={easingOptions}
+            />
+            <BfSelect
+              label="Blend Mode"
+              id="color-blendMode"
+              defaultValue={behaviour.blendMode ?? keysToInitialize.blendMode}
+              onChange={(value) => {
+                behaviour.blendMode = value;
+                updateBehaviours();
+              }}
+              elements={blendOptions}
+            />
+            <BfInputNumber
+              label="Blend Strength"
+              id="color-blendStrength"
+              value={behaviour.blendStrength ?? keysToInitialize.blendStrength}
+              step="0.05"
+              min="0"
+              max="1"
+              onChange={(value) => {
+                behaviour.blendStrength = value;
+                updateBehaviours();
+              }}
+            />
             <BfCheckbox
               label="Mirror Transition"
-              id="mirrorTransition"
+              id="color-mirrorTransition"
               onChange={(value) => {
                 behaviour.mirrorTransition = value;
                 updateBehaviours();
@@ -214,7 +289,7 @@ export default function ColorProperties({ defaultConfig, index }) {
             />
             <BfCheckbox
               label="Fade To Gray"
-              id="fadeToGray"
+              id="color-fadeToGray"
               onChange={(value) => {
                 behaviour.fadeToGray = value;
                 updateBehaviours();
@@ -225,7 +300,7 @@ export default function ColorProperties({ defaultConfig, index }) {
               <>
                 <BfCheckbox
                   label="Fade To Transparent"
-                  id="fadeToTransparent"
+                  id="color-fadeToTransparent"
                   onChange={(value) => {
                     behaviour.fadeToTransparent = value;
                     updateBehaviours();
@@ -240,7 +315,7 @@ export default function ColorProperties({ defaultConfig, index }) {
 
             <BfInputNumber
               label={`Flicker Intensity`}
-              id={`flickerIntensity`}
+              id={`color-flickerIntensity`}
               value={behaviour.flickerIntensity}
               step="0.1"
               onChange={(value) => {
@@ -250,7 +325,7 @@ export default function ColorProperties({ defaultConfig, index }) {
             />
             <BfInputNumber
               label={`Pulse Intensity`}
-              id={`pulseIntensity`}
+              id={`color-pulseIntensity`}
               value={behaviour.pulseIntensity}
               step="0.1"
               onChange={(value) => {
@@ -260,7 +335,7 @@ export default function ColorProperties({ defaultConfig, index }) {
             />
             <BfInputNumber
               label={`Pulse Speed`}
-              id={`pulseSpeed`}
+              id={`color-pulseSpeed`}
               value={behaviour.pulseSpeed}
               step="0.1"
               onChange={(value) => {
