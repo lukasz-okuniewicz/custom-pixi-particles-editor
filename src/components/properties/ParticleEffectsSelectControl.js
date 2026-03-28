@@ -24,7 +24,7 @@ const ParticleEffectsSelectControl = ({
   defaultConfig,
   fullConfig,
   handlePredefinedEffectChange,
-  className = "editor-sidebar-top-control",
+  className = "editor-sidebar-top-control editor-particle-effects-control",
 }) => {
   const particleEffectsGrouped = useMemo(() => {
     const keys = Object.keys(fullConfig || {}).filter(

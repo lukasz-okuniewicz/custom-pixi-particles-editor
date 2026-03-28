@@ -90,6 +90,65 @@ hr {
   margin-bottom: 0;
 }
 
+/* Primary effect picker: make label + select easy to spot at top of sidebar */
+.editor-particle-effects-control {
+  padding: var(--editor-space-3);
+  margin: 0 0 var(--editor-space-3);
+  border-radius: var(--editor-radius-md);
+  border: 1px solid rgba(103, 212, 255, 0.38);
+  background: linear-gradient(
+    155deg,
+    rgba(24, 38, 58, 0.88) 0%,
+    rgba(12, 20, 34, 0.94) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(103, 212, 255, 0.06),
+    0 6px 20px rgba(0, 0, 0, 0.22);
+}
+
+.editor-particle-effects-control .form-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--editor-text);
+}
+
+.editor-particle-effects-control .form-control {
+  min-height: 42px;
+  height: 42px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-color: rgba(103, 212, 255, 0.42);
+  background-color: rgba(7, 12, 22, 0.98);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(103, 212, 255, 0.1);
+}
+
+.editor-particle-effects-control .form-control:hover {
+  border-color: rgba(103, 212, 255, 0.62);
+}
+
+.editor-particle-effects-control .form-control:focus {
+  border-color: var(--editor-accent);
+  box-shadow: var(--editor-focus-ring);
+}
+
+.editor-sidebar--compact .editor-particle-effects-control {
+  padding: var(--editor-space-2);
+}
+
+.editor-sidebar--compact .editor-particle-effects-control .form-label {
+  font-size: 12px;
+}
+
+.editor-sidebar--compact .editor-particle-effects-control .form-control {
+  min-height: 36px;
+  height: 36px;
+  font-size: 13px;
+}
+
 .editor-shortcuts-hint {
   margin: 0 0 var(--editor-space-2);
   font-size: 11px;

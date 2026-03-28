@@ -411,6 +411,45 @@ export const detectMouseMove = (contentRef, e) => {
   pixiRefs.particles.updatePosition({ x, y });
 };
 
+/**
+ * Maps General Properties panel paths (`noConfig.*`) to real config keys for setDefaultConfig.
+ * (The Menu uses wrapInSection={false}, which calls these paths; they are not nested under a `noConfig` object.)
+ */
+const NO_CONFIG_MAPPED_UPDATES = {
+  "noConfig.blend-mode": {
+    arrayName: ["emitterConfig", "blendMode"],
+    refresh: true,
+  },
+};
+
+const emitUpdateConfigEvent = (value, id, arrayName, refresh) => {
+  if (refresh) {
+    eventBus.emit("updateConfig", { value, id, arrayName, refresh });
+    return;
+  }
+  if (typeof window === "undefined") {
+    eventBus.emit("updateConfig", { value, id, arrayName, refresh });
+    return;
+  }
+  window.__particleEditorPendingUpdateConfig = {
+    value,
+    id,
+    arrayName,
+    refresh,
+  };
+  if (window.__particleEditorUpdateConfigRafId) return;
+  window.__particleEditorUpdateConfigRafId = window.requestAnimationFrame(
+    () => {
+      const payload = window.__particleEditorPendingUpdateConfig;
+      window.__particleEditorPendingUpdateConfig = null;
+      window.__particleEditorUpdateConfigRafId = 0;
+      if (payload) {
+        eventBus.emit("updateConfig", payload);
+      }
+    },
+  );
+};
+
 export const updateProps = (name, value, id, refresh) => {
   if (!name) return;
   const arrayName = name.split(".");
@@ -420,34 +459,45 @@ export const updateProps = (name, value, id, refresh) => {
     switch (name) {
       case "noConfig.handlePredefinedEffectChange":
         updateQueryParameter("effect", value);
-        break;
+        return;
       case "noConfig.followMouse":
         eventBus.emit("followMouse", value);
         if (!value) {
           pixiRefs.particles.updatePosition({ x: 0, y: 0 });
         }
-        break;
+        return;
       case "noConfig.refresh":
         eventBus.emit("refresh");
-        break;
+        return;
       case "noConfig.BackgroundColor":
         pixiRefs.app.renderer.backgroundColor = parseInt(
           `0x${value.hex.replace("#", "")}`,
           16,
         );
-        break;
+        return;
+      case "noConfig.bg-color": {
+        const rgb = value;
+        if (rgb && pixiRefs.app?.renderer) {
+          const r = Math.max(0, Math.min(255, Math.round(Number(rgb.r) || 0)));
+          const g = Math.max(0, Math.min(255, Math.round(Number(rgb.g) || 0)));
+          const b = Math.max(0, Math.min(255, Math.round(Number(rgb.b) || 0)));
+          pixiRefs.app.renderer.backgroundColor = (r << 16) | (g << 8) | b;
+        }
+        emitUpdateConfigEvent(value, undefined, ["bgColor"], false);
+        return;
+      }
       case "noConfig.predefinedImage":
         eventBus.emit("predefinedImage", value);
-        break;
+        return;
       case "noConfig.finishing-images":
         images(value, "finishingImages");
-        break;
+        return;
       case "noConfig.images":
         images(value, "newImages");
-        break;
+        return;
       case "noConfig.bg-image":
         eventBus.emit("newBgImage", value);
-        break;
+        return;
       case "noConfig.load-config":
         try {
           const parsed = typeof value === "string" ? JSON.parse(value) : value;
@@ -463,39 +513,22 @@ export const updateProps = (name, value, id, refresh) => {
             details: error instanceof Error ? error.message : String(error),
           });
         }
-        break;
+        return;
       case "noConfig.download-config":
         eventBus.emit("downloadConfig");
+        return;
+      default:
         break;
     }
-  } else {
-    // Coalesce high-frequency input updates to one event per animation frame.
-    if (refresh) {
-      eventBus.emit("updateConfig", { value, id, arrayName, refresh });
-      return;
+    const mapped = NO_CONFIG_MAPPED_UPDATES[name];
+    if (mapped) {
+      const useRefresh =
+        mapped.refresh !== undefined ? mapped.refresh : Boolean(refresh);
+      emitUpdateConfigEvent(value, id, mapped.arrayName, useRefresh);
     }
-    if (typeof window === "undefined") {
-      eventBus.emit("updateConfig", { value, id, arrayName, refresh });
-      return;
-    }
-    window.__particleEditorPendingUpdateConfig = {
-      value,
-      id,
-      arrayName,
-      refresh,
-    };
-    if (window.__particleEditorUpdateConfigRafId) return;
-    window.__particleEditorUpdateConfigRafId = window.requestAnimationFrame(
-      () => {
-        const payload = window.__particleEditorPendingUpdateConfig;
-        window.__particleEditorPendingUpdateConfig = null;
-        window.__particleEditorUpdateConfigRafId = 0;
-        if (payload) {
-          eventBus.emit("updateConfig", payload);
-        }
-      },
-    );
+    return;
   }
+  emitUpdateConfigEvent(value, id, arrayName, refresh);
 };
 
 export const onImageLoaded = (value) => {
