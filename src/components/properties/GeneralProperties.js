@@ -604,6 +604,28 @@ const GeneralProperties = ({
               onClick={() => fileParticleBackgroundImageRef.current?.click()}
               ref={fileParticleBackgroundImageRef}
             />
+            <BfInputNumber
+              label="Alpha"
+              id="alpha"
+              value={defaultConfig.emitterConfig.alpha ?? 1}
+              step="0.1"
+              onChange={(value) =>
+                updateProps("emitterConfig.alpha", value, undefined, true)
+              }
+            />
+            <BfInputNumber
+              label="Anchor"
+              id="anchor"
+              params={["x", "y"]}
+              value={[
+                defaultConfig.emitterConfig.anchor?.x ?? 0.5,
+                defaultConfig.emitterConfig.anchor?.y ?? 0.5,
+              ]}
+              step="0.1"
+              onChange={(value, id) =>
+                updateProps("emitterConfig.anchor", value, id, true)
+              }
+            />
             <BfSelect
               label="Blend Mode"
               defaultValue={normalizeBlendModeToPixiNumber(
