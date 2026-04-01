@@ -7,7 +7,7 @@ export const images = async (value, emitName) => {
 
   value.forEach((file) => {
     arrayOfTextures.push(file.fileName);
-    if (!Assets.get(file.fileName)) {
+    if (!Assets.cache.has(file.fileName)) {
       toLoad.push(Assets.load({ alias: file.fileName, src: file.result }));
     }
   });
@@ -17,7 +17,20 @@ export const images = async (value, emitName) => {
   }
 
   const emitWithFullList = () => {
+    const isFilePick =
+      Array.isArray(value) &&
+      value.length > 0 &&
+      typeof value[0] === "object" &&
+      value[0] !== null &&
+      typeof value[0].fileName === "string" &&
+      typeof value[0].result === "string";
+    // Keep full { fileName, result } so config/drafts can restore Loader after refresh/restore.
+    if (isFilePick) {
+      eventBus.emit(emitName, value);
+      return;
+    }
     if (
+      value[0] &&
       value[0].result &&
       (value[0].result.indexOf("data:application/octet-stream;") !== -1 ||
         value[0].result.indexOf("data:application/json;") !== -1)
@@ -32,7 +45,7 @@ export const images = async (value, emitName) => {
 };
 
 export const bgImage = async (value, onImageLoaded) => {
-  if (!Assets.get(value.fileName)) {
+  if (!Assets.cache.has(value.fileName)) {
     await Assets.load({ alias: value.fileName, src: value.result });
   }
   onImageLoaded(value);

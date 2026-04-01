@@ -1,6 +1,7 @@
 import eventBus from "@utils/eventBus";
 import pixiRefs from "@pixi/pixiRefs";
-import { Assets, Sprite, Texture } from "pixi.js";
+import Loader from "@utils/Loader";
+import { Assets, Sprite } from "pixi.js";
 import { images } from "@utils/updatePropsLoogic";
 
 /**
@@ -22,16 +23,47 @@ const LEGACY_BLEND_TO_V8 = {
   11: "difference",
   12: "exclusion",
   13: "none",
+  17: "normal",
+  18: "add",
+  19: "screen",
+  20: "none",
 };
 
-/** Normalize blendMode for Pixi v8: number -> string, string passed through. */
+/**
+ * Normalize blendMode for Pixi v8 (string). Legacy v6/v7 numeric indices → string;
+ * trims and normalizes string keys (underscores → hyphens, lower case).
+ */
 export const normalizeBlendModeForPixiV8 = (val) => {
-  if (val == null) return "normal";
-  if (typeof val === "string") return val;
-  if (typeof val === "number" && LEGACY_BLEND_TO_V8[val] != null) {
-    return LEGACY_BLEND_TO_V8[val];
+  if (val == null || val === "") return "normal";
+  if (typeof val === "number" && Number.isFinite(val)) {
+    const n = Math.floor(val);
+    return LEGACY_BLEND_TO_V8[n] ?? "normal";
+  }
+  if (typeof val === "string") {
+    const t = val.trim();
+    if (/^\d+$/.test(t)) {
+      const n = parseInt(t, 10);
+      if (Number.isFinite(n)) return LEGACY_BLEND_TO_V8[n] ?? "normal";
+    }
+    const s = t.toLowerCase().replace(/_/g, "-");
+    if (s === "src-over" || s === "source-over") return "normal";
+    return s;
   }
   return "normal";
+};
+
+export const getTextureByName = (name) => {
+  let texture;
+  try {
+    if (Loader.shared?.resources?.[name]) {
+      const res = Loader.shared.resources[name];
+      texture = res?.texture ?? res;
+    }
+    if (!texture && Assets.cache?.has?.(name)) {
+      texture = Assets.get(name);
+    }
+  } catch (e) {}
+  return texture && (texture.valid === undefined || texture.valid) ? texture : null;
 };
 
 /** Built-in behaviour names; any other name in config is treated as a custom behaviour */
@@ -228,6 +260,19 @@ export const getCustomBehaviourEntries = (config) => {
 };
 
 /**
+ * Applies `defaultConfig.bgColor` (r, g, b) to the Pixi v8 renderer clear color.
+ * Use after load/restore/draft so the canvas matches editor state (same as noConfig.bg-color).
+ */
+export const applyBgColorFromConfigToRenderer = (defaultConfig) => {
+  const rgb = defaultConfig?.bgColor;
+  if (!rgb || !pixiRefs.app?.renderer) return;
+  const r = Math.max(0, Math.min(255, Math.round(Number(rgb.r) || 0)));
+  const g = Math.max(0, Math.min(255, Math.round(Number(rgb.g) || 0)));
+  const b = Math.max(0, Math.min(255, Math.round(Number(rgb.b) || 0)));
+  pixiRefs.app.renderer.background.color = (r << 16) | (g << 8) | b;
+};
+
+/**
  * Returns a deep clone of config with only built-in behaviours in emitterConfig.behaviours.
  * Use when passing config to the library create() or updateConfig() so older library
  * versions that don't support custom behaviours (PlaceholderBehaviour) won't throw.
@@ -237,10 +282,17 @@ export const getCustomBehaviourEntries = (config) => {
 export const getConfigSafeForLibrary = (config) => {
   if (!config?.emitterConfig?.behaviours) {
     if (!Object.prototype.hasOwnProperty.call(config, "metaballPass")) {
-      return config;
+      if (!config?.particleTextureSources && !config?.finishingTextureSources)
+        return config;
+      const copy = { ...config };
+      delete copy.particleTextureSources;
+      delete copy.finishingTextureSources;
+      return copy;
     }
     const stripped = { ...config };
     delete stripped.metaballPass;
+    delete stripped.particleTextureSources;
+    delete stripped.finishingTextureSources;
     return stripped;
   }
   const origBehaviours = Array.isArray(config.emitterConfig.behaviours)
@@ -280,6 +332,8 @@ export const getConfigSafeForLibrary = (config) => {
   if (Object.prototype.hasOwnProperty.call(safe, "metaballPass")) {
     delete safe.metaballPass;
   }
+  delete safe.particleTextureSources;
+  delete safe.finishingTextureSources;
   return safe;
 };
 
@@ -431,12 +485,33 @@ export const updateProps = (name, value, id, refresh) => {
       case "noConfig.refresh":
         eventBus.emit("refresh");
         break;
-      case "noConfig.BackgroundColor":
-        pixiRefs.app.renderer.background.color = parseInt(
-          `0x${value.hex.replace("#", "")}`,
-          16,
-        );
+      case "noConfig.BackgroundColor": {
+        const hex = value.hex.replace("#", "");
+        const n = parseInt(hex, 16);
+        pixiRefs.app.renderer.background.color = n;
+        eventBus.emit("updateConfig", {
+          value: {
+            r: (n >> 16) & 255,
+            g: (n >> 8) & 255,
+            b: n & 255,
+            a: 1,
+          },
+          id: undefined,
+          arrayName: ["bgColor"],
+          refresh: false,
+        });
         break;
+      }
+      case "noConfig.bg-color": {
+        applyBgColorFromConfigToRenderer({ bgColor: value });
+        eventBus.emit("updateConfig", {
+          value,
+          id: undefined,
+          arrayName: ["bgColor"],
+          refresh: false,
+        });
+        break;
+      }
       case "noConfig.predefinedImage":
         eventBus.emit("predefinedImage", value);
         break;
@@ -468,6 +543,18 @@ export const updateProps = (name, value, id, refresh) => {
       case "noConfig.download-config":
         eventBus.emit("downloadConfig");
         break;
+      default: {
+        const rest = name.startsWith("noConfig.") ? name.slice("noConfig.".length) : "";
+        if (!rest) break;
+        const camelKey = rest.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+        eventBus.emit("updateConfig", {
+          value,
+          id,
+          arrayName: [camelKey],
+          refresh: refresh ?? false,
+        });
+        break;
+      }
     }
   } else {
     // Coalesce high-frequency input updates to one event per animation frame.

@@ -119,3 +119,6 @@ export default class Loader {
     return Loader.#loadPromise;
   }
 }
+
+/** v7-style resource bag for user-uploaded textures (see particleTextureSources, getTextureByName). */
+Loader.shared = { resources: {} };
