@@ -4,7 +4,7 @@ import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionC
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAutoResizeTextarea } from "@hooks/useAutoResizeTextarea";
-import { updateProps } from "@utils";
+import { normalizeBlendModeToPixiNumber, updateProps } from "@utils";
 import File from "@components/html/File";
 import { BLEND_MODES } from "pixi.js";
 import Loader from "@utils/Loader";
@@ -137,6 +137,22 @@ const GeneralProperties = ({
     defaultConfig?.emitterConfig?.variantWeights,
   ]);
 
+  useEffect(() => {
+    const bg = defaultConfig?.bgColor;
+    if (!bg || typeof bg !== "object") return;
+    const r = Number(bg.r) || 0;
+    const g = Number(bg.g) || 0;
+    const b = Number(bg.b) || 0;
+    const a = bg.a != null ? Number(bg.a) : 1;
+    setBgColor((prev) => {
+      const pa = prev.a ?? prev.alpha ?? 1;
+      if (prev.r === r && prev.g === g && prev.b === b && pa === a) {
+        return prev;
+      }
+      return { r, g, b, a, alpha: a };
+    });
+  }, [defaultConfig?.bgColor]);
+
   const textureVariantsTextarea = useAutoResizeTextarea(textureVariantsJson);
 
   const applyTextureVariantsFromJson = useCallback(() => {
@@ -184,6 +200,8 @@ const GeneralProperties = ({
             updateProps(
               "emitterConfig.animatedSprite.animatedSpriteName",
               value,
+              undefined,
+              true,
             )
           }
         />
@@ -407,7 +425,12 @@ const GeneralProperties = ({
               label="Animated Sprite"
               id="animated-sprite"
               onChange={(value) => {
-                updateProps("emitterConfig.animatedSprite.enabled", value);
+                updateProps(
+                  "emitterConfig.animatedSprite.enabled",
+                  value,
+                  undefined,
+                  true,
+                );
               }}
               checked={
                 defaultConfig.emitterConfig.animatedSprite?.enabled || false
@@ -415,8 +438,6 @@ const GeneralProperties = ({
             />
             <hr />
             {renderAnimatedSprite()}
-            <hr />
-            {renderTextureVariantsEditor()}
             <hr />
             <File
               label="Background Image"
@@ -466,12 +487,21 @@ const GeneralProperties = ({
             />
             <BfSelect
               label="Blend Mode"
-              defaultValue={defaultConfig.emitterConfig.blendMode ?? "NORMAL"}
+              defaultValue={normalizeBlendModeToPixiNumber(
+                defaultConfig.emitterConfig?.blendMode ?? defaultConfig.blendMode,
+              )}
               onChange={(value) => {
-                updateProps("emitterConfig.blendMode", value, undefined, true);
+                updateProps(
+                  "emitterConfig.blendMode",
+                  normalizeBlendModeToPixiNumber(value),
+                  undefined,
+                  true,
+                );
               }}
               elements={blendModes}
             />
+            <hr />
+            {renderTextureVariantsEditor()}
           </>
         )}
       </div>
@@ -497,6 +527,11 @@ const GeneralProperties = ({
 
         {defaultConfig.particlePredefinedEffect !== "coffeeShop" && (
           <>
+            {fileFeedback ? (
+              <p className="editor-op-status" role="status" aria-live="polite">
+                {fileFeedback}
+              </p>
+            ) : null}
             <hr />
             <BfSelect
               label="Predefined Particle Image"
@@ -525,113 +560,101 @@ const GeneralProperties = ({
             />
             <BfFieldHint id="load-particle-images" />
             <File
-              label="Particle Finishing"
-              buttonText="Add Images"
-              id="load-particle-finishing"
+              label="Particle Finishing Images"
+              buttonText="Add Finishing Images"
+              id="load-particle-finishing-images"
               onChange={(e) =>
                 handleFileChange(
                   e,
                   fileParticleFinishingInputRef,
-                  "noConfig.finishing",
+                  "noConfig.finishing-images",
                 )
               }
               onClick={() => fileParticleFinishingInputRef.current?.click()}
               ref={fileParticleFinishingInputRef}
             />
-            <BfFieldHint id="load-particle-finishing" />
-            <BfInputNumber
-              label="Particle Start Scale"
-              id="particle-start-scale"
-              value={defaultConfig.particleStartScale ?? 1}
-              step="0.1"
-              onChange={(value) =>
-                updateProps("noConfig.particle-start-scale", value)
-              }
-            />
-            <BfInputNumber
-              label="Particle End Scale"
-              id="particle-end-scale"
-              value={defaultConfig.particleEndScale ?? 1}
-              step="0.1"
-              onChange={(value) =>
-                updateProps("noConfig.particle-end-scale", value)
-              }
-            />
-            <BfInputNumber
-              label="Speed Scale"
-              id="speed-scale"
-              value={defaultConfig.speedScale ?? 1}
-              step="0.1"
-              onChange={(value) => updateProps("noConfig.speed-scale", value)}
-            />
+            <BfFieldHint id="load-particle-finishing-images" />
+            <hr />
             <BfCheckbox
-              label="Particle Add Back"
-              id="particle-add-back"
-              onChange={(value) =>
-                updateProps("noConfig.particle-add-back", value)
-              }
-              checked={defaultConfig.particleAddBack || false}
-            />
-            <BfCheckbox
-              label="Animate"
-              id="emitter-animate"
-              onChange={(value) => updateProps("noConfig.emitter-animate", value)}
-              checked={defaultConfig.emitterAnimate || false}
-            />
-            {renderAnimatedSprite()}
-            <BfInputNumber
-              label="FPS"
-              id="fps"
-              value={defaultConfig.fps ?? 60}
-              step="1"
-              onChange={(value) => updateProps("noConfig.fps", value)}
-            />
-            <BfColorPicker
-              label="Background Color"
-              id="background-color"
-              color={bgColor}
+              label="Animated Sprite"
+              id="animated-sprite"
               onChange={(value) => {
-                setBgColor(value.rgb);
-                updateProps("noConfig.bg-color", value.rgb);
+                updateProps(
+                  "emitterConfig.animatedSprite.enabled",
+                  value,
+                  undefined,
+                  true,
+                );
               }}
-              hideAlpha={false}
+              checked={
+                defaultConfig.emitterConfig.animatedSprite?.enabled || false
+              }
             />
+            <hr />
+            {renderAnimatedSprite()}
+            <hr />
             <File
               label="Background Image"
-              buttonText="Add Image"
-              id="load-bg-image"
+              buttonText="Load image"
+              id="load-particle-background-image"
               onChange={bgImageChange}
               onClick={() => fileParticleBackgroundImageRef.current?.click()}
               ref={fileParticleBackgroundImageRef}
             />
-            <BfInputNumber
-              label="Mouse Radius"
-              id="mouse-radius"
-              value={defaultConfig.mouseRadius || 40}
-              step="1"
-              onChange={(value) => updateProps("noConfig.mouse-radius", value)}
+            <BfFieldHint id="load-particle-background-image" />
+            <hr />
+            <BfColorPicker
+              id="general-background-color"
+              label="Background Color"
+              color={{
+                r: bgColor.r,
+                g: bgColor.g,
+                b: bgColor.b,
+                a: bgColor.alpha,
+              }}
+              colorChanged={(color) => {
+                setBgColor(color.rgb);
+                updateProps("noConfig.BackgroundColor", color);
+              }}
             />
             <BfInputNumber
-              label="Max Particles"
-              id="max-particles"
-              value={defaultConfig.maxParticles || 100}
-              step="10"
-              onChange={(value) => updateProps("noConfig.max-particles", value)}
+              label="Alpha"
+              id="alpha"
+              value={defaultConfig.emitterConfig.alpha ?? 1}
+              step="0.1"
+              onChange={(value) =>
+                updateProps("emitterConfig.alpha", value, undefined, true)
+              }
+            />
+            <BfInputNumber
+              label="Anchor"
+              id="anchor"
+              params={["x", "y"]}
+              value={[
+                defaultConfig.emitterConfig.anchor?.x ?? 0.5,
+                defaultConfig.emitterConfig.anchor?.y ?? 0.5,
+              ]}
+              step="0.1"
+              onChange={(value, id) =>
+                updateProps("emitterConfig.anchor", value, id, true)
+              }
             />
             <BfSelect
               label="Blend Mode"
-              defaultValue={defaultConfig.blendMode || "NORMAL"}
-              onChange={(value) => updateProps("noConfig.blend-mode", value)}
+              defaultValue={normalizeBlendModeToPixiNumber(
+                defaultConfig.emitterConfig?.blendMode ?? defaultConfig.blendMode,
+              )}
+              onChange={(value) => {
+                updateProps(
+                  "emitterConfig.blendMode",
+                  normalizeBlendModeToPixiNumber(value),
+                  undefined,
+                  true,
+                );
+              }}
               elements={blendModes}
             />
-            <BfCheckbox
-              label="Composite Parent"
-              id="composite-parent"
-              onChange={(value) =>
-                updateProps("noConfig.composite-parent", value)
-              }
-              checked={defaultConfig.compositeParent || false}
-            />
+            <hr />
             {renderTextureVariantsEditor()}
           </>
         )}

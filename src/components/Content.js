@@ -5,9 +5,11 @@ import Menu from "@components/Menu";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import pixiRefs from "@pixi/pixiRefs";
 import {
+  applyBgColorFromConfigToRenderer,
   detectMouseMove,
   getBehaviourByIndex,
   getConfigIndexByName,
+  normalizeBlendModeToPixiNumber,
   onImageLoaded,
   resize,
   updateNestedConfig,
@@ -864,8 +866,12 @@ export default function Content() {
 
   const restoreAutosaveDraft = useCallback(() => {
     if (!autosaveDraftPrompt?.draft) return;
+    const draft = autosaveDraftPrompt.draft;
     isApplyingHistoryRef.current = true;
-    setDefaultConfig(autosaveDraftPrompt.draft);
+    // Drafts persist refresh: false after the last run; full recreate is required so animated sprites,
+    // textures, and emitter state match the restored config (updateParticles alone is not enough).
+    setDefaultConfig({ ...draft, refresh: true });
+    applyBgColorFromConfigToRenderer(draft);
     pushNotice({ type: "info", message: "Autosave draft restored." });
     setAutosaveDraftPrompt(null);
   }, [autosaveDraftPrompt, pushNotice]);
@@ -892,7 +898,23 @@ export default function Content() {
       newImages: (value) => {
         const config = configRef.current;
         if (!config) return;
-        config.textures = value;
+        if (
+          Array.isArray(value) &&
+          value.length > 0 &&
+          typeof value[0] === "object" &&
+          value[0] !== null &&
+          typeof value[0].fileName === "string" &&
+          typeof value[0].result === "string"
+        ) {
+          config.particleTextureSources = value.map((f) => ({
+            fileName: f.fileName,
+            result: f.result,
+          }));
+          config.textures = value.map((f) => f.fileName);
+        } else {
+          config.textures = value;
+          config.particleTextureSources = undefined;
+        }
         config.refresh = true;
         // Defer so loader resources are fully committed before particle system reads them (fixes animated sprite needing multiple refresh)
         requestAnimationFrame(() => {
@@ -904,7 +926,23 @@ export default function Content() {
       finishingImages: (value) => {
         const config = configRef.current;
         if (!config) return;
-        config.finishingTextures = value;
+        if (
+          Array.isArray(value) &&
+          value.length > 0 &&
+          typeof value[0] === "object" &&
+          value[0] !== null &&
+          typeof value[0].fileName === "string" &&
+          typeof value[0].result === "string"
+        ) {
+          config.finishingTextureSources = value.map((f) => ({
+            fileName: f.fileName,
+            result: f.result,
+          }));
+          config.finishingTextures = value.map((f) => f.fileName);
+        } else {
+          config.finishingTextures = value;
+          config.finishingTextureSources = undefined;
+        }
         config.refresh = true;
         setDefaultConfig(() => ({
           ...config,
@@ -1013,17 +1051,61 @@ export default function Content() {
         } else {
           // Regular particle config (has emitterConfig or is particle config format)
           if (value.emitterConfig) {
-            config.emitterConfig = value.emitterConfig;
+            const ec = { ...value.emitterConfig };
+            if (ec.blendMode !== undefined) {
+              ec.blendMode = normalizeBlendModeToPixiNumber(ec.blendMode);
+            }
+            config.emitterConfig = ec;
           } else {
             // Assume it's a particle config in the old format
-            config.emitterConfig = value;
+            const ec = { ...value };
+            if (ec.blendMode !== undefined) {
+              ec.blendMode = normalizeBlendModeToPixiNumber(ec.blendMode);
+            }
+            config.emitterConfig = ec;
           }
           // Round-trip: downloaded JSON may omit textures; merge so load matches editor state
           if (Array.isArray(value.textures) && value.textures.length > 0) {
             config.textures = value.textures;
           }
+          if (
+            Array.isArray(value.particleTextureSources) &&
+            value.particleTextureSources.length > 0
+          ) {
+            config.particleTextureSources = value.particleTextureSources.map(
+              (t) => ({
+                fileName: t.fileName,
+                result: t.result,
+              }),
+            );
+          }
+          if (
+            Array.isArray(value.finishingTextureSources) &&
+            value.finishingTextureSources.length > 0
+          ) {
+            config.finishingTextureSources = value.finishingTextureSources.map(
+              (t) => ({
+                fileName: t.fileName,
+                result: t.result,
+              }),
+            );
+          }
           if (Array.isArray(value.finishingTextures)) {
-            config.finishingTextures = value.finishingTextures;
+            const ft = value.finishingTextures;
+            if (
+              ft.length > 0 &&
+              typeof ft[0] === "object" &&
+              ft[0] !== null &&
+              typeof ft[0].fileName === "string"
+            ) {
+              config.finishingTextureSources = ft.map((f) => ({
+                fileName: f.fileName,
+                result: f.result,
+              }));
+              config.finishingTextures = ft.map((f) => f.fileName);
+            } else {
+              config.finishingTextures = ft;
+            }
           }
           if (value.particleLinks != null) {
             config.particleLinks = value.particleLinks;
@@ -1066,6 +1148,9 @@ export default function Content() {
             config.liquidMercuryEffect = value.liquidMercuryEffect;
           if (value.metaballPass !== undefined)
             config.metaballPass = value.metaballPass;
+          if (value.bgImage && typeof value.bgImage === "object") {
+            config.bgImage = value.bgImage;
+          }
           config.particlePredefinedEffect = undefined;
           config.refresh = true;
           setDefaultConfig(() => ({
@@ -1195,6 +1280,26 @@ export default function Content() {
             downloadableObj.textures = [...config.textures];
           }
           if (
+            Array.isArray(config.particleTextureSources) &&
+            config.particleTextureSources.length > 0
+          ) {
+            downloadableObj.particleTextureSources =
+              config.particleTextureSources.map((t) => ({
+                fileName: t.fileName,
+                result: t.result,
+              }));
+          }
+          if (
+            Array.isArray(config.finishingTextureSources) &&
+            config.finishingTextureSources.length > 0
+          ) {
+            downloadableObj.finishingTextureSources =
+              config.finishingTextureSources.map((t) => ({
+                fileName: t.fileName,
+                result: t.result,
+              }));
+          }
+          if (
             Array.isArray(config.finishingTextures) &&
             config.finishingTextures.length > 0
           ) {
@@ -1202,6 +1307,23 @@ export default function Content() {
           }
           if (config.particleLinks != null) {
             downloadableObj.particleLinks = config.particleLinks;
+          }
+          // Emitter write() can lag; HTML select stores blendMode as a string — ensure file matches editor state.
+          if (config.emitterConfig?.blendMode !== undefined) {
+            downloadableObj.blendMode = normalizeBlendModeToPixiNumber(
+              config.emitterConfig.blendMode,
+            );
+          }
+          if (
+            config.bgImage &&
+            typeof config.bgImage === "object" &&
+            config.bgImage.fileName &&
+            config.bgImage.result
+          ) {
+            downloadableObj.bgImage = {
+              fileName: config.bgImage.fileName,
+              result: config.bgImage.result,
+            };
           }
 
           const blob = new Blob([JSON.stringify(downloadableObj)], {
@@ -1330,6 +1452,7 @@ export default function Content() {
     const createEffectKey = [
       defaultConfig.particlePredefinedEffect || "",
       defaultConfig.refresh ? "1" : "0",
+      JSON.stringify(defaultConfig.bgColor ?? null),
       defaultConfig.bgImage?.fileName || "",
       defaultConfig.followMouse ? "1" : "0",
       defaultConfig.emitterConfig?.animatedSprite?.animatedSpriteName || "",
@@ -1354,7 +1477,17 @@ export default function Content() {
     }
 
     if (defaultConfig.bgImage) {
-      onImageLoaded(defaultConfig.bgImage);
+      const bi = defaultConfig.bgImage;
+      if (bi.result) {
+        bgImage(bi, () => {
+          onImageLoaded(bi);
+          // Loader is async; second resize runs after texture dimensions exist so bg is centered in the game frame.
+          handleResize();
+        });
+      } else {
+        onImageLoaded(bi);
+        handleResize();
+      }
     }
 
     handleResize();
