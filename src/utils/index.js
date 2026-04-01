@@ -1,6 +1,6 @@
 import eventBus from "@utils/eventBus";
 import pixiRefs from "@pixi/pixiRefs";
-import { Sprite, Texture } from "pixi.js-legacy";
+import { BLEND_MODES, Sprite, Texture } from "pixi.js-legacy";
 import { images } from "@utils/updatePropsLoogic";
 
 /** Built-in behaviour names; any other name in config is treated as a custom behaviour */
@@ -234,6 +234,41 @@ export const normalizeBlendModeForPixiV8 = (mode) => {
 };
 
 /**
+ * Coerce emitter blendMode (number, numeric string, or Pixi name like "screen"/"SCREEN")
+ * to a {@link BLEND_MODES} number so the General Properties blend select matches an option.
+ */
+export const normalizeBlendModeToPixiNumber = (mode) => {
+  if (mode == null || mode === "") return BLEND_MODES.NORMAL;
+  if (typeof mode === "number" && Number.isFinite(mode)) {
+    if (BLEND_MODES[mode] !== undefined) return mode;
+    return BLEND_MODES.NORMAL;
+  }
+  if (typeof mode === "string") {
+    const t = mode.trim();
+    if (/^\d+$/.test(t)) {
+      const n = parseInt(t, 10);
+      if (BLEND_MODES[n] !== undefined) return n;
+    }
+    const key = t.toUpperCase().replace(/-/g, "_");
+    if (typeof BLEND_MODES[key] === "number") return BLEND_MODES[key];
+  }
+  return BLEND_MODES.NORMAL;
+};
+
+/**
+ * Applies `defaultConfig.bgColor` (r, g, b) to the Pixi renderer clear color.
+ * Use after load/restore/draft so the canvas matches editor state (same as noConfig.bg-color).
+ */
+export const applyBgColorFromConfigToRenderer = (defaultConfig) => {
+  const rgb = defaultConfig?.bgColor;
+  if (!rgb || !pixiRefs.app?.renderer) return;
+  const r = Math.max(0, Math.min(255, Math.round(Number(rgb.r) || 0)));
+  const g = Math.max(0, Math.min(255, Math.round(Number(rgb.g) || 0)));
+  const b = Math.max(0, Math.min(255, Math.round(Number(rgb.b) || 0)));
+  pixiRefs.app.renderer.backgroundColor = (r << 16) | (g << 8) | b;
+};
+
+/**
  * Returns a deep clone of config with only built-in behaviours in emitterConfig.behaviours.
  * Use when passing config to the library create() or updateConfig() so older library
  * versions that don't support custom behaviours (PlaceholderBehaviour) won't throw.
@@ -243,10 +278,17 @@ export const normalizeBlendModeForPixiV8 = (mode) => {
 export const getConfigSafeForLibrary = (config) => {
   if (!config?.emitterConfig?.behaviours) {
     if (!Object.prototype.hasOwnProperty.call(config, "metaballPass")) {
-      return config;
+      if (!config?.particleTextureSources && !config?.finishingTextureSources)
+        return config;
+      const copy = { ...config };
+      delete copy.particleTextureSources;
+      delete copy.finishingTextureSources;
+      return copy;
     }
     const stripped = { ...config };
     delete stripped.metaballPass;
+    delete stripped.particleTextureSources;
+    delete stripped.finishingTextureSources;
     return stripped;
   }
   const origBehaviours = Array.isArray(config.emitterConfig.behaviours)
@@ -281,6 +323,8 @@ export const getConfigSafeForLibrary = (config) => {
   if (Object.prototype.hasOwnProperty.call(safe, "metaballPass")) {
     delete safe.metaballPass;
   }
+  delete safe.particleTextureSources;
+  delete safe.finishingTextureSources;
   return safe;
 };
 
@@ -469,20 +513,21 @@ export const updateProps = (name, value, id, refresh) => {
       case "noConfig.refresh":
         eventBus.emit("refresh");
         return;
-      case "noConfig.BackgroundColor":
-        pixiRefs.app.renderer.backgroundColor = parseInt(
-          `0x${value.hex.replace("#", "")}`,
-          16,
+      case "noConfig.BackgroundColor": {
+        const hex = value.hex.replace("#", "");
+        const n = parseInt(hex, 16);
+        pixiRefs.app.renderer.backgroundColor = parseInt(`0x${hex}`, 16);
+        // Persist rgb so autosave draft / restore round-trip matches coffeeShop canvas color
+        emitUpdateConfigEvent(
+          { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255, a: 1 },
+          undefined,
+          ["bgColor"],
+          false,
         );
         return;
+      }
       case "noConfig.bg-color": {
-        const rgb = value;
-        if (rgb && pixiRefs.app?.renderer) {
-          const r = Math.max(0, Math.min(255, Math.round(Number(rgb.r) || 0)));
-          const g = Math.max(0, Math.min(255, Math.round(Number(rgb.g) || 0)));
-          const b = Math.max(0, Math.min(255, Math.round(Number(rgb.b) || 0)));
-          pixiRefs.app.renderer.backgroundColor = (r << 16) | (g << 8) | b;
-        }
+        applyBgColorFromConfigToRenderer({ bgColor: value });
         emitUpdateConfigEvent(value, undefined, ["bgColor"], false);
         return;
       }

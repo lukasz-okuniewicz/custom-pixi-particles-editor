@@ -6,8 +6,14 @@ import {
   stopAllParticlesArr,
   updateParticles,
 } from "./particles";
-import { getBehaviourByName, getConfigIndexByName, resize } from "@utils";
+import {
+  applyBgColorFromConfigToRenderer,
+  getBehaviourByName,
+  getConfigIndexByName,
+  resize,
+} from "@utils";
 import { _customPixiParticlesEditorOnly } from "custom-pixi-particles";
+import { loadParticleTextureSourcesIfNeeded } from "@utils/particleTextureSources";
 import { animateTween, animateWarp, stopAllAnimationsNow } from "@animations";
 
 let lastPredefinedEffect = null;
@@ -32,91 +38,94 @@ export const createEffect = ({ defaultConfig, fullConfig, contentRef }) => {
   ];
   if (spriteEffectKeys.includes(defaultConfig.particlePredefinedEffect)) {
     stopAllAnimationsNow();
-    resetPixiContainers();
+    resetPixiContainers(defaultConfig);
     stopAllParticlesArr();
     lastPredefinedEffect = defaultConfig.particlePredefinedEffect;
     resize(contentRef, pixiRefs);
     return;
   }
 
-  if (
-    defaultConfig.particlePredefinedEffect === lastPredefinedEffect &&
-    !defaultConfig.refresh
-  ) {
-    updateParticles(defaultConfig);
-    reloadEverything(defaultConfig, fullConfig);
-  } else {
-    stopAllAnimationsNow();
-    resetPixiContainers();
-    stopAllParticlesArr();
-    reloadEverything(defaultConfig, fullConfig);
-    createParticles(defaultConfig);
-    lastPredefinedEffect = defaultConfig.particlePredefinedEffect;
-  }
+  const runAfterParticleTexturesReady = () => {
+    if (
+      defaultConfig.particlePredefinedEffect === lastPredefinedEffect &&
+      !defaultConfig.refresh
+    ) {
+      updateParticles(defaultConfig);
+      reloadEverything(defaultConfig, fullConfig);
+    } else {
+      stopAllAnimationsNow();
+      resetPixiContainers(defaultConfig);
+      stopAllParticlesArr();
+      reloadEverything(defaultConfig, fullConfig);
+      createParticles(defaultConfig);
+      lastPredefinedEffect = defaultConfig.particlePredefinedEffect;
+    }
 
-  const effectMapping = {
-    coffeeShop: () => createCoffeeShop({ fullConfig }),
-    faded: () => createFaded({ defaultConfig }),
-    ringFire: () => createRingFire({ defaultConfig }),
-    helloWord: () => createHelloWord({ defaultConfig }),
-    leaves: () => createLeaves({ defaultConfig }),
-    spiralAnimation: () => createSpiral({ defaultConfig }),
-    starAnimations: () => createStarAnimations({ defaultConfig }),
-    coneAnimations: () => createConeAnimations({ defaultConfig }),
-    leavesWithTurbulence: () => createLeaves({ defaultConfig }),
-    sun: () => createSprite("blackHole"),
-    sun2: () => createSprite("blackHole"),
-    magic8: () => createSprite("face"),
-    magic9: () => createSprite("face"),
-    magic10: () => createSprite("face"),
-    fall: () => createSprite("autumn"),
-    earthBarrier: () => createSprite("earth"),
-    twist: () => createSprite("autumn"),
-    warp: () => {
-      prepareWarp(fullConfig);
-      animateWarp({ defaultConfig });
-    },
-    warpWithEffect: () => {
-      const warp = getBehaviourByName("WarpBehaviour", defaultConfig);
-      if (warp) {
-        // Keep this preset visibly animated even when authored with tiny warp speeds.
-        warp.enabled = true;
-        warp.warpBaseSpeed = Math.max(warp.warpBaseSpeed || 0, 0.01);
-        warp.cameraZConverter = Math.max(
-          warp.cameraZConverter || 0,
-          10,
-        );
-      }
-      animateWarp({ defaultConfig });
-    },
-    warpWithEffectV2: () => {
-      const warp = getBehaviourByName("WarpBehaviour", defaultConfig);
-      if (warp) {
-        warp.enabled = true;
-        warp.warpBaseSpeed = Math.max(warp.warpBaseSpeed || 0, 0.01);
-        warp.cameraZConverter = Math.max(
-          warp.cameraZConverter || 0,
-          10,
-        );
-      }
-      animateWarp({ defaultConfig });
-    },
-    snowWithCollision: () => {
-      createSprite("house");
-    },
-    campFire: () => createSprite("campFire"),
-    campFireTurbulence: () => createSprite("campFire"),
-    birds: () => createSprite("birds"),
-    cigarette: () => createSprite("cigarette"),
+    const effectMapping = {
+      coffeeShop: () => createCoffeeShop({ fullConfig }),
+      faded: () => createFaded({ defaultConfig }),
+      ringFire: () => createRingFire({ defaultConfig }),
+      helloWord: () => createHelloWord({ defaultConfig }),
+      leaves: () => createLeaves({ defaultConfig }),
+      spiralAnimation: () => createSpiral({ defaultConfig }),
+      starAnimations: () => createStarAnimations({ defaultConfig }),
+      coneAnimations: () => createConeAnimations({ defaultConfig }),
+      leavesWithTurbulence: () => createLeaves({ defaultConfig }),
+      sun: () => createSprite("blackHole"),
+      sun2: () => createSprite("blackHole"),
+      magic8: () => createSprite("face"),
+      magic9: () => createSprite("face"),
+      magic10: () => createSprite("face"),
+      fall: () => createSprite("autumn"),
+      earthBarrier: () => createSprite("earth"),
+      twist: () => createSprite("autumn"),
+      warp: () => {
+        prepareWarp(fullConfig);
+        animateWarp({ defaultConfig });
+      },
+      warpWithEffect: () => {
+        const warp = getBehaviourByName("WarpBehaviour", defaultConfig);
+        if (warp) {
+          // Keep this preset visibly animated even when authored with tiny warp speeds.
+          warp.enabled = true;
+          warp.warpBaseSpeed = Math.max(warp.warpBaseSpeed || 0, 0.01);
+          warp.cameraZConverter = Math.max(
+            warp.cameraZConverter || 0,
+            10,
+          );
+        }
+        animateWarp({ defaultConfig });
+      },
+      warpWithEffectV2: () => {
+        const warp = getBehaviourByName("WarpBehaviour", defaultConfig);
+        if (warp) {
+          warp.enabled = true;
+          warp.warpBaseSpeed = Math.max(warp.warpBaseSpeed || 0, 0.01);
+          warp.cameraZConverter = Math.max(
+            warp.cameraZConverter || 0,
+            10,
+          );
+        }
+        animateWarp({ defaultConfig });
+      },
+      snowWithCollision: () => {
+        createSprite("house");
+      },
+      campFire: () => createSprite("campFire"),
+      campFireTurbulence: () => createSprite("campFire"),
+      birds: () => createSprite("birds"),
+      cigarette: () => createSprite("cigarette"),
+    };
+
+    const effectHandler = effectMapping[defaultConfig.particlePredefinedEffect];
+    if (effectHandler) {
+      effectHandler();
+    }
+
+    resize(contentRef, pixiRefs);
   };
 
-  const effectHandler = effectMapping[defaultConfig.particlePredefinedEffect];
-  if (effectHandler) {
-    effectHandler();
-  }
-
-  // Resize to ensure proper positioning
-  resize(contentRef, pixiRefs);
+  loadParticleTextureSourcesIfNeeded(defaultConfig, runAfterParticleTexturesReady);
 };
 
 const createCoffeeShop = ({ fullConfig }) => {
@@ -218,7 +227,7 @@ const createSprite = (textureName) => {
   bgContainer.addChild(sprite);
 };
 
-const resetPixiContainers = () => {
+const resetPixiContainers = (defaultConfig) => {
   const { bgContainer, bgContainer2, bgSprite, bgSprite2, app } = pixiRefs;
 
   // Stop melt effect if running (prevents error when switching effects mid-animation)
@@ -230,6 +239,7 @@ const resetPixiContainers = () => {
   // Reset renderer state (e.g. warp sets dark background; restore default when switching effects)
   if (app?.renderer) {
     app.renderer.backgroundColor = 0;
+    applyBgColorFromConfigToRenderer(defaultConfig);
   }
 
   // Clear containers

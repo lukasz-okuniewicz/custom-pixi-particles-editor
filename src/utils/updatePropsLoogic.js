@@ -15,7 +15,20 @@ export const images = (value, emitName) => {
   });
 
   const emitWithFullList = () => {
+    const isFilePick =
+      Array.isArray(value) &&
+      value.length > 0 &&
+      typeof value[0] === "object" &&
+      value[0] !== null &&
+      typeof value[0].fileName === "string" &&
+      typeof value[0].result === "string";
+    // Keep full { fileName, result } so config/drafts can restore Loader after refresh/restore.
+    if (isFilePick) {
+      eventBus.emit(emitName, value);
+      return;
+    }
     if (
+      value[0] &&
       value[0].result &&
       (value[0].result.indexOf("data:application/octet-stream;") !== -1 ||
         value[0].result.indexOf("data:application/json;") !== -1)

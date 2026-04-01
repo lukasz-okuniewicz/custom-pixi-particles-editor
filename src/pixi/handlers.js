@@ -24,6 +24,7 @@ export const predefinedImageHandler = ({
 }) => {
   defaultConfig.particlePredefinedImage = value;
   defaultConfig.textures = [value];
+  defaultConfig.particleTextureSources = undefined;
   defaultConfig.refresh = true;
   setDefaultConfig(() => ({
     ...defaultConfig,

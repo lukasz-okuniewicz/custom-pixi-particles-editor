@@ -4,7 +4,7 @@ import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionC
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAutoResizeTextarea } from "@hooks/useAutoResizeTextarea";
-import { updateProps } from "@utils";
+import { normalizeBlendModeToPixiNumber, updateProps } from "@utils";
 import File from "@components/html/File";
 import { BLEND_MODES, Loader } from "pixi.js-legacy";
 import {
@@ -138,6 +138,22 @@ const GeneralProperties = ({
     defaultConfig?.emitterConfig?.variantWeights,
   ]);
 
+  useEffect(() => {
+    const bg = defaultConfig?.bgColor;
+    if (!bg || typeof bg !== "object") return;
+    const r = Number(bg.r) || 0;
+    const g = Number(bg.g) || 0;
+    const b = Number(bg.b) || 0;
+    const a = bg.a != null ? Number(bg.a) : 1;
+    setBgColor((prev) => {
+      const pa = prev.a ?? prev.alpha ?? 1;
+      if (prev.r === r && prev.g === g && prev.b === b && pa === a) {
+        return prev;
+      }
+      return { r, g, b, a, alpha: a };
+    });
+  }, [defaultConfig?.bgColor]);
+
   const textureVariantsTextarea = useAutoResizeTextarea(textureVariantsJson);
 
   const applyTextureVariantsFromJson = useCallback(() => {
@@ -185,6 +201,8 @@ const GeneralProperties = ({
             updateProps(
               "emitterConfig.animatedSprite.animatedSpriteName",
               value,
+              undefined,
+              true,
             )
           }
         />
@@ -408,7 +426,12 @@ const GeneralProperties = ({
               label="Animated Sprite"
               id="animated-sprite"
               onChange={(value) => {
-                updateProps("emitterConfig.animatedSprite.enabled", value);
+                updateProps(
+                  "emitterConfig.animatedSprite.enabled",
+                  value,
+                  undefined,
+                  true,
+                );
               }}
               checked={
                 defaultConfig.emitterConfig.animatedSprite?.enabled || false
@@ -467,9 +490,16 @@ const GeneralProperties = ({
             />
             <BfSelect
               label="Blend Mode"
-              defaultValue={defaultConfig.emitterConfig.blendMode ?? "NORMAL"}
+              defaultValue={normalizeBlendModeToPixiNumber(
+                defaultConfig.emitterConfig?.blendMode ?? defaultConfig.blendMode,
+              )}
               onChange={(value) => {
-                updateProps("emitterConfig.blendMode", value, undefined, true);
+                updateProps(
+                  "emitterConfig.blendMode",
+                  normalizeBlendModeToPixiNumber(value),
+                  undefined,
+                  true,
+                );
               }}
               elements={blendModes}
             />
@@ -544,7 +574,12 @@ const GeneralProperties = ({
               label="Animated Sprite"
               id="animated-sprite"
               onChange={(value) => {
-                updateProps("emitterConfig.animatedSprite.enabled", value);
+                updateProps(
+                  "emitterConfig.animatedSprite.enabled",
+                  value,
+                  undefined,
+                  true,
+                );
               }}
               checked={
                 defaultConfig.emitterConfig.animatedSprite?.enabled || false
@@ -571,12 +606,16 @@ const GeneralProperties = ({
             />
             <BfSelect
               label="Blend Mode"
-              defaultValue={
+              defaultValue={normalizeBlendModeToPixiNumber(
                 defaultConfig.emitterConfig?.blendMode ??
-                defaultConfig.blendMode ??
-                "NORMAL"
+                  defaultConfig.blendMode,
+              )}
+              onChange={(value) =>
+                updateProps(
+                  "noConfig.blend-mode",
+                  normalizeBlendModeToPixiNumber(value),
+                )
               }
-              onChange={(value) => updateProps("noConfig.blend-mode", value)}
               elements={blendModes}
             />
             {renderTextureVariantsEditor()}
