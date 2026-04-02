@@ -6,6 +6,7 @@ const optionShape = PropTypes.shape({
   key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   displayName: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  disabled: PropTypes.bool,
 });
 
 const Select = ({
@@ -29,10 +30,11 @@ const Select = ({
     if (hasGroups) {
       return groups.map((group, groupIndex) => (
         <optgroup key={groupIndex} label={group.label}>
-          {(group.options || []).map(({ key, displayName, value }) => (
+          {(group.options || []).map(({ key, displayName, value, disabled: optDisabled }) => (
             <option
               key={key}
               value={typeof value === "undefined" ? key : value}
+              disabled={optDisabled}
             >
               {displayName}
             </option>
@@ -41,10 +43,11 @@ const Select = ({
       ));
     }
     if (hasElements) {
-      return elements.map(({ key, displayName, value }) => (
+      return elements.map(({ key, displayName, value, disabled: optDisabled }) => (
         <option
           key={key}
           value={typeof value === "undefined" ? key : value}
+          disabled={optDisabled}
         >
           {displayName}
         </option>
