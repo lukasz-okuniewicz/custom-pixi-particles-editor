@@ -1,8 +1,10 @@
 "use client";
 
 import PropTypes from "prop-types";
+import { propertyHint } from "@components/properties/behaviourPropertyHints";
 
 const File = ({ label, buttonText, onChange, onClick, id, ref }) => {
+  const tooltipText = propertyHint(id);
   return (
     <div className={`form-group`}>
       <label className="col-xs-4 form-label" htmlFor={id}>
@@ -26,6 +28,7 @@ const File = ({ label, buttonText, onChange, onClick, id, ref }) => {
           multiple
           ref={ref}
         />
+        {tooltipText ? <span className="tooltiptext">{tooltipText}</span> : null}
       </div>
     </div>
   );

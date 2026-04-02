@@ -4509,64 +4509,7 @@ const particlesDefaultConfig = {
     textures: ["flare.png"],
   },
   birds: {
-    emitterConfig: {
-      behaviours: [
-        {
-          priority: 100,
-          customPoints: [
-            {
-              perspective: 0,
-              maxZ: 0,
-              spawnType: "Rectangle",
-              radius: 0,
-              position: { x: 670, y: 0 },
-              positionVariance: { x: 0, y: 800 },
-            },
-          ],
-          name: "SpawnBehaviour",
-        },
-        {
-          priority: 10000,
-          enabled: true,
-          maxLifeTime: 20,
-          timeVariance: 0,
-          name: "LifeBehaviour",
-        },
-        {
-          priority: 100,
-          enabled: true,
-          velocity: { x: -50, y: 0 },
-          velocityVariance: { x: 30, y: 10 },
-          acceleration: { x: 0, y: 0 },
-          accelerationVariance: { x: 0, y: 0 },
-          name: "PositionBehaviour",
-        },
-        {
-          priority: 0,
-          enabled: true,
-          allowNegativeValues: false,
-          sizeStart: { x: 0.3, y: 0.3 },
-          sizeEnd: { x: 0.3, y: 0.3 },
-          startVariance: 0.5,
-          endVariance: 0.5,
-          name: "SizeBehaviour",
-        },
-      ],
-      emitController: {
-        _maxParticles: 10000,
-        _maxLife: 1,
-        _emitPerSecond: 30,
-        _frames: 0.2971499995328486,
-        name: "UniformEmission",
-      },
-      duration: -1,
-      animatedSprite: {
-        enabled: true,
-        frameRate: 15 / 60,
-        loop: true,
-        randomFrameStart: true,
-      },
-    },
+    emitterConfig: {"behaviours":[{"enabled":true,"priority":10000,"maxLifeTime":-1,"timeVariance":0,"progressMode":"linear","startDelay":0,"startDelayVariance":0,"timeScale":1,"timeScaleVariance":0,"infiniteLifeVisualPeriod":5,"infiniteLifePhaseOffset":0,"killAtProgress":-1,"useLifeProgressForInfiniteTimeline":false,"name":"LifeBehaviour"},{"enabled":true,"priority":100,"trailingEnabled":false,"spawnAlongTrail":false,"trailSpeed":1,"trailRepeat":true,"trailStart":0,"trailRangeSegments":20,"trailRangeWeightFactor":4,"trailRangeLength":1,"randomSeed":null,"compositionMode":"random","maxSpawnCalcMs":4,"customPoints":[{"spawnType":"Rectangle","position":{"x":670,"y":0},"positionVariance":{"x":0,"y":800}}],"name":"SpawnBehaviour"},{"enabled":true,"priority":100,"positionVariance":{"x":0,"y":0},"velocity":{"x":-50,"y":0},"velocityVariance":{"x":30,"y":10},"acceleration":{"x":0,"y":0},"accelerationVariance":{"x":0,"y":0},"drag":0,"dragVariance":0,"maxSpeed":-1,"maxSpeedVariance":0,"boundsMode":"none","boundsMin":{"x":-1000,"y":-1000},"boundsMax":{"x":1000,"y":1000},"bounceDamping":1,"name":"PositionBehaviour"},{"enabled":true,"priority":45,"wrapX":true,"wrapY":true,"useCanvasBounds":true,"minX":-400,"maxX":400,"minY":-300,"maxY":300,"inset":0,"name":"ToroidalWrapBehaviour"},{"enabled":true,"priority":0,"sizeStart":{"x":0.3,"y":0.3},"sizeEnd":{"x":0.3,"y":0.3},"startVariance":0.5,"endVariance":0.5,"endMatchesStart":false,"maxSize":{"x":2,"y":2},"uniformScaling":true,"xScalingFunction":"linear","yScalingFunction":"linear","name":"SizeBehaviour"}],"emitController":{"_maxParticles":500,"_burstPerFrame":1,"name":"PersistentFillEmission"},"duration":-1,"alpha":1,"anchor":{"x":0.5,"y":0.5},"blendMode":0,"animatedSprite":{"enabled":true,"frameRate":0.25,"loop":true,"randomFrameStart":true},"textures":["bird_"]},
     textures: ["bird_"],
   },
   cigarette: {

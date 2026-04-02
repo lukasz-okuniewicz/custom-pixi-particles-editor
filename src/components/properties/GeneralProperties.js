@@ -489,7 +489,6 @@ const GeneralProperties = ({
               onClick={() => fileParticleImagesInputRef.current?.click()}
               ref={fileParticleImagesInputRef}
             />
-            <BfFieldHint id="load-particle-images" />
             <File
               label="Particle Finishing Images"
               buttonText="Add Finishing Images"
@@ -504,7 +503,6 @@ const GeneralProperties = ({
               onClick={() => fileParticleFinishingInputRef.current?.click()}
               ref={fileParticleFinishingInputRef}
             />
-            <BfFieldHint id="load-particle-finishing-images" />
             <hr />
             <BfCheckbox
               label="Animated Sprite"
@@ -679,7 +677,6 @@ const GeneralProperties = ({
               onClick={() => fileParticleBackgroundImageRef.current?.click()}
               ref={fileParticleBackgroundImageRef}
             />
-            <BfFieldHint id="load-particle-background-image" />
             <hr />
             <BfColorPicker
               id="general-background-color"
