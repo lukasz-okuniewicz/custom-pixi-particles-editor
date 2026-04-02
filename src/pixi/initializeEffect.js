@@ -4,7 +4,11 @@ import { updateProps } from "@utils";
 const LAST_SELECTED_EFFECT_STORAGE_KEY = "particleEditor.lastSelectedEffect.v1";
 const AUTOSAVE_DRAFT_STORAGE_KEY = "particleEditor.autosaveDraft.v1";
 
-export const initializeEffect = ({ setDefaultConfig }) => {
+/**
+ * Resolves the same initial effect config as the legacy initializeEffect (URL, last effect, draft).
+ * Safe to call synchronously on the client so the first paint can include Menu + full layout.
+ */
+export function computeInitialDefaultConfig() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   let effect = urlParams.get("effect");
@@ -45,15 +49,17 @@ export const initializeEffect = ({ setDefaultConfig }) => {
     effectConfig = JSON.parse(JSON.stringify(config[effect]));
   }
 
-  const updatedEffectConfig = {
+  return {
     ...effectConfig,
     particlePredefinedEffect: effect,
   };
+}
 
+export const initializeEffect = ({ setDefaultConfig }) => {
+  const updatedEffectConfig = computeInitialDefaultConfig();
   setDefaultConfig(updatedEffectConfig);
 
-  // Trigger refresh for effects other than "coffeeShop"
-  if (effect !== "coffeeShop") {
+  if (updatedEffectConfig.particlePredefinedEffect !== "coffeeShop") {
     updateProps("refresh", null);
   }
 };

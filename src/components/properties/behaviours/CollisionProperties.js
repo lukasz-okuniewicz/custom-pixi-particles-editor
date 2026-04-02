@@ -42,12 +42,14 @@ export default function CollisionProperties({ defaultConfig, index, accordionPan
   };
   behaviour = mergeObjectsWithDefaults(keysToInitialize, behaviour);
 
-  if (pixiRefs.graphics) {
+  useEffect(() => {
+    if (!pixiRefs.graphics) return;
     pixiRefs.graphics.visible = behaviour.showLines;
-  }
+  }, [behaviour.showLines]);
 
   useEffect(() => {
     const handleWindowClick = (event) => {
+      if (!pixiRefs.app) return;
       if (selectedLineIndexRef.current !== null && pointKeyRef.current) {
         const localPosition = new Point(0, 0);
         pixiRefs.app.renderer.events.mapPositionToPoint(

@@ -15,7 +15,10 @@ import {
   updateNestedConfig,
   updateProps,
 } from "@utils";
-import { initializeEffect } from "@pixi/initializeEffect";
+import {
+  computeInitialDefaultConfig,
+  initializeEffect,
+} from "@pixi/initializeEffect";
 import { initializeApp } from "@pixi/initializePixi";
 import { createEffect } from "@pixi/effects";
 import eventBus from "@utils/eventBus";
@@ -34,8 +37,18 @@ import Loader from "@utils/Loader";
 const DRAFT_STORAGE_KEY = "particleEditor.autosaveDraft.v1";
 const LAST_SELECTED_EFFECT_STORAGE_KEY = "particleEditor.lastSelectedEffect.v1";
 
+/** Same rules as custom-pixi-particles `textureVariants.isAnimatedSpriteEnabled` */
+function isEmitterAnimatedSpriteEnabled(emitterConfig) {
+  const a = emitterConfig?.animatedSprite;
+  if (!a) return false;
+  if (typeof a.enabled === "boolean") return a.enabled;
+  return true;
+}
+
 export default function Content() {
-  const [defaultConfig, setDefaultConfig2] = useState(null);
+  const [defaultConfig, setDefaultConfig2] = useState(() =>
+    typeof window !== "undefined" ? computeInitialDefaultConfig() : null,
+  );
   const [containerReady, setContainerReady] = useState(false);
   const [appReady, setAppReady] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -57,6 +70,8 @@ export default function Content() {
   const workerListenersRef = useRef(new Map());
   const lastCreateEffectKeyRef = useRef("");
   const lastEmitterConfigRef = useRef(null);
+  const prevAnimatedSpriteEnabledRef = useRef(null);
+  const lastStaticTexturesByEffectRef = useRef({});
   // Keep stable reference: rebuilding this object on every render can retrigger effects.
   const fullConfig = useMemo(
     () => JSON.parse(JSON.stringify(particlesDefaultConfig)),
@@ -855,15 +870,30 @@ export default function Content() {
     if (!defaultConfig || didAttemptDraftRestoreRef.current) return;
     didAttemptDraftRestoreRef.current = true;
     baselineRevisionRef.current = revisionRef.current;
+    let compareSettled = false;
+    const markSettled = () => {
+      compareSettled = true;
+    };
     try {
       const draftRaw = window.localStorage.getItem(DRAFT_STORAGE_KEY);
-      if (!draftRaw) return;
-      const draft = JSON.parse(draftRaw);
-      runWorkerTask("compare", { base: defaultConfig, draft }).then((result) => {
-        if (!result || result.equal) return;
-        setAutosaveDraftPrompt({ draft });
-      });
-    } catch {}
+      if (!draftRaw) {
+        markSettled();
+      } else {
+        const draft = JSON.parse(draftRaw);
+        runWorkerTask("compare", { base: defaultConfig, draft }).then((result) => {
+          markSettled();
+          if (!result || result.equal) return;
+          setAutosaveDraftPrompt({ draft });
+        });
+      }
+    } catch {
+      markSettled();
+    }
+    return () => {
+      // Strict Mode remounts effects before the async compare resolves; the worker is torn down.
+      // Reset the ref so the remount can run the compare again; otherwise the modal never appears.
+      if (!compareSettled) didAttemptDraftRestoreRef.current = false;
+    };
   }, [defaultConfig, runWorkerTask]);
 
   const dismissAutosaveDraftPrompt = useCallback(() => {
@@ -1393,14 +1423,14 @@ export default function Content() {
     [fullConfig],
   );
 
-  // Initialization (run when container ref is ready)
+  // Initialization (run when container ref is ready). Config may already be set via
+  // computeInitialDefaultConfig for first paint; initializeEffect reconciles URL/draft/refresh.
   useEffect(() => {
     if (!containerReady || !contentRef.current) return;
 
     let destroyApp = () => {};
     let mounted = true;
     const initialize = async () => {
-      // Set default config first so Menu shows even if Pixi init fails
       initializeEffect({
         setDefaultConfig,
       });
@@ -1440,17 +1470,49 @@ export default function Content() {
   useEffect(() => {
     if (!defaultConfig || !appReady || !pixiRefs.app) return;
 
-    const { emitterConfig, textures } = defaultConfig;
+    const { emitterConfig } = defaultConfig;
+    const animEnabled = isEmitterAnimatedSpriteEnabled(emitterConfig);
+    const effectName = defaultConfig.particlePredefinedEffect || "";
+    const prevAnim = prevAnimatedSpriteEnabledRef.current;
 
     if (
-      !emitterConfig?.animatedSprite &&
-      Array.isArray(textures) &&
-      textures.length > 0 &&
-      textures[0] === "coin_"
+      prevAnim !== null &&
+      prevAnim === true &&
+      !animEnabled
     ) {
+      const saved = lastStaticTexturesByEffectRef.current[effectName];
+      const presetTextures = fullConfig[effectName]?.textures;
+      if (Array.isArray(saved) && saved.length) {
+        defaultConfig.textures = [...saved];
+      } else if (Array.isArray(presetTextures) && presetTextures.length) {
+        defaultConfig.textures = [...presetTextures];
+      } else {
+        defaultConfig.textures = ["sparkle.png"];
+      }
+    }
+
+    if (
+      prevAnim !== null &&
+      prevAnim === false &&
+      animEnabled
+    ) {
+      const t = defaultConfig.textures;
+      if (Array.isArray(t) && t.length) {
+        lastStaticTexturesByEffectRef.current[effectName] = [...t];
+      }
+    }
+
+    const texturesNow = defaultConfig.textures;
+    if (
+      !isEmitterAnimatedSpriteEnabled(emitterConfig) &&
+      Array.isArray(texturesNow) &&
+      texturesNow.length > 0 &&
+      texturesNow[0] === "coin_"
+    ) {
+      prevAnimatedSpriteEnabledRef.current = animEnabled;
       const updatedConfig = {
         ...defaultConfig,
-        textures: ["sparkle.png", ...textures.slice(1)], // Ensures immutability
+        textures: ["sparkle.png", ...texturesNow.slice(1)], // Ensures immutability
       };
 
       setDefaultConfig(updatedConfig);
@@ -1458,6 +1520,7 @@ export default function Content() {
     }
 
     if (
+      animEnabled &&
       defaultConfig.emitterConfig?.animatedSprite &&
       defaultConfig.emitterConfig?.animatedSprite.animatedSpriteName &&
       !(
@@ -1475,10 +1538,12 @@ export default function Content() {
     // Ensure spritesheet frame names (Snow100.png, smoke/smoke2_4.png, etc.) resolve via Assets
     // so the particle engine's Texture.from(frameName) does not request bad URLs (404).
     Loader.registerSpritesheetFrames();
+    prevAnimatedSpriteEnabledRef.current = animEnabled;
 
     const createEffectKey = [
       defaultConfig.particlePredefinedEffect || "",
       defaultConfig.refresh ? "1" : "0",
+      animEnabled ? "1" : "0",
       JSON.stringify(defaultConfig.bgColor ?? null),
       defaultConfig.bgImage?.fileName || "",
       defaultConfig.followMouse ? "1" : "0",

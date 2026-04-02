@@ -1,16 +1,132 @@
-import React, { forwardRef } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import PropTypes from "prop-types";
 
+/** Display string for a prop that may be number or string from config. */
+function formatPropToDisplayString(v) {
+  if (v === null || v === undefined) return "";
+  if (typeof v === "number") {
+    if (Number.isNaN(v)) return "";
+    return String(v);
+  }
+  return String(v);
+}
+
+/**
+ * True while the user is still typing a valid prefix (e.g. "-", ".", "5.") that must not be
+ * coerced to a number yet. `type="number"` drops these as invalid; we use text + draft state instead.
+ */
+function isIncompleteNumericString(s) {
+  const t = String(s).trim();
+  if (t === "") return false;
+  if (/^[+-]?(\.)?$/.test(t)) return true;
+  if (/^[+-]?\d+\.$/.test(t)) return true;
+  return false;
+}
+
 function getNumericIssue(rawValue, min, max) {
-  if (rawValue === "" || rawValue === null || rawValue === undefined) {
+  if (isIncompleteNumericString(rawValue)) return "";
+  const s = rawValue === null || rawValue === undefined ? "" : String(rawValue).trim();
+  if (s === "") {
     return "Value is required.";
   }
-  const n = Number(rawValue);
+  const n = Number(s);
   if (Number.isNaN(n)) return "Enter a valid number.";
   if (typeof min === "number" && n < min) return `Must be at least ${min}.`;
   if (typeof max === "number" && n > max) return `Must be at most ${max}.`;
   return "";
 }
+
+const NumericField = forwardRef(function NumericField(
+  {
+    id,
+    className,
+    inputValue,
+    paramKey,
+    onCommit,
+    min,
+    max,
+    ariaLabel,
+    tooltipId,
+    issueId,
+  },
+  ref,
+) {
+  const [focused, setFocused] = useState(false);
+  const [draft, setDraft] = useState(() => formatPropToDisplayString(inputValue));
+
+  useEffect(() => {
+    if (!focused) {
+      setDraft(formatPropToDisplayString(inputValue));
+    }
+  }, [inputValue, focused]);
+
+  const display = focused ? draft : formatPropToDisplayString(inputValue);
+  const issue = getNumericIssue(display, min, max);
+  const invalid = Boolean(issue);
+
+  const tryEmitNumber = useCallback(
+    (raw) => {
+      if (raw === "" || isIncompleteNumericString(raw)) return;
+      const n = parseFloat(raw);
+      if (!Number.isNaN(n)) {
+        onCommit(paramKey, n);
+      }
+    },
+    [onCommit, paramKey],
+  );
+
+  const describedBy = [tooltipId, invalid ? issueId : null].filter(Boolean).join(" ") || undefined;
+
+  return (
+    <>
+      <input
+        ref={ref}
+        className={`${className}${invalid ? " editor-input-invalid" : ""}`}
+        type="text"
+        inputMode="decimal"
+        autoComplete="off"
+        id={id}
+        value={display}
+        onFocus={() => setFocused(true)}
+        onChange={(e) => {
+          const raw = e.target.value;
+          setDraft(raw);
+          tryEmitNumber(raw);
+        }}
+        onBlur={(e) => {
+          setFocused(false);
+          const raw = e.target.value;
+          if (raw === "" || isIncompleteNumericString(raw)) {
+            setDraft(formatPropToDisplayString(inputValue));
+            return;
+          }
+          const n = parseFloat(raw);
+          if (!Number.isNaN(n)) {
+            onCommit(paramKey, n);
+            setDraft(formatPropToDisplayString(n));
+          } else {
+            setDraft(formatPropToDisplayString(inputValue));
+          }
+        }}
+        aria-label={ariaLabel}
+        aria-invalid={invalid}
+        aria-describedby={describedBy}
+      />
+      {invalid ? (
+        <span className="editor-input-issue" id={issueId} role="alert">
+          {issue}
+        </span>
+      ) : null}
+    </>
+  );
+});
+
+NumericField.displayName = "NumericField";
 
 const InputNumber = forwardRef(
   (
@@ -29,49 +145,36 @@ const InputNumber = forwardRef(
     ref,
   ) => {
     const baseFieldClassName = className ? `form-control ${className}` : "form-control";
-    const handleInputChange = (value, newValue) => {
-      if (typeof onChange === "function") {
-        onChange(newValue, value);
-      }
-    };
-
-    const renderInput = (inputValue, index, paramKey) => (
-      <div className="editor-input-number-param" key={index}>
-        <span className="editor-input-number-param-key">{paramKey}</span>
-        {(() => {
-          const issue = getNumericIssue(inputValue, min, max);
-          const invalid = Boolean(issue);
-          const inputId = `${id}-${index}`;
-          const issueId = `${inputId}-issue`;
-          return (
-        <input
-          className={`${baseFieldClassName}${invalid ? " editor-input-invalid" : ""}`}
-          type="number"
-          id={inputId}
-          step={step}
-          min={min}
-          max={max}
-          value={inputValue}
-          onChange={(e) => {
-            const val = parseFloat(e.target.value);
-            if (!Number.isNaN(val)) {
-              handleInputChange(paramKey, val);
-            } else {
-              handleInputChange(paramKey, e.target.value);
-            }
-          }}
-          aria-label={params ? `${label} (${paramKey})` : label}
-          aria-invalid={invalid}
-          aria-describedby={
-            [tooltipText && params ? `${id}-tooltip` : null, invalid ? issueId : null]
-              .filter(Boolean)
-              .join(" ") || undefined
-          }
-        />
-          );
-        })()}
-      </div>
+    const handleCommit = useCallback(
+      (paramKey, newValue) => {
+        if (typeof onChange === "function") {
+          onChange(newValue, paramKey);
+        }
+      },
+      [onChange],
     );
+
+    const renderInput = (inputValue, index, paramKey) => {
+      const inputId = `${id}-${index}`;
+      const issueId = `${inputId}-issue`;
+      return (
+        <div className="editor-input-number-param" key={index}>
+          <span className="editor-input-number-param-key">{paramKey}</span>
+          <NumericField
+            id={inputId}
+            className={baseFieldClassName}
+            inputValue={inputValue}
+            paramKey={paramKey}
+            onCommit={handleCommit}
+            min={min}
+            max={max}
+            ariaLabel={params ? `${label} (${paramKey})` : label}
+            tooltipId={tooltipText && params ? `${id}-tooltip` : undefined}
+            issueId={issueId}
+          />
+        </div>
+      );
+    };
 
     return (
       <div className="form-group">
@@ -81,7 +184,7 @@ const InputNumber = forwardRef(
         {Array.isArray(params) && params.length > 0 ? (
           <div className="col-xs-8" style={{ position: "relative" }}>
             <div className="editor-input-number-params">
-              {params.map((v, index) => renderInput(value[index], index, v))}
+              {params.map((v, index) => renderInput(value?.[index], index, v))}
             </div>
             {tooltipText ? (
               <span className="tooltiptext" id={`${id}-tooltip`}>
@@ -91,50 +194,24 @@ const InputNumber = forwardRef(
           </div>
         ) : (
           <div className="col-xs-8">
-            {(() => {
-              const issue = getNumericIssue(value, min, max);
-              const invalid = Boolean(issue);
-              const issueId = `${id}-issue`;
-              return (
-                <>
-            <input
+            <NumericField
               ref={ref}
               id={id}
-              className={`${baseFieldClassName}${invalid ? " editor-input-invalid" : ""}`}
-              type="number"
-              step={step}
+              className={baseFieldClassName}
+              inputValue={value}
+              paramKey={null}
+              onCommit={handleCommit}
               min={min}
               max={max}
-              value={value}
-              onChange={(e) => {
-                const val = parseFloat(e.target.value);
-                if (!Number.isNaN(val)) {
-                  handleInputChange(null, val);
-                } else {
-                  handleInputChange(null, e.target.value);
-                }
-              }}
-              aria-invalid={invalid}
-              aria-describedby={
-                [tooltipText ? `${id}-tooltip` : null, invalid ? issueId : null]
-                  .filter(Boolean)
-                  .join(" ") || undefined
-              }
-              inputMode="decimal"
+              ariaLabel={label}
+              tooltipId={tooltipText ? `${id}-tooltip` : undefined}
+              issueId={`${id}-issue`}
             />
-            {invalid ? (
-              <span className="editor-input-issue" id={issueId} role="alert">
-                {issue}
-              </span>
-            ) : null}
             {tooltipText && (
               <span className="tooltiptext" id={`${id}-tooltip`}>
                 {tooltipText}
               </span>
             )}
-                </>
-              );
-            })()}
           </div>
         )}
       </div>

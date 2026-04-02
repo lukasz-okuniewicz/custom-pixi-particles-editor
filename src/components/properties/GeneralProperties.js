@@ -4,7 +4,17 @@ import { useBehaviourSectionCollapse } from "@context/SidebarBehaviourAccordionC
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAutoResizeTextarea } from "@hooks/useAutoResizeTextarea";
-import { camelCaseToNormal, normalizeBlendModeForPixiV8, updateProps } from "@utils";
+import {
+  camelCaseToNormal,
+  normalizeBlendModeForPixiV8,
+  updateProps,
+} from "@utils";
+import {
+  buildAnimatedSpriteNameSelectElements,
+  coerceAnimatedSpriteSelectValue,
+  getAnimatedSpritePrefixesForEditor,
+  resolveAnimatedSpriteSelectValue,
+} from "@utils/animatedSpritePrefixes";
 import File from "@components/html/File";
 import { Assets } from "pixi.js";
 import {
@@ -12,7 +22,6 @@ import {
   BfColorPicker,
   BfFieldHint,
   BfInputNumber,
-  BfInputString,
   BfSelect,
 } from "@components/properties/BehaviourFieldWrappers";
 import GeneralDescription from "@components/html/behaviourDescriptions/General";
@@ -50,6 +59,15 @@ const SPRITE_IMAGE_EFFECT_KEYS = [
   "shatterEffect",
 ];
 import { GENERAL_PROPERTIES_PANEL_ID } from "@utils/editorNav";
+
+function getLegacyLoaderFromAssets() {
+  return {
+    resources: {
+      "multipacked-0.json": Assets.get("multipacked-0.json"),
+      "images.json": Assets.get("images.json"),
+    },
+  };
+}
 
 const GeneralProperties = ({
   defaultConfig,
@@ -131,6 +149,87 @@ const GeneralProperties = ({
         displayName: key,
       }));
   }, []);
+
+  const handleAnimatedSpriteEnabledChange = useCallback(
+    (checked) => {
+      const anim = {
+        ...(defaultConfig?.emitterConfig?.animatedSprite || {}),
+      };
+      if (checked) {
+        anim.enabled = true;
+        const detected = getAnimatedSpritePrefixesForEditor(
+          getLegacyLoaderFromAssets(),
+          defaultConfig?.particleTextureSources,
+          defaultConfig?.textures,
+        );
+        if (detected.length === 1) {
+          anim.animatedSpriteName = detected[0].prefix;
+        }
+        updateProps("emitterConfig.animatedSprite", anim, undefined, true);
+      } else {
+        anim.enabled = false;
+        updateProps("emitterConfig.animatedSprite", anim, undefined, true);
+      }
+    },
+    [
+      defaultConfig?.emitterConfig?.animatedSprite,
+      defaultConfig?.particleTextureSources,
+      defaultConfig?.textures,
+    ],
+  );
+
+  const animatedSpriteSelect = useMemo(() => {
+    const detected = getAnimatedSpritePrefixesForEditor(
+      getLegacyLoaderFromAssets(),
+      defaultConfig?.particleTextureSources,
+      defaultConfig?.textures,
+    );
+    const resolved = resolveAnimatedSpriteSelectValue(
+      defaultConfig?.emitterConfig?.animatedSprite?.animatedSpriteName,
+      defaultConfig?.textures?.[0],
+    );
+    const needsPlaceholder = detected.length > 1;
+    const selectValue = needsPlaceholder
+      ? resolved
+      : coerceAnimatedSpriteSelectValue(resolved, detected);
+    const elements = buildAnimatedSpriteNameSelectElements(detected, resolved, {
+      prependPlaceholder: needsPlaceholder,
+    });
+    return { elements, selectValue };
+  }, [
+    defaultConfig?.particleTextureSources,
+    defaultConfig?.textures,
+    defaultConfig?.emitterConfig?.animatedSprite?.animatedSpriteName,
+  ]);
+
+  useEffect(() => {
+    if (!defaultConfig?.emitterConfig?.animatedSprite?.enabled) return;
+    const anim = defaultConfig.emitterConfig.animatedSprite;
+    const resolved = resolveAnimatedSpriteSelectValue(
+      anim.animatedSpriteName,
+      defaultConfig?.textures?.[0],
+    );
+    if (resolved) return;
+    const detected = getAnimatedSpritePrefixesForEditor(
+      getLegacyLoaderFromAssets(),
+      defaultConfig?.particleTextureSources,
+      defaultConfig?.textures,
+    );
+    if (detected.length !== 1) return;
+    const only = detected[0].prefix;
+    if (anim.animatedSpriteName === only) return;
+    updateProps(
+      "emitterConfig.animatedSprite.animatedSpriteName",
+      only,
+      undefined,
+      true,
+    );
+  }, [
+    defaultConfig?.emitterConfig?.animatedSprite?.enabled,
+    defaultConfig?.emitterConfig?.animatedSprite?.animatedSpriteName,
+    defaultConfig?.particleTextureSources,
+    defaultConfig?.textures,
+  ]);
 
   // Generic file handling
   const handleFileChange = useCallback((e, ref, propName) => {
@@ -255,21 +354,20 @@ const GeneralProperties = ({
 
     return (
       <>
-        <BfInputString
+        <BfSelect
           label="Animated Sprite Name"
           id="animated-sprite-name"
-          value={
-            defaultConfig.emitterConfig.animatedSprite.animatedSpriteName ||
-            defaultConfig.textures[0]
-          }
-          onChange={(value) =>
+          defaultValue={animatedSpriteSelect.selectValue}
+          elements={animatedSpriteSelect.elements}
+          onChange={(value) => {
+            if (value === "") return;
             updateProps(
               "emitterConfig.animatedSprite.animatedSpriteName",
               value,
               undefined,
               true,
-            )
-          }
+            );
+          }}
         />
         <BfInputNumber
           label="Animated Sprite Frame Rate"
@@ -490,14 +588,7 @@ const GeneralProperties = ({
             <BfCheckbox
               label="Animated Sprite"
               id="animated-sprite"
-              onChange={(value) => {
-                updateProps(
-                  "emitterConfig.animatedSprite.enabled",
-                  value,
-                  undefined,
-                  true,
-                );
-              }}
+              onChange={handleAnimatedSpriteEnabledChange}
               checked={
                 defaultConfig.emitterConfig.animatedSprite?.enabled || false
               }
