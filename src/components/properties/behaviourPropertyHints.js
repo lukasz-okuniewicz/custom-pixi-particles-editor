@@ -33,7 +33,10 @@ export const PROPERTY_HINTS = {
   "animated-sprite-frame-rate": "Animated Sprite Frame: Adjusts rate for this behaviour.",
   "animated-sprite-index-to-start": "Animated Sprite Index To: Starting value at spawn or at the beginning of particle life.",
   "animated-sprite-loop": "Animated Sprite: Adjusts loop for this behaviour.",
-  "animated-sprite-name": "Animated Sprite: Adjusts name for this behaviour.",
+  "animated-sprite-name":
+    "Frame sequence prefix (e.g. bird_ for bird_00.png, bird_01.png…). Pick from detected sequences in spritesheets and indexed particle images you added.",
+  "select:Animated Sprite Name":
+    "Turning on Animated Sprite with a single sequence applies it automatically. If several sequences exist, pick one from the list (starts on “Select animated sequence…”).",
   "animated-sprite-zero-pad": "Animated Sprite Zero: Adjusts pad for this behaviour.",
   "apex": "Adjusts apex for this behaviour.",
   "arrivalThreshold": "Sets the cutoff where this effect starts to apply.",

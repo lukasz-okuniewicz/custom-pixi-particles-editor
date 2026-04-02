@@ -195,12 +195,7 @@ function LazyMenuSection({
   customBehaviourEntries,
   favouriteSet,
   toggleFavouriteLabel,
-  sidebarRootRef,
 }) {
-  const { openPanelId } = useSidebarBehaviourAccordion();
-  const rowRef = useRef(null);
-  const [isNearViewport, setIsNearViewport] = useState(false);
-  const [isActivated, setIsActivated] = useState(false);
   const {
     label,
     Component,
@@ -217,44 +212,7 @@ function LazyMenuSection({
   const behaviourOn = isBehaviourSectionHighlighted(defaultConfig, item);
   const isFavourite = favouriteSet.has(label);
 
-  useEffect(() => {
-    const root = sidebarRootRef.current;
-    const node = rowRef.current;
-    if (!root || !node || typeof IntersectionObserver === "undefined") {
-      setIsNearViewport(true);
-      return undefined;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsNearViewport(entry.isIntersecting),
-      { root, rootMargin: "480px 0px" },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [sidebarRootRef]);
-
-  const shouldMountInner =
-    isActivated ||
-    isNearViewport ||
-    isFavourite ||
-    behaviourOn ||
-    openPanelId === panelId;
-
-  useEffect(() => {
-    if (shouldMountInner && !isActivated) {
-      setIsActivated(true);
-    }
-  }, [isActivated, shouldMountInner]);
-
-  const inner = !isActivated ? (
-    <button
-      type="button"
-      className="btn btn-default btn-block"
-      onClick={() => setIsActivated(true)}
-      aria-label={`Load ${label} panel`}
-    >
-      Load {label}
-    </button>
-  ) : isGeneralProperties ? (
+  const inner = isGeneralProperties ? (
     <Component
       defaultConfig={defaultConfig}
       fullConfig={fullConfig}
@@ -284,7 +242,6 @@ function LazyMenuSection({
 
   return (
     <div
-      ref={rowRef}
       id={panelId}
       className={
         behaviourOn
@@ -628,7 +585,6 @@ const Menu = ({
               customBehaviourEntries={customBehaviourEntries}
               favouriteSet={favouriteSet}
               toggleFavouriteLabel={toggleFavouriteLabel}
-              sidebarRootRef={sidebarRef}
             />
           );
         })

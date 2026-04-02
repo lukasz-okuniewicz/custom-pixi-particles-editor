@@ -47,6 +47,10 @@ export default function ColorCycleProperties({ defaultConfig, index, accordionPa
     );
   };
 
+  if (!defaultConfig.emitterConfig.behaviours[index]?.name) {
+    updateBehaviours();
+  }
+
   const modeOptions = [
     { key: "life", displayName: "Life" },
     { key: "time", displayName: "Time" },
