@@ -19,7 +19,7 @@ const EMISSION_HINTS = {
   emissionRate:
     "Base emission intensity used by Standard/Random emission controllers.",
   burstPerFrame:
-    "Particles spawned per frame while filling to max capacity.",
+    "Particles spawned per frame while filling to max capacity (supports fractional carry, e.g. 0.1).",
   burstCount: "Particles emitted in each burst.",
   cooldown:
     "Seconds between bursts in Burst Schedule emission.",
@@ -119,8 +119,8 @@ export default function EmissionTypeProperties({ defaultConfig, accordionPanelId
               ? defaultConfig.emitterConfig.emitController._burstPerFrame
               : 100
           }
-          step="1"
-          min="1"
+          step="0.01"
+          min="0"
           onChange={(value) =>
             updateProps("emitterConfig.emitController._burstPerFrame", value)
           }

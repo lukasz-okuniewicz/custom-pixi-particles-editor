@@ -964,6 +964,10 @@ h3:hover {
   padding: 6px 8px;
 }
 
+.editor-toolbar-tooltip-target {
+  position: relative;
+}
+
 .editor-sticky-toolbar .btn:hover,
 .editor-sticky-toolbar .btn.active {
   transform: none;
