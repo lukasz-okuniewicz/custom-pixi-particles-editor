@@ -34,7 +34,8 @@
 /* Adjacent to native inputs */
 input:hover + .tooltiptext,
 select:hover + .tooltiptext,
-textarea:hover + .tooltiptext {
+textarea:hover + .tooltiptext,
+button:hover + .tooltiptext {
   visibility: visible;
   opacity: 1;
   transform: translateY(0);
@@ -57,8 +58,34 @@ textarea:hover + .tooltiptext {
 /* Also show hint while keyboard-focusing fields. */
 input:focus-visible + .tooltiptext,
 select:focus-visible + .tooltiptext,
-textarea:focus-visible + .tooltiptext {
+textarea:focus-visible + .tooltiptext,
+button:focus-visible + .tooltiptext {
   visibility: visible;
   opacity: 1;
   transform: translateY(0);
+}
+
+.editor-toolbar-tooltip-target:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*
+ * Toolbar cells are narrow; default tooltiptext uses right:0 so the bubble grows
+ * leftward and gets clipped by .editor-sidebar { overflow-x: hidden }. Anchor to
+ * the cell’s left edge so hints stay inside the panel.
+ */
+.editor-sticky-toolbar .editor-toolbar-tooltip-target .tooltiptext {
+  left: 0;
+  right: auto;
+  max-width: min(280px, calc(100vw - 24px));
+  white-space: normal;
+  width: auto;
+  min-width: 0;
+}
+
+.editor-sticky-toolbar .editor-toolbar-tooltip-target--align-end .tooltiptext {
+  left: auto;
+  right: 0;
 }
